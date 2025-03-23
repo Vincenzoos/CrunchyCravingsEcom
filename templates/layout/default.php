@@ -27,9 +27,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <meta name="description" content="">
     <meta name="author" content="">
     <?= $this->Html->meta('icon') ?>
+    <title><?= $this->fetch('title') ?> - CrunchyCravings</title>
+<!--   <title>SB Admin 2 - Dashboard</title>-->
 
-   <title>SB Admin 2 - Dashboard</title>
-   
     <!-- Custom fonts for this template-->
     <!-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> -->
     <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css']) ?>
