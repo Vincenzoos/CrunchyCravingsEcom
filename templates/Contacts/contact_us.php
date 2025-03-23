@@ -46,8 +46,8 @@ $this->assign('title', 'Contact Us');
                     'label' => false,
                     'placeholder' => 'Enter your phone number (e.g., 0452 452 234)',
                     'type' => 'tel',
-                    'pattern' => '^0[1-9]\d{0,2} \d{3} \d{3}$', // Allows for a flexible phone number length
-                    'title' => 'Please enter a valid phone number. (e.g., 0452 452 234)',
+                    'pattern' => '^0[1-9]\d{0,2} \d{3} \d{3}$',
+                    'title' => 'Please enter a valid phone number starting with 0 (e.g., 0411 256 454).',
                     'required' => true,
                 ]); ?>
             </div>
