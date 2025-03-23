@@ -1,0 +1,16 @@
+/* Increase vertical spacing between sections */
+/* Constant */
+
+#intro  {
+    margin-bottom: 150px; /* Add space below the intro section */
+}
+
+#about {
+    margin-top: 150px; /* Add space above the about section */
+    margin-bottom: 150px; /* Add space below the about section */
+}
+
+#features {
+    margin-top: 150px; /* Add space above the features section */
+    margin-bottom: 50px; /* Add space below the features section */
+}
