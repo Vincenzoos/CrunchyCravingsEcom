@@ -63,15 +63,22 @@ class ContactsTable extends Table
             ->notEmptyString('last_name');
 
         $validator
-            ->email('email')
+            ->email('email', false, 'Please enter a valid email address.')
             ->requirePresence('email', 'create')
             ->notEmptyString('email');
 
         $validator
             ->scalar('phone_number')
-            ->maxLength('phone_number', 10)
+            ->maxLength('phone_number', 12)
             ->requirePresence('phone_number', 'create')
-            ->notEmptyString('phone_number');
+            ->notEmptyString('phone_number')
+            ->add('phone_number', 'validFormat', [
+            'rule' => function ($value, $context) {
+                // Check if the phone number starts with 0 and does not end with 0 and have 10 digits
+                return preg_match('/^0[1-9]\d{0,2} \d{3} \d{3}$/', $value) === 1;
+            },
+            'message' => 'Please enter a valid phone number starting with 0 (e.g., 0411 256 454).',
+        ]);
 
         $validator
             ->scalar('message')

@@ -11,7 +11,6 @@
         <table>
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('first_name') ?></th>
                     <th><?= $this->Paginator->sort('last_name') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
@@ -24,13 +23,12 @@
             <tbody>
                 <?php foreach ($contacts as $contact): ?>
                 <tr>
-                    <td><?= $this->Number->format($contact->id) ?></td>
                     <td><?= h($contact->first_name) ?></td>
                     <td><?= h($contact->last_name) ?></td>
-                    <td><?= h($contact->email) ?></td>
+                    <td><?= $this->Html->link(h($contact->email), 'mailto:' . h($contact->email)) ?></td>
                     <td><?= h($contact->phone_number) ?></td>
-                    <td><?= h($contact->replied) ?></td>
-                    <td><?= h($contact->date_sent) ?></td>
+                    <td><?= h($contact->reply_status) ?></td>
+                    <td><?= h($contact->date_sent->format('d/m/Y')) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $contact->id]) ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $contact->id]) ?>
@@ -39,7 +37,7 @@
                             ['action' => 'delete', $contact->id],
                             [
                                 'method' => 'delete',
-                                'confirm' => __('Are you sure you want to delete # {0}?', $contact->id),
+                                'confirm' => __('Are you sure you want to delete this contact: {0} ({1})?', $contact->full_name, $contact->email),
                             ]
                         ) ?>
                     </td>

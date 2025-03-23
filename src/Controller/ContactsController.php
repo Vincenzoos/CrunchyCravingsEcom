@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Http\Response;
+
 /**
  * Contacts Controller
  *
@@ -28,9 +30,9 @@ class ContactsController extends AppController
      *
      * @param string|null $id Contact id.
      * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws \App\Controller\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
         $contact = $this->Contacts->get($id, contain: []);
         $this->set(compact('contact'));
@@ -46,6 +48,9 @@ class ContactsController extends AppController
         $contact = $this->Contacts->newEmptyEntity();
         if ($this->request->is('post')) {
             $contact = $this->Contacts->patchEntity($contact, $this->request->getData());
+            if (empty($contact->date_sent)) {
+                $contact->date_sent = date('Y-m-d');
+            }
             if ($this->Contacts->save($contact)) {
                 $this->Flash->success(__('The contact has been saved.'));
 
@@ -61,9 +66,9 @@ class ContactsController extends AppController
      *
      * @param string|null $id Contact id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws \App\Controller\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
         $contact = $this->Contacts->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -83,9 +88,9 @@ class ContactsController extends AppController
      *
      * @param string|null $id Contact id.
      * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws \App\Controller\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
         $contact = $this->Contacts->get($id);
@@ -96,5 +101,55 @@ class ContactsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * A method to update a contact's reply status
+     *
+     * @param string|null $id Contact id.
+     */
+    public function updateReplyStatus(?string $id = null)
+    {
+        // Find project record with specific id
+        $contact = $this->Contacts->get($id);
+
+        // Flip the status
+        $contact->replied = !$contact->replied;
+
+        // Save changes
+        if ($this->Contacts->save($contact)) {
+            $this->Flash->success(__('The contact reply status has been updated.'));
+        } else {
+            $this->Flash->error(__('The contact reply status could not be updated. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'view', $contact->id]);
+    }
+
+    /**
+     * A method to add for potential customer to create a contact details and send it to the system
+     *
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     */
+    public function contactUs()
+    {
+        $contact = $this->Contacts->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $contact = $this->Contacts->patchEntity($contact, $this->request->getData());
+
+            // Set date_sent to today's date if it isn't provided
+            if (empty($contact->date_sent)) {
+                $contact->date_sent = date('Y-m-d');
+            }
+
+            if ($this->Contacts->save($contact)) {
+                $this->Flash->success(__('Your contact details has been saved.'));
+
+                return $this->redirect(['controller' => 'Contacts', 'action' => 'contact_us']);
+            } else {
+                $this->Flash->error(__('Unable to send your contact details.'));
+            }
+        }
+        $this->set(compact('contact'));
     }
 }

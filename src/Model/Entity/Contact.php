@@ -37,4 +37,24 @@ class Contact extends Entity
         'replied' => true,
         'date_sent' => true,
     ];
+
+    /**
+     * A virtual field for contact's replied status
+     *
+     * @return string
+     */
+    protected function _getReplyStatus(): string
+    {
+        return $this->replied ? 'Yes' : 'No';
+    }
+
+    /**
+     * A virtual field for contact person full name
+     *
+     * @return string
+     */
+    protected function _getFullName(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

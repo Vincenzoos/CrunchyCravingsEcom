@@ -22,7 +22,6 @@
                     echo $this->Form->control('email');
                     echo $this->Form->control('phone_number');
                     echo $this->Form->control('message');
-                    echo $this->Form->control('replied');
                     echo $this->Form->control('date_sent');
                 ?>
             </fieldset>
