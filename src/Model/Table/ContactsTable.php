@@ -69,7 +69,7 @@ class ContactsTable extends Table
 
         $validator
             ->scalar('phone_number')
-            ->maxLength('phone_number', 10)
+            ->maxLength('phone_number', 12)
             ->requirePresence('phone_number', 'create')
             ->notEmptyString('phone_number');
 
