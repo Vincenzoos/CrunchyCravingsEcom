@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2025 at 02:27 AM
+-- Generation Time: Mar 23, 2025 at 03:28 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,7 +32,7 @@ CREATE TABLE `contacts` (
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `phone_number` char(10) NOT NULL,
+  `phone_number` char(12) NOT NULL,
   `message` text NOT NULL,
   `replied` tinyint(1) NOT NULL DEFAULT 0,
   `date_sent` date NOT NULL DEFAULT current_timestamp()
