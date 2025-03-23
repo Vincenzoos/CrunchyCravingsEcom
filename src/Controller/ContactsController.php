@@ -48,6 +48,9 @@ class ContactsController extends AppController
         $contact = $this->Contacts->newEmptyEntity();
         if ($this->request->is('post')) {
             $contact = $this->Contacts->patchEntity($contact, $this->request->getData());
+            if (empty($contact->date_sent)) {
+                $contact->date_sent = date('Y-m-d');
+            }
             if ($this->Contacts->save($contact)) {
                 $this->Flash->success(__('The contact has been saved.'));
 
@@ -98,6 +101,29 @@ class ContactsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * A method to update a contact's reply status
+     *
+     * @param string|null $id Contact id.
+     */
+    public function updateReplyStatus(?string $id = null)
+    {
+        // Find project record with specific id
+        $contact = $this->Contacts->get($id);
+
+        // Flip the status
+        $contact->replied = !$contact->replied;
+
+        // Save changes
+        if ($this->Contacts->save($contact)) {
+            $this->Flash->success(__('The contact reply status has been updated.'));
+        } else {
+            $this->Flash->error(__('The contact reply status could not be updated. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'view', $contact->id]);
     }
 
     /**
