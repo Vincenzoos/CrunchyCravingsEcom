@@ -12,6 +12,7 @@
             <?= $this->Form->postLink(__('Delete Contact'), ['action' => 'delete', $contact->id], ['confirm' => __('Are you sure you want to delete this contact: {0} ({1})?', $contact->full_name, $contact->email), 'class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('List Contacts'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('New Contact'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
+            <?= $this->Html->link(__('Update Reply Status'), ['action' => 'updateReplyStatus', $contact->id], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
     <div class="column column-80">
