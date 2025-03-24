@@ -1,16 +1,41 @@
-/* Increase vertical spacing between sections */
-/* Constant */
-
 #intro  {
-    margin-bottom: 150px; /* Add space below the intro section */
+    background-image: url('../img/Banner.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire section */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    color: #000000; /* Ensures text is readable on the image */
+    height: 30vh; /* Makes the section take up the full viewport height */
+    display: flex; /* Centers content vertically and horizontally */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    /* background-color: #0b2d75; */
+    /* color: #ffffff; */
 }
 
+
 #about {
-    margin-top: 150px; /* Add space above the about section */
-    margin-bottom: 150px; /* Add space below the about section */
+    background-color: #efebff;
+    color: #777777;
 }
 
 #features {
-    margin-top: 150px; /* Add space above the features section */
-    margin-bottom: 50px; /* Add space below the features section */
+    background-color: #efebff;
+    color: #777777;
+}
+
+#menu {
+    background-color: #efebff;
+    color: #777777;
+}
+
+#contact {
+    background-color: #efebff;
+    color: #777777;
+}
+
+#classic {
+    background-color: #1a1a1a;
+    color: #777777;
 }
