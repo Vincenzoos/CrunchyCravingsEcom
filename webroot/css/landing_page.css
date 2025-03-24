@@ -1,19 +1,33 @@
-#intro  {
-    background-image: url('../img/Banner.png'); /* Path to your image */
-    background-size: cover; /* Ensures the image covers the entire section */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
-    color: #000000; /* Ensures text is readable on the image */
-    height: 30vh; /* Makes the section take up the full viewport height */
-    display: flex; /* Centers content vertically and horizontally */
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-
-    /* background-color: #0b2d75; */
-    /* color: #ffffff; */
+/* Apply custom gutter spacing to all container-fluid elements */
+.container-fluid {
+    --bs-gutter-x: 0; /* Set horizontal gutters to 0 */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
+/* Intro Section */
+#intro {
+    position: fixed; /* Make the intro section overlay the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    background-image: url('../img/Banner.png'); /* Replace with your image path */
+    background-size: cover; /* Ensure the image covers the entire section */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    display: flex; /* Flexbox for centering content */
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content */
+    text-align: center;
+    z-index: 1000; /* Ensure it sits above all other content */
+    transition: opacity 1s ease-in-out; /* Fade-out transition */
+}
+
+/* Landing Page */
+#landing-page {
+    opacity: 1; /* Ensure the landing page is visible by default */
+    transition: opacity 1s ease-in-out; /* Fade-in transition */
+}
 
 #about {
     background-color: #efebff;
@@ -35,7 +49,16 @@
     color: #777777;
 }
 
-#classic {
-    background-color: #1a1a1a;
-    color: #777777;
+/* Disable scrolling when the sidebar is active */
+.no-scroll {
+    overflow: hidden; /* Disable scrolling */
+}
+
+/* Parallax Image */
+.parallax-image {
+    height: 300px; /* Set the height of the image */
+    background-size: cover; /* Ensure the image covers the entire div */
+    background-position: center; /* Center the image */
+    background-attachment: fixed; /* Enable the parallax effect */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
 }

@@ -1,0 +1,62 @@
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    position: fixed; /* Fix the button's position */
+    top: 20px; /* Distance from the top of the page */
+    right: 30px; /* Distance from the right of the page */
+    z-index: 1051; /* Ensure it stays above other elements */
+}
+
+.sidebar-toggle.btn {
+    --bs-btn-color: #913636;
+    --bs-btn-bg: #913636;
+    --bs-btn-border-color: #913636;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #be3232;
+    --bs-btn-hover-border-color: #be3232;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #be3232;
+    --bs-btn-active-border-color: #be3232;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar-toggle i {
+    font-size: 1.5rem; /* Increase the size of the Font Awesome icon */
+    color: white; /* Set the icon color */
+}
+
+
+/* Sidebar */
+#sidebar.offcanvas {
+    background-color: rgba(53, 43, 43, 0.7) !important; /* Set background color with opacity */
+    color: rgba(255, 255, 255, 1.0); /* Set text color */
+}
+
+/* Sidebar Header */
+#sidebar .offcanvas-header {
+    background-color: rgba(53, 43, 43, 0.7); /* Slightly darker background for the header */
+    color: white; /* Set text color */
+}
+
+/* Sidebar Body */
+#sidebar .offcanvas-body {
+    background-color: rgba(53, 43, 43, 0.7); /* Match the sidebar background */
+    color: white; /* Set text color */
+}
+
+/* Sidebar List Items */
+#sidebar .list-group-item {
+    background-color: transparent; /* Transparent background for list items */
+    color: white; /* Set text color */
+    border: none; /* Remove borders */
+}
+
+#sidebar .list-group-item:hover {
+    background-color: rgba(161, 29, 29, 0.7); /* Highlight color on hover */
+    color: white;
+}
+
+/* Disable scrolling when the sidebar is active */
+.no-scroll {
+    overflow: hidden; /* Disable scrolling */
+}

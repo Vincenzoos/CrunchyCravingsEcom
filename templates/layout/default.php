@@ -39,52 +39,43 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->css('fonts') ?>
 
     <!-- Custom styles for this template-->
-    <!-- <?= $this->Html->css(['sb-admin-2.min.css']) ?> -->
     <?= $this->Html->css('style') ?>
+    <?= $this->Html->css('default.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
-
+    
+    <?= $this->Html->script('bootstrap.bundle.min.js') ?>
     <?= $this->Html->script('/vendor/jquery/jquery.min.js') ?>
 </head>
 
 <id="page-top">
 
-    <!-- Top Bar -->
-    <nav class ="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <div class="container-fluid">
-            <!-- Sidebar Toggle Button -->
-            <button class="btn btn-primary" id="sidebarToggle" data-bs-toggle="collapse" data-bs-target="#sidebar">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <!-- Center Heading -->
-            <h5 class="mx-auto my-0">CrunchyCravings</h5>
-
-            <!-- Contact Us Button -->
-            <a href="#contact" class="btn btn-outline-primary">Contact Us</a>
+    <!-- Sidebar -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+        <div class="offcanvas-header">
+            <h2 class="offcanvas-title" id="sidebarLabel">Menu</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-    </nav>
+        <div class="offcanvas-body">
+            <ul class="list-group">
+                <a href="#User" class="list-group-item">User</a>
+                <a href="#Contact" class="list-group-item">Contact us</a>
+                <a href="#Options" class="list-group-item">Options</a>
+                <a href="#Orders" class="list-group-item">Orders</a>
+                <a href="#Logout" class="list-group-item">Logout</a>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <button id="sidebarToggle" class="btn btn-primary sidebar-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+        <i class="fas fa-bars"></i>
+    </button>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-
-        <!-- Sidebar -->
-        <div id="sidebar" class="collapse bg-gradient-primary sidebar sidebar-dark">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#about"><i class="fas fa-info-circle"></i> About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#menu"><i class="fas fa-utensils"></i> Menu</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact"><i class="fas fa-envelope"></i> Contact</a>
-                </li>
-            </ul>
-        </div>
-        <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -142,6 +133,25 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             </div>
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sidebar = document.getElementById('sidebar');
+        const toggleButton = document.getElementById('sidebarToggle');
+
+        // Hide the toggle button when the sidebar is shown
+        sidebar.addEventListener('show.bs.offcanvas', function () {
+            toggleButton.style.display = 'none';
+            document.body.classList.add('no-scroll'); // Add class to disable scrolling
+        });
+
+        // Show the toggle button when the sidebar is hidden
+        sidebar.addEventListener('hidden.bs.offcanvas', function () {
+            toggleButton.style.display = 'block';
+            document.body.classList.remove('no-scroll'); // Remove class to enable scrolling
+        });
+    });
+</script>
 
     <!-- Bootstrap core JavaScript-->
     <?= $this->Html->script('/vendor/bootstrap/js/bootstrap.bundle.min.js') ?>

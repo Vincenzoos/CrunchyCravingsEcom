@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "sass": "^1.86.0"
+  },
+  "scripts": {
+    "sass-dev": "sass --watch --update --no-source-map --style=compressed resources:webroot/css",
+    "sass-prod": "sass --no-source-map --style=compressed resources:webroot/css"
+  }
+}
