@@ -12,6 +12,15 @@ use Cake\Http\Response;
  */
 class ContactsController extends AppController
 {
+    /**
+     * Initialize method for ContactsController.
+     *
+     * This method is called before the controller's actions are executed.
+     * Added recaptcha question upon the contact form completion to prevent spams and malicious attack.
+     * It allows unauthenticated users to access the 'contactUs' action,
+     *
+     * @return void
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -27,6 +36,8 @@ class ContactsController extends AppController
                 'callback' => null, // `callback` data attribute for the recaptcha div, default `null`
                 'scriptBlock' => true]); // Value for `block` option for HtmlHelper::script() call
         }
+
+        $this->Authentication->allowUnauthenticated(['contactUs']);
     }
 
     /**
@@ -172,7 +183,6 @@ class ContactsController extends AppController
                 // debug($this->Recaptcha->errors());
                 $this->Flash->error(__('Please check your Recaptcha Box.'));
             }
-
         }
         $this->set(compact('contact'));
     }

@@ -44,6 +44,8 @@ class UsersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        // Add Authentication behaviour
+        $this->addBehavior('CanAuthenticate');
     }
 
     /**
