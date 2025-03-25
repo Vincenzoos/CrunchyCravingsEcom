@@ -20,11 +20,6 @@ $this->assign('title', 'Register new user');
             <?= $this->Form->control('email'); ?>
 
             <div class="row">
-                <?= $this->Form->control('first_name', ['templateVars' => ['container_class' => 'column']]); ?>
-                <?= $this->Form->control('last_name', ['templateVars' => ['container_class' => 'column']]); ?>
-            </div>
-
-            <div class="row">
                 <?php
                 echo $this->Form->control('password', [
                     'value' => '',  // Ensure password is not sending back to the client side
@@ -39,9 +34,6 @@ $this->assign('title', 'Register new user');
                 ]);
                 ?>
             </div>
-
-            <?= $this->Form->control('avatar', ['type' => 'file']); ?>
-
         </fieldset>
 
         <?= $this->Form->button('Register') ?>
