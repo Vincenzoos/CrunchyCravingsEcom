@@ -10,6 +10,7 @@
  *
  * @var \App\View\AppView $this
  */
+$this->assign('title', 'Home');
 ?>
 
 <!DOCTYPE html>
@@ -97,9 +98,9 @@
         <!-- Menu Section -->
         <section id="menu">
             <div class="container-fluid text-center py-5 px-0">
-                
+
                 <h3 class="text-center mb-4">Our Menu</h3>
-                    
+
                 <div class="card-group">
                     <div class="card">
                         <?= $this->Html->image('Classic.jpg', ['style' => 'height: 300px; object-fit: cover;', 'class' => 'card-img-top', 'alt' => 'Classic Favorites']) ?>
@@ -133,7 +134,7 @@
             <div class="container text-center">
                 <h2 class="mb-4">Contact Us</h2>
                 <p class="lead">Reserve your table today and experience the magic of fine dining.</p>
-                <a href="#contact" class="btn btn-primary">Contact Us</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-primary">Contact Us</a>
             </div>
         </section>
     </div>

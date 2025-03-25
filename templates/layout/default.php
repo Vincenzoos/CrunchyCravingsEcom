@@ -28,7 +28,6 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <meta name="author" content="">
     <?= $this->Html->meta('icon') ?>
     <title><?= $this->fetch('title') ?> - CrunchyCravings</title>
-<!--   <title>SB Admin 2 - Dashboard</title>-->
 
     <!-- Custom fonts for this template-->
     <!-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> -->
@@ -45,7 +44,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
-    
+
     <?= $this->Html->script('bootstrap.bundle.min.js') ?>
     <?= $this->Html->script('/vendor/jquery/jquery.min.js') ?>
 </head>
@@ -61,7 +60,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <div class="offcanvas-body">
             <ul class="list-group">
                 <a href="#User" class="list-group-item">User</a>
-                <a href="#Contact" class="list-group-item">Contact us</a>
+                <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs'])?>" class="list-group-item">Contact us</a>
                 <a href="#Options" class="list-group-item">Options</a>
                 <a href="#Orders" class="list-group-item">Orders</a>
                 <a href="#Logout" class="list-group-item">Logout</a>
