@@ -1,7 +1,19 @@
+/* Define custom CSS variables */
+:root {
+    --border-width: 1.5px; /* Border line width */
+    --border-color: #000000; /* Border color */
+    --border-size: 0.5rem; /* Border width */
+}
+
 /* Apply custom gutter spacing to all container-fluid elements */
 .container-fluid {
     --bs-gutter-x: 0; /* Set horizontal gutters to 0 */
     overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Apply custom gutter spacing to all row elements */
+.carousel {
+    margin-bottom: 0rem !important; /* Set vertical gutters to 0 */
 }
 
 /* Intro Section */
@@ -29,36 +41,118 @@
     transition: opacity 1s ease-in-out; /* Fade-in transition */
 }
 
+/* About Us Section */
 #about {
-    background-color: #efebff;
-    color: #777777;
+    height: 100vh; /* Height of screen to act as a full page section */
+    display: flex;
+    background-color: #ffffff;
+    margin-bottom: var(--border-size) !important;
 }
 
-#features {
-    background-color: #efebff;
-    color: #777777;
+.about-text {
+    padding: 2rem;
+    background-color: #f8f9fa; /* Light background for text */
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    align-items: flex-start; /* Align text to the top */
+    justify-content: center; /* Center vertically within the column */
+    margin-right: var(--border-size) !important; /* Add padding to the right */
+    border-right: var(--border-width) solid var(--border-color); /* Black line on the right */
+    border-bottom: var(--border-width) solid var(--border-color);
 }
 
-#menu {
-    background-color: #efebff;
-    color: #777777;
+.about-image img {
+    height: 100vh; /* Full height for the image */
+    object-fit: cover; /* Ensure the image covers the area */
+    border-left: var(--border-width) solid var(--border-color); /* Black line on the left */
+    border-bottom: var(--border-width) solid var(--border-color);
 }
 
+/* Features List */
+/* #features {
+    background-color: #efebff;
+    color: #777777;
+} */
+
+.features-list {
+    list-style: none;
+    padding: 0;
+}
+
+.features-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.features-list li i {
+    margin-right: var(--border-size);
+    color: #007bff; /* Icon color */
+}
+
+
+/* Products Section */
+#products {
+    display: flex;
+    align-items: center; /* Center vertically */
+    padding-top: 0 !important; /* Remove default padding */
+    padding-bottom: 0 !important; /* Remove default padding */
+    margin-top: var(--border-size) !important;
+    margin-bottom: var(--border-size) !important;
+}
+
+.products-carousels {
+    padding-right: 0.0rem !important; /* Reset padding to the right */
+    
+    border-right: var(--border-width) solid var(--border-color);
+    border-top: var(--border-width) solid var(--border-color);
+    border-bottom: var(--border-width) solid var(--border-color);
+}
+
+.products-carousels .carousel-inner img {
+    height: 300px; /* Set a fixed height for carousel images */
+    object-fit: cover; /* Ensure images cover the carousel area */
+}
+
+.products-text {
+    padding: 0rem !important; /* Reset padding */
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    align-items: flex-start; /* Align text to the top */
+    justify-content: center; /* Center vertically within the column */
+}
+
+.products-text .inner-container {
+    padding: 2rem;
+    background-color: #f8f9fa; /* Light background for text */
+    width: 100%; /* Ensure the inner container takes the full width */
+    height: 100%; /* Ensure the inner container spans the full height */
+    box-sizing: border-box; /* Include padding in the width calculation */
+    margin-left: var(--border-size) !important; /* Add padding to the left */
+    
+    border-left: var(--border-width) solid var(--border-color);
+    border-top: var(--border-width) solid var(--border-color);
+    border-bottom: var(--border-width) solid var(--border-color);
+}
+
+/* .products-text ul {
+    list-style: none;
+    padding: 0;
+}
+
+.products-text ul li {
+    margin-bottom: 1rem;
+} */
+
+/* Contact Us Section */
 #contact {
     background-color: #efebff;
     color: #777777;
+    border-top: var(--border-width) solid var(--border-color);
+    border-bottom: var(--border-width) solid var(--border-color);
 }
 
 /* Disable scrolling when the sidebar is active */
 .no-scroll {
     overflow: hidden; /* Disable scrolling */
-}
-
-/* Parallax Image */
-.parallax-image {
-    height: 300px; /* Set the height of the image */
-    background-size: cover; /* Ensure the image covers the entire div */
-    background-position: center; /* Center the image */
-    background-attachment: fixed; /* Enable the parallax effect */
-    background-repeat: no-repeat; /* Prevent the image from repeating */
 }

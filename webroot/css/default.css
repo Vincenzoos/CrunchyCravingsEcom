@@ -1,59 +1,72 @@
+:root {
+    /* Define custom CSS variables for common colours */
+    --btn-color: rgba(44, 22, 22, 0.5); /* Main button color */
+    --btn-hover-color: rgba(163, 22, 22, 0.5); /* Hover color */
+    --sidebar-text-color: #fff; /* Text color */
+    --sidebar-bg-color: rgba(83, 43, 43, 0.2); /* Background color */
+    --sidebar-hover-color: rgba(161, 29, 29, 0.2); /* Hover color */
+    --sidebar-blur: 10px; /* Sidebar blur effect */
+}
+
 /* Sidebar Toggle Button */
 .sidebar-toggle {
     position: fixed; /* Fix the button's position */
     top: 20px; /* Distance from the top of the page */
-    right: 30px; /* Distance from the right of the page */
+    right: 20px; /* Distance from the right of the page */
     z-index: 1051; /* Ensure it stays above other elements */
 }
 
 .sidebar-toggle.btn {
-    --bs-btn-color: #913636;
-    --bs-btn-bg: #913636;
-    --bs-btn-border-color: #913636;
+    --bs-btn-color: var(--btn-color);
+    --bs-btn-bg: var(--btn-color);
+    --bs-btn-border-color: var(--btn-color);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #be3232;
-    --bs-btn-hover-border-color: #be3232;
+    --bs-btn-hover-bg: var(--btn-hover-color);
+    --bs-btn-hover-border-color: var(--btn-hover-color);
     --bs-btn-focus-shadow-rgb: 49, 132, 253;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #be3232;
-    --bs-btn-active-border-color: #be3232;
+    --bs-btn-active-bg: var(--btn-hover-color);
+    --bs-btn-active-border-color: var(--btn-hover-color);
+    --bs-btn-border-radius: 0.5rem;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar-toggle i {
-    font-size: 1.5rem; /* Increase the size of the Font Awesome icon */
+    font-size: 1.0rem; /* Increase the size of the Font Awesome icon */
     color: white; /* Set the icon color */
 }
 
 
 /* Sidebar */
 #sidebar.offcanvas {
-    background-color: rgba(53, 43, 43, 0.7) !important; /* Set background color with opacity */
-    color: rgba(255, 255, 255, 1.0); /* Set text color */
+    background-color: rgba(43, 43, 43, 0.2); /* Semi-transparent background */
+    backdrop-filter: blur(var(--sidebar-blur)); /* Apply blur effect */
+    -webkit-backdrop-filter: blur(var(--sidebar-blur)); /* For Safari support */
+    color: var(--sidebar-text-color); /* Set text color */
 }
 
 /* Sidebar Header */
 #sidebar .offcanvas-header {
-    background-color: rgba(53, 43, 43, 0.7); /* Slightly darker background for the header */
-    color: white; /* Set text color */
+    background-color: var(--sidebar-bg-color); /* Slightly darker background for the header */
+    color: var(--sidebar-text-color); /* Set text color */
 }
 
 /* Sidebar Body */
 #sidebar .offcanvas-body {
-    background-color: rgba(53, 43, 43, 0.7); /* Match the sidebar background */
-    color: white; /* Set text color */
+    background-color: var(--sidebar-bg-color); /* Match the sidebar background */
+    color: var(--sidebar-text-color); /* Set text color */
 }
 
 /* Sidebar List Items */
 #sidebar .list-group-item {
     background-color: transparent; /* Transparent background for list items */
-    color: white; /* Set text color */
+    color: var(--sidebar-text-color); /* Set text color */
     border: none; /* Remove borders */
 }
 
 #sidebar .list-group-item:hover {
-    background-color: rgba(161, 29, 29, 0.7); /* Highlight color on hover */
-    color: white;
+    background-color: var(--sidebar-hover-color); /* Highlight color on hover */
+    color: var(--sidebar-text-color);
 }
 
 /* Disable scrolling when the sidebar is active */
