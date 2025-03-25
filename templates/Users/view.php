@@ -19,20 +19,20 @@
             <h3><?= h($user->email) ?></h3>
             <table>
                 <tr>
-                    <th><?= __('Id') ?></th>
-                    <td><?= h($user->id) ?></td>
-                </tr>
-                <tr>
                     <th><?= __('Email') ?></th>
                     <td><?= h($user->email) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('First Name') ?></th>
-                    <td><?= h($user->first_name) ?></td>
+                    <th><?= __('Nonce') ?></th>
+                    <td><?= h($user->nonce) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Last Name') ?></th>
-                    <td><?= h($user->last_name) ?></td>
+                    <th><?= __('Id') ?></th>
+                    <td><?= $this->Number->format($user->id) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Nonce Expiry') ?></th>
+                    <td><?= h($user->nonce_expiry) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Created') ?></th>
@@ -43,42 +43,6 @@
                     <td><?= h($user->modified) ?></td>
                 </tr>
             </table>
-            <div class="related">
-                <h4><?= __('Related Properties') ?></h4>
-                <?php if (!empty($user->properties)) : ?>
-                <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('User Id') ?></th>
-                            <th><?= __('Address') ?></th>
-                            <th><?= __('Price') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($user->properties as $property) : ?>
-                        <tr>
-                            <td><?= h($property->id) ?></td>
-                            <td><?= h($property->user_id) ?></td>
-                            <td><?= h($property->address) ?></td>
-                            <td><?= h($property->price) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Properties', 'action' => 'view', $property->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Properties', 'action' => 'edit', $property->id]) ?>
-                                <?= $this->Form->postLink(
-                                    __('Delete'),
-                                    ['controller' => 'Properties', 'action' => 'delete', $property->id],
-                                    [
-                                        'method' => 'delete',
-                                        'confirm' => __('Are you sure you want to delete # {0}?', $property->id),
-                                    ]
-                                ) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
-                <?php endif; ?>
-            </div>
         </div>
     </div>
 </div>

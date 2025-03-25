@@ -8,13 +8,13 @@ use Cake\ORM\Entity;
 /**
  * User Entity
  *
- * @property string $id
+ * @property int $id
  * @property string $email
  * @property string $password
- * @property string $first_name
- * @property string $last_name
- * @property \Cake\I18n\DateTime $created
- * @property \Cake\I18n\DateTime $modified
+ * @property string|null $nonce
+ * @property \Cake\I18n\DateTime|null $nonce_expiry
+ * @property \Cake\I18n\DateTime|null $created
+ * @property \Cake\I18n\DateTime|null $modified
  *
  * @property \App\Model\Entity\Property[] $properties
  */
@@ -32,8 +32,8 @@ class User extends Entity
     protected array $_accessible = [
         'email' => true,
         'password' => true,
-        'first_name' => true,
-        'last_name' => true,
+        'nonce' => true,
+        'nonce_expiry' => true,
         'created' => true,
         'modified' => true,
         'properties' => true,
