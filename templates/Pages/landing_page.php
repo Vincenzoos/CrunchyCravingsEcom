@@ -45,7 +45,7 @@ $this->assign('title', 'Home');
     <section id="quote">
         <h4 class="text-center"><em>"Premium Lavosh crackers that pair perfectly with wine and other fine foods."</em></h4>
     </section>
-    
+
     <!-- Intro Section -->
     <div id="intro" class="d-flex align-items-center justify-content-center" onclick="fadeToLandingPage()">
         <div class="text-center">
@@ -156,7 +156,7 @@ $this->assign('title', 'Home');
                 </div>
             </div>
         </section>
-        
+
         <!-- Contact Section -->
         <section id="contact" class="py-5">
             <div class="container text-center">
