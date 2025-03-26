@@ -7,10 +7,10 @@ return [
      */
     'Recaptcha' => [
         'enable' => true,
-        'sitekey' => env('RECAPTCHA_SITE_KEY'),
-        'secret' => env('RECAPTCHA_SECRET_KEY'),
+        'sitekey' => env('6LdvogArAAAAAHw1tDottnB1znNSwk_d6rAzlwgv'),
+        'secret' => env('6LdvogArAAAAAPoeejO1XIB2w1RsKODyU238NoXg'),
         'type' => 'image',
-        'theme' => 'light',
+        'theme' => 'dark',
         'lang' => 'es',
         'size' => 'normal',
     ],

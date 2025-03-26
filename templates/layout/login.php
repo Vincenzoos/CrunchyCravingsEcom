@@ -10,6 +10,7 @@
 use Cake\Core\Configure;
 
 $appLocale = Configure::read('App.defaultLocale');
+$this->extend('default');
 ?>
 <!DOCTYPE html>
 <html lang="<?= $appLocale ?>">
@@ -21,7 +22,7 @@ $appLocale = Configure::read('App.defaultLocale');
     </title>
     <?= $this->Html->meta('icon') ?>
 
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet"> -->
 
     <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake']) ?>
 
@@ -30,13 +31,13 @@ $appLocale = Configure::read('App.defaultLocale');
     <?= $this->fetch('script') ?>
 </head>
 <body>
-<main class="main">
-    <?= $this->fetch('content') ?>
-</main>
-<footer>
-    <?= $this->element('footer_copyright', [], ['ignoreMissing' => true]); ?>
+    <main class="main">
+        <?= $this->fetch('content') ?>
+    </main>
+    <footer>
+        <?= $this->element('footer_copyright', [], ['ignoreMissing' => true]); ?>
 
-    <?= $this->fetch('footer_script') ?>
-</footer>
+        <?= $this->fetch('footer_script') ?>
+    </footer>
 </body>
 </html>

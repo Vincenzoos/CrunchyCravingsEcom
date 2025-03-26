@@ -7,41 +7,72 @@ $this->layout = 'login';
 $this->assign('title', 'Forget Password');
 ?>
 
-<div class="container login">
-    <div class="row">
-        <div class="column column-50 column-offset-25">
 
-            <div class="users form content">
+<!DOCTYPE html>
+<html lang="en">
 
-                <?= $this->Form->create() ?>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrunchyCravings</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <?= $this->Html->css(['style','login']) ?>
+</head>
 
-                <fieldset>
+<body>
+    <!-- Heading Banner -->
+    <section id="heading-banner">
+        <header id="heading-inner" class="text-center py-3">
+            <!-- <h1>CrunchyCravings</h1> -->
+            <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
+        </header>
+    </section>
 
-                    <legend>Forget Password</legend>
+            
+    <div class="container login">
+        <div class="row">
+            <div class="column column-50 column-offset-25">
 
-                    <?= $this->Flash->render() ?>
+                <div class="users form content">
 
-                    <p>Enter your email address registered with our system below to reset your password: </p>
+                    <?= $this->Form->create() ?>
 
-                    <?php
-                    echo $this->Form->control('email', [
-                        'type' => 'email',
-                        'required' => true,
-                        'autofocus' => true,
-                        'label' => false,
-                    ]);
-                    ?>
+                    <fieldset>
 
-                </fieldset>
+                        <legend>Forget Password</legend>
 
-                <?= $this->Form->button('Send verification email') ?>
-                <?= $this->Form->end() ?>
+                        <?= $this->Flash->render() ?>
 
-                <hr class="hr-between-buttons">
+                        <p>Enter your email address registered with our system below to reset your password: </p>
 
-                <?= $this->Html->link('Back to login', ['controller' => 'Auth', 'action' => 'login'], ['class' => 'button button-outline']) ?>
+                        <?php
+                        echo $this->Form->control('email', [
+                            'type' => 'email',
+                            'required' => true,
+                            'autofocus' => true,
+                            'label' => false,
+                        ]);
+                        ?>
 
+                    </fieldset>
+
+                    <?= $this->Form->button('Send verification email') ?>
+                    <?= $this->Form->end() ?>
+
+                    <hr class="hr-between-buttons">
+
+                    <?= $this->Html->link('Back to login', ['controller' => 'Auth', 'action' => 'login'], ['class' => 'button button-outline']) ?>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <body>
+
+</html>

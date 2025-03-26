@@ -1,0 +1,68 @@
+/* Apply custom gutter spacing to all container-fluid elements */
+.container-fluid {
+    --bs-gutter-x: 0; /* Set horizontal gutters to 0 */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Set the background color for the entire page */
+body {
+    background-color: var(--empty-color);
+}
+
+/* Reset font sizes */
+h1 {
+    font-size: 6rem !important;
+}
+h2 {
+    font-size: 5rem !important;
+}
+h3 {
+    font-size: 4rem !important;
+}
+h4 {
+    font-size: 3rem !important;
+}
+h5 {
+    font-size: 2rem !important;
+}
+h6 {
+    font-size: 1rem !important;
+}
+body, button, .btn, p {
+    font-size: 2rem !important;
+}
+
+/* Hover state for the button */
+.btn:hover {
+    background-color: var(--icon-hover-color);
+    border-color: var(--icon-hover-color);
+    color: var(--text-hover-color);
+}
+
+/* Heading */
+#heading-banner {
+    border-top: var(--border-width) solid var(--border-color); /* Black border at the top */
+    border-bottom: var(--border-width) solid var(--border-color); /* Black border at the bottom */
+    padding-top: var(--border-size) !important; /* Add margin to the bottom */
+    
+}
+
+#heading-inner {
+    background-color: var(--background-color); /* Light background color */
+    border-top: var(--border-width) solid var(--border-color); /* Black border at the top */
+    margin-bottom: var(--border-size); /* Add margin to the bottom */
+    padding: 3rem !important;
+}
+
+
+/* Login Form */
+#container-login {
+    background-color: var(--background-color);
+
+    border-bottom: var(--border-width) solid var(--border-color); /* Black border at the bottom */
+}
+
+#users-form-content {
+    background-color: var(--background-color);
+    color: var(--background-color);
+}

@@ -1,11 +1,20 @@
 :root {
     /* Define custom CSS variables for common colours */
-    --btn-color: rgba(44, 22, 22, 0.5); /* Main button color */
-    --btn-hover-color: rgba(163, 22, 22, 0.5); /* Hover color */
-    --sidebar-text-color: #fff; /* Text color */
-    --sidebar-bg-color: rgba(83, 43, 43, 0.2); /* Background color */
+    --btn-hover-color: rgba(207, 198, 63, 0.5); /* Hover color */
+    --sidebar-text-color: #dd3e46; /* Text color */
+    --sidebar-bg-color: rgba(71, 0, 15, 0.2); /* Background color */
     --sidebar-hover-color: rgba(161, 29, 29, 0.2); /* Hover color */
     --sidebar-blur: 10px; /* Sidebar blur effect */
+    
+    
+    --border-width: 1.5px; /* Border line width */
+    --border-color: #640015; /* Border color */
+    --border-size: 0.3rem; /* Border size */
+    --background-color: #640015;
+    --text-color: #dd3e46; /* Text color */
+    --empty-color: #dd3e46;
+    --icon-color: #dbcc42; /* Icon color */
+    --icon-hover-color: #e6d32a; /* Icon color */
 }
 
 /* Sidebar Toggle Button */
@@ -17,23 +26,18 @@
 }
 
 .sidebar-toggle.btn {
-    --bs-btn-color: var(--btn-color);
+    /* --bs-btn-color: var(--btn-color); (overriden) */
     --bs-btn-bg: var(--btn-color);
     --bs-btn-border-color: var(--btn-color);
-    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-color: var(--background-color);
     --bs-btn-hover-bg: var(--btn-hover-color);
     --bs-btn-hover-border-color: var(--btn-hover-color);
     --bs-btn-focus-shadow-rgb: 49, 132, 253;
-    --bs-btn-active-color: #fff;
+    --bs-btn-active-color: var(--background-color);
     --bs-btn-active-bg: var(--btn-hover-color);
     --bs-btn-active-border-color: var(--btn-hover-color);
     --bs-btn-border-radius: 0.5rem;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5);
-}
-
-.sidebar-toggle i {
-    font-size: 1.0rem; /* Increase the size of the Font Awesome icon */
-    color: white; /* Set the icon color */
 }
 
 
@@ -67,6 +71,14 @@
 #sidebar .list-group-item:hover {
     background-color: var(--sidebar-hover-color); /* Highlight color on hover */
     color: var(--sidebar-text-color);
+}
+
+/* Footer */
+#footer {
+    background-color: var(--text-color); /* Set the background color */
+    color: var(--background-color); /* Set the text color */
+    text-align: center;
+    padding: 0.5rem;
 }
 
 /* Disable scrolling when the sidebar is active */

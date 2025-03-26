@@ -26,7 +26,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <?= $this->Html->meta('icon') ?>
+    <link rel="icon" type="image/png" href="<?= $this->Url->image('logo.png') ?>">
     <title><?= $this->fetch('title') ?> - CrunchyCravings</title>
 
     <!-- Custom fonts for this template-->
@@ -45,8 +45,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 
-    <?= $this->Html->script('bootstrap.bundle.min.js') ?>
     <?= $this->Html->script('/vendor/jquery/jquery.min.js') ?>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <?= $this->Html->script('/vendor/bootstrap/js/bootstrap.bundle.min.js') ?>
 </head>
 
 <id="page-top">
@@ -59,6 +60,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
         <div class="offcanvas-body">
             <ul class="list-group">
+                <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page'])?>" class="list-group-item">Home page</a>
                 <a href="#User" class="list-group-item">User</a>
                 <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs'])?>" class="list-group-item">Contact us</a>
                 <a href="#Options" class="list-group-item">Options</a>
@@ -102,11 +104,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
+                <!-- <div class="container my-auto"> -->
+                    <div class="copyright text-center my-auto" id="footer">
                         <span>Copyright &copy; CrunchyCravings <?= date('Y') ?></span>
                     </div>
-                </div>
+                <!-- </div> -->
             </footer>
             <!-- End of Footer -->
 
@@ -159,7 +161,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->script('/vendor/bootstrap/js/bootstrap.bundle.min.js') ?>
 
     <!-- Custom scripts for all pages-->
-    <?= $this->Html->script(['sb-admin-2.min.js']) ?>
+    <!-- <?= $this->Html->script(['sb-admin-2.min.js']) ?> -->
 
     <?= $this->fetch('script') ?>
 </body>

@@ -23,7 +23,7 @@ $this->assign('title', 'Home');
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> -->
-    <?= $this->Html->script('/vendor/bootstrap/js/bootstrap.bundle.min.js') ?>
+    <!-- <?= $this->Html->script('/vendor/bootstrap/js/bootstrap.bundle.min.js') ?> -->
     <!-- Custom CSS -->
     <?= $this->Html->css(['style', 'landing_page']) ?>
 
@@ -36,13 +36,14 @@ $this->assign('title', 'Home');
     <!-- Heading Banner -->
     <section id="heading-banner">
         <header id="heading-inner" class="text-center py-3">
-            <h1>CrunchyCravings</h1>
+            <!-- <h1>CrunchyCravings</h1> -->
+            <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
         </header>
     </section>
 
     <!-- Quote Section -->
     <section id="quote">
-        <h5 class="text-center"><em>"Premium Lavosh crackers that pair perfectly with wine and other fine foods."</em></h5>
+        <h4 class="text-center"><em>"Premium Lavosh crackers that pair perfectly with wine and other fine foods."</em></h4>
     </section>
     
     <!-- Intro Section -->
@@ -161,7 +162,6 @@ $this->assign('title', 'Home');
             <div class="container text-center">
                 <h2 class="mb-4">Contact Us</h2>
                 <p class="lead">Reserve your table today and experience the magic of fine dining.</p>
-                    <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-primary">Contact Us</a>
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-primary">Contact Us</a>
             </div>
         </section>

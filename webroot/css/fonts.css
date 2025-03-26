@@ -81,8 +81,14 @@
 
 @font-face {
     font-family: 'Europa';
-    /* src: url('../font/Europa.ttf') format('truetype'); */
     src: url('../font/Europa.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mediga';
+    src: url('../font/Mediga.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }

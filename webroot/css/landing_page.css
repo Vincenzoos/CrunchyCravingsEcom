@@ -1,11 +1,3 @@
-/* Define custom CSS variables */
-:root {
-    --border-width: 1.5px; /* Border line width */
-    --border-color: #000000; /* Border color */
-    --border-size: 0.5rem; /* Border width */
-    --background-color: #e7edf3; /* Light background color */
-}
-
 /* Apply custom gutter spacing to all container-fluid elements */
 .container-fluid {
     --bs-gutter-x: 0; /* Set horizontal gutters to 0 */
@@ -16,6 +8,26 @@
 .carousel {
     margin-bottom: 0rem !important; /* Set vertical gutters to 0 */
 }
+
+/* Contact button */
+.btn {
+    background-color: var(--icon-color);
+    border-color: var(--icon-color);
+    color: var(--background-color);
+}
+
+/* Hover state for the button */
+.btn:hover {
+    background-color: var(--icon-hover-color);
+    border-color: var(--icon-hover-color);
+    color: var(--text-hover-color);
+}
+
+/* Set the background color for the entire page */
+body {
+    background-color: var(--empty-color);
+}
+
 
 /* Intro Section */
 #intro {
@@ -47,25 +59,19 @@
     border-top: var(--border-width) solid var(--border-color); /* Black border at the top */
     border-bottom: var(--border-width) solid var(--border-color); /* Black border at the bottom */
     padding-top: var(--border-size) !important; /* Add margin to the bottom */
-    margin-top: 3rem; /* Add margin to the top */
+    
 }
 
 #heading-inner {
     background-color: var(--background-color); /* Light background color */
     border-top: var(--border-width) solid var(--border-color); /* Black border at the top */
-}
-
-#heading-banner h1 {
-    font-size: 5rem; /* Large font size for the heading */
-    
-    color: #333; /* Dark gray text color */
-    margin: 0; /* Remove default margin */
-    padding: 2rem;
+    padding: 3rem !important;
 }
 
 /* Quote Section */
 #quote {
-    background-color: #fff; /* White background */
+    background-color: var(--background-color);
+    color: var(--text-color);
     border-top: var(--border-width) solid var(--border-color); /* Black border at the top */
     border-bottom: var(--border-width) solid var(--border-color); /* Black border at the bottom */
     padding-top: 1rem;
@@ -76,15 +82,16 @@
 
 /* About Us Section */
 #about {
+    background-color: var(--empty-color);
     height: 100vh; /* Height of screen to act as a full page section */
     display: flex;
-    background-color: #ffffff;
     margin-bottom: var(--border-size) !important;
 }
 
 .about-text {
+    background-color: var(--background-color);
+    color: var(--text-color);
     padding: 2rem;
-    background-color: var(--background-color); /* Light background for text */
     display: flex;
     flex-direction: column; /* Stack content vertically */
     align-items: flex-start; /* Align text to the top */
@@ -127,7 +134,7 @@
 
 .features-list li i {
     margin-right: var(--border-size);
-    color: #007bff; /* Icon color */
+    color: var(--icon-color);
 }
 
 
@@ -155,6 +162,7 @@
 }
 
 .products-text {
+    background-color: var(--empty-color);
     padding: 0rem !important; /* Reset padding */
     display: flex;
     flex-direction: column; /* Stack content vertically */
@@ -163,8 +171,9 @@
 }
 
 .products-text .inner-container {
+    background-color: var(--background-color);
+    color: var(--text-color);
     padding: 2rem;
-    background-color: var(--background-color); /* Light background for text */
     width: 100%; /* Ensure the inner container takes the full width */
     height: 100%; /* Ensure the inner container spans the full height */
     box-sizing: border-box; /* Include padding in the width calculation */
@@ -186,8 +195,8 @@
 
 /* Contact Us Section */
 #contact {
-    background-color: var(--background-color); /* Light background color */
-    color: #777777;
+    background-color: var(--background-color);
+    color: var(--text-color);
     margin-top: var(--border-size) !important;
     border-top: var(--border-width) solid var(--border-color);
     border-bottom: var(--border-width) solid var(--border-color);

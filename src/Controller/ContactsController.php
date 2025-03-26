@@ -180,7 +180,7 @@ class ContactsController extends AppController
                 }
             } else {
                 // You can debug developers errors with
-                // debug($this->Recaptcha->errors());
+                debug($this->Recaptcha->errors());
                 $this->Flash->error(__('Please check your Recaptcha Box.'));
             }
         }

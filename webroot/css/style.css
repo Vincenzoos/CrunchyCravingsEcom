@@ -1,5 +1,6 @@
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Europa', sans-serif;
+    /* font-family: 'Europa', sans-serif; */
+    font-family: 'Mediga', sans-serif;
     font-weight: 400;
     font-style: normal;
     text-transform: normal;
@@ -7,6 +8,7 @@ h1, h2, h3, h4, h5, h6 {
 
 body, button, .btn {
     font-family: 'Europa', sans-serif;
+    /* font-family: 'Mediga', sans-serif; */
     font-weight: 300;
     font-style: normal;
     text-transform: none;
