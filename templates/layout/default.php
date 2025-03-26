@@ -61,10 +61,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <div class="offcanvas-body">
             <ul class="list-group">
                 <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page'])?>" class="list-group-item">Home page</a>
-                <a href="#User" class="list-group-item">User</a>
-                <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs'])?>" class="list-group-item">Contact us</a>
-                <a href="#Options" class="list-group-item">Options</a>
-                <a href="#Orders" class="list-group-item">Orders</a>
+<!--                <a href="#User" class="list-group-item">User</a>-->
                 <!-- If user is not log in, show in sidebar as login button                 -->
                 <?php if (!$this->Identity->isLoggedIn()) : ?>
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'login']) ?>" class="list-group-item">Log in</a>
