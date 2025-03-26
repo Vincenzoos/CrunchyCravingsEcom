@@ -59,18 +59,19 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
         <div class="offcanvas-body">
             <ul class="list-group">
-                <a href="#User" class="list-group-item">User</a>
-                <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs'])?>" class="list-group-item">Contact us</a>
-                <a href="#Options" class="list-group-item">Options</a>
-                <a href="#Orders" class="list-group-item">Orders</a>
+<!--                <a href="#User" class="list-group-item">User</a>-->
                 <!-- If user is not log in, show in sidebar as login button                 -->
                 <?php if (!$this->Identity->isLoggedIn()) : ?>
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'login']) ?>" class="list-group-item">Log in</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs'])?>" class="list-group-item">Contact us</a>
                 <!-- Else, show in sidebar as logout button                 -->
                 <?php endif; ?>
                 <?php if ($this->Identity->isLoggedIn()) : ?>
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>" class="list-group-item">Logout</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Contacts</a>
                 <?php endif; ?>
+                <a href="#Options" class="list-group-item">Options</a>
+                <a href="#Orders" class="list-group-item">Orders</a>
 
             </ul>
         </div>
