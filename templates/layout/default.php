@@ -61,7 +61,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <div class="offcanvas-body">
             <ul class="list-group">
                 <a href="#User" class="list-group-item">User</a>
-                <a href="#Contact" class="list-group-item">Contact us</a>
+                <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="list-group-item">Contact Us</a>
                 <a href="#Options" class="list-group-item">Options</a>
                 <a href="#Orders" class="list-group-item">Orders</a>
                 <a href="#Logout" class="list-group-item">Logout</a>
@@ -108,11 +108,6 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     </div>
     <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

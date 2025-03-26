@@ -3,6 +3,7 @@
     --border-width: 1.5px; /* Border line width */
     --border-color: #000000; /* Border color */
     --border-size: 0.5rem; /* Border width */
+    --background-color: #e7edf3; /* Light background color */
 }
 
 /* Apply custom gutter spacing to all container-fluid elements */
@@ -41,6 +42,38 @@
     transition: opacity 1s ease-in-out; /* Fade-in transition */
 }
 
+/* Heading */
+#heading-banner {
+    border-top: var(--border-width) solid var(--border-color); /* Black border at the top */
+    border-bottom: var(--border-width) solid var(--border-color); /* Black border at the bottom */
+    padding-top: var(--border-size) !important; /* Add margin to the bottom */
+    margin-top: 3rem; /* Add margin to the top */
+}
+
+#heading-inner {
+    background-color: var(--background-color); /* Light background color */
+    border-top: var(--border-width) solid var(--border-color); /* Black border at the top */
+}
+
+#heading-banner h1 {
+    font-size: 5rem; /* Large font size for the heading */
+    
+    color: #333; /* Dark gray text color */
+    margin: 0; /* Remove default margin */
+    padding: 2rem;
+}
+
+/* Quote Section */
+#quote {
+    background-color: #fff; /* White background */
+    border-top: var(--border-width) solid var(--border-color); /* Black border at the top */
+    border-bottom: var(--border-width) solid var(--border-color); /* Black border at the bottom */
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    margin-top: var(--border-size) !important; /* Add margin to the top */
+    margin-bottom: var(--border-size) !important; /* Add margin to the bottom */
+}
+
 /* About Us Section */
 #about {
     height: 100vh; /* Height of screen to act as a full page section */
@@ -51,29 +84,36 @@
 
 .about-text {
     padding: 2rem;
-    background-color: #f8f9fa; /* Light background for text */
+    background-color: var(--background-color); /* Light background for text */
     display: flex;
     flex-direction: column; /* Stack content vertically */
     align-items: flex-start; /* Align text to the top */
     justify-content: center; /* Center vertically within the column */
     margin-right: var(--border-size) !important; /* Add padding to the right */
     border-right: var(--border-width) solid var(--border-color); /* Black line on the right */
+    border-top: var(--border-width) solid var(--border-color); 
+    border-bottom: var(--border-width) solid var(--border-color);
+}
+
+.about-image {
+    position: relative; /* Make the container a positioned element */
+    width: 100%; /* Ensure the container spans the full width */
+    height: 100vh; /* Ensure the container height is always 100% of the viewport height */
+    overflow: hidden; /* Hide any part of the image that overflows the container */
+    border-left: var(--border-width) solid var(--border-color); /* Black line on the left */
+    border-top: var(--border-width) solid var(--border-color); 
     border-bottom: var(--border-width) solid var(--border-color);
 }
 
 .about-image img {
-    height: 100vh; /* Full height for the image */
-    object-fit: cover; /* Ensure the image covers the area */
-    border-left: var(--border-width) solid var(--border-color); /* Black line on the left */
-    border-bottom: var(--border-width) solid var(--border-color);
+    min-width: 100vw; /* Ensure the image takes up the full width */
+    min-height: 100vh; /* Ensure the image takes up the full height */
+    max-width: 1000vw !important; /* Disable max width */
+    object-fit: cover; /* Scale the image to cover the container while maintaining aspect ratio */
+    object-position: center; /* Center the image within the container */
 }
 
 /* Features List */
-/* #features {
-    background-color: #efebff;
-    color: #777777;
-} */
-
 .features-list {
     list-style: none;
     padding: 0;
@@ -98,7 +138,7 @@
     padding-top: 0 !important; /* Remove default padding */
     padding-bottom: 0 !important; /* Remove default padding */
     margin-top: var(--border-size) !important;
-    margin-bottom: var(--border-size) !important;
+    /* margin-bottom: var(--border-size) !important; */
 }
 
 .products-carousels {
@@ -124,7 +164,7 @@
 
 .products-text .inner-container {
     padding: 2rem;
-    background-color: #f8f9fa; /* Light background for text */
+    background-color: var(--background-color); /* Light background for text */
     width: 100%; /* Ensure the inner container takes the full width */
     height: 100%; /* Ensure the inner container spans the full height */
     box-sizing: border-box; /* Include padding in the width calculation */
@@ -146,8 +186,9 @@
 
 /* Contact Us Section */
 #contact {
-    background-color: #efebff;
+    background-color: var(--background-color); /* Light background color */
     color: #777777;
+    margin-top: var(--border-size) !important;
     border-top: var(--border-width) solid var(--border-color);
     border-bottom: var(--border-width) solid var(--border-color);
 }

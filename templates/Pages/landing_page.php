@@ -21,6 +21,8 @@
     <title>CrunchyCravings</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> -->
+    <?= $this->Html->script('/vendor/bootstrap/js/bootstrap.bundle.min.js') ?>
     <!-- Custom CSS -->
     <?= $this->Html->css(['style', 'landing_page']) ?>
 
@@ -30,6 +32,18 @@
 </head>
 
 <body>
+    <!-- Heading Banner -->
+    <section id="heading-banner">
+        <header id="heading-inner" class="text-center py-3">
+            <h1>CrunchyCravings</h1>
+        </header>
+    </section>
+
+    <!-- Quote Section -->
+    <section id="quote">
+        <h5 class="text-center"><em>"Premium Lavosh crackers that pair perfectly with wine and other fine foods."</em></h5>
+    </section>
+    
     <!-- Intro Section -->
     <div id="intro" class="d-flex align-items-center justify-content-center" onclick="fadeToLandingPage()">
         <div class="text-center">
@@ -141,14 +155,15 @@
             </div>
         </section>
         
-        <!-- Contact Us Section -->
+        <!-- Contact Section -->
         <section id="contact" class="py-5">
             <div class="container text-center">
                 <h2 class="mb-4">Contact Us</h2>
                 <p class="lead">Reserve your table today and experience the magic of fine dining.</p>
-                <a href="#contact" class="btn btn-primary">Contact Us</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-primary">Contact Us</a>
             </div>
         </section>
+
     </div>
 
     <!-- JavaScript for Smooth fade -->
@@ -163,12 +178,56 @@
             // Wait for the fade-out transition to complete
             setTimeout(() => {
                 intro.style.display = 'none'; // Hide the intro section
+                intro.remove(); // Completely remove the intro section from the DOM
                 landingPage.style.opacity = '1'; // Fade in the landing page
 
                 // Re-enable scrolling after the fade transition
                 document.documentElement.classList.remove('no-scroll'); // Remove class from <html>
             }, 1000); // Match the transition duration (1s)
         }
+    </script>
+
+    <!-- Custom JavaScript for staggered carousels -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set the same interval for all carousels
+            const interval = 6000; // 6 seconds
+
+            // Initialize all carousels but pause them immediately
+            const carousel1 = new bootstrap.Carousel('#carousel1', { interval, ride: false });
+            const carousel2 = new bootstrap.Carousel('#carousel2', { interval, ride: false });
+            const carousel3 = new bootstrap.Carousel('#carousel3', { interval, ride: false });
+
+            // Start the first carousel immediately
+            carousel1.cycle();
+
+            // Start the second carousel after a delay
+            setTimeout(() => {
+                carousel2.cycle();
+            }, 2000);
+
+            // Start the third carousel after a delay
+            setTimeout(() => {
+                carousel3.cycle();
+            }, 4000);
+
+            // Add event listeners to buttons for manual control
+            document.querySelectorAll('.carousel-control-prev, .carousel-control-next').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const targetCarousel = button.closest('.carousel'); // Find the closest carousel
+                    if (!targetCarousel) return; // Ensure the button is inside a carousel
+
+                    const carouselInstance = bootstrap.Carousel.getInstance(`#${targetCarousel.id}`);
+                    if (button.classList.contains('carousel-control-prev')) {
+                        carouselInstance.prev(); // Go to the previous slide
+                        console.log(`Previous button clicked for ${targetCarousel.id}`);
+                    } else if (button.classList.contains('carousel-control-next')) {
+                        carouselInstance.next(); // Go to the next slide
+                        console.log(`Next button clicked for ${targetCarousel.id}`);
+                    }
+                });
+            });
+        });
     </script>
 
     <!-- Bootstrap JS -->
