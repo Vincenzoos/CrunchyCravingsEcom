@@ -32,6 +32,21 @@ use Cake\View\Exception\MissingTemplateException;
 class PagesController extends AppController
 {
     /**
+     * Initialize method for PagesController.
+     *
+     * This method is called before the controller's actions are executed.
+     * It allows unauthenticated users to access the 'display' action,
+     * making public pages accessible without requiring authentication.
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->Authentication->allowUnauthenticated(['display']);
+    }
+
+    /**
      * Displays a view
      *
      * @param string ...$path Path segments.

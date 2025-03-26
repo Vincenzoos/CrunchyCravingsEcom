@@ -445,4 +445,16 @@ return [
         'safeTld' => env('DEBUG_KIT_SAFE_TLD', null),
         'ignoreAuthorization' => env('DEBUG_KIT_IGNORE_AUTHORIZATION', false),
     ],
+
+    /**
+     * Recaptcha configuration.
+     */
+    'Recaptcha' => [
+        'sitekey' => env('RECAPTCHA_SITE_KEY'),
+        'secret' => env('RECAPTCHA_SECRET_KEY'),
+        'type' => 'image',
+        'theme' => 'light',
+        'lang' => 'es',
+        'size' => 'normal'],
+
 ];

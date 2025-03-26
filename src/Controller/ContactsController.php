@@ -13,6 +13,34 @@ use Cake\Http\Response;
 class ContactsController extends AppController
 {
     /**
+     * Initialize method for ContactsController.
+     *
+     * This method is called before the controller's actions are executed.
+     * Added recaptcha question upon the contact form completion to prevent spams and malicious attack.
+     * It allows unauthenticated users to access the 'contactUs' action,
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        if (in_array($this->request->getParam('action'), ['contactUs'])) {
+            $this->loadComponent('Recaptcha.Recaptcha', [
+                'enable' => true, // true/false
+                'sitekey' => env('RECAPTCHA_SITE_KEY'), //if you don't have, get one: https://www.google.com/recaptcha/intro/index.html
+                'secret' => env('RECAPTCHA_SECRET_KEY'),
+                'type' => 'image', // image/audio
+                'theme' => 'light', // light/dark
+                'lang' => 'en', // default 'en'
+                'size' => 'normal', // normal/compact
+                'callback' => null, // `callback` data attribute for the recaptcha div, default `null`
+                'scriptBlock' => true]); // Value for `block` option for HtmlHelper::script() call
+        }
+
+        $this->Authentication->allowUnauthenticated(['contactUs']);
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
@@ -135,19 +163,25 @@ class ContactsController extends AppController
     {
         $contact = $this->Contacts->newEmptyEntity();
         if ($this->request->is('post')) {
-            $contact = $this->Contacts->patchEntity($contact, $this->request->getData());
+            if ($this->Recaptcha->verify()) {
+                $contact = $this->Contacts->patchEntity($contact, $this->request->getData());
 
-            // Set date_sent to today's date if it isn't provided
-            if (empty($contact->date_sent)) {
-                $contact->date_sent = date('Y-m-d');
-            }
+                // Set date_sent to today's date if it isn't provided
+                if (empty($contact->date_sent)) {
+                    $contact->date_sent = date('Y-m-d');
+                }
 
-            if ($this->Contacts->save($contact)) {
-                $this->Flash->success(__('Your contact details has been saved.'));
+                if ($this->Contacts->save($contact)) {
+                    $this->Flash->success(__('Your contact details has been saved.'));
 
-                return $this->redirect(['controller' => 'Contacts', 'action' => 'contact_us']);
+                    return $this->redirect(['controller' => 'Contacts', 'action' => 'contact_us']);
+                } else {
+                    $this->Flash->error(__('Unable to send your contact details.'));
+                }
             } else {
-                $this->Flash->error(__('Unable to send your contact details.'));
+                // You can debug developers errors with
+                // debug($this->Recaptcha->errors());
+                $this->Flash->error(__('Please check your Recaptcha Box.'));
             }
         }
         $this->set(compact('contact'));

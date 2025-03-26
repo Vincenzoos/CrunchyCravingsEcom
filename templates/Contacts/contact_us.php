@@ -61,6 +61,7 @@ $this->assign('title', 'Contact Us');
                     'required' => true,
                 ]); ?>
             </div>
+            <?= $this->Recaptcha->display() ?>
             <?= $this->Form->button(__('Submit')) ?>
             <?= $this->Form->end() ?>
         </div>

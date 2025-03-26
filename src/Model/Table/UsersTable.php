@@ -11,8 +11,6 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @property \App\Model\Table\PropertiesTable&\Cake\ORM\Association\HasMany $Properties
- *
  * @method \App\Model\Entity\User newEmptyEntity()
  * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\User> newEntities(array $data, array $options = [])
@@ -46,10 +44,8 @@ class UsersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-
-        $this->hasMany('Properties', [
-            'foreignKey' => 'user_id',
-        ]);
+        // Add Authentication behaviour
+        $this->addBehavior('CanAuthenticate');
     }
 
     /**
@@ -67,21 +63,18 @@ class UsersTable extends Table
 
         $validator
             ->scalar('password')
-            ->maxLength('password', 96)
+            ->maxLength('password', 255)
             ->requirePresence('password', 'create')
             ->notEmptyString('password');
 
         $validator
-            ->scalar('first_name')
-            ->maxLength('first_name', 128)
-            ->requirePresence('first_name', 'create')
-            ->notEmptyString('first_name');
+            ->scalar('nonce')
+            ->maxLength('nonce', 255)
+            ->allowEmptyString('nonce');
 
         $validator
-            ->scalar('last_name')
-            ->maxLength('last_name', 128)
-            ->requirePresence('last_name', 'create')
-            ->notEmptyString('last_name');
+            ->dateTime('nonce_expiry')
+            ->allowEmptyDateTime('nonce_expiry');
 
         return $validator;
     }

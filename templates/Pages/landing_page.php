@@ -10,6 +10,7 @@
  *
  * @var \App\View\AppView $this
  */
+$this->assign('title', 'Home');
 ?>
 
 <!DOCTYPE html>
@@ -160,6 +161,7 @@
             <div class="container text-center">
                 <h2 class="mb-4">Contact Us</h2>
                 <p class="lead">Reserve your table today and experience the magic of fine dining.</p>
+                    <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-primary">Contact Us</a>
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-primary">Contact Us</a>
             </div>
         </section>

@@ -1,29 +1,20 @@
 <?php
-
-use Composer\Util\Url;
 /**
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\User> $users
  */
 ?>
 <div class="users index content">
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800"><?= __('Users') ?></h1>
-        <a href=<?= $this->Url->build(['action' => 'add']) ?> class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-plus fa-sm text-white-50"></i> New User</a>
-    </div>
-
-    <!-- <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Users') ?></h3> -->
+    <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+    <h3><?= __('Users') ?></h3>
     <div class="table-responsive">
         <table>
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
-                    <th><?= $this->Paginator->sort('first_name') ?></th>
-                    <th><?= $this->Paginator->sort('last_name') ?></th>
+                    <th><?= $this->Paginator->sort('nonce') ?></th>
+                    <th><?= $this->Paginator->sort('nonce_expiry') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
@@ -32,10 +23,10 @@ use Composer\Util\Url;
             <tbody>
                 <?php foreach ($users as $user): ?>
                 <tr>
-                    <td><?= h($user->id) ?></td>
+                    <td><?= $this->Number->format($user->id) ?></td>
                     <td><?= h($user->email) ?></td>
-                    <td><?= h($user->first_name) ?></td>
-                    <td><?= h($user->last_name) ?></td>
+                    <td><?= h($user->nonce) ?></td>
+                    <td><?= h($user->nonce_expiry) ?></td>
                     <td><?= h($user->created) ?></td>
                     <td><?= h($user->modified) ?></td>
                     <td class="actions">
