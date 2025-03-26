@@ -7,8 +7,8 @@ return [
      */
     'Recaptcha' => [
         'enable' => true,
-        'sitekey' => env('6LdvogArAAAAAHw1tDottnB1znNSwk_d6rAzlwgv'),
-        'secret' => env('6LdvogArAAAAAPoeejO1XIB2w1RsKODyU238NoXg'),
+        'sitekey' => env('RECAPTCHA_SITE_KEY'),
+        'secret' => env('RECAPTCHA_SECRET_KEY'),
         'type' => 'image',
         'theme' => 'dark',
         'lang' => 'es',
