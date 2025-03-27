@@ -5,8 +5,8 @@
     --sidebar-bg-color: rgba(71, 0, 15, 0.2); /* Background color */
     --sidebar-hover-color: rgba(161, 29, 29, 0.2); /* Hover color */
     --sidebar-blur: 10px; /* Sidebar blur effect */
-    
-    
+
+
     --border-width: 1.5px; /* Border line width */
     --border-color: #640015; /* Border color */
     --border-size: 0.3rem; /* Border size */
@@ -79,6 +79,9 @@
     color: var(--background-color); /* Set the text color */
     text-align: center;
     padding: 0.5rem;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
 }
 
 /* Disable scrolling when the sidebar is active */

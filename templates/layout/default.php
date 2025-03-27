@@ -31,26 +31,31 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     <!-- Custom fonts for this template-->
     <!-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> -->
-    <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css']) ?>
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    <?= $this->Html->css('fonts') ?>
-
+<!--    --><?php //= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css']) ?>
+<!--    <link-->
+<!--        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"-->
+<!--        rel="stylesheet">-->
+<!--    --><?php //= $this->Html->css('fonts') ?>
+<!---->
     <!-- Custom styles for this template-->
-    <?= $this->Html->css('style') ?>
-    <?= $this->Html->css('default.css') ?>
+<!--    --><?php //= $this->Html->css('style') ?>
+<!--    --><?php //= $this->Html->css('default.css') ?>
+<!---->
+<!--    --><?php //= $this->fetch('meta') ?>
+<!--    --><?php //= $this->fetch('css') ?>
+<!--    --><?php //= $this->fetch('script') ?>
+<!---->
+<!--    --><?php //= $this->Html->script('/vendor/jquery/jquery.min.js') ?>
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    --><?php //= $this->Html->script('/vendor/bootstrap/js/bootstrap.bundle.min.js') ?>
 
-    <?= $this->fetch('meta') ?>
+    <?= $this->Html->css('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>
+    <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css', 'style', 'default.css']) ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
-
-    <?= $this->Html->script('/vendor/jquery/jquery.min.js') ?>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <?= $this->Html->script('/vendor/bootstrap/js/bootstrap.bundle.min.js') ?>
 </head>
 
-<id="page-top">
+<body id="page-top">
 
     <!-- Sidebar -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
@@ -60,10 +65,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
         <div class="offcanvas-body">
             <ul class="list-group">
-                <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page'])?>" class="list-group-item">Home page</a>
 <!--                <a href="#User" class="list-group-item">User</a>-->
                 <!-- If user is not log in, show in sidebar as login button                 -->
                 <?php if (!$this->Identity->isLoggedIn()) : ?>
+                    <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page'])?>" class="list-group-item">Home page</a>
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'login']) ?>" class="list-group-item">Log in</a>
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs'])?>" class="list-group-item">Contact us</a>
                 <!-- Else, show in sidebar as logout button                 -->
@@ -159,11 +164,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 </script>
 
     <!-- Bootstrap core JavaScript-->
-    <?= $this->Html->script('/vendor/bootstrap/js/bootstrap.bundle.min.js') ?>
-
-    <!-- Custom scripts for all pages-->
-    <!-- <?= $this->Html->script(['sb-admin-2.min.js']) ?> -->
-
+    <?= $this->Html->script('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') ?>
     <?= $this->fetch('script') ?>
 </body>
 
