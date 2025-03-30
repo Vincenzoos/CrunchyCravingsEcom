@@ -1,54 +1,116 @@
+<!-- filepath: c:\xampp\htdocs\team068-onboarding-project\templates\Contacts\add.php -->
 <?php
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Contact $contact
  */
 ?>
-<div id="wrapper">
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-        <!-- Main Content -->
-        <div id="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <aside class="column col-lg-3">
-                        <div class="side-nav">
-                            <h4 class="heading"><?= __('Actions') ?></h4>
-                            <?= $this->Html->link(__('List Contacts'), ['action' => 'index'], ['class' => 'btn btn-primary btn-block mb-3']) ?>
-                        </div>
-                    </aside>
-                    <div class="column col-lg-9">
-                        <div class="contacts form content">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrunchyCravings</title>
+    <!-- Bootstrap CSS -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    
+    <!-- Custom CSS -->
+    <?= $this->Html->css(['style', 'contact_us']) ?>
+</head>
+
+<body>
+    <!-- Page Container -->
+    <div class="page-container mx-auto my-5">
+        <!-- Heading Banner -->
+        <section id="heading-banner">
+            <header id="heading-inner" class="text-center py-3">
+                <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
+            </header>
+        </section>
+
+        <!-- Add Contact Section -->
+        <section id="heading-section" class="text-center py-5">
+            <div class="container">
+                <h1 class="display-4">Add Contact</h1>
+                <p class="lead">Create a new contact below.</p>
+            </div>
+        </section>
+
+        <!-- Add Contact Form Section -->
+        <section id="form-section" class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="contacts form content text-center">
                             <?= $this->Form->create($contact) ?>
-                            <fieldset>
-                                <legend><?= __('Add Contact') ?></legend>
-                                <div class="form-group">
-                                    <?= $this->Form->control('first_name', ['class' => 'form-control', 'label' => 'First Name']) ?>
-                                </div>
-                                <div class="form-group">
-                                    <?= $this->Form->control('last_name', ['class' => 'form-control', 'label' => 'Last Name']) ?>
-                                </div>
-                                <div class="form-group">
-                                    <?= $this->Form->control('email', ['class' => 'form-control', 'label' => 'Email']) ?>
-                                </div>
-                                <div class="form-group">
-                                    <?= $this->Form->control('phone_number', ['class' => 'form-control', 'label' => 'Phone Number']) ?>
-                                </div>
-                                <div class="form-group">
-                                    <?= $this->Form->control('message', ['class' => 'form-control', 'label' => 'Message', 'rows' => 4]) ?>
-                                </div>
-                                <div class="form-group">
-                                    <?= $this->Form->control('date_sent', ['class' => 'form-control', 'label' => 'Date Sent', 'type' => 'date']) ?>
-                                </div>
-                            </fieldset>
-                            <div class="form-group">
-                                <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-success btn-block']) ?>
+
+                            <div class="mb-4">
+                                <?= $this->Form->control('first_name', [
+                                    'class' => 'form-control mx-auto',
+                                    'label' => ['text' => '<h3 class="text-center">First Name</h3>', 'escape' => false],
+                                    'placeholder' => 'Enter the first name...',
+                                    'required' => true,
+                                ]); ?>
+                            </div>
+                            <div class="mb-4">
+                                <?= $this->Form->control('last_name', [
+                                    'class' => 'form-control mx-auto',
+                                    'label' => ['text' => '<h3 class="text-center">Last Name</h3>', 'escape' => false],
+                                    'placeholder' => 'Enter the last name...',
+                                    'required' => true,
+                                ]); ?>
+                            </div>
+                            <div class="mb-4">
+                                <?= $this->Form->control('email', [
+                                    'class' => 'form-control mx-auto',
+                                    'label' => ['text' => '<h3 class="text-center">Email</h3>', 'escape' => false],
+                                    'placeholder' => 'Enter the email...',
+                                    'type' => 'email',
+                                    'required' => true,
+                                ]); ?>
+                            </div>
+                            <div class="mb-4">
+                                <?= $this->Form->control('phone_number', [
+                                    'class' => 'form-control mx-auto',
+                                    'label' => ['text' => '<h3 class="text-center">Phone Number</h3>', 'escape' => false],
+                                    'placeholder' => 'Enter the phone number...',
+                                    'type' => 'tel',
+                                    'required' => true,
+                                ]); ?>
+                            </div>
+                            <div class="mb-4">
+                                <?= $this->Form->control('message', [
+                                    'class' => 'form-control mx-auto',
+                                    'label' => ['text' => '<h3 class="text-center">Message</h3>', 'escape' => false],
+                                    'placeholder' => 'Enter the message...',
+                                    'type' => 'textarea',
+                                    'rows' => 5,
+                                    'required' => true,
+                                ]); ?>
+                            </div>
+                            <div class="mb-4">
+                                <?= $this->Form->control('date_sent', [
+                                    'class' => 'form-control mx-auto',
+                                    'label' => ['text' => '<h3 class="text-center">Date Sent</h3>', 'escape' => false],
+                                    'type' => 'date',
+                                    'required' => true,
+                                ]); ?>
+                            </div>
+                            <div class="text-center">
+                                <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-success btn-lg']) ?>
+                            </div>
+                            <div class="text-center mt-4">
+                                <?= $this->Html->link('View Contacts List', ['controller' => 'Contacts', 'action' => 'index'], ['class' => 'btn btn-primary']) ?>
                             </div>
                             <?= $this->Form->end() ?>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="text-center mt-4">
+                <?= $this->Html->link('Go to Homepage', '/', ['class' => 'btn btn-link']) ?>
+            </div>
+        </section>
     </div>
-</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>

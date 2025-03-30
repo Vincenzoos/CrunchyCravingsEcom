@@ -29,26 +29,20 @@
             <!-- Heading Section -->
             <section id="welcome-back" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">Contact List</h1>
+                <h1 class="display-4">Contacts List</h1>
                 <p class="lead">Manage all contacts below.</p>
             </div>
         </section>
-        
-    <div id="wrapper">
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-            <!-- Main Content -->
-            <div id="content">
-                <div class="container-fluid">
-                    <?= $this->Flash->render() ?>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <h3 class="m-0 font-weight-bold text-primary"><?= __('Contacts') ?></h3>
-                            <?= $this->Html->link(__('New Contact'), ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
-                        </div>
-                        <div class="card-body">
+            
+        <div id="wrapper">
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Main Content -->
+                <div id="content">
+                    <div class="container-fluid">
+                        <?= $this->Flash->render() ?>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-bordered table-hover shadow mb-4">
                                     <thead class="thead-dark">
                                     <tr>
                                         <th><?= $this->Paginator->sort('first_name', __('First Name')) ?></th>
@@ -86,28 +80,32 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="text-center mt-4">
+                                <?= $this->Html->link('Add New Contact', ['action' => 'add'], ['class' => 'btn btn-success']) ?>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Paginator -->
-                    <div class="d-flex justify-content-between align-items-center">
-                        <ul class="pagination">
-                            <?= $this->Paginator->first('<< ' . __('First')) ?>
-                            <?= $this->Paginator->prev('< ' . __('Previous')) ?>
-                            <?= $this->Paginator->numbers() ?>
-                            <?= $this->Paginator->next(__('Next') . ' >') ?>
-                            <?= $this->Paginator->last(__('Last') . ' >>') ?>
-                        </ul>
-                        <p class="text-muted">
-                            <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} records out of {{count}} total')) ?>
-                        </p>
-                    </div>
+                        <!-- Paginator -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <ul class="pagination">
+                                <?= $this->Paginator->first('<< ' . __('First')) ?>
+                                <?= $this->Paginator->prev('< ' . __('Previous')) ?>
+                                <?= $this->Paginator->numbers() ?>
+                                <?= $this->Paginator->next(__('Next') . ' >') ?>
+                                <?= $this->Paginator->last(__('Last') . ' >>') ?>
+                            </ul>
+                            <p class="text-muted">
+                                <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} records out of {{count}} total')) ?>
+                            </p>
+                        </div>
 
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="text-center mt-4">
-            <?= $this->Html->link('Go to Homepage', '/', ['class' => 'btn btn-link']) ?>
+            <div class="text-center mt-4 py-3">
+                <?= $this->Html->link('Go to Homepage', '/', ['class' => 'btn btn-primary']) ?>
+            </div>
+
         </div>
     </div>
 

@@ -1,32 +1,45 @@
+<!-- filepath: c:\xampp\htdocs\team068-onboarding-project\templates\Contacts\view.php -->
 <?php
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Contact $contact
  */
 ?>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrunchyCravings</title>
+    <!-- Bootstrap CSS -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    
+    <!-- Custom CSS -->
+    <?= $this->Html->css(['style', 'table','contact_us']) ?>
+</head>
 
-<div id="wrapper">
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-        <!-- Main Content -->
-        <div id="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <aside class="column col-lg-3">
-                        <div class="side-nav">
-                            <h4 class="heading"><?= __('Actions') ?></h4>
-                            <?= $this->Html->link(__('Edit Contact'), ['action' => 'edit', $contact->id], ['class' => 'btn btn-warning btn-block mb-3']) ?>
-                            <?= $this->Form->postLink(__('Delete Contact'), ['action' => 'delete', $contact->id], [
-                                'confirm' => __('Are you sure you want to delete this contact: {0} ({1})?', $contact->full_name, $contact->email),
-                                'class' => 'btn btn-danger btn-block mb-3'
-                            ]) ?>
-                            <?= $this->Html->link(__('List Contacts'), ['action' => 'index'], ['class' => 'btn btn-primary btn-block mb-3']) ?>
-                            <?= $this->Html->link(__('New Contact'), ['action' => 'add'], ['class' => 'btn btn-success btn-block mb-3']) ?>
-                            <?= $this->Html->link(__('Update Reply Status'), ['action' => 'updateReplyStatus', $contact->id], ['class' => 'btn btn-info btn-block']) ?>
-                        </div>
-                    </aside>
-                    <div class="column col-lg-9">
-                        <div class="contacts view content">
+<body>
+    <!-- Page Container -->
+    <div class="page-container mx-auto my-5">
+        <!-- Heading Banner -->
+        <section id="heading-banner">
+            <header id="heading-inner" class="text-center py-3">
+                <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
+            </header>
+        </section>
+
+        <!-- View Contact Section -->
+        <section id="heading-section" class="text-center py-5">
+            <div class="container">
+                <h1 class="display-4">View Contact</h1>
+                <p class="lead">Details of the selected contact are shown below.</p>
+            </div>
+        </section>
+
+        <!-- Contact Details Section -->
+        <section id="form-section" class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div id="form-content" class="text-center">
                             <h3><?= h($contact->first_name) . ' ' . h($contact->last_name) ?></h3>
                             <table class="table table-bordered">
                                 <tr>
@@ -55,15 +68,29 @@
                                 </tr>
                             </table>
                             <div class="text">
-                                <strong><?= __('Message') ?></strong>
+                                <strong><?= __('Message:') ?></strong>
                                 <blockquote>
                                     <?= $this->Text->autoParagraph(h($contact->message)); ?>
                                 </blockquote>
                             </div>
                         </div>
+                        <div class="text-center mt-4">
+                            <?= $this->Html->link('Edit Contact', ['action' => 'edit', $contact->id], ['class' => 'btn btn-warning']) ?>
+                            <?= $this->Form->postLink('Delete Contact', ['action' => 'delete', $contact->id], [
+                                'confirm' => __('Are you sure you want to delete this contact: {0} ({1})?', $contact->full_name, $contact->email),
+                                'class' => 'btn btn-danger'
+                            ]) ?>
+                            <?= $this->Html->link('Add New Contact', ['action' => 'add'], ['class' => 'btn btn-success']) ?>
+                        </div>
+                        <div class="text-center mt-4">
+                            <?= $this->Html->link('View Contacts List', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
-</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>

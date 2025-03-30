@@ -13,8 +13,7 @@
     padding: 3rem !important;
 }
 
-/* Contact Us Section */
-#contact-us {
+#heading-section {
     background-color: var(--background-color);
     color: var(--text-color);
     font-size: 3rem;
@@ -24,8 +23,15 @@
     margin-bottom: var(--border-size) !important; /* Add margin to the bottom */
 }
 
-#contact-form {
+#form-section {
     background-color: var(--background-color);
     color: var(--text-color);
     padding: 3rem !important;
+}
+
+#form-content {
+    background-color: var(--background-color);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
 }

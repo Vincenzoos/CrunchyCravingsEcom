@@ -22,6 +22,10 @@
     background-color: var(--sidebar-hover-color); /* Highlight row on hover */
 }
 
+#wrapper {
+    background-color: var(--background-color); /* Match the page background */
+}
+
 /* Table Cells */
 .table td, .table th {
     padding: 0.5rem; /* Add padding to cells */

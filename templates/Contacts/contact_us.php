@@ -33,8 +33,8 @@ $this->assign('title', 'Contact Us');
         </header>
     </section>
 
-    <!-- Contact Us Section -->
-    <section id="contact-us" class="text-center py-5">
+    <!-- Heading section -->
+    <section id="heading-section" class="text-center py-5">
         <div class="container">
             <h1 class="display-4">Contact Us</h1>
             <p class="lead">We'd love to hear from you! Fill out the form below to get in touch with us.</p>
@@ -42,7 +42,7 @@ $this->assign('title', 'Contact Us');
     </section>
 
     <!-- Contact Form Section -->
-    <section id="contact-form" class="py-5">
+    <section id="form-section" class="py-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
