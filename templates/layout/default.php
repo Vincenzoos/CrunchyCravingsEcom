@@ -12,6 +12,7 @@
  * @since         0.10.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  * @var \App\View\AppView $this
+ * @var \App\Model\Entity\User $user
  */
 
 ?>
@@ -65,6 +66,8 @@
                 <?php endif; ?>
                 <?php if ($this->Identity->isLoggedIn()) : ?>
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>" class="list-group-item">Logout</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'resetPassword', $this->Identity->get('id')]) ?>" class="list-group-item">Reset Password</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>" class="list-group-item">Change Password</a>
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Contacts</a>
                 <?php endif; ?>
                 
