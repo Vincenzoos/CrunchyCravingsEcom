@@ -22,6 +22,11 @@
     transition: opacity 1s ease-in-out; /* Fade-out transition */
 }
 
+#intro h3 {
+    color: var(--text-color); /* Text color */
+    margin-bottom: 1rem; /* Space below the heading */
+}
+
 /* Landing Page */
 #landing-page {
     opacity: 1; /* Ensure the landing page is visible by default */

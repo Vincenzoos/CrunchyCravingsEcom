@@ -49,9 +49,8 @@ $this->assign('title', 'Home');
     <!-- Intro Section -->
     <div id="intro" class="d-flex align-items-center justify-content-center" onclick="fadeToLandingPage()">
         <div class="text-center">
-            <h1 class="display-4 text-white">Welcome to</h1>
-            <h1 class="display-1 text-white">CrunchyCravings</h1>
-            <p class="lead text-white">Click anywhere to explore</p>
+            <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid mb-4', 'alt' => 'CrunchyCravings Logo']) ?>
+            <h3>Click anywhere to explore</h3>
         </div>
     </div>
 
@@ -72,7 +71,7 @@ $this->assign('title', 'Home');
                 </div>
                 <!-- Right Image Section -->
                 <div class="about-image col-md-8">
-                    <?= $this->Html->image('Banner.png', ['class' => 'img-fluid', 'alt' => 'About Us']) ?>
+                    <?= $this->Html->image('Large.jpg', ['class' => 'img-fluid', 'alt' => 'About Us']) ?>
                 </div>
             </div>
         </section>
