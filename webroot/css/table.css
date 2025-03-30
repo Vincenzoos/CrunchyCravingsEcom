@@ -1,0 +1,71 @@
+/* Table Styling */
+.table {
+    width: 60%; /* Full width */
+    margin: 1rem auto; /* Center the table with some margin */
+    border-collapse: collapse; /* Remove gaps between table cells */
+    background-color: var(--background-color) !important; /* Match the page background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    border-radius: 0.5rem; /* Rounded corners */
+    overflow: hidden; /* Ensure rounded corners apply to the entire table */
+}
+
+/* Table Header */
+.table thead {
+    background-color: var(--background-color); /* Header background color */
+    color: var(--text-color); /* Header text color */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Hover Effect for Rows */
+.table tbody tr:hover {
+    background-color: var(--sidebar-hover-color); /* Highlight row on hover */
+}
+
+/* Table Cells */
+.table td, .table th {
+    padding: 0.5rem; /* Add padding to cells */
+    text-align: center; /* Center-align text */
+    vertical-align: middle; /* Vertically center content */
+}
+
+/* Actions Column */
+.table td.text-center {
+    white-space: nowrap; /* Prevent buttons from wrapping */
+}
+
+/* Buttons in Table */
+.table .btn {
+    font-size: 0.875rem; /* Smaller button size */
+    padding: 0.5rem 1rem; /* Adjust padding */
+    border-radius: 0.25rem; /* Rounded corners for buttons */
+}
+
+/* Responsive Table */
+.table-responsive {
+    overflow-x: auto; /* Enable horizontal scrolling for small screens */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile devices */
+}
+
+/* Paginator Styling */
+.pagination {
+    margin: 0; /* Remove default margin */
+}
+
+.pagination li {
+    display: inline-block;
+    margin: 0 0.25rem; /* Add spacing between pagination links */
+}
+
+.pagination li a {
+    color: var(--icon-color); /* Match button color */
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination li a:hover {
+    background-color: var(--icon-hover-color); /* Highlight on hover */
+    color: var(--text-hover-color);
+}

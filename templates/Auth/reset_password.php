@@ -1,10 +1,10 @@
+<!-- filepath: c:\xampp\htdocs\team068-onboarding-project\templates\Auth\reset_password.php -->
 <?php
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User $user
  */
 
-$this->layout = 'login';
 $this->assign('title', 'Reset Password');
 ?>
 
@@ -19,65 +19,75 @@ $this->assign('title', 'Reset Password');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <?= $this->Html->css(['style','login']) ?>
+    <?= $this->Html->css(['style', 'reset_password']) ?>
 </head>
 
 <body>
-    <!-- Heading Banner -->
-    <section id="heading-banner">
-        <header id="heading-inner" class="text-center py-3">
-            <!-- <h1>CrunchyCravings</h1> -->
-            <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
-        </header>
-    </section>
+    <!-- Page Container -->
+    <div class="page-container mx-auto my-5">
+        <!-- Heading Banner -->
+        <section id="heading-banner">
+            <header id="heading-inner" class="text-center py-3">
+                <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
+            </header>
+        </section>
 
-    <div class="container login">
-        <div class="row">
-            <div class="column column-50 column-offset-25">
+        <!-- Reset Password Section -->
+        <section id="reset-password" class="text-center py-5">
+            <div class="container">
+                <h1 class="display-4">Reset Password</h1>
+                <p class="lead">Enter your new password below.</p>
+            </div>
+        </section>
 
-                <div class="users form content">
+        <!-- Reset Password Form Section -->
+        <section id="reset-password-form" class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="users-form-content text-center">
+                            <?= $this->Form->create($user) ?>
+                            <fieldset>
+                                <legend class="mb-4">Reset Your Password</legend>
+                                <?= $this->Flash->render() ?>
+                                <div class="mb-4">
+                                    <?= $this->Form->control('password', [
+                                        'class' => 'form-control mx-auto',
+                                        'label' => ['text' => '<h3 class="text-center">New Password</h3>', 'escape' => false],
+                                        'placeholder' => 'Enter your new password...',
+                                        'type' => 'password',
+                                        'required' => true,
+                                    ]); ?>
+                                </div>
+                                <div class="mb-4">
+                                    <?= $this->Form->control('password_confirm', [
+                                        'class' => 'form-control mx-auto',
+                                        'label' => ['text' => '<h3 class="text-center">Confirm Password</h3>', 'escape' => false],
+                                        'placeholder' => 'Re-enter your new password...',
+                                        'type' => 'password',
+                                        'required' => true,
+                                    ]); ?>
+                                </div>
+                            </fieldset>
+                            <div class="text-center">
+                                <?= $this->Form->button('Reset Password', ['class' => 'btn btn-primary btn-lg']) ?>
+                            </div>
+                            <?= $this->Form->end() ?>
 
-                    <?= $this->Form->create($user) ?>
+                            <hr class="my-4">
 
-                    <fieldset>
-
-                        <legend>Reset Your Password</legend>
-
-                        <?= $this->Flash->render() ?>
-
-                        <?php
-                        echo $this->Form->control('password', [
-                            'type' => 'password',
-                            'label' => 'New Password',
-                            'required' => true,
-                            'autofocus' => true,
-                            'value' => ''
-                        ]);
-                        echo $this->Form->control('password_confirm', [
-                            'type' => 'password',
-                            'label' => 'Repeat New Password',
-                            'required' => true,
-                            'value' => ''
-                        ]);
-                        ?>
-
-                    </fieldset>
-
-                    <?= $this->Form->button('Reset Password') ?>
-                    <?= $this->Form->end() ?>
-
-                    <hr class="hr-between-buttons">
-
-                    <?= $this->Html->link('Back to login', ['controller' => 'Auth', 'action' => 'login'], ['class' => 'button button-outline']) ?>
-
+                            <div class="text-center">
+                                <?= $this->Html->link('Back to login', ['controller' => 'Auth', 'action' => 'login'], ['class' => 'btn btn-link']) ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
-    
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<body>
+</body>
 
 </html>
-

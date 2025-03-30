@@ -1,33 +1,7 @@
-/* Apply custom gutter spacing to all container-fluid elements */
-.container-fluid {
-    --bs-gutter-x: 0; /* Set horizontal gutters to 0 */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-}
-
 /* Apply custom gutter spacing to all row elements */
 .carousel {
     margin-bottom: 0rem !important; /* Set vertical gutters to 0 */
 }
-
-/* Contact button */
-.btn {
-    background-color: var(--icon-color);
-    border-color: var(--icon-color);
-    color: var(--background-color);
-}
-
-/* Hover state for the button */
-.btn:hover {
-    background-color: var(--icon-hover-color);
-    border-color: var(--icon-hover-color);
-    color: var(--text-hover-color);
-}
-
-/* Set the background color for the entire page */
-body {
-    background-color: var(--empty-color);
-}
-
 
 /* Intro Section */
 #intro {
@@ -59,7 +33,6 @@ body {
     border-top: var(--border-width) solid var(--border-color); /* Black border at the top */
     border-bottom: var(--border-width) solid var(--border-color); /* Black border at the bottom */
     padding-top: var(--border-size) !important; /* Add margin to the bottom */
-    
 }
 
 #heading-inner {

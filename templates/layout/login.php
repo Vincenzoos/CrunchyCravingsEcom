@@ -3,6 +3,10 @@
  * Login layout
  *
  * This layout comes with no navigation bar and Flash renderer placeholder. Usually used for login page or similar.
+ * 
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * NOTE: THIS IS NO LONGER USED
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!
  *
  * @var \App\View\AppView $this
  */

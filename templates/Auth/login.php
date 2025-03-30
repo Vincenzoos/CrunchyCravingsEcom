@@ -7,7 +7,6 @@ use Cake\Core\Configure;
 
 $debug = Configure::read('debug');
 
-$this->layout = 'login';
 $this->assign('title', 'Login');
 ?>
 
@@ -19,66 +18,74 @@ $this->assign('title', 'Login');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrunchyCravings</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
     
     <!-- Custom CSS -->
     <?= $this->Html->css(['style','login']) ?>
 </head>
 
 <body>
-    <!-- Heading Banner -->
-    <section id="heading-banner">
-        <header id="heading-inner" class="text-center py-3">
-            <!-- <h1>CrunchyCravings</h1> -->
-            <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
-        </header>
-    </section>
+    <!-- Page Container -->
+    <div class="page-container mx-auto my-5">
+        <!-- Heading Banner -->
+        <section id="heading-banner">
+            <header id="heading-inner" class="text-center py-3">
+                <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
+            </header>
+        </section>
 
-    
-    <div class="container-login">
-        <div class="row">
-            <div class="column column-50 column-offset-25">
-                <div class="users-form-content">
-                    <?= $this->Form->create() ?>
-                    <fieldset>
-                        <legend>Login</legend>
+            <!-- Contact Us Section -->
+            <section id="welcome-back" class="text-center py-5">
+            <div class="container">
+                <h1 class="display-4">Welcome back</h1>
+                <p class="lead">Enter your details below to log in securely.</p>
+            </div>
+        </section>
+        
+        <section id="login-form" class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="users-form-content text-center">
+                            <?= $this->Form->create() ?>
+                            <fieldset>
+                                <?= $this->Flash->render() ?>
+                                <div class="mb-4">
+                                    <?= $this->Form->control('email', [
+                                        'class' => 'form-control mx-auto',
+                                        'label' => ['text' => '<h3 class="text-center">Email</h3>', 'escape' => false],
+                                        'placeholder' => 'Enter your email...',
+                                        'type' => 'email',
+                                        'required' => true,
+                                    ]); ?>
+                                </div>
+                                <div class="mb-4">
+                                    <?= $this->Form->control('password', [
+                                        'class' => 'form-control mx-auto',
+                                        'label' => ['text' => '<h3 class="text-center">Password</h3>', 'escape' => false],
+                                        'placeholder' => 'Enter your password...',
+                                        'type' => 'password',
+                                        'required' => true,
+                                    ]); ?>
+                                </div>
+                            </fieldset>
+                            <div class="text-center">
+                                <?= $this->Form->button('Login', ['class' => 'btn btn-primary btn-lg']) ?>
+                            </div>
+                            <?= $this->Form->end() ?>
 
-                        <?= $this->Flash->render() ?>
+                            <hr class="my-4">
 
-                        <?php
-                        /*
-                        * NOTE: regarding 'value' config in the login page form controls
-                        * In this demo the email and password fields will be filled by demo account
-                        * credentials when debug mode is on. You should NOT do that in your production
-                        * systems. Also it's a good practice to clear (set password value to empty)
-                        * in the view so when an error occurred with form validation, the password
-                        * values are always cleared.
-                        */
-                        echo $this->Form->control('email', [
-                            'type' => 'email',
-                            'required' => true,
-                            'autofocus' => true,
-                            'value' => $debug ? "test@example.com" : "",
-                        ]);
-                        echo $this->Form->control('password', [
-                            'type' => 'password',
-                            'required' => true,
-                            'value' => $debug ? 'password' : '',
-                        ]);
-                        ?>
-                    </fieldset>
-
-                    <?= $this->Form->button('Login') ?>
-                    <?= $this->Html->link('Forgot password?', ['controller' => 'Auth', 'action' => 'forgetPassword'], ['class' => 'button button-outline']) ?>
-                    <?= $this->Form->end() ?>
-
-                    <hr class="hr-between-buttons">
-
-                    <?= $this->Html->link('Register new user', ['controller' => 'Auth', 'action' => 'register'], ['class' => 'button button-clear']) ?>
-                    <?= $this->Html->link('Go to Homepage', '/', ['class' => 'button button-clear']) ?>
+                            <div class="text-center">
+                                <?= $this->Html->link('Forgot password?', ['controller' => 'Auth', 'action' => 'forgetPassword'], ['class' => 'btn btn-link']) ?>
+                                <?= $this->Html->link('Register new user', ['controller' => 'Auth', 'action' => 'register'], ['class' => 'btn btn-link']) ?>
+                                <?= $this->Html->link('Go to Homepage', '/', ['class' => 'btn btn-link']) ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 
     <!-- Bootstrap JS -->

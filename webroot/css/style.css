@@ -3,7 +3,6 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Mediga', sans-serif;
     font-weight: 400;
     font-style: normal;
-    text-transform: normal;
 }
 
 body, button, .btn {
@@ -11,5 +10,57 @@ body, button, .btn {
     /* font-family: 'Mediga', sans-serif; */
     font-weight: 300;
     font-style: normal;
-    text-transform: none;
+}
+
+/* Common page styling ------------------------ */
+
+/* Apply custom gutter spacing to all container-fluid elements */
+.container-fluid {
+    --bs-gutter-x: 0; /* Set horizontal gutters to 0 */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Set the background color for the entire page */
+body {
+    background-color: var(--empty-color);
+}
+
+/* Page Container */
+.page-container {
+    background-color: var(--empty-color);
+    padding: 0 !important; /* Remove default padding */
+    margin: 0 !important; /* Remove default margin */
+}
+
+
+/* Common button and link styling ------------------------ */
+
+/* Normal state for buttons */
+.btn-primary {
+    background-color: var(--icon-color) !important;
+    border-color: var(--icon-color) !important;
+    color: var(--background-color) !important;
+    font-size: 1.25rem;
+}
+/* Normal state for links */
+.btn-link {
+    color: var(--icon-color) !important;
+}
+ 
+/* Hover and Active State for Buttons and links */
+.btn-link:hover,
+.btn-link:active,
+.btn-primary:hover,
+.btn-primary:active {
+    background-color: var(--icon-hover-color) !important;
+    border-color: var(--icon-hover-color) !important;
+    color: var(--text-hover-color) !important;
+    text-decoration: none; /* Prevent underline */
+}
+
+/* Focus State for Buttons and links*/
+.btn-link:focus,
+.btn-primary:focus {
+    color: #FFF !important; /* White text color on focus */;
+    box-shadow: 0 0.5rem 0.5rem  rgba(0, 0, 0, 0.2) !important; /* Add focus shadow */
 }

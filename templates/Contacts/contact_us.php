@@ -15,8 +15,7 @@ $this->assign('title', 'Contact Us');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrunchyCravings</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <?= $this->Html->script('/vendor/bootstrap/js/bootstrap.bundle.min.js') ?> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
     <!-- Custom CSS -->
     <?= $this->Html->css(['style', 'contact_us']) ?>
     <!-- Recaptcha -->
@@ -30,7 +29,6 @@ $this->assign('title', 'Contact Us');
     <!-- Heading Banner -->
     <section id="heading-banner">
         <header id="heading-inner" class="text-center py-3">
-            <!-- <h1>CrunchyCravings</h1> -->
             <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
         </header>
     </section>
@@ -107,6 +105,9 @@ $this->assign('title', 'Contact Us');
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="text-center mt-4">
+            <?= $this->Html->link('Go to Homepage', '/', ['class' => 'btn btn-link']) ?>
         </div>
     </section>
 

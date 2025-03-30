@@ -14,7 +14,6 @@
  * @var \App\View\AppView $this
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,28 +27,13 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <meta name="author" content="">
     <link rel="icon" type="image/png" href="<?= $this->Url->image('logo.png') ?>">
     <title><?= $this->fetch('title') ?> - CrunchyCravings</title>
-
-    <!-- Custom fonts for this template-->
-    <!-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> -->
-<!--    --><?php //= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css']) ?>
-<!--    <link-->
-<!--        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"-->
-<!--        rel="stylesheet">-->
-<!--    --><?php //= $this->Html->css('fonts') ?>
-<!---->
-    <!-- Custom styles for this template-->
-<!--    --><?php //= $this->Html->css('style') ?>
-<!--    --><?php //= $this->Html->css('default.css') ?>
-<!---->
-<!--    --><?php //= $this->fetch('meta') ?>
-<!--    --><?php //= $this->fetch('css') ?>
-<!--    --><?php //= $this->fetch('script') ?>
-<!---->
-<!--    --><?php //= $this->Html->script('/vendor/jquery/jquery.min.js') ?>
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
-<!--    --><?php //= $this->Html->script('/vendor/bootstrap/js/bootstrap.bundle.min.js') ?>
-
-    <?= $this->Html->css('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css') ?>
+    
+    
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css', 'style', 'default.css']) ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
@@ -57,6 +41,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
 <body id="page-top">
 
+    <!-- Sidebar Toggle Button -->
+    <button id="sidebarToggle" class="btn btn-primary sidebar-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+    
     <!-- Sidebar -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
         <div class="offcanvas-header">
@@ -65,64 +54,57 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
         <div class="offcanvas-body">
             <ul class="list-group">
-<!--                <a href="#User" class="list-group-item">User</a>-->
                 <!-- If user is not log in, show in sidebar as login button                 -->
                 <?php if (!$this->Identity->isLoggedIn()) : ?>
                     <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page'])?>" class="list-group-item">Home page</a>
-                    <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'login']) ?>" class="list-group-item">Log in</a>
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs'])?>" class="list-group-item">Contact us</a>
-                <!-- Else, show in sidebar as logout button                 -->
+                    <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'login']) ?>" class="list-group-item">Log in</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'resetPassword']) ?>" class="list-group-item">Reset Password</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword']) ?>" class="list-group-item">Change Password</a>
+                <!-- Else, show in sidebar as logout button -->
                 <?php endif; ?>
                 <?php if ($this->Identity->isLoggedIn()) : ?>
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>" class="list-group-item">Logout</a>
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Contacts</a>
                 <?php endif; ?>
-                <a href="#Options" class="list-group-item">Options</a>
-                <a href="#Orders" class="list-group-item">Orders</a>
-
+                
+                <!-- Options dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle list-group-item" type="button" id="optionsDropdown" data-bs-toggle="dropdown" aria-expanded="true">
+                        Options
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="optionsDropdown">
+                        <li class="dropdown-item">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="accessibility-mode">
+                                <label class="form-check-label" for="accessibility-mode">
+                                    Enable Accessibility Mode
+                                </label>
+                                <p class="small text mt-1">Switch to a more accessible color scheme for better readability.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </ul>
         </div>
     </div>
 
-    <!-- Sidebar Toggle Button -->
-    <button id="sidebarToggle" class="btn btn-primary sidebar-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    <?= $this->Flash->render() ?>
-                    <?= $this->fetch('content') ?>
-                </div>
-                <!-- /.container-fluid -->
-
+    <div id="wrapper" class="d-flex flex-column min-vh-100">
+        <!-- Main Content -->
+        <div id="content" class="flex-grow-1">
+            <div class="container-fluid">
+                <?= $this->Flash->render() ?>
+                <?= $this->fetch('content') ?>
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <!-- <div class="container my-auto"> -->
-                    <div class="copyright text-center my-auto" id="footer">
-                        <span>Copyright &copy; CrunchyCravings <?= date('Y') ?></span>
-                    </div>
-                <!-- </div> -->
-            </footer>
-            <!-- End of Footer -->
-
         </div>
-        <!-- End of Content Wrapper -->
 
+        <!-- Footer -->
+        <footer class="footer" id="footer">
+            <div class="copyright">
+                <span>Copyright &copy; CrunchyCravings <?= date('Y') ?></span>
+            </div>
+        </footer>
     </div>
-    <!-- End of Page Wrapper -->
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -144,24 +126,75 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
     </div>
 
+    <!-- Script to handle sidebar toggle and accessibility mode -->
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const sidebar = document.getElementById('sidebar');
-        const toggleButton = document.getElementById('sidebarToggle');
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('sidebar');
+            const toggleButton = document.getElementById('sidebarToggle');
 
-        // Hide the toggle button when the sidebar is shown
-        sidebar.addEventListener('show.bs.offcanvas', function () {
-            toggleButton.style.display = 'none';
-            document.body.classList.add('no-scroll'); // Add class to disable scrolling
-        });
+            // Hide the toggle button when the sidebar is shown
+            sidebar.addEventListener('show.bs.offcanvas', function () {
+                toggleButton.style.display = 'none';
+                document.body.classList.add('no-scroll'); // Add class to disable scrolling
 
-        // Show the toggle button when the sidebar is hidden
-        sidebar.addEventListener('hidden.bs.offcanvas', function () {
-            toggleButton.style.display = 'block';
-            document.body.classList.remove('no-scroll'); // Remove class to enable scrolling
+                // Remove any existing backdrops
+                const existingBackdrops = document.querySelectorAll('.offcanvas-backdrop');
+                existingBackdrops.forEach(backdrop => backdrop.remove());
+            });
+
+            // Show the toggle button when the sidebar is hidden
+            sidebar.addEventListener('hidden.bs.offcanvas', function () {
+                toggleButton.style.display = 'block';
+                document.body.classList.remove('no-scroll'); // Remove class to enable scrolling
+            });
         });
-    });
-</script>
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const accessibilityCheckbox = document.getElementById('accessibility-mode');
+
+            // Function to apply accessibility mode
+            function applyAccessibilityMode(isEnabled) {
+                if (isEnabled) {
+                    document.documentElement.style.setProperty('--sidebar-text-color', 'var(--accesible-sidebar-text-color)');
+                    document.documentElement.style.setProperty('--sidebar-bg-color', 'var(--accesible-sidebar-bg-color)');
+                    document.documentElement.style.setProperty('--sidebar-hover-color', 'var(--accesible-sidebar-hover-color)');
+                    document.documentElement.style.setProperty('--border-color', 'var(--accessible-border-color)');
+                    document.documentElement.style.setProperty('--background-color', 'var(--accessible-background-color)');
+                    document.documentElement.style.setProperty('--text-color', 'var(--accessible-text-color)');
+                    document.documentElement.style.setProperty('--empty-color', 'var(--accessible-empty-color)');
+                    document.documentElement.style.setProperty('--icon-color', 'var(--accessible-icon-color)');
+                    document.documentElement.style.setProperty('--icon-hover-color', 'var(--accessible-icon-hover-color)');
+                } else {
+                    document.documentElement.style.setProperty('--sidebar-text-color', 'var(--default-sidebar-text-color)');
+                    document.documentElement.style.setProperty('--sidebar-bg-color', 'var(--default-sidebar-bg-color)');
+                    document.documentElement.style.setProperty('--sidebar-hover-color', 'var(--default-sidebar-hover-color)');
+                    document.documentElement.style.setProperty('--border-color', 'var(--default-border-color)');
+                    document.documentElement.style.setProperty('--background-color', 'var(--default-background-color)');
+                    document.documentElement.style.setProperty('--text-color', 'var(--default-text-color)');
+                    document.documentElement.style.setProperty('--empty-color', 'var(--default-empty-color)');
+                    document.documentElement.style.setProperty('--icon-color', 'var(--default-icon-color)');
+                    document.documentElement.style.setProperty('--icon-hover-color', 'var(--default-icon-hover-color)');
+                }
+            }
+
+            // Load the saved accessibility setting from localStorage
+            const savedAccessibilitySetting = localStorage.getItem('accessibility-mode');
+            if (savedAccessibilitySetting === 'true') {
+                accessibilityCheckbox.checked = true;
+                applyAccessibilityMode(true);
+            }
+
+            // Listen for changes to the checkbox
+            accessibilityCheckbox.addEventListener('change', function () {
+                const isEnabled = this.checked;
+                applyAccessibilityMode(isEnabled);
+
+                // Save the setting to localStorage
+                localStorage.setItem('accessibility-mode', isEnabled);
+            });
+        });
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') ?>
