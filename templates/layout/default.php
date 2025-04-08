@@ -28,13 +28,13 @@
     <meta name="author" content="">
     <link rel="icon" type="image/png" href="<?= $this->Url->image('logo.png') ?>">
     <title><?= $this->fetch('title') ?> - CrunchyCravings</title>
-    
-    
+
+
     <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Include Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css', 'style', 'default.css']) ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
@@ -46,7 +46,7 @@
     <button id="sidebarToggle" class="btn btn-primary sidebar-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
         <i class="fas fa-bars"></i>
     </button>
-    
+
     <!-- Sidebar -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
         <div class="offcanvas-header">
@@ -60,17 +60,14 @@
                     <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page'])?>" class="list-group-item">Home page</a>
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs'])?>" class="list-group-item">Contact us</a>
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'login']) ?>" class="list-group-item">Log in</a>
-                    <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'resetPassword']) ?>" class="list-group-item">Reset Password</a>
-                    <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword']) ?>" class="list-group-item">Change Password</a>
                 <!-- Else, show in sidebar as logout button -->
                 <?php endif; ?>
                 <?php if ($this->Identity->isLoggedIn()) : ?>
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>" class="list-group-item">Logout</a>
-                    <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'resetPassword', $this->Identity->get('id')]) ?>" class="list-group-item">Reset Password</a>
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>" class="list-group-item">Change Password</a>
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Contacts</a>
                 <?php endif; ?>
-                
+
                 <!-- Options dropdown -->
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle list-group-item" type="button" id="optionsDropdown" data-bs-toggle="dropdown" aria-expanded="true">
