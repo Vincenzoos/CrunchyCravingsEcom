@@ -176,7 +176,7 @@ class AuthController extends AppController
             if ($this->Users->save($user)) {
                 $this->Flash->success('The user has been saved.');
 
-                return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+                return $this->redirect(['controller' => 'Contacts', 'action' => 'index']);
             }
             $this->Flash->error('The user could not be saved. Please, try again.');
         }
