@@ -79,7 +79,7 @@ $this->assign('title', 'Change Password');
                             <hr class="my-4">
 
                             <div class="text-center">
-                                <?= $this->Html->link('Back to Profile', ['controller' => 'Users', 'action' => 'profile'], ['class' => 'btn btn-link']) ?>
+                                <?= $this->Html->link('Back to Dashboard', ['controller' => 'Contacts', 'action' => 'index'], ['class' => 'btn btn-link']) ?>
                             </div>
                         </div>
                     </div>
