@@ -17,7 +17,7 @@ $this->assign('title', 'Change Password');
     <title>CrunchyCravings</title>
     <!-- Bootstrap CSS -->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-    
+
     <!-- Custom CSS -->
     <?= $this->Html->css(['style', 'change_password']) ?>
 </head>
@@ -47,6 +47,8 @@ $this->assign('title', 'Change Password');
                     <div class="col-md-8">
                         <div class="users-form-content text-center">
                             <?= $this->Form->create($user) ?>
+                            <!--  Set password to none prevent current hashed_password to get pre-populated into the password field by CakePHP Form helper -->
+                            <?= $user->password = ''; ?>
                             <fieldset>
                                 <h1 class="mb-4">Update Your Password</h1>
                                 <?= $this->Flash->render() ?>
