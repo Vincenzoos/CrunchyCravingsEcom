@@ -14,7 +14,7 @@ Reset your account password
 
 Hi <?= h($first_name) ?>,
 
-Thank you for your request to reset the password of your account on Cake CMS/Auth Sample.
+Thank you for your request to reset the password of your account on CrunchyCravings.
 
 To reset your account password, use the button below to access the reset password page:
 <?= $this->Url->build(['controller' => 'Auth', 'action' => 'resetPassword', $nonce], ['fullBase' => true]) ?>
