@@ -66,6 +66,9 @@
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>" class="list-group-item">Logout</a>
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>" class="list-group-item">Change Password</a>
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Contacts</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index'])?>" class="list-group-item">Products</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Inventories', 'action' => 'index'])?>" class="list-group-item">Inventory</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index'])?>" class="list-group-item">Product Category</a>
                 <?php endif; ?>
 
                 <!-- Options dropdown -->
