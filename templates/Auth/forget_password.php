@@ -18,7 +18,7 @@ $this->assign('title', 'Forgot Password');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <?= $this->Html->css(['style', 'forget_password']) ?>
+    <?= $this->Html->css(['custom', 'forget_password']) ?>
 </head>
 
 <body>

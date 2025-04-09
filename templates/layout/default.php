@@ -35,7 +35,7 @@
     <!-- Include Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css', 'style', 'default.css']) ?>
+    <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css', 'custom', 'default.css']) ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
@@ -60,15 +60,13 @@
                     <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page'])?>" class="list-group-item">Home page</a>
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs'])?>" class="list-group-item">Contact us</a>
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'login']) ?>" class="list-group-item">Log in</a>
-                <!-- Else, show in sidebar as logout button -->
-                <?php endif; ?>
-                <?php if ($this->Identity->isLoggedIn()) : ?>
-                    <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>" class="list-group-item">Logout</a>
-                    <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>" class="list-group-item">Change Password</a>
-                    <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Contacts</a>
-                    <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index'])?>" class="list-group-item">Products</a>
-                    <a href="<?= $this->Url->build(['controller' => 'Inventories', 'action' => 'index'])?>" class="list-group-item">Inventory</a>
-                    <a href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index'])?>" class="list-group-item">Product Category</a>
+                    <!-- Else, show in sidebar as logout button -->
+                    <?php endif; ?>
+                    <?php if ($this->Identity->isLoggedIn()) : ?>
+                        <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>" class="list-group-item">Logout</a>
+                        <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>" class="list-group-item">Change Password</a>
+                        <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Contacts</a>
+                        <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>" class="list-group-item">Products</a>
                 <?php endif; ?>
 
                 <!-- Options dropdown -->

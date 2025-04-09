@@ -19,7 +19,7 @@ $this->assign('title', 'Change Password');
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 
     <!-- Custom CSS -->
-    <?= $this->Html->css(['style', 'change_password']) ?>
+    <?= $this->Html->css(['custom', 'change_password']) ?>
 </head>
 
 <body>

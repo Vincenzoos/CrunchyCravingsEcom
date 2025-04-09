@@ -23,6 +23,7 @@ SET time_zone = "+00:00";
 
 -- Used here for quick schema import, to be removed when finalized
 DROP TABLE IF EXISTS categories_products;
+DROP TABLE IF EXISTS inventories;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS contacts;
@@ -73,6 +74,26 @@ INSERT INTO categories_products (category_id, product_id) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `inventories`
+--
+CREATE TABLE inventories (
+     `id` INT(11) NOT NULL,
+     `product_id` INT(11) NOT NULL,
+     `total_quantity` INT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `inventories`
+--
+INSERT INTO inventories (id, product_id, total_quantity) VALUES
+(1, 1, 150),
+(2, 2, 100),
+(3, 3, 30);
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `contacts`
 --
 
@@ -107,11 +128,9 @@ INSERT INTO `contacts` (`id`, `first_name`, `last_name`, `email`, `phone_number`
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL,
+  `description` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `image` varchar(500) DEFAULT NULL,
-  `quantity` int(11) DEFAULT 0
-
+  `image` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -119,9 +138,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO products (id, name, description, price) VALUES
-(1, 'Lavosh Signature Crackers', 'Crunchy and savory, our Lavosh Signature Crackers are perfect as a standalone snack or paired with your favorite wine.', 9.99),
-(2, 'Lavosh Artisan Flatbread', 'Experience the delicate taste of our Lavosh Artisan Flatbread, ideal for creating a gourmet morning meal.', 7.49),
-(3, 'Lavosh Deluxe Hamper', 'Our Lavosh Deluxe Hamper offers a curated selection including premium lavosh crackers, flatbread, fine wine, and gourmet treats – the perfect gift of choice.', 49.99);
+(1, 'Lavosh Signature Crackers', 'Crunchy and savory, our Lavosh Signature Crackers are perfect as a standalone snack or paired with your favorite wine.', 9.99, "default-product.jpg"),
+(2, 'Lavosh Artisan Flatbread', 'Experience the delicate taste of our Lavosh Artisan Flatbread, ideal for creating a gourmet morning meal.', 7.49, "default-product.jpg"),
+(3, 'Lavosh Deluxe Hamper', 'Our Lavosh Deluxe Hamper offers a curated selection including premium lavosh crackers, flatbread, fine wine, and gourmet treats – the perfect gift of choice.', 49.99, "default-product.jpg");
 
 -- --------------------------------------------------------
 
@@ -164,6 +183,19 @@ ALTER TABLE `categories`
 ALTER TABLE `products`
     ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unq_product_name` (`name`);
+
+--
+-- Indexes for table `inventories`
+--
+ALTER TABLE inventories
+    ADD CONSTRAINT pk_inventories PRIMARY KEY (id);
+
+
+ALTER TABLE inventories
+    ADD CONSTRAINT fk_inventories_product
+        FOREIGN KEY (product_id) REFERENCES products(id)
+            ON DELETE CASCADE;
+
 
 --
 -- Indexes for table `contacts`

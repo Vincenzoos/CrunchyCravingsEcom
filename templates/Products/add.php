@@ -22,7 +22,10 @@
                     echo $this->Form->control('description');
                     echo $this->Form->control('price');
                     echo $this->Form->control('image');
+<<<<<<< HEAD
                     echo $this->Form->control('quantity');
+=======
+>>>>>>> be681ce (feat: Products page and indivitual products page added with modified boostrap template code, feat #2 AJAX query based product filtering)
                     echo $this->Form->control('categories._ids', ['options' => $categories]);
                 ?>
             </fieldset>

@@ -44,7 +44,6 @@
                             <th><?= __('Description') ?></th>
                             <th><?= __('Price') ?></th>
                             <th><?= __('Image') ?></th>
-                            <th><?= __('Quantity') ?></th>
                             <th class="actions"><?= __('Actions') ?></th>
                         </tr>
                         <?php foreach ($category->products as $product) : ?>
@@ -54,7 +53,6 @@
                             <td><?= h($product->description) ?></td>
                             <td><?= h($product->price) ?></td>
                             <td><?= h($product->image) ?></td>
-                            <td><?= h($product->quantity) ?></td>
                             <td class="actions">
                                 <?= $this->Html->link(__('View'), ['controller' => 'Products', 'action' => 'view', $product->id]) ?>
                                 <?= $this->Html->link(__('Edit'), ['controller' => 'Products', 'action' => 'edit', $product->id]) ?>
