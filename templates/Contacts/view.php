@@ -13,7 +13,7 @@
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 
     <!-- Custom CSS -->
-    <?= $this->Html->css(['style', 'table','contact_us']) ?>
+    <?= $this->Html->css(['custom', 'table','contact_us']) ?>
 </head>
 
 <body>

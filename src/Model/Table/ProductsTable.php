@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Products Model
  *
+ * @property \App\Model\Table\InventoriesTable&\Cake\ORM\Association\HasMany $Inventories
  * @property \App\Model\Table\CategoriesTable&\Cake\ORM\Association\BelongsToMany $Categories
  *
  * @method \App\Model\Entity\Product newEmptyEntity()
@@ -43,6 +44,9 @@ class ProductsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->hasMany('Inventories', [
+            'foreignKey' => 'product_id',
+        ]);
         $this->belongsToMany('Categories', [
             'foreignKey' => 'product_id',
             'targetForeignKey' => 'category_id',
@@ -78,10 +82,6 @@ class ProductsTable extends Table
             ->scalar('image')
             ->maxLength('image', 500)
             ->allowEmptyFile('image');
-
-        $validator
-            ->integer('quantity')
-            ->allowEmptyString('quantity');
 
         return $validator;
     }
