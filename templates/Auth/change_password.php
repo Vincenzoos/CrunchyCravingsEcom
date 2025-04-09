@@ -28,7 +28,7 @@ $this->assign('title', 'Change Password');
         <!-- Heading Banner -->
         <section id="heading-banner">
             <header id="heading-inner" class="text-center py-3">
-                <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
+                <?= $this->Html->image('cc_logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
             </header>
         </section>
 

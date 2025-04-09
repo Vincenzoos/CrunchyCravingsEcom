@@ -21,7 +21,7 @@ $this->assign('title', 'Contact Us');
     <!-- Recaptcha -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-    
+
 
 </head>
 
@@ -29,7 +29,7 @@ $this->assign('title', 'Contact Us');
     <!-- Heading Banner -->
     <section id="heading-banner">
         <header id="heading-inner" class="text-center py-3">
-            <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
+            <?= $this->Html->image('cc_logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
         </header>
     </section>
 
