@@ -103,7 +103,7 @@
                 </div>
             </div>
             <div class="text-center mt-4 py-3">
-                <?= $this->Html->link('Go to Homepage', '/', ['class' => 'btn btn-primary']) ?>
+                <?= $this->Html->link('Back to Dashboard', '#', ['class' => 'btn btn-link']) ?>
             </div>
 
         </div>

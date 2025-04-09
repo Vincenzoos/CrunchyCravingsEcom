@@ -75,6 +75,8 @@
                             </div>
                         </div>
                         <div class="text-center mt-4">
+                            <?= $this->Html->link('Email', 'mailto:' . h($contact->email), ['class' => 'btn btn-dark']) ?>
+                            <?= $this->Html->link('Update Reply Status', ['action'=>'updateReplyStatus', $contact->id], ['class' => 'btn btn-info']) ?>
                             <?= $this->Html->link('Edit Contact', ['action' => 'edit', $contact->id], ['class' => 'btn btn-warning']) ?>
                             <?= $this->Form->postLink('Delete Contact', ['action' => 'delete', $contact->id], [
                                 'confirm' => __('Are you sure you want to delete this contact: {0} ({1})?', $contact->full_name, $contact->email),
@@ -89,6 +91,9 @@
                 </div>
             </div>
         </section>
+        <div class="text-center mt-4">
+            <?= $this->Html->link('Back to Dashboard', '#', ['class' => 'btn btn-link']) ?>
+        </div>
     </div>
 
     <!-- Bootstrap JS -->
