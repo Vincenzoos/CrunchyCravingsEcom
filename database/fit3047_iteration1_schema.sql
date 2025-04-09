@@ -188,6 +188,10 @@ ALTER TABLE `products`
 -- Indexes for table `inventories`
 --
 ALTER TABLE inventories
+    ADD CONSTRAINT pk_inventories PRIMARY KEY (id);
+
+
+ALTER TABLE inventories
     ADD CONSTRAINT fk_inventories_product
         FOREIGN KEY (product_id) REFERENCES products(id)
             ON DELETE CASCADE;
