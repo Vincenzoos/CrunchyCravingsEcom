@@ -32,7 +32,7 @@ class ProductsController extends AppController
      */
     public function view($id = null)
     {
-        $product = $this->Products->get($id, contain: ['Categories', 'Inventories']);
+        $product = $this->Products->get($id, contain: ['Categories']);
         $this->set(compact('product'));
     }
 

@@ -34,6 +34,10 @@
                     <th><?= __('Price') ?></th>
                     <td><?= $this->Number->format($product->price) ?></td>
                 </tr>
+                <tr>
+                    <th><?= __('Quantity') ?></th>
+                    <td><?= $product->quantity === null ? '' : $this->Number->format($product->quantity) ?></td>
+                </tr>
             </table>
             <div class="text">
                 <strong><?= __('Description') ?></strong>
@@ -66,40 +70,6 @@
                                     [
                                         'method' => 'delete',
                                         'confirm' => __('Are you sure you want to delete # {0}?', $category->id),
-                                    ]
-                                ) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
-                <?php endif; ?>
-            </div>
-            <div class="related">
-                <h4><?= __('Related Inventories') ?></h4>
-                <?php if (!empty($product->inventories)) : ?>
-                <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Product Id') ?></th>
-                            <th><?= __('Total Quantity') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($product->inventories as $inventory) : ?>
-                        <tr>
-                            <td><?= h($inventory->id) ?></td>
-                            <td><?= h($inventory->product_id) ?></td>
-                            <td><?= h($inventory->total_quantity) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Inventories', 'action' => 'view', $inventory->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Inventories', 'action' => 'edit', $inventory->id]) ?>
-                                <?= $this->Form->postLink(
-                                    __('Delete'),
-                                    ['controller' => 'Inventories', 'action' => 'delete', $inventory->id],
-                                    [
-                                        'method' => 'delete',
-                                        'confirm' => __('Are you sure you want to delete # {0}?', $inventory->id),
                                     ]
                                 ) ?>
                             </td>

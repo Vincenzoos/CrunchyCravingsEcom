@@ -22,6 +22,7 @@
                     echo $this->Form->control('description');
                     echo $this->Form->control('price');
                     echo $this->Form->control('image');
+                    echo $this->Form->control('quantity');
                     echo $this->Form->control('categories._ids', ['options' => $categories]);
                 ?>
             </fieldset>
