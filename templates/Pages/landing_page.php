@@ -37,7 +37,7 @@ $this->assign('title', 'Home');
     <section id="heading-banner">
         <header id="heading-inner" class="text-center py-3">
             <!-- <h1>CrunchyCravings</h1> -->
-            <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
+            <?= $this->Html->image('cc_logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
         </header>
     </section>
 
@@ -49,7 +49,7 @@ $this->assign('title', 'Home');
     <!-- Intro Section -->
     <div id="intro" class="d-flex align-items-center justify-content-center" onclick="fadeToLandingPage()">
         <div class="text-center">
-            <?= $this->Html->image('CC Logo.png', ['class' => 'img-fluid mb-4', 'alt' => 'CrunchyCravings Logo']) ?>
+            <?= $this->Html->image('cc_logo.png', ['class' => 'img-fluid mb-4', 'alt' => 'CrunchyCravings Logo']) ?>
             <h3>Click anywhere to explore</h3>
         </div>
     </div>
