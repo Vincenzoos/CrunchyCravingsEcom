@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 /**
  * @var \App\View\AppView $this
@@ -56,13 +55,12 @@
         <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
     </div>
 </div>
-=======
 <!doctype html>
 <!--
 **********************************************************************************************************
-    Copyright (c) 2024 Webstrot Technology 
+    Copyright (c) 2024 Webstrot Technology
 ********************************************************************************************************** -->
-<!-- 
+<!--
 Template Name: Luxury Shop Ecommerce HTML Template
 Version: 1.0.0
 Author: webstrot
@@ -477,11 +475,11 @@ Purchase: http://themeforest.net/user/webstrot  -->
                                 <div class="category-checkboxes">
                                     <?php foreach ($categories as $category): ?>
                                         <div class="form-check">
-                                            <input 
-                                                class="form-check-input" 
-                                                type="checkbox" 
-                                                name="categories[]" 
-                                                value="<?= h($category->id) ?>" 
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                name="categories[]"
+                                                value="<?= h($category->id) ?>"
                                                 id="category-<?= h($category->id) ?>">
                                             <label class="form-check-label" for="category-<?= h($category->id) ?>">
                                                 <?= h($category->name) ?>
@@ -1164,4 +1162,3 @@ Purchase: http://themeforest.net/user/webstrot  -->
 </body>
 
 </html>
->>>>>>> be681ce (feat: Products page and indivitual products page added with modified boostrap template code, feat #2 AJAX query based product filtering)

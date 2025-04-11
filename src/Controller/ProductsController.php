@@ -23,19 +23,19 @@ class ProductsController extends AppController
         $categories = $this->request->getQuery('categories', []);
         $minPrice = $this->request->getQuery('min_price', 0);
         $maxPrice = $this->request->getQuery('max_price', 1000);
-    
+
         // Debug the received parameters
         debug($categories);
         debug($minPrice);
         debug($maxPrice);
-    
+
         // Build the query
         $query = $this->Products->find();
-    
+
         if (!empty($categories)) {
             $query->where(['category_id IN' => $categories]);
         }
-    
+
         $query->where([
             'price >=' => $minPrice,
             'price <=' => $maxPrice
@@ -48,14 +48,14 @@ class ProductsController extends AppController
             // $this->viewBuilder()->setLayout(""); // Disable layout for AJAX
             return $this->render('ajax_products'); // Render a partial view for AJAX
         }
-        
+
         // Fetch all categories using the association
         $categories = $this->Products->Categories->find('all')->all();
 
         // Fetch products
         $query = $this->Products->find();
         $products = $this->paginate($query);
-    
+
         // Pass variables to the view
         $this->set(compact('categories', 'products'));
     }
@@ -69,7 +69,7 @@ class ProductsController extends AppController
      */
     public function view($id = null)
     {
-        $product = $this->Products->get($id, contain: ['Categories', 'Inventories']);
+        $product = $this->Products->get($id, contain: ['Categories']);
         $this->set(compact('product'));
     }
 

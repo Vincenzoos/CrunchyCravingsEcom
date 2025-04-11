@@ -23,7 +23,6 @@ SET time_zone = "+00:00";
 
 -- Used here for quick schema import, to be removed when finalized
 DROP TABLE IF EXISTS categories_products;
-DROP TABLE IF EXISTS inventories;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS contacts;
@@ -58,6 +57,7 @@ INSERT INTO categories (id, name) VALUES
 --
 
 CREATE TABLE `categories_products` (
+  `id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -65,31 +65,13 @@ CREATE TABLE `categories_products` (
 --
 -- Dumping data for table `categories_products`
 --
-INSERT INTO categories_products (category_id, product_id) VALUES
-(1, 1),
-(2, 2),
-(3, 3);
+INSERT INTO categories_products (id, category_id, product_id) VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3);
 
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `inventories`
---
-CREATE TABLE inventories (
-     `id` INT(11) NOT NULL,
-     `product_id` INT(11) NOT NULL,
-     `total_quantity` INT NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `inventories`
---
-INSERT INTO inventories (id, product_id, total_quantity) VALUES
-(1, 1, 150),
-(2, 2, 100),
-(3, 3, 30);
-
 
 -- --------------------------------------------------------
 
@@ -128,16 +110,17 @@ INSERT INTO `contacts` (`id`, `first_name`, `last_name`, `email`, `phone_number`
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `description` text NOT NULL,
+  `description` text DEFAULT NULL,
   `price` decimal(10,2) NOT NULL,
-  `image` varchar(500) NOT NULL
+  `image` varchar(500) DEFAULT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO products (id, name, description, price) VALUES
+INSERT INTO products (id, name, description, price, image) VALUES
 (1, 'Lavosh Signature Crackers', 'Crunchy and savory, our Lavosh Signature Crackers are perfect as a standalone snack or paired with your favorite wine.', 9.99, "default-product.jpg"),
 (2, 'Lavosh Artisan Flatbread', 'Experience the delicate taste of our Lavosh Artisan Flatbread, ideal for creating a gourmet morning meal.', 7.49, "default-product.jpg"),
 (3, 'Lavosh Deluxe Hamper', 'Our Lavosh Deluxe Hamper offers a curated selection including premium lavosh crackers, flatbread, fine wine, and gourmet treats – the perfect gift of choice.', 49.99, "default-product.jpg");
@@ -185,19 +168,6 @@ ALTER TABLE `products`
   ADD UNIQUE KEY `unq_product_name` (`name`);
 
 --
--- Indexes for table `inventories`
---
-ALTER TABLE inventories
-    ADD CONSTRAINT pk_inventories PRIMARY KEY (id);
-
-
-ALTER TABLE inventories
-    ADD CONSTRAINT fk_inventories_product
-        FOREIGN KEY (product_id) REFERENCES products(id)
-            ON DELETE CASCADE;
-
-
---
 -- Indexes for table `contacts`
 --
 ALTER TABLE `contacts`
@@ -214,7 +184,7 @@ ALTER TABLE `users`
 -- Indexes for table `categories_products`
 --
 ALTER TABLE categories_products
-    ADD CONSTRAINT pk_categories_products PRIMARY KEY (category_id, product_id);
+    ADD PRIMARY KEY (`id`);
 
 ALTER TABLE categories_products
     ADD CONSTRAINT fk_categories_products_category
@@ -248,6 +218,12 @@ ALTER TABLE `contacts`
 --
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `categories_products`
+--
+ALTER TABLE `categories_products`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
