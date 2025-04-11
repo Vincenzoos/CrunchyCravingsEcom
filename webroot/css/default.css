@@ -1,18 +1,19 @@
 :root {
     /* Default Colour settings */
-    --default-sidebar-text-color: #dd3e46; /* Text color */
-    --default-sidebar-bg-color: rgba(71, 0, 15, 0.2); /* Background color */
-    --default-sidebar-hover-color: rgba(161, 29, 29, 0.2); /* Hover color */
+    --default-sidebar-text-color: #dbdbdb; /* Text color */
+    --default-sidebar-bg-color: rgba(70, 70, 70, 0.2); /* Background color */
+    --default-sidebar-hover-color: rgba(168, 168, 168, 0.2); /* Hover color */
     --sidebar-blur: 10px; /* Sidebar blur effect */
+    --sidebar-font-family: "Playfair Display", serif; /* Font family for sidebar */
 
     --border-width: 1.5px; /* Border line width */
     --border-size: 0.3rem; /* Border size */
-    --default-border-color: #640015; /* Border color */
-    --default-background-color: #640015;
-    --default-text-color: #dd3e46; /* Text color */
+    --default-border-color: #884251; /* Border color */
+    --default-background-color: #f9f9f9;
+    --default-text-color: #6e6e6e; /* Text color */
     --default-empty-color: #dd3e46;
-    --default-icon-color: #dbcc42; /* Icon color */
-    --default-icon-hover-color: #e6d32a; /* Icon color */
+    --default-icon-color: #dd3e46; /* Icon color */
+    --default-icon-hover-color: #f1323b; /* Icon color */
     
     /* Accesibility versions of all colours */
     --accesible-sidebar-text-color: #008cff; /* Accessible text color */
@@ -68,24 +69,28 @@
     backdrop-filter: blur(var(--sidebar-blur)); /* Apply blur effect */
     -webkit-backdrop-filter: blur(var(--sidebar-blur)); /* For Safari support */
     color: var(--sidebar-text-color); /* Set text color */
+    font-family: var(--sidebar-font-family); /* Set font family */
 }
 
 /* Sidebar Header */
 #sidebar .offcanvas-header {
     background-color: var(--sidebar-bg-color); /* Slightly darker background for the header */
     color: var(--sidebar-text-color); /* Set text color */
+    font-family: var(--sidebar-font-family) !important; /* Set font family */
 }
 
 /* Sidebar Body */
 #sidebar .offcanvas-body {
     background-color: var(--sidebar-bg-color); /* Match the sidebar background */
     color: var(--sidebar-text-color); /* Set text color */
+    font-family: var(--sidebar-font-family); /* Set font family */
 }
 
 /* Sidebar List Items */
 #sidebar .list-group-item {
     background-color: transparent; /* Transparent background for list items */
     color: var(--sidebar-text-color); /* Set text color */
+    font-family: var(--sidebar-font-family); /* Set font family */
     border: none; /* Remove borders */
 }
 

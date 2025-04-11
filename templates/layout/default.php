@@ -148,6 +148,15 @@
                 toggleButton.style.display = 'block';
                 document.body.classList.remove('no-scroll'); // Remove class to enable scrolling
             });
+
+            // Detect clicks on the offcanvas-backdrop
+            document.addEventListener('click', function (event) {
+                const backdrop = document.querySelector('.offcanvas-backdrop');
+                if (backdrop && backdrop.contains(event.target)) {
+                    console.log('Backdrop clicked');
+                    document.body.classList.remove('no-scroll'); // Ensure scrolling is re-enabled
+                }
+            });
         });
     </script>
     <script>

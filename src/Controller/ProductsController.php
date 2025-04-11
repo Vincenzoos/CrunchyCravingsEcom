@@ -17,7 +17,10 @@ class ProductsController extends AppController
      */
     public function index()
     {
-        $this->request->allowMethod(['get']);
+        // Apply the custom ecommerce layout for the products view
+        $this->viewBuilder()->setLayout('ecommerce');
+
+        // $this->request->allowMethod(['get']);
 
         // // Fetch query parameters
         // $categories = $this->request->getQuery('categories', []);
@@ -72,6 +75,9 @@ class ProductsController extends AppController
      */
     public function view($id = null)
     {
+        // Apply the custom ecommerce layout for the product view
+        $this->viewBuilder()->setLayout('ecommerce');
+
         // Fetch all categories using the association
         $categories = $this->Products->Categories->find('all')->all();
 

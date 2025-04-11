@@ -11,6 +11,9 @@
  * @var \App\View\AppView $this
  */
 $this->assign('title', 'Home');
+
+// Set the layout to 'landing_page'
+$this->assign('layout', 'ecommerce');
 ?>
 
 <!DOCTYPE html>
