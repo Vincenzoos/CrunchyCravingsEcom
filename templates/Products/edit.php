@@ -12,7 +12,7 @@
             <?= $this->Form->postLink(
                 __('Delete'),
                 ['action' => 'delete', $product->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $product->id), 'class' => 'side-nav-item']
+                ['confirm' => __('Are you sure you want to delete this product: "{0}"?', $product->name), 'class' => 'side-nav-item']
             ) ?>
             <?= $this->Html->link(__('List Products'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
         </div>
@@ -25,8 +25,8 @@
                 <?php
                     echo $this->Form->control('name');
                     echo $this->Form->control('description');
-                    echo $this->Form->control('price');
-                    echo $this->Form->control('image');
+                    echo $this->Form->control('price', ['label' => 'Price (AUD)']);
+                    echo $this->Form->control('image', ['type' => 'file']);
                     echo $this->Form->control('quantity');
                     echo $this->Form->control('categories._ids', ['options' => $categories]);
                 ?>
