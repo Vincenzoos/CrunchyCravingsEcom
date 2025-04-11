@@ -23,6 +23,7 @@ SET time_zone = "+00:00";
 
 -- Used here for quick schema import, to be removed when finalized
 DROP TABLE IF EXISTS categories_products;
+DROP TABLE IF EXISTS inventories;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS contacts;

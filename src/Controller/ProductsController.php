@@ -19,35 +19,35 @@ class ProductsController extends AppController
     {
         $this->request->allowMethod(['get']);
 
-        // Fetch query parameters
-        $categories = $this->request->getQuery('categories', []);
-        $minPrice = $this->request->getQuery('min_price', 0);
-        $maxPrice = $this->request->getQuery('max_price', 1000);
+        // // Fetch query parameters
+        // $categories = $this->request->getQuery('categories', []);
+        // $minPrice = $this->request->getQuery('min_price', 0);
+        // $maxPrice = $this->request->getQuery('max_price', 1000);
 
-        // Debug the received parameters
-        debug($categories);
-        debug($minPrice);
-        debug($maxPrice);
+        // // Debug the received parameters
+        // // debug($categories);
+        // // debug($minPrice);
+        // // debug($maxPrice);
 
-        // Build the query
-        $query = $this->Products->find();
+        // // Build the query
+        // $query = $this->Products->find();
 
-        if (!empty($categories)) {
-            $query->where(['category_id IN' => $categories]);
-        }
+        // if (!empty($categories)) {
+        //     $query->where(['category_id IN' => $categories]);
+        // }
 
-        $query->where([
-            'price >=' => $minPrice,
-            'price <=' => $maxPrice
-        ]);
+        // $query->where([
+        //     'price >=' => $minPrice,
+        //     'price <=' => $maxPrice
+        // ]);
 
-        // If it's an AJAX request, return only the filtered products as HTML
-        if ($this->request->is('ajax')) {
-            $products = $query->all();
-            $this->set(compact('products'));
-            // $this->viewBuilder()->setLayout(""); // Disable layout for AJAX
-            return $this->render('ajax_products'); // Render a partial view for AJAX
-        }
+        // // If it's an AJAX request, return only the filtered products as HTML
+        // if ($this->request->is('ajax')) {
+        //     $products = $query->all();
+        //     $this->set(compact('products'));
+        //     // $this->viewBuilder()->setLayout(""); // Disable layout for AJAX
+        //     return $this->render('ajax_products'); // Render a partial view for AJAX
+        // }
 
         // Fetch all categories using the association
         $categories = $this->Products->Categories->find('all')->all();
@@ -56,8 +56,11 @@ class ProductsController extends AppController
         $query = $this->Products->find();
         $products = $this->paginate($query);
 
+        // Get the total number of products
+        $total = $this->Products->find()->count();
+
         // Pass variables to the view
-        $this->set(compact('categories', 'products'));
+        $this->set(compact('categories', 'products', 'total'));
     }
 
     /**
@@ -69,8 +72,22 @@ class ProductsController extends AppController
      */
     public function view($id = null)
     {
-        $product = $this->Products->get($id, contain: ['Categories']);
-        $this->set(compact('product'));
+        // Fetch all categories using the association
+        $categories = $this->Products->Categories->find('all')->all();
+
+        // Fetch the current product
+        $product = $this->Products->get($id, [
+            'contain' => ['Categories'], // Include related categories if needed
+        ]);
+        
+        // Fetch similar products (excluding the current product)
+        $similarProducts = $this->Products->find()
+            ->where(['id !=' => $id]) // Exclude the current product
+            ->limit(2) // Limit to 2 products
+            ->all();
+
+        // Pass variables to the view
+        $this->set(compact('categories', 'product', 'similarProducts'));
     }
 
     /**

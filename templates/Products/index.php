@@ -4,7 +4,10 @@
  * @var iterable<\App\Model\Entity\Product> $products
  */
 ?>
+
+<!-- Debug show products table -->
 <div class="products index content">
+    <h1>Debug products table</h1>
     <?= $this->Html->link(__('New Product'), ['action' => 'add'], ['class' => 'button float-right']) ?>
     <h3><?= __('Products') ?></h3>
     <div class="table-responsive">
@@ -53,6 +56,7 @@
         <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
     </div>
 </div>
+
 <!doctype html>
 <!--
 **********************************************************************************************************
@@ -431,7 +435,7 @@ Purchase: http://themeforest.net/user/webstrot  -->
         </div>
         <div class="page-header ow-bottom-padding categories">
             <h3>Our products</h3>
-            <p>786+ Products</p>
+            <p><?= $this->Number->format($total) ?> Products</p>
         </div><!-- Section Header /- -->
     </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
