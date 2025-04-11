@@ -11,7 +11,6 @@
         <table>
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('name') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
@@ -19,7 +18,6 @@
             <tbody>
                 <?php foreach ($categories as $category): ?>
                 <tr>
-                    <td><?= $this->Number->format($category->id) ?></td>
                     <td><?= h($category->name) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $category->id]) ?>
@@ -29,7 +27,7 @@
                             ['action' => 'delete', $category->id],
                             [
                                 'method' => 'delete',
-                                'confirm' => __('Are you sure you want to delete # {0}?', $category->id),
+                                'confirm' => __('Are you sure you want to delete this product category: "{0}"?', $category->name),
                             ]
                         ) ?>
                     </td>

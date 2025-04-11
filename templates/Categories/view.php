@@ -9,7 +9,7 @@
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?= $this->Html->link(__('Edit Category'), ['action' => 'edit', $category->id], ['class' => 'side-nav-item']) ?>
-            <?= $this->Form->postLink(__('Delete Category'), ['action' => 'delete', $category->id], ['confirm' => __('Are you sure you want to delete # {0}?', $category->id), 'class' => 'side-nav-item']) ?>
+            <?= $this->Form->postLink(__('Delete Category'), ['action' => 'delete', $category->id], ['confirm' => __('Are you sure you want to delete this product category: "{0}"?', $category->name), 'class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('List Categories'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('New Category'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
         </div>
@@ -21,10 +21,6 @@
                 <tr>
                     <th><?= __('Name') ?></th>
                     <td><?= h($category->name) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Id') ?></th>
-                    <td><?= $this->Number->format($category->id) ?></td>
                 </tr>
             </table>
             <div class="text">
@@ -39,20 +35,16 @@
                 <div class="table-responsive">
                     <table>
                         <tr>
-                            <th><?= __('Id') ?></th>
                             <th><?= __('Name') ?></th>
-                            <th><?= __('Description') ?></th>
                             <th><?= __('Price') ?></th>
                             <th><?= __('Image') ?></th>
                             <th class="actions"><?= __('Actions') ?></th>
                         </tr>
                         <?php foreach ($category->products as $product) : ?>
                         <tr>
-                            <td><?= h($product->id) ?></td>
                             <td><?= h($product->name) ?></td>
-                            <td><?= h($product->description) ?></td>
-                            <td><?= h($product->price) ?></td>
-                            <td><?= h($product->image) ?></td>
+                            <td><?= $this->Number->currency($product->price, 'AUD', ['places' => 2]) ?></td>
+                            <td><?= empty($product->image) === true ? 'None' : h($product->image) ?></td>
                             <td class="actions">
                                 <?= $this->Html->link(__('View'), ['controller' => 'Products', 'action' => 'view', $product->id]) ?>
                                 <?= $this->Html->link(__('Edit'), ['controller' => 'Products', 'action' => 'edit', $product->id]) ?>
