@@ -2,7 +2,9 @@
 /**
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Product> $products
+ * @var \Cake\Collection\CollectionInterface|array<string> $categoriesList
  */
+
 ?>
 
 <!doctype html>
@@ -40,7 +42,7 @@ Purchase: http://themeforest.net/user/webstrot  -->
         </div>
         <div class="page-header ow-bottom-padding categories">
             <h3>Our products</h3>
-            <p><?= $this->Number->format($total) ?> Products</p>
+            <p><?= $this->Number->format($no_products) ?> Products</p>
         </div><!-- Section Header /- -->
     </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
@@ -516,6 +518,72 @@ Purchase: http://themeforest.net/user/webstrot  -->
         <h1>Debug products table</h1>
         <?= $this->Html->link(__('New Product'), ['action' => 'add'], ['class' => 'button float-right']) ?>
         <h3><?= __('Products') ?></h3>
+
+        <!-- Product Filter Form -->
+        <div class="mb-4 p-4 rounded shadow-sm bg-light">
+            <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
+
+            <!-- Product name Field -->
+            <div class="col-md-3">
+                <?= $this->Form->control('product_name', [
+                    'label' => 'Name',
+                    'placeholder' => 'Product name contains...',
+                    'value' => $this->request->getQuery('product_name'),
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+
+            <!-- Price field -->
+            <div class="col-md-3">
+                <?= $this->Form->control('min_price', [
+                    'label' => 'Min Price',
+                    'placeholder' => 'Product price ranges from...',
+                    'value' => $this->request->getQuery('min_price'),
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+
+            <div class="col-md-3">
+                <?= $this->Form->control('max_price', [
+                    'label' => 'Max Price',
+                    'placeholder' => 'Product price ranges to...',
+                    'value' => $this->request->getQuery('max_price'),
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+
+
+            <!-- Stock quantity field -->
+            <div class="col-md-3">
+                <?= $this->Form->control('stock_quantity', [
+                    'label' => 'Number of Stocks',
+                    'placeholder' => 'Number of Stocks less than or equals...',
+                    'value' => $this->request->getQuery('stock_quantity'),
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+
+
+            <!-- Categories Field -->
+            <div class="col-md-6">
+                <?= $this->Form->control('categories._ids', [
+                    'label' => 'Categories',
+                    'options' => $categoriesList,
+                    'multiple' => true,
+                    'class' => 'form-select',
+                    'empty' => 'Select a category',
+                    'value' => $this->request->getQuery('categories._ids'),
+                ]) ?>
+            </div>
+
+            <!-- Filter Button -->
+            <div class="col-md-2 align-self-end">
+                <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-primary w-100']) ?>
+            </div>
+
+            <?= $this->Form->end() ?>
+        </div>
+
         <div class="table-responsive">
             <table>
                 <thead>

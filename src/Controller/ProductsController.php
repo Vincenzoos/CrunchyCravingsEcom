@@ -52,18 +52,56 @@ class ProductsController extends AppController
         //     return $this->render('ajax_products'); // Render a partial view for AJAX
         // }
 
-        // Fetch all categories using the association
+        // Fetch all categories using the association (get list of categories objects)
         $categories = $this->Products->Categories->find('all')->all();
+
+        // Get the no_products number of products
+        $no_products = $this->Products->find()->count();
 
         // Fetch products
         $query = $this->Products->find();
+
+        // get input from filter forms for filter functionalities
+        $product_name = $this->request->getQuery('product_name');
+        $stock_quantity = $this->request->getQuery('stock_quantity');
+        $min_price = $this->request->getQuery('min_price');
+        $max_price = $this->request->getQuery('max_price');
+        // get list of key-value pairs (key: category_name - value: category_name)
+        $categoriesList = $this->Products->Categories->find('list')->all();
+        // retrieve list of categories_id selected in dropdown of filter form
+        $selectedCategories = $this->request->getQuery('categories._ids');
+
+        // Build onto the products query to complete the filter
+        //  Filter products by name
+        if (!empty($product_name)) {
+            $query->where(['Products.name LIKE' => '%' . $product_name . '%']);
+        }
+
+        // Filter products by stock_quantity (less than or equals)
+        if (is_numeric($stock_quantity)) {
+            $query->where(['Products.quantity <=' => $stock_quantity]);
+        }
+
+        // Filter products by price (from min to max inclusive)
+        if (is_numeric($min_price)) {
+            $query->where(['Products.price >=' => $min_price]);
+        }
+
+        if (is_numeric($max_price)) {
+            $query->where(['Products.price <=' => $max_price]);
+        }
+
+        // Filter products by categories (exact match)
+        if (!empty($selectedCategories) && $selectedCategories !== ['']) {
+            $query->matching('Categories')
+                ->groupBy(['Products.id'])
+                ->where(['Categories.id IN' => $selectedCategories]);
+        }
+
         $products = $this->paginate($query);
 
-        // Get the total number of products
-        $total = $this->Products->find()->count();
-
         // Pass variables to the view
-        $this->set(compact('categories', 'products', 'total'));
+        $this->set(compact('products', 'categories', 'categoriesList', 'no_products'));
     }
 
     /**
@@ -73,7 +111,7 @@ class ProductsController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
         // Apply the custom ecommerce layout for the product view
         $this->viewBuilder()->setLayout('ecommerce');
@@ -85,7 +123,7 @@ class ProductsController extends AppController
         $product = $this->Products->get($id, [
             'contain' => ['Categories'], // Include related categories if needed
         ]);
-        
+
         // Fetch similar products (excluding the current product)
         $similarProducts = $this->Products->find()
             ->where(['id !=' => $id]) // Exclude the current product
@@ -124,7 +162,7 @@ class ProductsController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
         $product = $this->Products->get($id, contain: ['Categories']);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -147,7 +185,7 @@ class ProductsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $product = $this->Products->get($id);
