@@ -578,7 +578,9 @@ Purchase: http://themeforest.net/user/webstrot  -->
 
             <!-- Filter Button -->
             <div class="col-md-2 align-self-end">
-                <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-primary w-100']) ?>
+                <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-success']) ?>
+                <?= $this->Html->link('Clear', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+
             </div>
 
             <?= $this->Form->end() ?>
