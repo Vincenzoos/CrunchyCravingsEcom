@@ -47,7 +47,36 @@ class ContactsController extends AppController
      */
     public function index()
     {
-        $query = $this->Contacts->find();
+        // Order contacts by date sent from latest to earliest by default
+        $query = $this->Contacts->find()->orderBy(['Contacts.date_sent DESC']);
+
+        // Retrieve data from filter form
+        $first_name = $this->request->getQuery('first_name');
+        $last_name = $this->request->getQuery('last_name');
+        $date_sent = $this->request->getQuery('date_sent');
+        $replyStatus = $this->request->getQuery('reply_status');
+
+        // Build on default query to get filter result
+        // Filter Contacts by firstname (partial match)
+        if (!empty($first_name)) {
+            $query->where(['Contacts.first_name LIKE' => '%' . $first_name . '%']);
+        }
+
+        // Filter Contacts by lastname (partial match)
+        if (!empty($last_name)) {
+            $query->where(['Contacts.last_name LIKE' => '%' . $last_name . '%']);
+        }
+
+        // Filter contacts from date_sent and earlier
+        if (!empty($date_sent)) {
+            $query->where(['Contacts.date_sent <=' => $date_sent]);
+        }
+
+        // Filter Contacts by reply status (exact match)
+        if ($replyStatus !== null && $replyStatus !== '') {
+            $query->where(['Contacts.replied' => $replyStatus]);
+        }
+
         $contacts = $this->paginate($query);
 
         $this->set(compact('contacts'));

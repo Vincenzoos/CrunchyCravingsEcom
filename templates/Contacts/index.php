@@ -34,6 +34,63 @@
             </div>
         </section>
 
+        <!-- Contacts Filter Form -->
+        <div class="mb-4 p-4 rounded shadow-sm bg-light">
+            <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
+
+            <!-- First name Field -->
+            <div class="col-md-4">
+                <?= $this->Form->control('first_name', [
+                    'label' => 'Contact First Name',
+                    'placeholder' => 'First name contains...',
+                    'value' => $this->request->getQuery('first_name'),
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+
+            <!-- Last name Field -->
+            <div class="col-md-4">
+                <?= $this->Form->control('last_name', [
+                    'label' => 'Contact Last Name',
+                    'placeholder' => 'Last name contains...',
+                    'value' => $this->request->getQuery('last_name'),
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+            <!-- Sent Date field -->
+            <div class="col-md-4">
+                <?= $this->Form->control('date_sent', [
+                    'label' => 'Date Sent',
+                    'placeholder' => 'Select a date to filter earlier records...',
+                    'type' => 'date',
+                    'dateFormat' => 'YMD',
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+
+            <!-- Reply Status field -->
+            <div class="col-md-4">
+                <?= $this->Form->control('reply_status', [
+                    'label' => 'Reply Status',
+                    'options' => [
+                        '' => 'All',
+                        1 => 'Replied',
+                        0 => 'Not Replied',
+                    ],
+                    'empty' => 'Select reply status...',
+                    'default' => '',
+                ]) ?>
+            </div>
+
+            <!-- Filter Button -->
+            <div class="col-md-2 align-self-end">
+                <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-success']) ?>
+                <?= $this->Html->link('Clear', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+            </div>
+
+            <?= $this->Form->end() ?>
+        </div>
+
         <div id="wrapper">
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
@@ -72,7 +129,7 @@
                                                     [
                                                         'class' => 'btn btn-danger btn-sm',
                                                         'confirm' => __('Are you sure you want to delete {0}?', $contact->first_name . ' ' . $contact->last_name),
-                                                    ]
+                                                    ],
                                                 ) ?>
                                             </td>
                                         </tr>
