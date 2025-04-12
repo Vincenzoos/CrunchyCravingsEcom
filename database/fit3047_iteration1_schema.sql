@@ -138,7 +138,8 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `nonce` varchar(255) DEFAULT NULL,
   `nonce_expiry` datetime DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
+  `role` ENUM('admin', 'customer') DEFAULT 'customer',
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `modified` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -146,9 +147,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `password`, `nonce`, `nonce_expiry`, `created`, `modified`) VALUES
-(1, 'test@example.com', '$2y$10$myP46BKNV9W74tK7agrLJOnNa23qPmBHcz2Hp6T660T3e1iwZPLZy', '0844e844210a7aa62e312c70ba4a50253be4951a01c50352cb84de4c811e490d26140f8908ca31d857ce7ab00e03833287e5ee9d5cb6beb330aaf8aa406098d2', '2025-04-15 13:14:44', '2025-03-25 10:37:11', '2025-04-08 13:14:44'),
-(2, 'asd@gmail.com', '$2y$10$9IYSSmJtwhq/ixYrolnXW.fqx0CzwaGsoVoWeFm/Xgh2J/OADDB8u', 'be92a448194aaed429dd46abdecabe28b381cce2062da911daebb1892ba3a24237e3bbc037c97647960900d96ef6a7ce45d83c223f06d29019c5b592dc08247e', '2025-04-15 12:23:15', '2025-04-08 11:27:02', '2025-04-08 15:17:36');
+INSERT INTO `users` (`id`, `email`, `password`, `role`) VALUES
+(1, 'test@example.com', '$2y$10$myP46BKNV9W74tK7agrLJOnNa23qPmBHcz2Hp6T660T3e1iwZPLZy', 'customer'),
+(2, 'asd@gmail.com', '$2y$10$9IYSSmJtwhq/ixYrolnXW.fqx0CzwaGsoVoWeFm/Xgh2J/OADDB8u', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -178,7 +179,9 @@ ALTER TABLE `contacts`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unq_users_email` (`email`);
+
 
 
 --

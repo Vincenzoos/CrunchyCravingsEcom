@@ -39,7 +39,8 @@ class AuthController extends AppController
     }
 
     /**
-     * Register method
+     * Register method (for external user (customer only)
+     * Admin register must be created manually to enhance security
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
@@ -48,12 +49,13 @@ class AuthController extends AppController
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user['role'] = 'customer';
             if ($this->Users->save($user)) {
                 $this->Flash->success('You have been registered. Please log in. ');
 
                 return $this->redirect(['action' => 'login']);
             }
-            $this->Flash->error('The user could not be registered. Please, try again.');
+            $this->Flash->error('Oops! We couldn’t register your account. The email might already be taken. Please try again.');
         }
         $this->set(compact('user'));
     }

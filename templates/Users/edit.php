@@ -24,8 +24,11 @@
                 <?php
                     echo $this->Form->control('email');
                     echo $this->Form->control('password');
-                    echo $this->Form->control('nonce');
-                    echo $this->Form->control('nonce_expiry', ['empty' => true]);
+                echo $this->Form->control('role', [
+                    'options' => ['admin' => 'Admin', 'customer' => 'Customer'],
+                    'label' => __('Role'),
+                    'default' => 'customer',
+                ]);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

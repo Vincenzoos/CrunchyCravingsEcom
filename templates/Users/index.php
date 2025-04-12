@@ -11,9 +11,8 @@
         <table>
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
-                    <th><?= $this->Paginator->sort('nonce') ?></th>
+                    <th><?= $this->Paginator->sort('role') ?></th>
                     <th><?= $this->Paginator->sort('nonce_expiry') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
@@ -23,9 +22,8 @@
             <tbody>
                 <?php foreach ($users as $user): ?>
                 <tr>
-                    <td><?= $this->Number->format($user->id) ?></td>
                     <td><?= h($user->email) ?></td>
-                    <td><?= h($user->nonce) ?></td>
+                    <td><?= h($user->role) ?></td>
                     <td><?= h($user->nonce_expiry) ?></td>
                     <td><?= h($user->created) ?></td>
                     <td><?= h($user->modified) ?></td>
@@ -37,7 +35,7 @@
                             ['action' => 'delete', $user->id],
                             [
                                 'method' => 'delete',
-                                'confirm' => __('Are you sure you want to delete # {0}?', $user->id),
+                                'confirm' => __('Are you sure you want to delete this user: ({0})?', $user->email),
                             ]
                         ) ?>
                     </td>

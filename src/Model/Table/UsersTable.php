@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -24,7 +23,6 @@ use Cake\Validation\Validator;
  * @method iterable<\App\Model\Entity\User>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\User> saveManyOrFail(iterable $entities, array $options = [])
  * @method iterable<\App\Model\Entity\User>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\User>|false deleteMany(iterable $entities, array $options = [])
  * @method iterable<\App\Model\Entity\User>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\User> deleteManyOrFail(iterable $entities, array $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class UsersTable extends Table
@@ -68,6 +66,11 @@ class UsersTable extends Table
             ->notEmptyString('password');
 
         $validator
+            ->inList('role', ['admin', 'customer'], 'Please select a valid role.')
+            ->requirePresence('role', 'create')
+            ->notEmptyString('role');
+
+        $validator
             ->scalar('nonce')
             ->maxLength('nonce', 255)
             ->allowEmptyString('nonce');
@@ -88,7 +91,10 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
+        $rules->add($rules->isUnique(['email']), [
+            'errorField' => 'email',
+            'message' => 'This email is already registered.',
+        ]);
 
         return $rules;
     }

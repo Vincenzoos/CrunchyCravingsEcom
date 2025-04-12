@@ -9,7 +9,7 @@
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?= $this->Html->link(__('Edit User'), ['action' => 'edit', $user->id], ['class' => 'side-nav-item']) ?>
-            <?= $this->Form->postLink(__('Delete User'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'class' => 'side-nav-item']) ?>
+            <?= $this->Form->postLink(__('Delete User'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete this user: ({0})?', $user->email), 'class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
         </div>
@@ -23,12 +23,12 @@
                     <td><?= h($user->email) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Nonce') ?></th>
-                    <td><?= h($user->nonce) ?></td>
+                    <th><?= __('Role') ?></th>
+                    <td><?= h($user->role) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Id') ?></th>
-                    <td><?= $this->Number->format($user->id) ?></td>
+                    <th><?= __('Nonce') ?></th>
+                    <td><?= h($user->nonce) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Nonce Expiry') ?></th>

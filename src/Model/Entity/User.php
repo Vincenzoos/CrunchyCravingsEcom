@@ -16,8 +16,6 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\DateTime|null $nonce_expiry
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
- *
- * @property \App\Model\Entity\Property[] $properties
  */
 class User extends Entity
 {
@@ -37,7 +35,7 @@ class User extends Entity
         'nonce_expiry' => false,
         'created' => false,
         'modified' => false,
-//        'properties' => true,
+        'role' => false,
     ];
 
     /**
@@ -48,6 +46,10 @@ class User extends Entity
     protected array $_hidden = [
         'password',
     ];
+
+    protected function _isAdminUser($role): bool{
+        return isset($role) && $role == 'admin';
+    }
 
     /**
      * Hashing password for User entity
