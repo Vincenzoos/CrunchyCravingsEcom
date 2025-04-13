@@ -76,9 +76,6 @@ class ProductsController extends AppController
      */
     public function customerIndex()
     {
-        // Apply the custom ecommerce layout for the products view
-        $this->viewBuilder()->setLayout('ecommerce');
-
         // Fetch all categories using the association (get list of categories objects)
         $categories = $this->Products->Categories->find('all')->all();
 

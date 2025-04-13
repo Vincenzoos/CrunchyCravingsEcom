@@ -100,7 +100,7 @@ $this->assign('title', 'Contact Us');
             </div>
         </div>
         <div class="text-center mt-4">
-            <?= $this->Html->link('Go to Homepage', '/', ['class' => 'btn btn-link']) ?>
+            <?= $this->Html->link('Back to Homepage', '/', ['class' => 'btn btn-link']) ?>
         </div>
     </section>
 

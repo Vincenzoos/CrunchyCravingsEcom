@@ -32,12 +32,12 @@ Purchase: http://themeforest.net/user/webstrot  -->
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li><a title="Home" href="index.html">Home</a></li>
-                <li><a title="Clothing" href="#">Clothing</a></li>
+                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display']) ?>">Home</a></li>
+                <li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
                 <li class="active">Our products</li>
             </ol>
             <div class="return-home-link pull-right">
-                <a title="Return to home page" href="index.html">return to home page</a>
+                <a title="Return to home page" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display']) ?>">return to home page</a>
             </div>
         </div>
         <div class="page-header ow-bottom-padding categories">

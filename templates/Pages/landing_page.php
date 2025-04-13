@@ -11,9 +11,6 @@
  * @var \App\View\AppView $this
  */
 $this->assign('title', 'Home');
-
-// Set the layout to 'landing_page'
-$this->assign('layout', 'ecommerce');
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +35,7 @@ $this->assign('layout', 'ecommerce');
         <section id="quote">
             <h4 class="text-center"><em>"Premium Lavosh crackers that pair perfectly with wine and other fine foods."</em></h4>
         </section>
-    
+
         <!-- About Us Section -->
         <section id="about" class="d-flex align-items-center">
             <div class="container-fluid d-flex">

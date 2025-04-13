@@ -218,11 +218,11 @@ class AuthController extends AppController
 
             // set the fallback location in case user logged in without triggering 'unauthenticatedRedirect'
             // Get the redirect URL from the query parameter
-            $fallbackLocation = $this->request->getQuery('redirect', [
-                'controller' => 'Pages',
-                'action' => 'display',
-                'landing_page'
-            ]);
+//            $fallbackLocation = $this->request->getQuery('redirect', [
+//                'controller' => 'Pages',
+//                'action' => 'display',
+//                'landing_page'
+//            ]);
 
             // Redirect to the intended page or fallback to the landing page
             return $this->redirect($fallbackLocation);
@@ -248,14 +248,14 @@ class AuthController extends AppController
 
             $this->Flash->success('You have been logged out successfully. ');
 
-            $fallbackLocation = $this->request->getQuery('redirect', [
-                'controller' => 'Pages',
-                'action' => 'display',
-                'landing_page'
-            ]);
-
-            // Redirect to the intended page or fallback to the landing page
-            return $this->redirect($fallbackLocation);
+//            $fallbackLocation = $this->request->getQuery('redirect', [
+//                'controller' => 'Pages',
+//                'action' => 'display',
+//                'landing_page'
+//            ]);
+//
+//            // Redirect to the intended page or fallback to the landing page
+//            return $this->redirect($fallbackLocation);
         }
 
         // Otherwise just send them to the login page
