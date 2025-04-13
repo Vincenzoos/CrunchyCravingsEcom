@@ -17,11 +17,23 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Middleware\UnauthorizedHandler\RedirectedWhenDenied;
+use App\Policy\AllowDebugKitPolicy;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Identifier\AbstractIdentifier;
 use Authentication\Middleware\AuthenticationMiddleware;
+use Authorization\AuthorizationService;
+use Authorization\AuthorizationServiceInterface;
+use Authorization\AuthorizationServiceProviderInterface;
+use Authorization\Exception\ForbiddenException;
+use Authorization\Middleware\AuthorizationMiddleware;
+use Authorization\Middleware\RequestAuthorizationMiddleware;
+use Authorization\Middleware\UnauthorizedHandler\ExceptionHandler;
+use Authorization\Policy\MapResolver;
+use Authorization\Policy\OrmResolver;
+use Authorization\Policy\ResolverCollection;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Datasource\FactoryLocator;
@@ -30,10 +42,14 @@ use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Http\MiddlewareQueue;
+use Cake\Http\ServerRequest;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Cake\Routing\Router;
+use CakeDC\Auth\Policy\CollectionPolicy;
+use CakeDC\Auth\Policy\RbacPolicy;
+use CakeDC\Auth\Policy\SuperuserPolicy;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -44,7 +60,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @extends \Cake\Http\BaseApplication<\App\Application>
  */
-class Application extends BaseApplication implements AuthenticationServiceProviderInterface
+class Application extends BaseApplication implements AuthenticationServiceProviderInterface, AuthorizationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -59,9 +75,12 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         if (PHP_SAPI !== 'cli') {
             FactoryLocator::add(
                 'Table',
-                (new TableLocator())->allowFallbackClass(false)
+                (new TableLocator())->allowFallbackClass(false),
             );
         }
+
+        // Add Authorization plugin
+        $this->addPlugin('Authorization');
     }
 
     /**
@@ -88,6 +107,30 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // See https://github.com/CakeDC/cakephp-cached-routing
             ->add(new RoutingMiddleware($this))
 
+            // Add Authentication support by plugin
+            ->add(new AuthenticationMiddleware($this))
+
+            // Add Authorization support by plugin
+            ->add(new AuthorizationMiddleware(
+                $this,
+                [
+                    'unauthorizedHandler' => [
+                        'className' => RedirectedWhenDenied::class,
+                        'url' => [
+                            'controller' => 'Auth',
+                            'action' => 'login',
+                        ],
+                        'queryParams' => 'redirect',
+                        'exceptions' => [
+                            ForbiddenException::class,
+                        ],
+                    ],
+                ],
+            ))
+
+            // Add Request authorization
+            ->add(new RequestAuthorizationMiddleware())
+
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()
             // https://book.cakephp.org/4/en/controllers/middleware.html#body-parser-middleware
@@ -97,10 +140,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // https://book.cakephp.org/4/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
             ->add(new CsrfProtectionMiddleware([
                 'httponly' => true,
-            ]))
-
-            // Add Authentication support by plugin
-            ->add(new AuthenticationMiddleware($this));
+            ]));
 
         return $middlewareQueue;
     }
@@ -156,5 +196,26 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      */
     public function services(ContainerInterface $container): void
     {
+    }
+
+    public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
+    {
+        $map = new MapResolver();
+        $map->map(
+            ServerRequest::class,
+            new CollectionPolicy([
+                AllowDebugKitPolicy::class,
+                SuperuserPolicy::class,
+                RbacPolicy::class,
+            ]),
+        );
+
+        $orm = new OrmResolver();
+        $resolver = new ResolverCollection([
+            $map,
+            $orm,
+        ]);
+
+        return new AuthorizationService($resolver);
     }
 }

@@ -46,6 +46,9 @@ class AppController extends Controller
         // Added Authentication component
         $this->loadComponent('Authentication.Authentication');
 
+        // Added Authorization component
+        $this->loadComponent('Authorization.Authorization');
+
         /*
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/5/en/controllers/components/form-protection.html

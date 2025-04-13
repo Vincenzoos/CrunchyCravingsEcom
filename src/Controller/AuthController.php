@@ -55,7 +55,10 @@ class AuthController extends AppController
 
                 return $this->redirect(['action' => 'login']);
             }
-            $this->Flash->error('Oops! We couldn’t register your account. The email might already be taken. Please try again.');
+            $email = $this->request->getData('email');
+            $this->Flash->error('Oops! We couldn’t register your account. This email (' . $email . ') might already be taken. Please try again.');
+
+            return $this->redirect(['action' => 'register']);
         }
         $this->set(compact('user'));
     }
@@ -199,6 +202,16 @@ class AuthController extends AppController
         if ($result && $result->isValid()) {
             // // set a fallback location in case user logged in without triggering 'unauthenticatedRedirect'
             // $fallbackLocation = ['controller' => 'Contacts', 'action' => 'index'];
+            // Get the currently authenticated user
+            $user = $this->request->getAttribute('identity');
+
+            // Determine redirect location based on role
+            // set a fallback location in case user logged in without triggering 'unauthenticatedRedirect'
+            if ($user->role === 'admin') {
+                $fallbackLocation = ['controller' => 'Contacts', 'action' => 'index'];
+            } else {
+                $fallbackLocation = ['controller' => 'Products', 'action' => 'customerIndex'];
+            }
 
             // // and redirect user to the location they're trying to access
             // return $this->redirect($this->Authentication->getLoginRedirect() ?? $fallbackLocation);

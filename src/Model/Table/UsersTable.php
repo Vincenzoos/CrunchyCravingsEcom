@@ -93,7 +93,6 @@ class UsersTable extends Table
     {
         $rules->add($rules->isUnique(['email']), [
             'errorField' => 'email',
-            'message' => 'This email is already registered.',
         ]);
 
         return $rules;
