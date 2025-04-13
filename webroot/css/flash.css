@@ -17,7 +17,7 @@
 }
 
 .error {
-    background-color: #ffcccb; /* Light red background color for error */
+    background-color: #dd3e46; /* Light red background color for error */
 }
 
 .success {
@@ -25,19 +25,14 @@
 }
 
 .error a, .success a {
-    color: black;
+    color: white;
     text-decoration: underline;
 }
 
 .error button, .success button {
     background: none;
-    color: black;
+    color: white;
     border: none;
     font-size: 20px;
     cursor: pointer;
-}
-
-/* Optional: To make the error/success messages disappear when clicked */
-.error.clicked, .success.clicked {
-    opacity: 0;
 }

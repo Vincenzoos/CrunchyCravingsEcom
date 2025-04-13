@@ -125,19 +125,19 @@ Purchase: http://themeforest.net/user/webstrot  -->
                     <div class="col-12 col-md-12 col-lg-3 ow-right-padding ">
                         <div class="row" style="display: flex; justify-content: space-between; align-items: center;">
                             <!-- Login and Register -->
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 ow-right-padding ow-right-padding2 d-flex justify-content-end">
-                                <a title="Login"
-                                    id="top_link"
-                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                    href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'login']) ?>">LOGIN
-
-                                </a>
-                                <a title="Register"
-                                    id="top_link"
-                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                    href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">REGISTER
-                                </a>
-                            </div>
+<!--                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 ow-right-padding ow-right-padding2 d-flex justify-content-end">-->
+<!--                                <a title="Login"-->
+<!--                                    id="top_link"-->
+<!--                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"-->
+<!--                                    href="--><?php //= $this->Url->build(['controller' => 'Auth', 'action' => 'login']) ?><!--">LOGIN-->
+<!---->
+<!--                                </a>-->
+<!--                                <a title="Register"-->
+<!--                                    id="top_link"-->
+<!--                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"-->
+<!--                                    href="--><?php //= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?><!--">REGISTER-->
+<!--                                </a>-->
+<!--                            </div>-->
 
                             <!-- Cart -->
                             <div class="col-12 col-sm-6 col-md-6 col-lg-6 cart-link ow-right-padding d-flex justify-content-end" style="margin-top: 15px; margin-bottom: 15px;">
@@ -203,7 +203,11 @@ Purchase: http://themeforest.net/user/webstrot  -->
                                 <a class="nav-link active" title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>">Products</a>
+                                <?php if ($this->Identity->get('role') == 'admin') : ?>
+                                    <a class="nav-link" title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>">Products</a>
+                                <?php else: ?>
+                                    <a class="nav-link" title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a>
+                                <?php endif; ?>
                             </li>
                             <li class="nav-item dropdown mega-dropdown">
                                 <a class="nav-link dropdown-toggle" title="Categories" href="#" data-bs-toggle="dropdown">Categories

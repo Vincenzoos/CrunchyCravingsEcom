@@ -61,12 +61,23 @@
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs'])?>" class="list-group-item">Contact us</a>
                     <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'login']) ?>" class="list-group-item">Log in</a>
                     <!-- Else, show in sidebar as logout button -->
-                    <?php endif; ?>
-                    <?php if ($this->Identity->isLoggedIn()) : ?>
+                <?php else: ?>
+                    <!-- If the user is logged in -->
                         <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>" class="list-group-item">Logout</a>
                         <a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>" class="list-group-item">Change Password</a>
+
+                    <!-- Show role-based options -->
+                    <?php if ($this->Identity->get('role') == 'admin') : ?>
                         <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Contacts</a>
                         <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>" class="list-group-item">Products</a>
+                        <a href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index']) ?>" class="list-group-item">Categories</a>
+                        <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?>" class="list-group-item">Users</a>
+                    <?php elseif ($this->Identity->get('role') == 'customer') : ?>
+                        <!-- Customer specific options -->
+                            <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="list-group-item">Products</a>
+<!--                        <a href="--><?php //= $this->Url->build(['controller' => 'Orders', 'action' => 'view']) ?><!--" class="list-group-item">View My Orders</a>-->
+<!--                        <a href="--><?php //= $this->Url->build(['controller' => 'Cart', 'action' => 'view']) ?><!--" class="list-group-item">View Cart</a>-->
+                    <?php endif; ?>
                 <?php endif; ?>
 
                 <!-- Options dropdown -->
