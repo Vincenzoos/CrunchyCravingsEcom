@@ -17,6 +17,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Middleware\UnauthorizedHandler\RedirectedWhenDenied;
+use App\Policy\AllowDebugKitPolicy;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
@@ -25,8 +27,10 @@ use Authentication\Middleware\AuthenticationMiddleware;
 use Authorization\AuthorizationService;
 use Authorization\AuthorizationServiceInterface;
 use Authorization\AuthorizationServiceProviderInterface;
+use Authorization\Exception\ForbiddenException;
 use Authorization\Middleware\AuthorizationMiddleware;
 use Authorization\Middleware\RequestAuthorizationMiddleware;
+use Authorization\Middleware\UnauthorizedHandler\ExceptionHandler;
 use Authorization\Policy\MapResolver;
 use Authorization\Policy\OrmResolver;
 use Authorization\Policy\ResolverCollection;
@@ -107,7 +111,22 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             ->add(new AuthenticationMiddleware($this))
 
             // Add Authorization support by plugin
-            ->add(new AuthorizationMiddleware($this))
+            ->add(new AuthorizationMiddleware(
+                $this,
+                [
+                    'unauthorizedHandler' => [
+                        'className' => RedirectedWhenDenied::class,
+                        'url' => [
+                            'controller' => 'Auth',
+                            'action' => 'login',
+                        ],
+                        'queryParams' => 'redirect',
+                        'exceptions' => [
+                            ForbiddenException::class,
+                        ],
+                    ],
+                ],
+            ))
 
             // Add Request authorization
             ->add(new RequestAuthorizationMiddleware())
@@ -185,6 +204,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $map->map(
             ServerRequest::class,
             new CollectionPolicy([
+                AllowDebugKitPolicy::class,
                 SuperuserPolicy::class,
                 RbacPolicy::class,
             ]),
