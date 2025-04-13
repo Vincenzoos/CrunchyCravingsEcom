@@ -25,13 +25,6 @@ $this->assign('title', 'Change Password');
 <body>
     <!-- Page Container -->
     <div class="page-container mx-auto my-5">
-        <!-- Heading Banner -->
-        <section id="heading-banner">
-            <header id="heading-inner" class="text-center py-3">
-                <?= $this->Html->image('cc_logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
-            </header>
-        </section>
-
         <!-- Change Password Section -->
         <section id="change-password" class="text-center py-5">
             <div class="container">

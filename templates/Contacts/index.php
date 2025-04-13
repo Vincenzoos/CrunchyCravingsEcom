@@ -19,15 +19,9 @@
 <body>
     <!-- Page Container -->
     <div class="page-container mx-auto my-5">
-        <!-- Heading Banner -->
-        <section id="heading-banner">
-            <header id="heading-inner" class="text-center py-3">
-                <?= $this->Html->image('cc_logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
-            </header>
-        </section>
 
-            <!-- Heading Section -->
-            <section id="welcome-back" class="text-center py-5">
+        <!-- Heading Section -->
+        <section id="welcome-back" class="text-center py-5">
             <div class="container">
                 <h1 class="display-4">Contacts List</h1>
                 <p class="lead">Manage all contacts below.</p>

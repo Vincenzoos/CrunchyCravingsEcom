@@ -17,41 +17,6 @@ class ProductsController extends AppController
      */
     public function index()
     {
-        // Apply the custom ecommerce layout for the products view
-        $this->viewBuilder()->setLayout('ecommerce');
-
-        // $this->request->allowMethod(['get']);
-
-        // // Fetch query parameters
-        // $categories = $this->request->getQuery('categories', []);
-        // $minPrice = $this->request->getQuery('min_price', 0);
-        // $maxPrice = $this->request->getQuery('max_price', 1000);
-
-        // // Debug the received parameters
-        // // debug($categories);
-        // // debug($minPrice);
-        // // debug($maxPrice);
-
-        // // Build the query
-        // $query = $this->Products->find();
-
-        // if (!empty($categories)) {
-        //     $query->where(['category_id IN' => $categories]);
-        // }
-
-        // $query->where([
-        //     'price >=' => $minPrice,
-        //     'price <=' => $maxPrice
-        // ]);
-
-        // // If it's an AJAX request, return only the filtered products as HTML
-        // if ($this->request->is('ajax')) {
-        //     $products = $query->all();
-        //     $this->set(compact('products'));
-        //     // $this->viewBuilder()->setLayout(""); // Disable layout for AJAX
-        //     return $this->render('ajax_products'); // Render a partial view for AJAX
-        // }
-
         // Fetch all categories using the association (get list of categories objects)
         $categories = $this->Products->Categories->find('all')->all();
 
@@ -113,9 +78,6 @@ class ProductsController extends AppController
      */
     public function view(?string $id = null)
     {
-        // Apply the custom ecommerce layout for the product view
-        $this->viewBuilder()->setLayout('ecommerce');
-
         // Fetch all categories using the association
         $categories = $this->Products->Categories->find('all')->all();
 
@@ -196,5 +158,14 @@ class ProductsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    // Override the beforeFilter method to allow unauthenticated access to specific actions
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeFilter($event);
+
+        // Allow unauthenticated access to the 'index' and 'view' actions in the ProductsController
+        $this->Authentication->allowUnauthenticated(['index', 'view']);
     }
 }

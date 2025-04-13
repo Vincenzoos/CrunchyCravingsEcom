@@ -126,11 +126,44 @@ div.dropdown .dropdown-item {
 
 /* Footer */
 #footer {
-    background-color: var(--text-color); /* Set the background color */
+    background-color: var(--empty-color); /* Set the background color */
     color: var(--background-color); /* Set the text color */
     text-align: center;
     padding: 0.5rem;
     width: 100%;
+}
+
+/* accesibility switcher ---------------------------------- */
+.accessibility-switcher {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 10px;
+    text-align: center;
+    width: 200px;
+}
+
+.accessibility-switcher .picker_close {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.accessibility-switcher .accessibility-options {
+    display: none;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.accessibility-switcher.open .accessibility-options {
+    display: block;
 }
 
 /* Disable scrolling when the sidebar is active */

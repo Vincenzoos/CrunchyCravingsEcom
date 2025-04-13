@@ -197,11 +197,22 @@ class AuthController extends AppController
 
         // if user passes authentication, grant access to the system
         if ($result && $result->isValid()) {
-            // set a fallback location in case user logged in without triggering 'unauthenticatedRedirect'
-            $fallbackLocation = ['controller' => 'Contacts', 'action' => 'index'];
+            // // set a fallback location in case user logged in without triggering 'unauthenticatedRedirect'
+            // $fallbackLocation = ['controller' => 'Contacts', 'action' => 'index'];
 
-            // and redirect user to the location they're trying to access
-            return $this->redirect($this->Authentication->getLoginRedirect() ?? $fallbackLocation);
+            // // and redirect user to the location they're trying to access
+            // return $this->redirect($this->Authentication->getLoginRedirect() ?? $fallbackLocation);
+
+            // set the fallback location in case user logged in without triggering 'unauthenticatedRedirect'
+            // Get the redirect URL from the query parameter
+            $fallbackLocation = $this->request->getQuery('redirect', [
+                'controller' => 'Pages',
+                'action' => 'display',
+                'landing_page'
+            ]);
+
+            // Redirect to the intended page or fallback to the landing page
+            return $this->redirect($fallbackLocation);
         }
 
         // display error if user submitted their credentials but authentication failed
@@ -223,6 +234,15 @@ class AuthController extends AppController
             $this->Authentication->logout();
 
             $this->Flash->success('You have been logged out successfully. ');
+
+            $fallbackLocation = $this->request->getQuery('redirect', [
+                'controller' => 'Pages',
+                'action' => 'display',
+                'landing_page'
+            ]);
+
+            // Redirect to the intended page or fallback to the landing page
+            return $this->redirect($fallbackLocation);
         }
 
         // Otherwise just send them to the login page

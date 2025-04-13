@@ -26,13 +26,6 @@ $this->assign('title', 'Contact Us');
 </head>
 
 <body>
-    <!-- Heading Banner -->
-    <section id="heading-banner">
-        <header id="heading-inner" class="text-center py-3">
-            <?= $this->Html->image('cc_logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
-        </header>
-    </section>
-
     <!-- Heading section -->
     <section id="heading-section" class="text-center py-5">
         <div class="container">

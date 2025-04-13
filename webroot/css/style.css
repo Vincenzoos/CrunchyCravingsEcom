@@ -54,10 +54,6 @@ a {
 	text-decoration: none;
 }
 
-h3 {
-	font-family: "Playfair Display", serif;
-}
-
 #top_link {
 	text-decoration: none !important; /* Remove underline */
 	color: #b3aa9b !important; /* Set text color to grey */
@@ -108,6 +104,7 @@ ul {
 }
 
 /* Font Family */
+h3,
 .amount,
 .menu-block .navbar .nav li a,
 /*.slider-section .slider-box h3,*/
@@ -156,14 +153,11 @@ ul {
 	font-family: 'Playfair Display', serif;
 }
 
+/* Other blocks -------------------------------------------- */
 .logo-block a {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-
-.category-section h4 {
-	/*font-family: 'Lato', sans-serif;*/
 }
 
 /* [class*="-section"] {

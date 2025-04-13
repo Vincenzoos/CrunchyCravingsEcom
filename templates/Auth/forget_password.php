@@ -24,13 +24,6 @@ $this->assign('title', 'Forgot Password');
 <body>
     <!-- Page Container -->
     <div class="page-container mx-auto my-5">
-        <!-- Heading Banner -->
-        <section id="heading-banner">
-            <header id="heading-inner" class="text-center py-3">
-                <?= $this->Html->image('cc_logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
-            </header>
-        </section>
-
         <!-- Forgot Password Section -->
         <section id="forgot-password" class="text-center py-5">
             <div class="container">

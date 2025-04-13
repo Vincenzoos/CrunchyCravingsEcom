@@ -29,36 +29,16 @@ $this->assign('layout', 'ecommerce');
     <!-- <?= $this->Html->script('/vendor/bootstrap/js/bootstrap.bundle.min.js') ?> -->
     <!-- Custom CSS -->
     <?= $this->Html->css(['custom', 'landing_page']) ?>
-
-    <script>
-        document.documentElement.classList.add('no-scroll'); // Adds class to <html> to prevent scrolling
-    </script>
 </head>
 
 <body>
-    <!-- Heading Banner -->
-    <section id="heading-banner">
-        <header id="heading-inner" class="text-center py-3">
-            <!-- <h1>CrunchyCravings</h1> -->
-            <?= $this->Html->image('cc_logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
-        </header>
-    </section>
-
-    <!-- Quote Section -->
-    <section id="quote">
-        <h4 class="text-center"><em>"Premium Lavosh crackers that pair perfectly with wine and other fine foods."</em></h4>
-    </section>
-
-    <!-- Intro Section -->
-    <div id="intro" class="d-flex align-items-center justify-content-center" onclick="fadeToLandingPage()">
-        <div class="text-center">
-            <?= $this->Html->image('cc_logo.png', ['class' => 'img-fluid mb-4', 'alt' => 'CrunchyCravings Logo']) ?>
-            <h3>Click anywhere to explore</h3>
-        </div>
-    </div>
-
     <!-- Landing Page -->
     <div id="landing-page">
+        <!-- Quote Section -->
+        <section id="quote">
+            <h4 class="text-center"><em>"Premium Lavosh crackers that pair perfectly with wine and other fine foods."</em></h4>
+        </section>
+    
         <!-- About Us Section -->
         <section id="about" class="d-flex align-items-center">
             <div class="container-fluid d-flex">
@@ -169,27 +149,6 @@ $this->assign('layout', 'ecommerce');
         </section>
 
     </div>
-
-    <!-- JavaScript for Smooth fade -->
-    <script>
-        function fadeToLandingPage() {
-            const intro = document.getElementById('intro');
-            const landingPage = document.getElementById('landing-page');
-
-            // Fade out the intro section
-            intro.style.opacity = '0';
-
-            // Wait for the fade-out transition to complete
-            setTimeout(() => {
-                intro.style.display = 'none'; // Hide the intro section
-                intro.remove(); // Completely remove the intro section from the DOM
-                landingPage.style.opacity = '1'; // Fade in the landing page
-
-                // Re-enable scrolling after the fade transition
-                document.documentElement.classList.remove('no-scroll'); // Remove class from <html>
-            }, 1000); // Match the transition duration (1s)
-        }
-    </script>
 
     <!-- Custom JavaScript for staggered carousels -->
     <script>

@@ -3,6 +3,12 @@
     margin-bottom: 0rem !important; /* Set vertical gutters to 0 */
 }
 
+#landing-page {
+    background-color: var(--empty-color); /* Set background color */
+    padding: 0 !important; /* Remove default padding */
+    margin: 0 !important; /* Remove default margin */
+}
+
 /* Intro Section */
 #intro {
     position: fixed; /* Make the intro section overlay the entire viewport */
@@ -54,7 +60,7 @@
     border-bottom: var(--border-width) solid var(--border-color); /* Black border at the bottom */
     padding-top: 1rem;
     padding-bottom: 0.5rem;
-    margin-top: var(--border-size) !important; /* Add margin to the top */
+    
     margin-bottom: var(--border-size) !important; /* Add margin to the bottom */
 }
 

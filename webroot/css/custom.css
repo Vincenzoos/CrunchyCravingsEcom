@@ -1,16 +1,3 @@
-h1, h2, h3, h4, h5, h6 {
-    /* font-family: 'Europa', sans-serif; */
-    font-family: 'Mediga', sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-body, button, .btn {
-    font-family: 'Europa', sans-serif;
-    /* font-family: 'Mediga', sans-serif; */
-    font-weight: 300;
-    font-style: normal;
-}
 
 /* Common page styling ------------------------ */
 
@@ -20,11 +7,6 @@ body, button, .btn {
     overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
-/* Set the background color for the entire page */
-body {
-    background-color: var(--empty-color);
-}
-
 /* Page Container */
 .page-container {
     background-color: var(--empty-color);
@@ -32,9 +14,48 @@ body {
     margin: 0 !important; /* Remove default margin */
 }
 
+/* Accessibility Toggle Container */
+.accessibility-toggle {
+    position: fixed;
+    top: 5px;
+    left: 5px;
+    z-index: 1000;
+    text-align: center;
+}
+
+/* Accessibility Button */
+#accessibility-button {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Accessibility Options (Hidden by Default) */
+.accessibility-options {
+    display: none;
+    margin-top: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    width: 200px;
+}
+
+/* Show Accessibility Options */
+.accessibility-toggle.open .accessibility-options {
+    display: block;
+}
 
 /* Common button and link styling ------------------------ */
-
 /* Normal state for buttons */
 .btn-primary {
     background-color: var(--icon-color) !important;
