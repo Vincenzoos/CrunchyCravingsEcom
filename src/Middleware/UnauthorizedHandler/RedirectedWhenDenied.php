@@ -7,6 +7,7 @@ use Authorization\Exception\Exception;
 use Authorization\Middleware\UnauthorizedHandler\CakeRedirectHandler;
 use Cake\Http\FlashMessage;
 use Cake\Http\Response;
+use Cake\Routing\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -43,9 +44,22 @@ class RedirectedWhenDenied extends CakeRedirectHandler
             // If not log in yet, redirect to
             $url = $this->getUrl($request, $options);
         } else {
-            // Set url to full path
-            $url = $request->referer(false);
-            (new FlashMessage($request->getSession()))->error('You do not have permission to access this page.');
+            // Set url to referer (false params allow to get full url path) or fallback to home page
+            $referer = $request->referer(false);
+            if ($referer === null || $referer === false) {
+                // Fallback location as an array needs to be converted to a URL string.
+                $fallbackLocation = ['controller' => 'Pages', 'action' => 'display'];
+                $url = Router::url($fallbackLocation, true);
+            } else {
+                $url = $referer;
+            }
+            // Get current page (safe fallback)
+            $page = $request->getParam('controller');
+            $action = $request->getParam('action');
+
+            // Flash error message with page name
+            (new FlashMessage($request->getSession()))
+                ->error("You do not have permission to access '$page/$action' page.'");
         }
 
         $response = new Response();
