@@ -55,7 +55,10 @@ class AuthController extends AppController
 
                 return $this->redirect(['action' => 'login']);
             }
-            $this->Flash->error('Oops! We couldn’t register your account. The email might already be taken. Please try again.');
+            $email = $this->request->getData('email');
+            $this->Flash->error('Oops! We couldn’t register your account. This email (' . $email . ') might already be taken. Please try again.');
+
+            return $this->redirect(['action' => 'register']);
         }
         $this->set(compact('user'));
     }
