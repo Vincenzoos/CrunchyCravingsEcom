@@ -158,7 +158,7 @@ $html = new HtmlHelper(new View());
                                             </a>
                                         </li>
                                     </ul>
-                                    <a title="Add to Cart" href="#" class="btn">add to cart</a>
+                                    <a title="Add to Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerAdd', $product->id]) ?>" class="btn">add to cart</a>
                                 </div>
                             </div>
                         </div>

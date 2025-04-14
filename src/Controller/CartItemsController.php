@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Exception;
+
 /**
  * CartItems Controller
  *
@@ -30,12 +32,35 @@ class CartItemsController extends AppController
      */
     public function index()
     {
-        $query = $this->CartItems->find()
+        $query = $this->CartItems->find('all')
             ->contain(['Users', 'Products']);
-        $query = $this->Authorization->applyScope($query);
         $cartItems = $this->paginate($query);
-
         $this->set(compact('cartItems'));
+    }
+
+    /**
+     * Allow specific user to inspect their cart
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function customerView()
+    {
+        // Get the ID of current user
+        $identity = $this->Authentication->getIdentity();
+        $userId = $identity ? $identity->get('id') : null;
+        $query = $this->CartItems->find('all')
+            ->contain(['Products'])
+            ->where([
+                'user_id' => $userId,
+            ]);
+        $cartItems = $this->paginate($query);
+        // Calculate total price
+        $total = 0;
+        foreach ($cartItems as $item) {
+            $total += $item->line_price;
+        }
+
+        $this->set(compact('cartItems', 'total'));
     }
 
     /**
@@ -45,10 +70,9 @@ class CartItemsController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
         $cartItem = $this->CartItems->get($id, contain: ['Users', 'Products']);
-        $this->Authorization->authorize($cartItem);
         $this->set(compact('cartItem'));
     }
 
@@ -60,7 +84,6 @@ class CartItemsController extends AppController
     public function add()
     {
         $cartItem = $this->CartItems->newEmptyEntity();
-        $this->Authorization->authorize($cartItem);
         if ($this->request->is('post')) {
             $cartItem = $this->CartItems->patchEntity($cartItem, $this->request->getData());
             if ($this->CartItems->save($cartItem)) {
@@ -82,10 +105,9 @@ class CartItemsController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
         $cartItem = $this->CartItems->get($id, contain: []);
-        $this->Authorization->authorize($cartItem);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $cartItem = $this->CartItems->patchEntity($cartItem, $this->request->getData());
             if ($this->CartItems->save($cartItem)) {
@@ -107,17 +129,76 @@ class CartItemsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $cartItem = $this->CartItems->get($id);
-        $this->Authorization->authorize($cartItem);
         if ($this->CartItems->delete($cartItem)) {
             $this->Flash->success(__('The cart item has been deleted.'));
         } else {
             $this->Flash->error(__('The cart item could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'customerView']);
+    }
+
+    public function customerAdd($productId = null)
+    {
+        // Only allow POST and GET
+        $this->request->allowMethod(['get', 'post']);
+
+        // Retrieve product information from Products table
+        try {
+            $product = $this->CartItems->Products->get($productId);
+        } catch (Exception $ex) {
+            $this->Flash->error(__('Product not found.'));
+
+            return $this->redirect($this->referer());
+        }
+        // Get the ID of current user
+        $identity = $this->Authentication->getIdentity();
+        $userId = $identity ? $identity->get('id') : null;
+
+        // Check if the product is in stock
+        if ($product->quantity <= 0) {
+            $this->Flash->error(__('"' . $product->name . '" is out of stock.'));
+
+            return $this->redirect($this->referer());
+        }
+
+        // Check if the product is already in the current user's cart
+        // If it is, update the quantity and line_price; otherwise, create a new cart item.
+        $existingItem = $this->CartItems->find('all')
+            ->where([
+                'user_id' => $userId,
+                'product_id' => $productId,
+            ])
+            ->first();
+
+        // If item already existed in cart, only increase quantity of that item in cart
+        if (!is_null($existingItem)) {
+            // Increase quantity and re-calculated line_price
+            $existingItem->quantity += 1;
+            if ($this->CartItems->save($existingItem)) {
+                $this->Flash->success(__('Cart updated with one more unit of "' . $product->name . '".'));
+            } else {
+                $this->Flash->error(__('Unable to update your cart. Please, try again.'));
+            }
+        // If item not exist in cart, add it to cart
+        } else {
+            $cartItem = $this->CartItems->newEmptyEntity();
+            $cartItem->user_id = $userId;
+            $cartItem->product_id = $productId;
+            $cartItem->quantity = 1;
+
+            if ($this->CartItems->save($cartItem)) {
+                $this->Flash->success(__('"' . $product->name . '" has been added to your cart.'));
+            } else {
+                $this->Flash->error(__('"' . $product->name . '" could not be added. Please, try again.'));
+            }
+        }
+
+        // Redirect back to the referring page (or to a dedicated cart view)
+        return $this->redirect($this->referer());
     }
 }

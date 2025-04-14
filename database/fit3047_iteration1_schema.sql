@@ -122,10 +122,10 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO products (id, name, description, price, image) VALUES
-(1, 'Lavosh Signature Crackers', 'Crunchy and savory, our Lavosh Signature Crackers are perfect as a standalone snack or paired with your favorite wine.', 9.99, "default-product.jpg"),
-(2, 'Lavosh Artisan Flatbread', 'Experience the delicate taste of our Lavosh Artisan Flatbread, ideal for creating a gourmet morning meal.', 7.49, "default-product.jpg"),
-(3, 'Lavosh Deluxe Hamper', 'Our Lavosh Deluxe Hamper offers a curated selection including premium lavosh crackers, flatbread, fine wine, and gourmet treats – the perfect gift of choice.', 49.99, "default-product.jpg");
+INSERT INTO products (id, name, description, price, image, quantity) VALUES
+(1, 'Lavosh Signature Crackers', 'Crunchy and savory, our Lavosh Signature Crackers are perfect as a standalone snack or paired with your favorite wine.', 9.99, "default-product.jpg", 0),
+(2, 'Lavosh Artisan Flatbread', 'Experience the delicate taste of our Lavosh Artisan Flatbread, ideal for creating a gourmet morning meal.', 7.49, "default-product.jpg", 10),
+(3, 'Lavosh Deluxe Hamper', 'Our Lavosh Deluxe Hamper offers a curated selection including premium lavosh crackers, flatbread, fine wine, and gourmet treats – the perfect gift of choice.', 49.99, "default-product.jpg", 20);
 
 -- --------------------------------------------------------
 
@@ -170,8 +170,7 @@ CREATE TABLE `cart_items` (
 -- Dumping data for table `cart_items`
 --
 INSERT INTO `cart_items` (id, user_id, product_id, quantity) VALUES
-                                                                 (1, 1, 1, 2),
-                                                                 (2, 1, 2, 1);
+    (1, 1, 2, 2);
 
 
 --

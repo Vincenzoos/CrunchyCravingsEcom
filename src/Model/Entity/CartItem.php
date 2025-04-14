@@ -39,12 +39,14 @@ class CartItem extends Entity
         'product' => true,
     ];
 
-    // Assuming CartItem entity has 'quantity' and is associated with a Product that has 'price'
+    // Declare line_price as a virtual field.
+    protected array $_virtual = ['line_price'];
+
+    // CartItem entity has 'quantity' and is associated with a Product that has 'price'
     protected function _getLinePrice()
     {
-        // Check if the associated product is loaded and has a price
-        if (isset($this->_properties['product']['price'])) {
-            return $this->_properties['quantity'] * $this->_properties['product']['price'];
+        if (!empty($this->product) && isset($this->product->price)) {
+            return $this->quantity * $this->product->price;
         }
 
         return 0;

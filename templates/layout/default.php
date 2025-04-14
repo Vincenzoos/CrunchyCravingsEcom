@@ -207,7 +207,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 									</g>
 								</svg>
 								<!-- cart (2) -->
-                                <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'Cart', 'action' => 'view']) ?>">cart (2)</a>
+                                <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?>">cart (2)</a>
 								<div class="cart-dropdown">
 									<table>
 										<tr>

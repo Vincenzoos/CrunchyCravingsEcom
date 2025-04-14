@@ -28,13 +28,18 @@ return [
             ],
             'bypassAuth' => true,
         ],
-        // // Public access to the Cart controller
-        // [
-        //     'role' => '*',
-        //     'controller' => 'Cart',
-        //     'action' => '*',
-        //     'bypassAuth' => true,
-        // ],
+         // Public access to the Cart controller
+         [
+             'role' => '*',
+             'controller' => 'CartItems',
+             'action' => [
+                 'customerView',
+                 'customerAdd',
+                 'delete',
+             ],
+             'bypassAuth' => true,
+         ],
+
         // // Public access to the Orders controller
         // [
         //     'role' => '*',
