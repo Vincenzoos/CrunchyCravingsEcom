@@ -28,6 +28,7 @@ DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS contacts;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS cart_items;
 
 
 -- --------------------------------------------------------
@@ -37,18 +38,18 @@ DROP TABLE IF EXISTS users;
 --
 
 CREATE TABLE `categories` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL
+                              `id` int(11) NOT NULL,
+                              `name` varchar(255) NOT NULL,
+                              `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `categories`
 --
 INSERT INTO categories (id, name) VALUES
-(1, 'Crackers'),
-(2, 'Flatbread'),
-(3, 'Hampers');
+                                      (1, 'Crackers'),
+                                      (2, 'Flatbread'),
+                                      (3, 'Hampers');
 
 
 -- --------------------------------------------------------
@@ -58,18 +59,18 @@ INSERT INTO categories (id, name) VALUES
 --
 
 CREATE TABLE `categories_products` (
-  `id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL
+                                       `id` int(11) NOT NULL,
+                                       `category_id` int(11) NOT NULL,
+                                       `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `categories_products`
 --
 INSERT INTO categories_products (id, category_id, product_id) VALUES
-(1, 1, 1),
-(2, 2, 2),
-(3, 3, 3);
+                                                                  (1, 1, 1),
+                                                                  (2, 2, 2),
+                                                                  (3, 3, 3);
 
 
 -- --------------------------------------------------------
@@ -81,14 +82,14 @@ INSERT INTO categories_products (id, category_id, product_id) VALUES
 --
 
 CREATE TABLE `contacts` (
-  `id` int(11) NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `phone_number` char(12) NOT NULL,
-  `message` text NOT NULL,
-  `replied` tinyint(1) NOT NULL DEFAULT 0,
-  `date_sent` date NOT NULL DEFAULT current_timestamp()
+                            `id` int(11) NOT NULL,
+                            `first_name` varchar(255) NOT NULL,
+                            `last_name` varchar(255) NOT NULL,
+                            `email` varchar(255) NOT NULL,
+                            `phone_number` char(12) NOT NULL,
+                            `message` text NOT NULL,
+                            `replied` tinyint(1) NOT NULL DEFAULT 0,
+                            `date_sent` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -96,11 +97,11 @@ CREATE TABLE `contacts` (
 --
 
 INSERT INTO `contacts` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `message`, `replied`, `date_sent`) VALUES
-(3, 'Lynn', 'Miller', 'xxxxx@example.com', '0411 222 333', 'Well do!', 0, '2025-03-24'),
-(4, 'Kane', 'Tran', 'asd@gmail.com', '0222 123 231', 'avc', 0, '2025-03-24'),
-(5, 'Kane', 'Tran', 'asd@gmail.com', '0222 123 231', 'avc', 0, '2025-03-24'),
-(6, 'Kane', 'wake', 'edvs@gmai.com', '0222 123 231', 'asd', 0, '2025-03-24'),
-(7, 'alan', 'asd', 'asd@gmail.com', '0322 322 332', 'asd', 0, '2025-03-26');
+                                                                                                                         (3, 'Lynn', 'Miller', 'xxxxx@example.com', '0411 222 333', 'Well do!', 0, '2025-03-24'),
+                                                                                                                         (4, 'Kane', 'Tran', 'asd@gmail.com', '0222 123 231', 'avc', 0, '2025-03-24'),
+                                                                                                                         (5, 'Kane', 'Tran', 'asd@gmail.com', '0222 123 231', 'avc', 0, '2025-03-24'),
+                                                                                                                         (6, 'Kane', 'wake', 'edvs@gmai.com', '0222 123 231', 'asd', 0, '2025-03-24'),
+                                                                                                                         (7, 'alan', 'asd', 'asd@gmail.com', '0322 322 332', 'asd', 0, '2025-03-26');
 
 -- --------------------------------------------------------
 
@@ -109,22 +110,22 @@ INSERT INTO `contacts` (`id`, `first_name`, `last_name`, `email`, `phone_number`
 --
 
 CREATE TABLE `products` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `image` varchar(500) DEFAULT NULL,
-  `quantity` int(11) NOT NULL DEFAULT 0
+                            `id` int(11) NOT NULL,
+                            `name` varchar(255) NOT NULL,
+                            `description` text DEFAULT NULL,
+                            `price` decimal(10,2) NOT NULL,
+                            `image` varchar(500) DEFAULT NULL,
+                            `quantity` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO products (id, name, description, price, image) VALUES
-(1, 'Lavosh Signature Crackers', 'Crunchy and savory, our Lavosh Signature Crackers are perfect as a standalone snack or paired with your favorite wine.', 9.99, "default-product.jpg"),
-(2, 'Lavosh Artisan Flatbread', 'Experience the delicate taste of our Lavosh Artisan Flatbread, ideal for creating a gourmet morning meal.', 7.49, "default-product.jpg"),
-(3, 'Lavosh Deluxe Hamper', 'Our Lavosh Deluxe Hamper offers a curated selection including premium lavosh crackers, flatbread, fine wine, and gourmet treats – the perfect gift of choice.', 49.99, "default-product.jpg");
+INSERT INTO products (id, name, description, price, image, quantity) VALUES
+                                                                         (1, 'Lavosh Signature Crackers', 'Crunchy and savory, our Lavosh Signature Crackers are perfect as a standalone snack or paired with your favorite wine.', 9.99, "default-product.jpg", 100),
+                                                                         (2, 'Lavosh Artisan Flatbread', 'Experience the delicate taste of our Lavosh Artisan Flatbread, ideal for creating a gourmet morning meal.', 7.49, "default-product.jpg", 10),
+                                                                         (3, 'Lavosh Deluxe Hamper', 'Our Lavosh Deluxe Hamper offers a curated selection including premium lavosh crackers, flatbread, fine wine, and gourmet treats – the perfect gift of choice.', 49.99, "default-product.jpg", 0);
 
 -- --------------------------------------------------------
 
@@ -133,14 +134,14 @@ INSERT INTO products (id, name, description, price, image) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `nonce` varchar(255) DEFAULT NULL,
-  `nonce_expiry` datetime DEFAULT NULL,
-  `role` ENUM('admin', 'customer') DEFAULT 'customer',
-  `created` datetime DEFAULT CURRENT_TIMESTAMP,
-  `modified` datetime DEFAULT NULL
+                         `id` int(11) NOT NULL,
+                         `email` varchar(255) NOT NULL,
+                         `password` varchar(255) NOT NULL,
+                         `nonce` varchar(255) DEFAULT NULL,
+                         `nonce_expiry` datetime DEFAULT NULL,
+                         `role` ENUM('admin', 'customer') DEFAULT 'customer',
+                         `created` datetime DEFAULT CURRENT_TIMESTAMP,
+                         `modified` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -148,8 +149,28 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `role`) VALUES
-(1, 'test@example.com', '$2y$10$myP46BKNV9W74tK7agrLJOnNa23qPmBHcz2Hp6T660T3e1iwZPLZy', 'customer'),
-(2, 'asd@gmail.com', '$2y$10$9IYSSmJtwhq/ixYrolnXW.fqx0CzwaGsoVoWeFm/Xgh2J/OADDB8u', 'admin');
+                                                            (1, 'test@example.com', '$2y$10$myP46BKNV9W74tK7agrLJOnNa23qPmBHcz2Hp6T660T3e1iwZPLZy', 'customer'),
+                                                            (2, 'asd@gmail.com', '$2y$10$9IYSSmJtwhq/ixYrolnXW.fqx0CzwaGsoVoWeFm/Xgh2J/OADDB8u', 'admin');
+
+--
+-- Table structure for table `cart_items`
+--
+CREATE TABLE `cart_items` (
+                              `id` INT(11) NOT NULL,
+                              `user_id` INT(11) NOT NULL,
+                              `product_id` INT(11) NOT NULL,
+                              `quantity` INT(11) NOT NULL DEFAULT 1,
+                              `created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                              `modified` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart_items`
+--
+INSERT INTO `cart_items` (id, user_id, product_id, quantity) VALUES
+                                                                 (1, 1, 1, 2),
+                                                                 (2, 1, 2, 1);
+
 
 --
 -- Indexes for dumped tables
@@ -159,7 +180,7 @@ INSERT INTO `users` (`id`, `email`, `password`, `role`) VALUES
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`),
+    ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unq_category_name` (`name`);
 
 --
@@ -173,13 +194,13 @@ ALTER TABLE `products`
 -- Indexes for table `contacts`
 --
 ALTER TABLE `contacts`
-  ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
+    ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unq_users_email` (`email`);
 
 
@@ -202,6 +223,26 @@ ALTER TABLE categories_products
 
 
 --
+-- Indexes for table `cart_items`
+--
+ALTER TABLE `cart_items`
+    ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `cart_items`
+    ADD UNIQUE KEY `unq_user_product` (`user_id`, `product_id`);
+
+-- Restrict delete users if they currently have item in cart
+ALTER TABLE `cart_items`
+    ADD CONSTRAINT `fk_cart_items_user`
+        FOREIGN KEY (`user_id`) REFERENCES `users`(`id`);
+
+-- Restrict delete products if they currently in cart
+ALTER TABLE `cart_items`
+    ADD CONSTRAINT `fk_cart_items_product`
+        FOREIGN KEY (`product_id`) REFERENCES `products`(`id`);
+
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -209,19 +250,19 @@ ALTER TABLE categories_products
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `categories_products`
@@ -233,7 +274,14 @@ ALTER TABLE `categories_products`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `cart_items`
+--
+ALTER TABLE `cart_items`
+    MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
