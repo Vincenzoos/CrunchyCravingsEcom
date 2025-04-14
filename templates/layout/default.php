@@ -153,12 +153,41 @@ $html = new HtmlHelper(new \Cake\View\View());
 			<div class="container">
 				<div class="row" style="display: flex; justify-content: center; align-items: center;">
 					<div class="col-12 col-md-12 col-lg-3 ow-left-padding  d-flex align-items-center" style="margin-top: 15px; margin-bottom: 15px;">
-						<div class="input-group input-group1">
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
-							</span>
-							<input type="text" class="form-control" placeholder="Search products">
-						</div><!-- /input-group -->
+                            <!-- Determine whether to show login or logout, and save the current page in URL redirect to be used as a fallback -->
+                            <?php if ($this->Identity->isLoggedIn()) : ?>
+                                <a title="Logout"
+                                   id="top_link"
+                                   style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
+                                   href="<?= $this->Url->build([
+                                       'controller' => 'Auth',
+                                       'action' => 'logout',
+                                       '?' => ['redirect' => $this->request->getRequestTarget()]
+                                   ]) ?>"
+                                   class="list-group-item">LOGOUT</a>
+                            <?php else : ?>
+                                <a title="Login"
+                                   id="top_link"
+                                   style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
+                                   href="<?= $this->Url->build([
+                                       'controller' => 'Auth',
+                                       'action' => 'login',
+                                       '?' => ['redirect' => $this->request->getRequestTarget()]
+                                   ]) ?>"
+                                   class="list-group-item">LOGIN</a>
+
+                                <a title="Register"
+                                   id="top_link"
+                                   style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
+                                   href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">REGISTER
+                                </a>
+                            <?php endif; ?>
+<!--						<div class="input-group input-group1">-->
+<!--							<span class="input-group-btn">-->
+<!--								<button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>-->
+<!--							</span>-->
+<!--							<input type="text" class="form-control" placeholder="Search products">-->
+<!--						</div>-->
+                        <!-- /input-group -->
 					</div>
 					<div class="col-12 col-md-12 col-lg-6 logo-block">
 						<a title="Logo" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">
@@ -168,35 +197,36 @@ $html = new HtmlHelper(new \Cake\View\View());
 					<div class="col-12 col-md-12 col-lg-3 ow-right-padding ">
 						<div class="row" style="display: flex; justify-content: space-between; align-items: center;">
 							<!-- Login and Register -->
-							<div class="col-12 col-sm-6 col-md-6 col-lg-6 ow-right-padding ow-right-padding2 d-flex justify-content-end">
+<!--							<div class="col-12 col-sm-6 col-md-6 col-lg-6 ow-right-padding ow-right-padding2 d-flex justify-content-end">-->
                                 <!-- Determine whether to show login or logout, and save the current page in URL redirect to be used as a fallback -->
-                                <?php if ($this->Identity->isLoggedIn()) : ?>
-                                    <a title="Logout"
-                                    id="top_link"
-                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                    href="<?= $this->Url->build([
-                                        'controller' => 'Auth',
-                                        'action' => 'logout',
-                                        '?' => ['redirect' => $this->request->getRequestTarget()]
-                                    ]) ?>"
-                                    class="list-group-item">LOGOUT</a>
-                                <?php else : ?>
-                                    <a title="Login"
-                                    id="top_link"
-                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                    href="<?= $this->Url->build([
-                                        'controller' => 'Auth',
-                                        'action' => 'login',
-                                        '?' => ['redirect' => $this->request->getRequestTarget()]
-                                    ]) ?>"
-                                    class="list-group-item">LOGIN</a>
-                                <?php endif; ?>
-                                <a title="Register"
-                                    id="top_link"
-                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                    href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">REGISTER
-                                </a>
-							</div>
+<!--                                --><?php //if ($this->Identity->isLoggedIn()) : ?>
+<!--                                    <a title="Logout"-->
+<!--                                    id="top_link"-->
+<!--                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"-->
+<!--                                    href="--><?php //= $this->Url->build([
+//                                        'controller' => 'Auth',
+//                                        'action' => 'logout',
+//                                        '?' => ['redirect' => $this->request->getRequestTarget()]
+//                                    ]) ?><!--"-->
+<!--                                    class="list-group-item">LOGOUT</a>-->
+<!--                                --><?php //else : ?>
+<!--                                    <a title="Login"-->
+<!--                                    id="top_link"-->
+<!--                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"-->
+<!--                                    href="--><?php //= $this->Url->build([
+//                                        'controller' => 'Auth',
+//                                        'action' => 'login',
+//                                        '?' => ['redirect' => $this->request->getRequestTarget()]
+//                                    ]) ?><!--"-->
+<!--                                    class="list-group-item">LOGIN</a>-->
+<!---->
+<!--                                <a title="Register"-->
+<!--                                    id="top_link"-->
+<!--                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"-->
+<!--                                    href="--><?php //= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?><!--">REGISTER-->
+<!--                                </a>-->
+<!--                                --><?php //endif; ?>
+<!--							</div>-->
 
 							<!-- Cart -->
     						<div class="col-12 col-sm-6 col-md-6 col-lg-6 cart-link ow-right-padding d-flex justify-content-end" style="margin-top: 15px; margin-bottom: 15px;">
@@ -207,34 +237,58 @@ $html = new HtmlHelper(new \Cake\View\View());
 									</g>
 								</svg>
 								<!-- cart (2) -->
-                                <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?>">cart (2)</a>
-								<div class="cart-dropdown">
-									<table>
-										<tr>
-											<td class="product-thumb"><a href="#"><?= $html->image('cart-hover-1.png', ['alt' => 'cart-hover']) ?></a></td>
-											<td><a title="Red Cotton Top" href="#">Red Cotton Top</a></td>
-											<td>x1</td>
-											<td>$92.00</td>
-											<td><a title="close" href="#"><i class="fa fa-close"></i></a></td>
-										</tr>
-										<tr>
-											<td class="product-thumb"><a href="#"><?= $html->image('cart-hover-2.png', ['alt' => 'cart-hover']) ?></a></td>
-											<td><a title="Red Cotton Top" href="#">Red Cotton Top</a></td>
-											<td>x1</td>
-											<td>$92.00</td>
-											<td><a title="close" href="#"><i class="fa fa-close"></i></a></td>
-										</tr>
-									</table>
-									<div class="sub-total">
-										<p><span>Sub Total</span> $160.00</p>
-										<p><span>Total</span> $160.00</p>
-									</div>
-									<div class="cart-button">
-										<a title="Add to cart" href="#">add to cart</a>
-										<a title="Checkout" href="#">Checkout</a>
-									</div>
-								</div>
-							</div>
+                                <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?>">cart</a>
+<!--                                --><?php //if ($this->Identity->isLoggedIn() && !empty($cartItems)) : ?>
+<!--                                    <div class="cart-dropdown">-->
+<!--                                        <table>-->
+<!--                                            --><?php //foreach ($cartItems as $cartItem): ?>
+<!--                                                <tr>-->
+<!--                                                    <td class="product-thumb">-->
+<!--                                                        <a href="--><?php //= $this->Url->build(['controller' => 'Products', 'action' => 'customerView', $cartItem->product->id]) ?><!--">-->
+<!--                                                            --><?php //= $this->Html->image(
+//                                                                isset($cartItem->product->image) ? $cartItem->product->image : 'default.jpg',
+//                                                                ['alt' => h($cartItem->product->name)]
+//                                                            ) ?>
+<!--                                                        </a>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <a title="--><?php //= h($cartItem->product->name) ?><!--" href="--><?php //= $this->Url->build(['controller' => 'Products', 'action' => 'customerView', $cartItem->product->id]) ?><!--">-->
+<!--                                                            --><?php //= h($cartItem->product->name) ?>
+<!--                                                        </a>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        x--><?php //= h($cartItem->quantity) ?>
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        --><?php //= $this->Number->currency($cartItem->line_price, 'AUD') ?>
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <a title="remove" href="--><?php //= $this->Url->build(['controller' => 'CartItems', 'action' => 'remove', $cartItem->id]) ?><!--">-->
+<!--                                                            <i class="fa fa-close"></i>-->
+<!--                                                        </a>-->
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+<!--                                            --><?php //endforeach; ?>
+<!--                                        </table>-->
+<!--                                        --><?php
+//                                        // Calculate the subtotal for display
+//                                        $subtotal = 0;
+//                                        foreach ($cartItems as $item) {
+//                                            $subtotal += $item->line_price;
+//                                        }
+//                                        ?>
+<!--                                        <div class="sub-total">-->
+<!--                                            <p><span>Sub Total</span> --><?php //= $this->Number->currency($subtotal, 'AUD') ?><!--</p>-->
+<!--                                            <p><span>Total</span> --><?php //= $this->Number->currency($subtotal, 'AUD') ?><!--</p>-->
+<!--                                        </div>-->
+<!--                                        <div class="cart-button">-->
+<!--                                            <a title="View Cart" href="--><?php //= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?><!--">View Cart</a>-->
+<!--                                            <a title="Checkout" href="--><?php //= $this->Url->build(['controller' => 'Orders', 'action' => 'checkout']) ?><!--">Checkout</a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                --><?php //endif; ?>
+
+                            </div>
 						</div>
 
 					</div>

@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Event\EventInterface;
 
 /**
  * Application Controller
@@ -59,11 +60,10 @@ class AppController extends Controller
         //$this->loadComponent('FormProtection');
     }
 
+    public function beforeRender(EventInterface $event)
+    {
+        parent::beforeRender($event);
 
-//    public function beforeRender(\Cake\Event\EventInterface $event)
-//    {
-//        parent::beforeRender($event);
-//
 //        // Check if the Identity object is available
 //        $isAdmin = false;
 //        if ($this->Authentication->getIdentity()) {
@@ -72,5 +72,20 @@ class AppController extends Controller
 //
 //        // Pass the variable to the view
 //        $this->set('isAdmin', $isAdmin);
-//    }
+        // Get current user identity from Authentication component.
+//        $identity = $this->Authentication->getIdentity();
+//
+//        if ($identity) {
+//            $userId = $identity->get('id') ?? null;
+//            // Query CartItems for the specific user, and eager-load Products
+//            $cartItems = $this->fetchTable('CartItems')->find('all')
+//                ->contain(['Products'])
+//                ->where(['CartItems.user_id' => $userId]);
+//
+//            $this->set(compact('cartItems'));
+//        } else {
+//            // Optionally set cartItems as an empty array for non-logged in users.
+//            $this->set('cartItems', []);
+//        }
+    }
 }
