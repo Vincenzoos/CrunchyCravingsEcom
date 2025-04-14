@@ -34,7 +34,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 <head>
     <!-- Custom CSS -->
-    <?= $this->Html->css(['custom']) ?>
+    <?= $this->Html->css(['utilities']) ?>
 </head>
 
 <body>
@@ -44,7 +44,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 		<div class="page-breadcrumb">
 			<ol class="breadcrumb">
 				<li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-				<li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>">Products</a></li>
+				<li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
 			</ol>
 			<div class="return-home-link pull-right">
 				<a title="Return to home page" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">return to home page</a>
@@ -72,7 +72,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 
                     <!-- Categories -->
                     <div class="col-12 col-md-6 col-lg-8">
-                        <form method="get" action="<?= $this->Url->build(['action' => 'index']) ?>">
+                        <form method="get" action="<?= $this->Url->build(['action' => 'customerIndex']) ?>">
                             <h4>Filter by Categories</h4>
                             <div class="category-checkboxes">
                                 <?php foreach ($categories as $category) : ?>
@@ -94,7 +94,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <!-- Submit Button -->
                             <div class="mt-3">
                                 <button type="submit" class="btn btn-success">Apply Filters</button>
-                                <a href="<?= $this->Url->build(['action' => 'index']) ?>" class="btn btn-primary">Clear Filters</a>
+                                <a href="<?= $this->Url->build(['action' => 'customerIndex']) ?>" class="btn btn-primary">Clear Filters</a>
                             </div>
                         </form>
                     </div>

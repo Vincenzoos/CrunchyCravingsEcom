@@ -24,7 +24,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 <head>
     <!-- Custom CSS -->
-    <?= $this->Html->css(['custom']) ?>
+    <?= $this->Html->css(['utilities']) ?>
 </head>
 
 <body>
@@ -34,7 +34,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 		<div class="page-breadcrumb">
 			<ol class="breadcrumb">
 				<li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-				<li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>">Products</a></li>
+				<li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
 				<li class="active">All Categories</li>
 			</ol>
 			<div class="return-home-link pull-right">
@@ -106,7 +106,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 				<!-- Sidebar -->
 				<div class="col-12 col-md-12 col-lg-5 single-product-sidebar">
 					<ul class="categories-list" style="margin-bottom: 20px;">
-						<li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>">Products</a></li>
+						<li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
 						<?php if (!empty($product->categories)): ?>
 							<?php foreach ($product->categories as $category): ?>
 								<li><a title="<?= h($category->name) ?>" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'view', $category->id]) ?>"><?= h($category->name) ?></a></li>

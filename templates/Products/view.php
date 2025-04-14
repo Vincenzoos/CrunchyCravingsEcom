@@ -11,7 +11,7 @@
     <title>CrunchyCravings - Product Details</title>
 
     <!-- Custom CSS -->
-    <?= $this->Html->css(['custom', 'table', 'contact_us']) ?>
+    <?= $this->Html->css(['utilities', 'table', 'form']) ?>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
     <div class="page-container mx-auto my-5">
 
         <!-- Heading Section -->
-        <section id="heading-section" class="text-center py-5">
+        <section id="heading" class="text-center py-5">
             <div class="container">
                 <h1 class="display-4">View Product</h1>
                 <p class="lead">Details of the selected product are shown below.</p>
@@ -51,12 +51,15 @@
                                     <td><?= h($product->id) ?></td>
                                 </tr>
                             </table>
-                            <div class="text">
-                                <strong><?= __('Description:') ?></strong>
-                                <blockquote>
-                                    <?= $this->Text->autoParagraph(h($product->description)); ?>
-                                </blockquote>
-                            </div>
+							<!-- Description Section -->
+							<div id="description-content" class="text-center mt-4">
+								<h3><?= __('Description') ?></h3>
+								<table class="table table-bordered">
+									<tr>
+										<td><?= $this->Text->autoParagraph(h($product->description)); ?></td>
+									</tr>
+								</table>
+							</div>
                         </div>
 
                         <!-- Related Categories Section -->
@@ -110,8 +113,10 @@
                                     'confirm' => __('Are you sure you want to delete {0}?', $product->name),
                                 ]
                             ) ?>
-                            <?= $this->Html->link('Back to Products', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
                         </div>
+						<div class="text-center mt-4">
+							<?= $this->Html->link('Back to Products', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+						</div>
                     </div>
                 </div>
             </div>

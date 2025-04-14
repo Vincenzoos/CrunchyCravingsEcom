@@ -293,7 +293,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 	</header>
 	<!-- Header Section /- -->
 
-    <div id="wrapper" class="d-flex flex-column min-vh-100">
+    <div id="page-content" class="d-flex flex-column min-vh-100">
         <!-- Main Content -->
         <div class="flex-grow-1">
             <div id="main-content" class="container-fluid">
@@ -522,9 +522,12 @@ $html = new HtmlHelper(new \Cake\View\View());
                     document.documentElement.style.setProperty('--border-color', 'var(--accessible-border-color)');
                     document.documentElement.style.setProperty('--background-color', 'var(--accessible-background-color)');
                     document.documentElement.style.setProperty('--text-color', 'var(--accessible-text-color)');
+                    document.documentElement.style.setProperty('--button-text-color', 'var(--accessible-button-text-color)');
                     document.documentElement.style.setProperty('--empty-color', 'var(--accessible-empty-color)');
                     document.documentElement.style.setProperty('--icon-color', 'var(--accessible-icon-color)');
                     document.documentElement.style.setProperty('--icon-hover-color', 'var(--accessible-icon-hover-color)');
+                    document.documentElement.style.setProperty('--paginator-color', 'var(--accessible-paginator-color)');
+                    document.documentElement.style.setProperty('--paginator-hover-color', 'var(--accessible-paginator-hover-color)');
                 } else {
                     document.documentElement.style.setProperty('--sidebar-text-color', 'var(--default-sidebar-text-color)');
                     document.documentElement.style.setProperty('--sidebar-bg-color', 'var(--default-sidebar-bg-color)');
@@ -532,9 +535,12 @@ $html = new HtmlHelper(new \Cake\View\View());
                     document.documentElement.style.setProperty('--border-color', 'var(--default-border-color)');
                     document.documentElement.style.setProperty('--background-color', 'var(--default-background-color)');
                     document.documentElement.style.setProperty('--text-color', 'var(--default-text-color)');
+                    document.documentElement.style.setProperty('--button-text-color', 'var(--default-button-text-color)');
                     document.documentElement.style.setProperty('--empty-color', 'var(--default-empty-color)');
                     document.documentElement.style.setProperty('--icon-color', 'var(--default-icon-color)');
                     document.documentElement.style.setProperty('--icon-hover-color', 'var(--default-icon-hover-color)');
+                    document.documentElement.style.setProperty('--paginator-color', 'var(--default-paginator-color)'); /* Paginator color */
+                    document.documentElement.style.setProperty('--paginator-hover-color', 'var(--default-paginator-hover-color)'); /* Paginator hover color */
                 }
             }
 

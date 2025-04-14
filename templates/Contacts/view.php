@@ -13,14 +13,14 @@
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 
     <!-- Custom CSS -->
-    <?= $this->Html->css(['custom', 'table','contact_us']) ?>
+    <?= $this->Html->css(['utilities', 'table','form']) ?>
 </head>
 
 <body>
     <!-- Page Container -->
     <div class="page-container mx-auto my-5">
         <!-- View Contact Section -->
-        <section id="heading-section" class="text-center py-5">
+        <section id="heading" class="text-center py-5">
             <div class="container">
                 <h1 class="display-4">View Contact</h1>
                 <p class="lead">Details of the selected contact are shown below.</p>
@@ -60,12 +60,14 @@
                                     <td><?= $contact->replied ? __('Yes') : __('No'); ?></td>
                                 </tr>
                             </table>
-                            <div class="text">
-                                <strong><?= __('Message:') ?></strong>
-                                <blockquote>
-                                    <?= $this->Text->autoParagraph(h($contact->message)); ?>
-                                </blockquote>
-                            </div>
+							<div id="message-content" class="text-center mt-4">
+								<h3><?= __('Description') ?></h3>
+								<table class="table table-bordered">
+									<tr>
+										<td><?= $this->Text->autoParagraph(h($contact->message)); ?></td>
+									</tr>
+								</table>
+							</div>
                         </div>
                         <div class="text-center mt-4">
                             <?= $this->Html->link('Email', 'mailto:' . h($contact->email), ['class' => 'btn btn-dark']) ?>

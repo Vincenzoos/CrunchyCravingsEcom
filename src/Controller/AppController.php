@@ -50,7 +50,8 @@ class AppController extends Controller
         $this->loadComponent('Authorization.Authorization');
 
         $categories = $this->fetchTable('Categories')->find('all');
-        $this->set(compact('categories'));
+        $products = $this->fetchTable('Products')->find('all');
+        $this->set(compact('categories', 'products'));
         /*
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/5/en/controllers/components/form-protection.html
