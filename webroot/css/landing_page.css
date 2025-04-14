@@ -3,40 +3,15 @@
     margin-bottom: 0rem !important; /* Set vertical gutters to 0 */
 }
 
-#landing-page {
-    background-color: var(--empty-color); /* Set background color */
-    padding: 0 !important; /* Remove default padding */
-    margin: 0 !important; /* Remove default margin */
-}
-
-/* Intro Section */
-#intro {
-    position: fixed; /* Make the intro section overlay the entire viewport */
-    top: 0;
-    left: 0;
-    width: 100vw; /* Full viewport width */
-    height: 100vh; /* Full viewport height */
-    background-image: url('../img/Banner.png'); /* Replace with your image path */
-    background-size: cover; /* Ensure the image covers the entire section */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Prevent the image from repeating */
-    display: flex; /* Flexbox for centering content */
-    align-items: center; /* Vertically center content */
-    justify-content: center; /* Horizontally center content */
-    text-align: center;
-    z-index: 1000; /* Ensure it sits above all other content */
-    transition: opacity 1s ease-in-out; /* Fade-out transition */
-}
-
-#intro h3 {
-    color: var(--text-color); /* Text color */
-    margin-bottom: 1rem; /* Space below the heading */
-}
-
 /* Landing Page */
 #landing-page {
-    opacity: 1; /* Ensure the landing page is visible by default */
-    transition: opacity 1s ease-in-out; /* Fade-in transition */
+    background-color: var(--empty-color);
+}
+
+/* Page Container */
+.page-container {
+    padding: 0 !important; /* Remove default padding */
+    margin: 0 !important; /* Remove default margin */
 }
 
 /* Heading */

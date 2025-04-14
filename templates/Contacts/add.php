@@ -9,25 +9,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrunchyCravings</title>
-    <!-- Bootstrap CSS -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 
     <!-- Custom CSS -->
-    <?= $this->Html->css(['custom', 'contact_us']) ?>
+    <?= $this->Html->css(['utilities', 'form']) ?>
 </head>
 
 <body>
     <!-- Page Container -->
     <div class="page-container mx-auto my-5">
-        <!-- Heading Banner -->
-        <section id="heading-banner">
-            <header id="heading-inner" class="text-center py-3">
-                <?= $this->Html->image('cc_logo.png', ['class' => 'img-fluid', 'alt' => 'CrunchyCravings']) ?>
-            </header>
-        </section>
-
         <!-- Add Contact Section -->
-        <section id="heading-section" class="text-center py-5">
+        <section id="heading" class="text-center py-5">
             <div class="container">
                 <h1 class="display-4">Add Contact</h1>
                 <p class="lead">Create a new contact below.</p>
@@ -39,13 +30,13 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8">
-                        <div class="contacts form content text-center">
+                        <div id="form-content">
                             <?= $this->Form->create($contact) ?>
 
                             <div class="mb-4">
                                 <?= $this->Form->control('first_name', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h3 class="text-center">First Name</h3>', 'escape' => false],
+                                    'label' => ['text' => '<h4>First Name</h4>', 'escape' => false],
                                     'placeholder' => 'Enter the first name...',
                                     'required' => true,
                                 ]); ?>
@@ -53,7 +44,7 @@
                             <div class="mb-4">
                                 <?= $this->Form->control('last_name', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h3 class="text-center">Last Name</h3>', 'escape' => false],
+                                    'label' => ['text' => '<h4>Last Name</h4>', 'escape' => false],
                                     'placeholder' => 'Enter the last name...',
                                     'required' => true,
                                 ]); ?>
@@ -61,7 +52,7 @@
                             <div class="mb-4">
                                 <?= $this->Form->control('email', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h3 class="text-center">Email</h3>', 'escape' => false],
+                                    'label' => ['text' => '<h4>Email</h4>', 'escape' => false],
                                     'placeholder' => 'Enter the email...',
                                     'type' => 'email',
                                     'required' => true,
@@ -70,7 +61,7 @@
                             <div class="mb-4">
                                 <?= $this->Form->control('phone_number', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h3 class="text-center">Phone Number</h3>', 'escape' => false],
+                                    'label' => ['text' => '<h4>Phone Number</h4>', 'escape' => false],
                                     'placeholder' => 'Enter the phone number...',
                                     'type' => 'tel',
                                     'required' => true,
@@ -79,7 +70,7 @@
                             <div class="mb-4">
                                 <?= $this->Form->control('message', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h3 class="text-center">Message</h3>', 'escape' => false],
+                                    'label' => ['text' => '<h4>Message</h4>', 'escape' => false],
                                     'placeholder' => 'Enter the message...',
                                     'type' => 'textarea',
                                     'rows' => 5,
@@ -89,7 +80,7 @@
                             <div class="mb-4">
                                 <?= $this->Form->control('date_sent', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h3 class="text-center">Date Sent</h3>', 'escape' => false],
+                                    'label' => ['text' => '<h4>Date Sent</h4>', 'escape' => false],
                                     'type' => 'date',
                                     'required' => true,
                                 ]); ?>

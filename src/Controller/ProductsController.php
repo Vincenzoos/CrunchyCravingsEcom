@@ -145,13 +145,19 @@ class ProductsController extends AppController
             $product = $this->Products->patchEntity($product, $this->request->getData());
             if ($this->Products->save($product)) {
                 $this->Flash->success(__('The product has been saved.'));
-
+    
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The product could not be saved. Please, try again.'));
         }
-        $categories = $this->Products->Categories->find('all', limit: 200)->all();
-        $this->set(compact('product', 'categories'));
+    
+        // Fetch all categories
+        $allCategories = $this->Products->Categories->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'name',
+        ])->toArray();
+    
+        $this->set(compact('product', 'allCategories'));
     }
 
     /**
@@ -163,7 +169,7 @@ class ProductsController extends AppController
      */
     public function edit(?string $id = null)
     {
-        $product = $this->Products->get($id, contain: ['Categories']);
+        $product = $this->Products->get($id, ['contain' => ['Categories']]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $product = $this->Products->patchEntity($product, $this->request->getData());
             if ($this->Products->save($product)) {
@@ -173,8 +179,19 @@ class ProductsController extends AppController
             }
             $this->Flash->error(__('The product could not be saved. Please, try again.'));
         }
-        $categories = $this->Products->Categories->find('all', limit: 200)->all();
-        $this->set(compact('product', 'categories'));
+
+        // Fetch all categories
+        $allCategories = $this->Products->Categories->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'name',
+        ])->toArray();
+
+        // Get associated category IDs
+        $associatedCategoryIds = array_map(function ($category) {
+            return $category->id;
+        }, $product->categories);
+
+        $this->set(compact('product', 'allCategories', 'associatedCategoryIds'));
     }
 
     /**

@@ -32,7 +32,10 @@ class CategoriesController extends AppController
      */
     public function view($id = null)
     {
-        $category = $this->Categories->get($id, contain: ['Products']);
+        $category = $this->Categories->get($id, [
+            'contain' => ['Products'], // Include related products
+        ]);
+
         $this->set(compact('category'));
     }
 
@@ -53,7 +56,13 @@ class CategoriesController extends AppController
             }
             $this->Flash->error(__('The category could not be saved. Please, try again.'));
         }
-        $products = $this->Categories->Products->find('list', limit: 200)->all();
+
+        // Fetch all products for the checkboxes
+        $products = $this->Categories->Products->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'name',
+        ])->toArray();
+
         $this->set(compact('category', 'products'));
     }
 
@@ -64,20 +73,33 @@ class CategoriesController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
-        $category = $this->Categories->get($id, contain: ['Products']);
+        $category = $this->Categories->get($id, ['contain' => ['Products']]);
+    
         if ($this->request->is(['patch', 'post', 'put'])) {
             $category = $this->Categories->patchEntity($category, $this->request->getData());
             if ($this->Categories->save($category)) {
                 $this->Flash->success(__('The category has been saved.'));
-
+    
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The category could not be saved. Please, try again.'));
         }
-        $products = $this->Categories->Products->find('list', limit: 200)->all();
-        $this->set(compact('category', 'products'));
+    
+        // Fetch all products for the checkboxes
+        $allProducts = $this->Categories->Products->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'name',
+        ])->toArray();
+    
+        // Get associated product IDs
+        $associatedProductIds = array_map(function ($product) {
+            return $product->id;
+        }, $category->products);
+    
+        // Pass variables to the view
+        $this->set(compact('category', 'allProducts', 'associatedProductIds'));
     }
 
     /**

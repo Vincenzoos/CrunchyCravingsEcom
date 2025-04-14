@@ -320,7 +320,7 @@
 		/* Loader */
 		$( '.loading a' ).on('click', function(e) {
 			$( ".category-box-main.new-categories" ).removeClass('animated slideInLeft');
-			$( ".category-box-main.new-categories" ).css( 'display','block' ).addClass("animated fadeInUp").delay( 2000 );
+			$( ".category-box-main.new-categories" ).css( 'display','block' ).addClass("animated fadeInUp").delay( 100 );
 			$(".loading").css("display","none");
 			return false;
 		});
@@ -738,7 +738,7 @@
 			/* Inside the window load event */
 	
 			/* Loader */
-			$("#site-loader").delay(1000).fadeOut("slow");
+			$("#site-loader").delay(100).fadeOut("slow");
 		});
 		/* Event - Window Load /- */
 	} else {

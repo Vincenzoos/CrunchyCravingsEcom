@@ -11,21 +11,27 @@
     --default-border-color: #884251; /* Border color */
     --default-background-color: #f9f9f9;
     --default-text-color: #6e6e6e; /* Text color */
+    --default-button-text-color: #6e6e6e;
     --default-empty-color: #dd3e46;
     --default-icon-color: #dd3e46; /* Icon color */
     --default-icon-hover-color: #f1323b; /* Icon color */
+    --default-paginator-color: #0dcaf0; /* Paginator color */
+    --default-paginator-hover-color: #0ed0f7; /* Paginator hover color */
     
     /* Accesibility versions of all colours */
     --accesible-sidebar-text-color: #008cff; /* Accessible text color */
     --accesible-sidebar-bg-color: rgba(0, 0, 0, 0.2); /* Accessible background color */
     --accesible-sidebar-hover-color: rgba(45, 61, 151, 0.2); /* Accessible hover color */
     
-    --accessible-border-color: #ffffff; /* Accessibility border color */
+    --accessible-border-color: #000000; /* Accessibility border color */
     --accessible-background-color: #ffffff; /* Accessibility background color */
     --accessible-text-color: #008cff; /* Accessibility text color */
+    --accessible-button-text-color: #ffffff; /* Button text color */
     --accessible-empty-color: #000000; /* Accessibility empty color */
-    --accessible-icon-color: #000000; /* Accessibility icon color */
-    --accessible-icon-hover-color: #0051ff; /* Accessibility icon hover color */
+    --accessible-icon-color: #0051ff; /* Accessibility icon color */
+    --accessible-icon-hover-color: #ff0000; /* Accessibility icon hover color */
+    --accessible-paginator-color: #0051ff; /* Paginator color */
+    --accessible-paginator-hover-color: #ff0000; /* Paginator hover color */
     
     /* Initial values of all colours (Dynamic during runtime) */
     --sidebar-text-color: var(--default-sidebar-text-color); /* Text color */
@@ -34,9 +40,12 @@
     --border-color: var(--default-border-color); /* Border color */
     --background-color: var(--default-background-color); /* Background color */
     --text-color: var(--default-text-color); /* Text color */
+    --button-text-color: var(--default-button-text-color); /* Button text color */
     --empty-color: var(--default-empty-color); /* Empty color */
     --icon-color: var(--default-icon-color); /* Icon color */
     --icon-hover-color: var(--default-icon-hover-color); /* Icon hover color */
+    --paginator-color: var(--default-paginator-color); /* Paginator color */
+    --paginator-hover-color: var(--default-paginator-hover-color); /* Paginator hover color */
 }
 
 /* Sidebar Toggle Button */

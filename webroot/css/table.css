@@ -49,6 +49,7 @@
 .table-responsive {
     overflow-x: auto; /* Enable horizontal scrolling for small screens */
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile devices */
+    padding-bottom: 1rem; /* Add padding to the bottom */
 }
 
 /* Paginator Styling */
@@ -62,7 +63,8 @@
 }
 
 .pagination li a {
-    color: var(--icon-color); /* Match button color */
+    color: var(--button-text-color) !important; /* Match button color */
+    background-color: var(--paginator-color); /* Match button background */
     text-decoration: none;
     padding: 0.5rem 0.75rem;
     border-radius: 0.25rem;
@@ -70,6 +72,6 @@
 }
 
 .pagination li a:hover {
-    background-color: var(--icon-hover-color); /* Highlight on hover */
-    color: var(--text-hover-color);
+    background-color: var(--paginator-hover-color); /* Highlight on hover */
+    color: var(--button-text-color) !important; /* Change text color on hover */
 }

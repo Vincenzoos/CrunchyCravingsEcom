@@ -7,12 +7,7 @@
     overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
-/* Page Container */
-.page-container {
-    background-color: var(--empty-color);
-    padding: 0 !important; /* Remove default padding */
-    margin: 0 !important; /* Remove default margin */
-}
+
 
 /* Accessibility Toggle Container */
 .accessibility-toggle {
