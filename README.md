@@ -8,6 +8,15 @@ A skeleton for creating applications with [CakePHP](https://cakephp.org) 5.x.
 
 The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
 
+## App Credentials
+- Customer Accounts
+  - email: test@example.com | password: 123
+  - email: customer@gmail.com | password: yes
+
+- Admin Accounts
+    - email: asd@gmail.com | password: abc
+    - email: admin@gmail.com | password:
+
 ## Installation
 
 1. Download [Composer](https://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
