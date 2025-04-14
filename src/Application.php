@@ -80,7 +80,14 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         }
 
         // Add Authorization plugin
-        $this->addPlugin('Authorization');
+        if (!$this->getPlugins()->has('Authorization')) {
+            $this->addPlugin('Authorization');
+        }
+
+        // Ensure Authorization plugin is loaded
+        if (!class_exists(\Authorization\Middleware\AuthorizationMiddleware::class)) {
+            throw new \RuntimeException('Authorization plugin is not loaded. Please install and load the Authorization plugin.');
+        }
     }
 
     /**

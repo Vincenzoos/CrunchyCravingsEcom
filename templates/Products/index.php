@@ -2,211 +2,138 @@
 /**
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Product> $products
- * @var \Cake\Collection\CollectionInterface|array<string> $categoriesList
  */
-
 ?>
 
-<!doctype html>
-<!--
-**********************************************************************************************************
-    Copyright (c) 2024 Webstrot Technology
-********************************************************************************************************** -->
-<!--
-Template Name: Luxury Shop Ecommerce HTML Template
-Version: 1.0.0
-Author: webstrot
-Website: http://webstrot.com/
-Purchase: http://themeforest.net/user/webstrot  -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrunchyCravings - Products</title>
 
-<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
-<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!-->
-<html class=""> <!--<![endif]-->
+    <!-- Custom CSS -->
+    <?= $this->Html->css(['custom', 'table', 'login']) ?>
+</head>
 
 <body>
-    <!-- Page Breadcrumb -->
-    <!-- container -->
-	<div class="container">
-		<div class="page-breadcrumb">
-			<ol class="breadcrumb">
-				<li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-				<li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>">Products</a></li>
-			</ol>
-			<div class="return-home-link pull-right">
-				<a title="Return to home page" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">return to home page</a>
-			</div>
-		</div>
-	</div><!-- container /- -->
-    <!-- Page Breadcrumb /- -->
+    <!-- Page Container -->
+    <div class="page-container mx-auto my-5">
 
-    <!-- Product Filter -->
-    <div class="product-filter">
-        <div class="container">
-            <div class="product-filter-box bottom-shadow">
-                <div class="row">
-                    <!-- Price Range Slider -->
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <h4>Filter by Price</h4>
-                        <div id="slider-range"></div>
-                        <div class="price-input">
-                            <label>From: </label>
-                            <input type="text" id="min-price" name="min_price" readonly value="<?= $this->request->getQuery('min_price') ?>">
-                            <label>To: </label>
-                            <input type="text" id="max-price" name="max_price" readonly value="<?= $this->request->getQuery('max_price') ?>">
+        <!-- Heading Section -->
+        <section id="welcome-back" class="text-center py-5">
+            <div class="container">
+                <h1 class="display-4">Products Table</h1>
+                <p class="lead">Manage all products below.</p>
+            </div>
+        </section>
+
+        <!-- Products Filter Form -->
+        <div class="mb-4 p-4 rounded shadow-sm bg-light">
+            <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
+
+            <!-- Product Name Field -->
+            <div class="col-md-4">
+                <?= $this->Form->control('product_name', [
+                    'label' => 'Product Name',
+                    'placeholder' => 'Product name contains...',
+                    'value' => $this->request->getQuery('product_name'),
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+
+            <!-- Min Price Field -->
+            <div class="col-md-4">
+                <?= $this->Form->control('min_price', [
+                    'label' => 'Min Price',
+                    'placeholder' => 'Minimum price...',
+                    'value' => $this->request->getQuery('min_price'),
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+
+            <!-- Max Price Field -->
+            <div class="col-md-4">
+                <?= $this->Form->control('max_price', [
+                    'label' => 'Max Price',
+                    'placeholder' => 'Maximum price...',
+                    'value' => $this->request->getQuery('max_price'),
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+
+            <!-- Filter Button -->
+            <div class="col-md-2 align-self-end">
+                <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-success']) ?>
+                <?= $this->Html->link('Clear', ['action' => 'index'], ['class' => 'btn btn-danger']) ?>
+            </div>
+
+            <?= $this->Form->end() ?>
+        </div>
+
+        <div id="wrapper">
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Main Content -->
+                <div id="content">
+                    <div class="container-fluid">
+                        <?= $this->Flash->render() ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover shadow mb-4">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th><?= $this->Paginator->sort('id', __('ID')) ?></th>
+                                        <th><?= $this->Paginator->sort('name', __('Name')) ?></th>
+                                        <th><?= $this->Paginator->sort('price', __('Price')) ?></th>
+                                        <th><?= $this->Paginator->sort('quantity', __('Quantity')) ?></th>
+                                        <th class="text-center"><?= __('Actions') ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($products as $product) : ?>
+                                        <tr>
+                                            <td><?= h($product->id) ?></td>
+                                            <td><?= h($product->name) ?></td>
+                                            <td><?= $this->Number->currency($product->price, 'USD') ?></td>
+                                            <td><?= h($product->quantity) ?></td>
+                                            <td class="text-center">
+                                                <?= $this->Html->link(__('View'), ['action' => 'view', $product->id], ['class' => 'btn btn-info btn-sm']) ?>
+                                                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $product->id], ['class' => 'btn btn-warning btn-sm']) ?>
+                                                <?= $this->Form->postLink(
+                                                    __('Delete'),
+                                                    ['action' => 'delete', $product->id],
+                                                    [
+                                                        'class' => 'btn btn-danger btn-sm',
+                                                        'confirm' => __('Are you sure you want to delete {0}?', $product->name),
+                                                    ]
+                                                ) ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center mt-4">
+                            <?= $this->Html->link('Add New Product', ['action' => 'add'], ['class' => 'btn btn-success']) ?>
                         </div>
                     </div>
 
-                    <!-- Categories -->
-                    <div class="col-12 col-md-6 col-lg-8">
-                        <form method="get" action="<?= $this->Url->build(['action' => 'index']) ?>">
-                            <h4>Filter by Categories</h4>
-                            <div class="category-checkboxes">
-                                <?php foreach ($categories as $category) : ?>
-                                    <div class="form-check">
-                                        <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            name="categories[]"
-                                            value="<?= h($category->id) ?>"
-                                            id="category-<?= h($category->id) ?>"
-                                            <?= in_array($category->id, (array)$this->request->getQuery('categories')) ? 'checked' : '' ?>>
-                                        <label class="form-check-label" for="category-<?= h($category->id) ?>">
-                                            <?= h($category->name) ?>
-                                        </label>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="mt-3">
-                                <button type="submit" class="btn btn-success">Apply Filters</button>
-                                <a href="<?= $this->Url->build(['action' => 'index']) ?>" class="btn btn-primary">Clear Filters</a>
-                            </div>
-                        </form>
+                    <!-- Paginator -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <ul class="pagination">
+                            <?= $this->Paginator->first('<< ' . __('First')) ?>
+                            <?= $this->Paginator->prev('< ' . __('Previous')) ?>
+                            <?= $this->Paginator->numbers() ?>
+                            <?= $this->Paginator->next(__('Next') . ' >') ?>
+                            <?= $this->Paginator->last(__('Last') . ' >>') ?>
+                        </ul>
+                        <p class="text-muted">
+                            <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} records out of {{count}} total')) ?>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Product Filter /- -->
 
-    <!-- Feature Product -->
-    <div id="featured-products" class="featured-products bottom-shadow">
-        <!-- container -->
-        <div class="container">
-            <div class="category-box-main product-box-main">
-                <div class="row">
-                <?php foreach ($products as $product) : ?>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 main-product">
-                        <div class="category-box product-box">
-                            <?php if ($product->on_sale) : ?>
-                                <span class="sale">sales</span>
-                            <?php endif; ?>
-                            <div class="inner-product">
-                                <!-- Link the product image to the view page -->
-                                <a href="<?= $this->Url->build(['action' => 'view', $product->id]) ?>">
-                                    <img src="<?= h('img/products/default-product.jpg') ?>" alt="<?= h($product->name) ?>" />
-                                </a>
-                                <div class="product-box-inner">
-                                    <ul>
-                                        <li>
-                                            <a title="View Image" href="<?= h('img/products/default-product.jpg') ?>">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a title="Add to Wishlist" href="#">
-                                                <i class="fa fa-heart"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <a title="Add to Cart" href="#" class="btn">add to cart</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Link the product title to the view page -->
-                        <a title="<?= h($product->name) ?>" href="<?= $this->Url->build(['action' => 'view', $product->id]) ?>" class="product-title">
-                            <?= h($product->name) ?>
-                        </a>
-                        <ul class="star">
-                            <li>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </li>
-                        </ul>
-                        <span class="amount">
-                            <?php if ($product->original_price) : ?>
-                                <del>&dollar;<?= $this->Number->format($product->original_price) ?></del>
-                            <?php endif; ?>
-                            &dollar;<?= $this->Number->format($product->price) ?>
-                        </span>
-                    </div>
-                <?php endforeach; ?>
-                </div>
-            </div>
-        </div><!-- container /- -->
-    </div>
-    <!-- Feature Product /- -->
-
-    <div class="loading">
-        <a title="Click here for more products" href="#">
-            <img alt="loading icon" src="images/load.gif">
-            <p>click here for more products</p>
-        </a>
-    </div>
-
-
-
-    <!-- jQuery Include -->
-    <script src="libraries/jquery.min.js"></script>
-    <!-- <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false'></script> -->
-    <script src="libraries/gmap/jquery.gmap.min.js"></script> <!-- Light Box -->
-    <script src="libraries/jquery.easing.min.js"></script><!-- Easing Animation Effect -->
-    <script src="libraries/bootstrap/bootstrap.bundle.min.js"></script> <!-- Core Bootstrap v3.3.4 -->
-    <script src="libraries/fuelux/jquery-ui.min.js"></script>
-    <script src="libraries/jquery.animateNumber.min.js"></script> <!-- Used for Animated Numbers -->
-    <script src="libraries/jquery.appear.js"></script> <!-- It Loads jQuery when element is appears -->
-    <script src="libraries/jquery.knob.js"></script> <!-- Used for Loading Circle -->
-    <script src="libraries/wow.min.js"></script> <!-- Use For Animation -->
-    <script src="libraries/owl-carousel/owl.carousel.min.js"></script> <!-- Core Owl Carousel CSS File  *   v1.3.3 -->
-    <script src="libraries/expanding-search/modernizr.custom.js"></script> <!-- Core Owl Carousel CSS File  *   v1.3.3 -->
-    <script src="libraries/flexslider/jquery.flexslider-min.js"></script> <!-- flexslider   -->
-    <script src="libraries/jquery.magnific-popup.min.js"></script> <!-- Light Box -->
-
-    <!-- Filter scripts -->
-    <script>
-        $(document).ready(function () {
-            // Initialize the price slider
-            $("#slider-range").slider({
-                range: true,
-                min: 0,
-                max: 1000, // Adjust this max value based on your product price range
-                values: [
-                    <?= $this->request->getQuery('min_price') ?: 0 ?>,
-                    <?= $this->request->getQuery('max_price') ?: 1000 ?>
-                ],
-                slide: function (event, ui) {
-                    $("#min-price").val(ui.values[0]);
-                    $("#max-price").val(ui.values[1]);
-                }
-            });
-
-            // Set initial values for the price inputs
-            $("#min-price").val($("#slider-range").slider("values", 0));
-            $("#max-price").val($("#slider-range").slider("values", 1));
-        });
-    </script>
-
-    <!-- Customized Scripts -->
-    <script src="js/functions.js"></script>
-
-
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
-</html>

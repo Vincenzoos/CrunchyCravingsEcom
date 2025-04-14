@@ -18,6 +18,31 @@ return [
             'bypassAuth' => true,
         ],
 
+        // Public access to customer product pages
+        [
+            'role' => '*',
+            'controller' => 'Products',
+            'action' => [
+                'customerIndex',
+                'customerView',
+            ],
+            'bypassAuth' => true,
+        ],
+        // // Public access to the Cart controller
+        // [
+        //     'role' => '*',
+        //     'controller' => 'Cart',
+        //     'action' => '*',
+        //     'bypassAuth' => true,
+        // ],
+        // // Public access to the Orders controller
+        // [
+        //     'role' => '*',
+        //     'controller' => 'Orders',
+        //     'action' => '*',
+        //     'bypassAuth' => true,
+        // ],
+
         // Public access to Pages controller (e.g. homepage/landing page)
         [
             'role' => '*',
@@ -39,16 +64,6 @@ return [
             'role' => 'admin',
             'controller' => '*',
             'action' => '*',
-        ],
-
-        // All roles can view browse products and view product details
-        [
-            'role' => '*',
-            'controller' => 'Products',
-            'action' => [
-                'customerIndex',
-                'view',
-            ],
         ],
     ],
 ];
