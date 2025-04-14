@@ -26,100 +26,84 @@ Purchase: http://themeforest.net/user/webstrot  -->
 <!--[if (gt IE 9)|!(IE)]><!-->
 <html class=""> <!--<![endif]-->
 
+
+<?php
+use Cake\View\Helper\HtmlHelper;
+$html = new HtmlHelper(new \Cake\View\View());
+?>
+
+<head>
+    <!-- Custom CSS -->
+    <?= $this->Html->css(['custom']) ?>
+</head>
+
 <body>
     <!-- Page Breadcrumb -->
     <!-- container -->
-    <div class="container">
-        <div class="page-breadcrumb">
-            <ol class="breadcrumb">
-                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display']) ?>">Home</a></li>
-                <li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
-                <li class="active">Our products</li>
-            </ol>
-            <div class="return-home-link pull-right">
-                <a title="Return to home page" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display']) ?>">return to home page</a>
-            </div>
-        </div>
-        <div class="page-header ow-bottom-padding categories">
-            <h3>Our products</h3>
-            <p><?= $this->Number->format($no_products) ?> Products</p>
-        </div><!-- Section Header /- -->
-    </div><!-- container /- -->
+	<div class="container">
+		<div class="page-breadcrumb">
+			<ol class="breadcrumb">
+				<li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+				<li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>">Products</a></li>
+			</ol>
+			<div class="return-home-link pull-right">
+				<a title="Return to home page" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">return to home page</a>
+			</div>
+		</div>
+	</div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
 
     <!-- Product Filter -->
     <div class="product-filter">
         <div class="container">
+            <div class="product-filter-box bottom-shadow">
+                <div class="row">
+                    <!-- Price Range Slider -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <h4>Filter by Price</h4>
+                        <div id="slider-range"></div>
+                        <div class="price-input">
+                            <label>From: </label>
+                            <input type="text" id="min-price" name="min_price" readonly value="<?= $this->request->getQuery('min_price') ?>">
+                            <label>To: </label>
+                            <input type="text" id="max-price" name="max_price" readonly value="<?= $this->request->getQuery('max_price') ?>">
+                        </div>
+                    </div>
 
+                    <!-- Categories -->
+                    <div class="col-12 col-md-6 col-lg-8">
+                        <form method="get" action="<?= $this->Url->build(['action' => 'index']) ?>">
+                            <h4>Filter by Categories</h4>
+                            <div class="category-checkboxes">
+                                <?php foreach ($categories as $category) : ?>
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            name="categories[]"
+                                            value="<?= h($category->id) ?>"
+                                            id="category-<?= h($category->id) ?>"
+                                            <?= in_array($category->id, (array)$this->request->getQuery('categories')) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="category-<?= h($category->id) ?>">
+                                            <?= h($category->name) ?>
+                                        </label>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
 
-            <!-- Product Filter Form -->
-            <div class="mb-4 p-4 rounded shadow-sm bg-light">
-                <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
-
-                <!-- Product name Field -->
-                <div class="col-md-3">
-                    <?= $this->Form->control('product_name', [
-                        'label' => 'Name',
-                        'placeholder' => 'Product name contains...',
-                        'value' => $this->request->getQuery('product_name'),
-                        'class' => 'form-control',
-                    ]) ?>
+                            <!-- Submit Button -->
+                            <div class="mt-3">
+                                <button type="submit" class="btn btn-success">Apply Filters</button>
+                                <a href="<?= $this->Url->build(['action' => 'index']) ?>" class="btn btn-primary">Clear Filters</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-
-                <!-- Price field -->
-                <div class="col-md-3">
-                    <?= $this->Form->control('min_price', [
-                        'label' => 'Min Price',
-                        'placeholder' => 'Product price ranges from...',
-                        'value' => $this->request->getQuery('min_price'),
-                        'class' => 'form-control',
-                    ]) ?>
-                </div>
-
-                <div class="col-md-3">
-                    <?= $this->Form->control('max_price', [
-                        'label' => 'Max Price',
-                        'placeholder' => 'Product price ranges to...',
-                        'value' => $this->request->getQuery('max_price'),
-                        'class' => 'form-control',
-                    ]) ?>
-                </div>
-
-
-                <!-- Stock quantity field -->
-                <div class="col-md-3">
-                    <?= $this->Form->control('stock_quantity', [
-                        'label' => 'Number of Stocks',
-                        'placeholder' => 'Number of Stocks less than or equals...',
-                        'value' => $this->request->getQuery('stock_quantity'),
-                        'class' => 'form-control',
-                    ]) ?>
-                </div>
-
-
-                <!-- Categories Field -->
-                <div class="col-md-6">
-                    <?= $this->Form->control('categories._ids', [
-                        'label' => 'Categories',
-                        'options' => $categoriesList,
-                        'multiple' => true,
-                        'class' => 'form-select',
-                        'empty' => 'Select a category',
-                        'value' => $this->request->getQuery('categories._ids'),
-                    ]) ?>
-                </div>
-
-                <!-- Filter Button -->
-                <div class="col-md-2 align-self-end">
-                    <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-success']) ?>
-                    <?= $this->Html->link('Clear', ['action' => 'customerIndex'], ['class' => 'btn btn-danger']) ?>
-
-                </div>
-
-                <?= $this->Form->end() ?>
             </div>
         </div>
     </div>
+    <!-- Product Filter /- -->
+
     <!-- Feature Product -->
     <div id="featured-products" class="featured-products bottom-shadow">
         <!-- container -->
@@ -134,13 +118,13 @@ Purchase: http://themeforest.net/user/webstrot  -->
                             <?php endif; ?>
                             <div class="inner-product">
                                 <!-- Link the product image to the view page -->
-                                <a href="<?= $this->Url->build(['action' => 'view', $product->id]) ?>">
-                                    <img src="<?= $this->Url->assetUrl('img/products/default-product.jpg') ?>" alt="<?= h($product->name) ?>" />
+                                <a href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>">
+                                    <?= $html->image('products/' . $product->image, ['alt' => $product->name]) ?>
                                 </a>
                                 <div class="product-box-inner">
                                     <ul>
                                         <li>
-                                            <a title="View Image" href="<?= $this->Url->assetUrl('img/products/default-product.jpg') ?>">
+                                            <a title="View Image" href="<?= $html->image('products/' . $product->image, ['alt' => $product->name]) ?>">
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                         </li>
@@ -155,7 +139,7 @@ Purchase: http://themeforest.net/user/webstrot  -->
                             </div>
                         </div>
                         <!-- Link the product title to the view page -->
-                        <a title="<?= h($product->name) ?>" href="<?= $this->Url->build(['action' => 'view', $product->id]) ?>" class="product-title">
+                        <a title="<?= h($product->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>" class="product-title">
                             <?= h($product->name) ?>
                         </a>
                         <ul class="star">
@@ -183,22 +167,11 @@ Purchase: http://themeforest.net/user/webstrot  -->
 
     <div class="loading">
         <a title="Click here for more products" href="#">
-            <img alt="loading icon" src="<?= $this->Url->assetUrl('img/load.gif') ?>" />
+            <img alt="loading icon" src="images/load.gif">
             <p>click here for more products</p>
         </a>
     </div>
 
-        <div class="paginator">
-            <ul class="pagination">
-                <?= $this->Paginator->first('<< ' . __('first')) ?>
-                <?= $this->Paginator->prev('< ' . __('previous')) ?>
-                <?= $this->Paginator->numbers() ?>
-                <?= $this->Paginator->next(__('next') . ' >') ?>
-                <?= $this->Paginator->last(__('last') . ' >>') ?>
-            </ul>
-            <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-        </div>
-    </div>
 
 
     <!-- jQuery Include -->
@@ -216,6 +189,35 @@ Purchase: http://themeforest.net/user/webstrot  -->
     <script src="libraries/expanding-search/modernizr.custom.js"></script> <!-- Core Owl Carousel CSS File  *   v1.3.3 -->
     <script src="libraries/flexslider/jquery.flexslider-min.js"></script> <!-- flexslider   -->
     <script src="libraries/jquery.magnific-popup.min.js"></script> <!-- Light Box -->
+
+    <!-- Filter scripts -->
+    <script>
+        $(document).ready(function () {
+            // Initialize the price slider
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 1000, // Adjust this max value based on your product price range
+                values: [
+                    <?= $this->request->getQuery('min_price') ?: 0 ?>,
+                    <?= $this->request->getQuery('max_price') ?: 1000 ?>
+                ],
+                slide: function (event, ui) {
+                    $("#min-price").val(ui.values[0]);
+                    $("#max-price").val(ui.values[1]);
+                }
+            });
+
+            // Set initial values for the price inputs
+            $("#min-price").val($("#slider-range").slider("values", 0));
+            $("#max-price").val($("#slider-range").slider("values", 1));
+        });
+    </script>
+
+    <!-- Customized Scripts -->
+    <script src="js/functions.js"></script>
+
+
 </body>
 
 </html>
