@@ -17,13 +17,56 @@ class ProductsController extends AppController
      */
     public function index()
     {
+        // Fetch all categories using the association (get list of categories objects)
+        $categories = $this->Products->Categories->find('all')->all();
+
+        // Get the no_products number of products
+        $no_products = $this->Products->find()->count();
+
         // Fetch products
         $query = $this->Products->find();
+
+        // get input from filter forms for filter functionalities
+        $product_name = $this->request->getQuery('product_name');
+        $stock_quantity = $this->request->getQuery('stock_quantity');
+        $min_price = $this->request->getQuery('min_price');
+        $max_price = $this->request->getQuery('max_price');
+        // get list of key-value pairs (key: category_name - value: category_name)
+        $categoriesList = $this->Products->Categories->find('list')->all();
+        // retrieve list of categories_id selected in dropdown of filter form
+        $selectedCategories = $this->request->getQuery('categories._ids');
+
+        // Build onto the products query to complete the filter
+        //  Filter products by name
+        if (!empty($product_name)) {
+            $query->where(['Products.name LIKE' => '%' . $product_name . '%']);
+        }
+
+        // Filter products by stock_quantity (less than or equals)
+        if (is_numeric($stock_quantity)) {
+            $query->where(['Products.quantity <=' => $stock_quantity]);
+        }
+
+        // Filter products by price (from min to max inclusive)
+        if (is_numeric($min_price)) {
+            $query->where(['Products.price >=' => $min_price]);
+        }
+
+        if (is_numeric($max_price)) {
+            $query->where(['Products.price <=' => $max_price]);
+        }
+
+        // Filter products by categories (exact match)
+        if (!empty($selectedCategories) && $selectedCategories !== ['']) {
+            $query->matching('Categories')
+                ->groupBy(['Products.id'])
+                ->where(['Categories.id IN' => $selectedCategories]);
+        }
 
         $products = $this->paginate($query);
 
         // Pass variables to the view
-        $this->set(compact('products'));
+        $this->set(compact('products', 'categories', 'categoriesList', 'no_products'));
     }
 
     /**
@@ -107,7 +150,7 @@ class ProductsController extends AppController
 
     /**
      * Customer view method
-     * 
+     *
      * @param string|null $id Product id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
@@ -145,18 +188,18 @@ class ProductsController extends AppController
             $product = $this->Products->patchEntity($product, $this->request->getData());
             if ($this->Products->save($product)) {
                 $this->Flash->success(__('The product has been saved.'));
-    
+
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The product could not be saved. Please, try again.'));
         }
-    
+
         // Fetch all categories
         $allCategories = $this->Products->Categories->find('list', [
             'keyField' => 'id',
             'valueField' => 'name',
         ])->toArray();
-    
+
         $this->set(compact('product', 'allCategories'));
     }
 

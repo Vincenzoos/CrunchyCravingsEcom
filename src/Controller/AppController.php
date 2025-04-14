@@ -60,17 +60,17 @@ class AppController extends Controller
     }
 
 
-    public function beforeRender(\Cake\Event\EventInterface $event)
-    {
-        parent::beforeRender($event);
-
-        // Check if the Identity object is available
-        $isAdmin = false;
-        if ($this->Authentication->getIdentity()) {
-            $isAdmin = $this->Authentication->getIdentity()->get('role') === 'admin';
-        }
-
-        // Pass the variable to the view
-        $this->set('isAdmin', $isAdmin);
-    }
+//    public function beforeRender(\Cake\Event\EventInterface $event)
+//    {
+//        parent::beforeRender($event);
+//
+//        // Check if the Identity object is available
+//        $isAdmin = false;
+//        if ($this->Authentication->getIdentity()) {
+//            $isAdmin = $this->Authentication->getIdentity()->get('role') === 'admin';
+//        }
+//
+//        // Pass the variable to the view
+//        $this->set('isAdmin', $isAdmin);
+//    }
 }

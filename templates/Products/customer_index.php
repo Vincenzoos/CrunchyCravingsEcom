@@ -5,6 +5,9 @@
  * @var \Cake\Collection\CollectionInterface|array<string> $categoriesList
  */
 
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\View;
+
 ?>
 
 <!doctype html>
@@ -28,77 +31,98 @@ Purchase: http://themeforest.net/user/webstrot  -->
 
 
 <?php
-use Cake\View\Helper\HtmlHelper;
-$html = new HtmlHelper(new \Cake\View\View());
+$html = new HtmlHelper(new View());
 ?>
 
 <head>
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities']) ?>
+    <!-- Load jQuery -->
+    <?= $this->Html->script('libraries/jquery.min') ?>
+    <?= $this->Html->script('libraries/fuelux/jquery-ui.min') ?>
+
 </head>
 
 <body>
     <!-- Page Breadcrumb -->
     <!-- container -->
-	<div class="container">
-		<div class="page-breadcrumb">
-			<ol class="breadcrumb">
-				<li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-				<li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
-			</ol>
-			<div class="return-home-link pull-right">
-				<a title="Return to home page" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">return to home page</a>
-			</div>
-		</div>
-	</div><!-- container /- -->
+    <div class="container">
+        <div class="page-breadcrumb">
+            <ol class="breadcrumb">
+                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                <li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
+            </ol>
+            <div class="return-home-link pull-right">
+                <a title="Return to home page" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">return to home page</a>
+            </div>
+        </div>
+    </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
 
     <!-- Product Filter -->
     <div class="product-filter">
         <div class="container">
             <div class="product-filter-box bottom-shadow">
+                <!-- Begin Filter Form -->
+                <?= $this->Form->create(null, ['type' => 'get', 'url' => ['action' => 'customerIndex']]) ?>
                 <div class="row">
                     <!-- Price Range Slider -->
                     <div class="col-12 col-md-6 col-lg-4">
                         <h4>Filter by Price</h4>
                         <div id="slider-range"></div>
-                        <div class="price-input">
-                            <label>From: </label>
-                            <input type="text" id="min-price" name="min_price" readonly value="<?= $this->request->getQuery('min_price') ?>">
-                            <label>To: </label>
-                            <input type="text" id="max-price" name="max_price" readonly value="<?= $this->request->getQuery('max_price') ?>">
+                        <div class="price-input row">
+                            <!-- Min Price Field -->
+                            <div class="col-6">
+                                <?= $this->Form->control('min_price', [
+                                    'id' => 'min-price',
+                                    'label' => 'From:',
+                                    'placeholder' => 'min',
+                                    'type' => 'number',
+                                    'min' => '0',
+                                    'max' => '999999',
+                                    'value' => $this->request->getQuery('min_price'),
+                                    'class' => 'form-control',
+                                ]) ?>
+                            </div>
+                            <!-- Max Price Field -->
+                            <div class="col-6">
+                                <?= $this->Form->control('max_price', [
+                                    'id' => 'max-price',
+                                    'label' => 'To:',
+                                    'placeholder' => 'max',
+                                    'type' => 'number',
+                                    'min' => '0',
+                                    'max' => '999999',
+                                    'value' => $this->request->getQuery('max_price'),
+                                    'class' => 'form-control',
+                                ]) ?>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Categories -->
                     <div class="col-12 col-md-6 col-lg-8">
-                        <form method="get" action="<?= $this->Url->build(['action' => 'customerIndex']) ?>">
-                            <h4>Filter by Categories</h4>
-                            <div class="category-checkboxes">
-                                <?php foreach ($categories as $category) : ?>
-                                    <div class="form-check">
-                                        <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            name="categories[]"
-                                            value="<?= h($category->id) ?>"
-                                            id="category-<?= h($category->id) ?>"
-                                            <?= in_array($category->id, (array)$this->request->getQuery('categories')) ? 'checked' : '' ?>>
-                                        <label class="form-check-label" for="category-<?= h($category->id) ?>">
-                                            <?= h($category->name) ?>
-                                        </label>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
+                        <h4>Filter by Categories</h4>
+                        <div class="col-md-6">
+                            <?= $this->Form->control('categories._ids', [
+                                'label' => 'Categories',
+                                'options' => $categoriesList,
+                                'multiple' => true,
+                                'class' => 'form-select',
+                                'empty' => 'Select a category',
+                                'value' => $this->request->getQuery('categories._ids'),
+                            ]) ?>
+                        </div>
 
-                            <!-- Submit Button -->
-                            <div class="mt-3">
-                                <button type="submit" class="btn btn-success">Apply Filters</button>
-                                <a href="<?= $this->Url->build(['action' => 'customerIndex']) ?>" class="btn btn-primary">Clear Filters</a>
-                            </div>
-                        </form>
+                        <!-- Submit Button -->
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-success">Apply Filters</button>
+                            <a href="<?= $this->Url->build(['action' => 'customerIndex']) ?>" class="btn btn-danger">Clear Filters</a>
+                        </div>
                     </div>
                 </div>
+                <?= $this->Form->end() ?>
+                <!-- End Filter Form -->
             </div>
         </div>
     </div>
@@ -167,55 +191,51 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <div class="loading">
         <a title="Click here for more products" href="#">
-            <img alt="loading icon" src="images/load.gif">
+            <img alt="loading icon" src="<?= $this->Url->image('load.gif') ?>">
             <p>click here for more products</p>
         </a>
     </div>
 
 
 
-    <!-- jQuery Include -->
-    <script src="libraries/jquery.min.js"></script>
-    <!-- <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false'></script> -->
-    <script src="libraries/gmap/jquery.gmap.min.js"></script> <!-- Light Box -->
-    <script src="libraries/jquery.easing.min.js"></script><!-- Easing Animation Effect -->
-    <script src="libraries/bootstrap/bootstrap.bundle.min.js"></script> <!-- Core Bootstrap v3.3.4 -->
-    <script src="libraries/fuelux/jquery-ui.min.js"></script>
-    <script src="libraries/jquery.animateNumber.min.js"></script> <!-- Used for Animated Numbers -->
-    <script src="libraries/jquery.appear.js"></script> <!-- It Loads jQuery when element is appears -->
-    <script src="libraries/jquery.knob.js"></script> <!-- Used for Loading Circle -->
-    <script src="libraries/wow.min.js"></script> <!-- Use For Animation -->
-    <script src="libraries/owl-carousel/owl.carousel.min.js"></script> <!-- Core Owl Carousel CSS File  *   v1.3.3 -->
-    <script src="libraries/expanding-search/modernizr.custom.js"></script> <!-- Core Owl Carousel CSS File  *   v1.3.3 -->
-    <script src="libraries/flexslider/jquery.flexslider-min.js"></script> <!-- flexslider   -->
-    <script src="libraries/jquery.magnific-popup.min.js"></script> <!-- Light Box -->
+    <!-- Include other libraries -->
+    <?= $this->Html->script('libraries/gmap/jquery.gmap.min') ?>
+    <?= $this->Html->script('libraries/jquery.easing.min') ?>
+    <?= $this->Html->script('libraries/bootstrap/bootstrap.bundle.min') ?>
+    <?= $this->Html->script('libraries/jquery.animateNumber.min') ?>
+    <?= $this->Html->script('libraries/jquery.appear') ?>
+    <?= $this->Html->script('libraries/jquery.knob') ?>
+    <?= $this->Html->script('libraries/wow.min') ?>
+    <?= $this->Html->script('libraries/owl-carousel/owl.carousel.min') ?>
+    <?= $this->Html->script('libraries/expanding-search/modernizr.custom') ?>
+    <?= $this->Html->script('libraries/flexslider/jquery.flexslider-min') ?>
+    <?= $this->Html->script('libraries/jquery.magnific-popup.min') ?>
+
 
     <!-- Filter scripts -->
     <script>
         $(document).ready(function () {
-            // Initialize the price slider
             $("#slider-range").slider({
                 range: true,
                 min: 0,
-                max: 1000, // Adjust this max value based on your product price range
-                values: [
-                    <?= $this->request->getQuery('min_price') ?: 0 ?>,
-                    <?= $this->request->getQuery('max_price') ?: 1000 ?>
-                ],
+                max: 1000,
+                values: [100, 800], // Static values for testing
                 slide: function (event, ui) {
+                    console.log("Slider moved:", ui.values);
                     $("#min-price").val(ui.values[0]);
                     $("#max-price").val(ui.values[1]);
                 }
             });
 
-            // Set initial values for the price inputs
-            $("#min-price").val($("#slider-range").slider("values", 0));
-            $("#max-price").val($("#slider-range").slider("values", 1));
+            $("#min-price").val(100); // Set initial value manually
+            $("#max-price").val(800);
         });
     </script>
 
+
+
     <!-- Customized Scripts -->
-    <script src="js/functions.js"></script>
+    <?= $this->Html->script('functions') ?>
 
 
 </body>

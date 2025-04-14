@@ -38,7 +38,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Include Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css', 'style', 'default.css']) ?>
+    <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css', 'style', 'default.css', 'flash.css']) ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 
@@ -146,7 +146,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 	<!-- Header Section -->
 	<header id="header" class="header">
-		
+
 		<!-- logo-search-block -->
 		<div class="logo-search-block">
 			<!-- container -->
@@ -171,7 +171,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 							<div class="col-12 col-sm-6 col-md-6 col-lg-6 ow-right-padding ow-right-padding2 d-flex justify-content-end">
                                 <!-- Determine whether to show login or logout, and save the current page in URL redirect to be used as a fallback -->
                                 <?php if ($this->Identity->isLoggedIn()) : ?>
-                                    <a title="Logout" 
+                                    <a title="Logout"
                                     id="top_link"
                                     style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
                                     href="<?= $this->Url->build([
@@ -181,7 +181,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     ]) ?>"
                                     class="list-group-item">LOGOUT</a>
                                 <?php else : ?>
-                                    <a title="Login" 
+                                    <a title="Login"
                                     id="top_link"
                                     style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
                                     href="<?= $this->Url->build([
@@ -191,13 +191,13 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     ]) ?>"
                                     class="list-group-item">LOGIN</a>
                                 <?php endif; ?>
-                                <a title="Register" 
+                                <a title="Register"
                                     id="top_link"
                                     style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
                                     href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">REGISTER
                                 </a>
 							</div>
-							
+
 							<!-- Cart -->
     						<div class="col-12 col-sm-6 col-md-6 col-lg-6 cart-link ow-right-padding d-flex justify-content-end" style="margin-top: 15px; margin-bottom: 15px;">
 								<svg width="16px" height="15px" viewBox="0 0 533.334 533.335">
@@ -248,7 +248,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 			<div class="container">
 				<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-static-top">
 					<div class="navbar-header">
-						<a href="index.html" class="logo"><?= $html->image('logo.png', ['alt' => 'logo']) ?></a>
+						<a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display']) ?>" class="logo"><?= $html->image('logo.png', ['alt' => 'logo']) ?></a>
 						<button class="navbar-toggler collapsed" aria-controls="navbar" aria-expanded="false"
 							data-bs-target="#navbar" data-bs-toggle="collapse" type="button"
 							aria-label="Toggle navigation">
@@ -260,7 +260,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <li class="nav-item"><a class="nav-link active" title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
 							<li class="nav-item"><a class="nav-link" title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
 							<li class="nav-item dropdown mega-dropdown">
-								<a title="categories" href="02_categories.html" class="nav-link dropdown-toggle"
+								<a title="categories" href="#" class="nav-link dropdown-toggle"
 									data-bs-toggle="dropdown">categories
 									<div role="tooltip" class="tooltip top">
 										<div class="tooltip-arrow"></div>
@@ -279,7 +279,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 												</li>
 											<?php endforeach; ?>
 										</li>
-										
+
 									</div>
 								</ul>
 							</li>
@@ -302,26 +302,6 @@ $html = new HtmlHelper(new \Cake\View\View());
             </div>
         </div>
     </div>
-
-    <!-- Logout Modal
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
     <!-- Footer Section -->
 	<div id="footer-section" class="footer-section">
@@ -410,7 +390,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 								</ul>
 							</aside>
 
-							
+
 							<aside class="col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
 								<h3 class="widget-title">
 									Orders
@@ -424,7 +404,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 									<li><a title="Returns" href="#">Returns</a></li>
 								</ul>
 							</aside>
-							
+
 							<aside class=" col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
 							<h3 class="widget-title">
 								Learn more
