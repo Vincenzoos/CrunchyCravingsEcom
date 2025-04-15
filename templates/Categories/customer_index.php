@@ -1,9 +1,9 @@
 <!doctype html>
 <!--
 **********************************************************************************************************
-    Copyright (c) 2024 Webstrot Technology 
+    Copyright (c) 2024 Webstrot Technology
 ********************************************************************************************************** -->
-<!-- 
+<!--
 Template Name: Luxury Shop Ecommerce HTML Template
 Version: 1.0.0
 Author: webstrot
@@ -45,8 +45,8 @@ $html = new HtmlHelper(new \Cake\View\View());
     </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
 
-    
-   
+
+
     <div id="shop-container" class="container my-5">
         <div class="row">
             <?php foreach ($categories as $category): ?>
@@ -55,7 +55,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <!-- Featured Product Image -->
                         <div class="card-img-top">
                             <?php if (!empty($category->products) && !empty($category->products[0]->image)): ?>
-                                <?= $this->Html->image('products/' . $category->products[0]->image, [
+                                <?= $this->Html->image($category->products[0]->image_cache_busted_url, [
                                     'alt' => $category->name,
                                     'class' => 'img-fluid rounded-top',
                                     'style' => 'height: 200px; object-fit: cover; width: 100%;'

@@ -74,7 +74,10 @@ $html = new HtmlHelper(new \Cake\View\View());
             <div class="col-md-6">
                 <?= $this->Form->control('min_price', [
                     'label' => 'Min Price',
-                    'placeholder' => 'Price from...',
+                    'placeholder' => '0',
+                    'type' => 'number',
+                    'min' => '0',
+                    'max' => '500',
                     'value' => $this->request->getQuery('min_price'),
                     'class' => 'form-control',
                 ]) ?>
@@ -84,7 +87,10 @@ $html = new HtmlHelper(new \Cake\View\View());
             <div class="col-md-6">
                 <?= $this->Form->control('max_price', [
                     'label' => 'Max Price',
-                    'placeholder' => 'Price to...',
+                    'placeholder' => '500',
+                    'type' => 'number',
+                    'min' => '0',
+                    'max' => '500',
                     'value' => $this->request->getQuery('max_price'),
                     'class' => 'form-control',
                 ]) ?>
@@ -124,7 +130,11 @@ $html = new HtmlHelper(new \Cake\View\View());
                                         <td><?= h($product->name) ?></td>
                                         <td><?= $this->Number->currency($product->price, 'USD') ?></td>
                                         <td><?= h($product->quantity) ?></td>
-                                        <td><?= $this->Html->image($product->image_cache_busted_url, ['alt' => $product->name, 'class' => 'img-thumbnail', 'style' => 'width: 100px; height: 100px; object-fit: cover;']) ?></td>
+                                        <td><?= $this->Html->image($product->image_cache_busted_url, [
+                                            'alt' => $product->name,
+                                            'class' => 'img-fluid rounded-top',
+                                            'style' => 'height: 100px; object-fit: cover; width: 100%;'
+                                            ]) ?></td>
                                         <td class="text-center">
                                             <?= $this->Html->link(__('View'), ['action' => 'view', $product->id], ['class' => 'btn btn-info btn-sm']) ?>
                                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $product->id], ['class' => 'btn btn-warning btn-sm']) ?>

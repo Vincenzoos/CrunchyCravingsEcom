@@ -84,7 +84,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     'placeholder' => '0',
                                     'type' => 'number',
                                     'min' => '0',
-                                    'max' => '999999',
+                                    'max' => '500',
                                     'value' => $this->request->getQuery('min_price'),
                                     'class' => 'form-control',
                                 ]) ?>
@@ -97,7 +97,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     'placeholder' => '500',
                                     'type' => 'number',
                                     'min' => '0',
-                                    'max' => '999999',
+                                    'max' => '500',
                                     'value' => $this->request->getQuery('max_price'),
                                     'class' => 'form-control',
                                 ]) ?>
@@ -150,7 +150,10 @@ $html = new HtmlHelper(new \Cake\View\View());
                                             <div class="inner-product">
                                                 <!-- Link the product image to the view page -->
                                                 <a href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>">
-                                                    <?= $this->Html->image($product->image_cache_busted_url, ['alt' => $product->name, 'class' => 'img-thumbnail', 'style' => 'width: 300px; height: 300px; object-fit: cover;']) ?>
+                                                    <?= $this->Html->image($product->image_cache_busted_url, [
+                                                        'alt' => $product->name,
+                                                        'class' => 'img-fluid rounded-top',
+                                                        'style' => 'height: 300px; object-fit: cover; width: 100%;']) ?>
                                                 </a>
                                                 <div class="product-box-inner">
                                                     <ul>
