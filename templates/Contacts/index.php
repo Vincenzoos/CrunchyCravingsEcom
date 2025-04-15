@@ -34,11 +34,11 @@ $html = new HtmlHelper(new \Cake\View\View());
         </section>
 
         <!-- Contacts Filter Form -->
-        <div class="mb-4 p-4 rounded shadow-sm bg-light">
+        <div class="col-md-8 mx-auto mb-4 p-3 rounded shadow-sm bg-light">
             <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
 
             <!-- First name Field -->
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <?= $this->Form->control('first_name', [
                     'label' => 'Contact First Name',
                     'placeholder' => 'First name contains...',
@@ -48,7 +48,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             </div>
 
             <!-- Last name Field -->
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <?= $this->Form->control('last_name', [
                     'label' => 'Contact Last Name',
                     'placeholder' => 'Last name contains...',
@@ -57,7 +57,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 ]) ?>
             </div>
             <!-- Sent Date field -->
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <?= $this->Form->control('date_sent', [
                     'label' => 'Date Sent',
                     'placeholder' => 'Select a date to filter earlier records...',
@@ -68,7 +68,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             </div>
 
             <!-- Reply Status field -->
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <?= $this->Form->control('reply_status', [
                     'label' => 'Reply Status',
                     'options' => [
@@ -83,7 +83,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             </div>
 
             <!-- Filter Button -->
-            <div class="col-md-2 align-self-end">
+            <div class="col-md-6 offset-md-6 text-end align-self-center">
                 <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-success']) ?>
                 <?= $this->Html->link('Clear', ['action' => 'index'], ['class' => 'btn btn-danger']) ?>
             </div>

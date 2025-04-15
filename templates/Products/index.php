@@ -97,7 +97,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             </div>
 
             <!-- Filter Button -->
-            <div class="col-md-12 text-start align-self-center">
+            <div class="col-md-6 offset-md-6 text-end align-self-center">
                 <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-success']) ?>
                 <?= $this->Html->link('Clear', ['action' => 'index'], ['class' => 'btn btn-danger']) ?>
             </div>
