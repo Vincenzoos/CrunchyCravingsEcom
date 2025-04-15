@@ -35,6 +35,7 @@ return [
              'action' => [
                  'customerView',
                  'customerAdd',
+                 'update',
                  'delete',
              ],
              'bypassAuth' => true,

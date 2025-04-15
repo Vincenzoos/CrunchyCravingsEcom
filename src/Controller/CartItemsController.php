@@ -55,12 +55,12 @@ class CartItemsController extends AppController
             ]);
         $cartItems = $this->paginate($query);
         // Calculate total price
-        $total = 0;
+        $total_price = 0;
         foreach ($cartItems as $item) {
-            $total += $item->line_price;
+            $total_price += $item->line_price;
         }
 
-        $this->set(compact('cartItems', 'total'));
+        $this->set(compact('cartItems', 'total_price'));
     }
 
     /**
@@ -120,6 +120,41 @@ class CartItemsController extends AppController
         $users = $this->CartItems->Users->find('list', limit: 200)->all();
         $products = $this->CartItems->Products->find('list', limit: 200)->all();
         $this->set(compact('cartItem', 'users', 'products'));
+    }
+
+    /**
+     * Update method
+     *
+     * @param string|null $id Cart Item id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function update(?string $id = null)
+    {
+        if ($this->request->is('post')) {
+            // Fetch the cart item by ID
+            $cartItem = $this->CartItems->get($id, ['contain' => ['Products']]);
+
+            if ($cartItem) {
+                // Update quantity
+                $quantity = $this->request->getData('quantity');
+                if ($quantity > 0) {
+                    $cartItem->quantity = $quantity;
+
+                    if ($this->CartItems->save($cartItem)) {
+                        $this->Flash->success(__('The cart item has been updated.'));
+                    } else {
+                        $this->Flash->error(__('Failed to update the cart item.'));
+                    }
+                } else {
+                    $this->Flash->error(__('Invalid quantity.'));
+                }
+            } else {
+                $this->Flash->error(__('Cart item not found.'));
+            }
+        }
+        // Redirect back to the cart view
+        return $this->redirect(['action' => 'customerView']);
     }
 
     /**

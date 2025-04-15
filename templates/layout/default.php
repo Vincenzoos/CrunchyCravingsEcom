@@ -337,7 +337,8 @@ $html = new HtmlHelper(new \Cake\View\View());
 									</div>
 								</ul>
 							</li>
-							<li class="nav-item"><a class="nav-link" title="About Us" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'about']) ?>">About Us</a></li>
+							<li class="nav-item"><a class="nav-link" title="About Us" href="#">About Us</a></li>
+<!--							<li class="nav-item"><a class="nav-link" title="About Us" href="--><?php //= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'about']) ?><!--">About Us</a></li>-->
                             <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
 						</ul>
 					</div><!--/.nav-collapse -->
@@ -435,12 +436,10 @@ $html = new HtmlHelper(new \Cake\View\View());
 									Our Stores
 								</h3>
 								<ul>
-									<li><a title="Mumbai" href="#">Mumbai</a></li>
-									<li><a title="INDORE" href="#">INDORE</a></li>
-									<li><a title="Toronto" href="#">Toronto</a></li>
-									<li><a title="Sidney" href="#">Sidney</a></li>
-									<li><a title="New York" href="#">New York</a></li>
-									<li><a title="Paris" href="#">Paris</a></li>
+									<li><a title="Melbourne" href="#">Melbourne</a></li>
+									<li><a title="Sydney" href="#">Sydney</a></li>
+									<li><a title="Brisbane" href="#">Brisbane</a></li>
+									<li><a title="Perth" href="#">Perth</a></li>
 								</ul>
 							</aside>
 
@@ -464,7 +463,8 @@ $html = new HtmlHelper(new \Cake\View\View());
 								Learn more
 								</h3>
 								<ul>
-                                    <li><a title="About Us" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'about']) ?>">About Us</a></li>
+                                    <li><a title="About Us" href="#">About Us</a></li>
+<!--                                    <li><a title="About Us" href="--><?php //= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'about']) ?><!--">About Us</a></li>-->
                                     <li><a title="Contact Us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact Us</a></li>
 									<!-- <li><a title="Privacy Policy" href="#">Privacy Policy</a></li> -->
 									<!-- <li><a title="Terms &amp; Conditions" href="#">Terms &amp; Conditions</a></li>

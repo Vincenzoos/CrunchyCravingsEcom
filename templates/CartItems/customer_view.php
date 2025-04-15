@@ -5,7 +5,6 @@
  */
 ?>
 <div class="cartItems index content">
-<!--    --><?php //= $this->Html->link(__('New Cart Item'), ['action' => 'add'], ['class' => 'button float-right']) ?>
     <h3><?= __('Cart Items') ?></h3>
     <div class="table-responsive">
         <table>
@@ -19,13 +18,22 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($cartItems as $cartItem): ?>
+                <?php foreach ($cartItems as $cartItem) : ?>
                 <tr>
                     <td><?= $cartItem->hasValue('product') ? $this->Html->link($cartItem->product->name, ['controller' => 'Products', 'action' => 'customerView', $cartItem->product->id]) : '' ?></td>
-                    <td><?= $this->Number->format($cartItem->quantity) ?></td>
+                    <?= $this->Form->create(null, ['url' => ['action' => 'update', $cartItem->id]]) ?>
+                    <td><?= $this->Form->input('quantity', [
+                         'type' => 'number',
+                         'min' => 1,
+                         'label' => false,
+                         'value' => $cartItem->quantity,
+                         'class' => 'form-control input-sm',
+                        ]) ?></td>
                     <td><?= $this->Number->currency($cartItem->product->price, 'AUD') ?></td>
                     <td><?= $this->Number->currency($cartItem->line_price, 'AUD') ?></td>
                     <td class="text-center">
+                        <?= $this->Form->button(__('Update'), ['class' => 'btn btn-primary btn-sm']) ?>
+                        <?= $this->Form->end() ?>
                         <?= $this->Form->postLink(
                             __('Remove'),
                             ['action' => 'delete', $cartItem->id],
@@ -40,5 +48,7 @@
             </tbody>
         </table>
     </div>
-    <h3>Total: <?= $this->Number->currency($total, 'AUD') ?></h3>
+    <h3>Total: <?= $this->Number->currency($total_price, 'AUD') ?></h3>
+    <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-secondary">Continue Shopping</a>
+    <a href="#" class="btn btn-primary">Checkout</a>
 </div>
