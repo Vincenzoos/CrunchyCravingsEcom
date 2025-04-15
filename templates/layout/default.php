@@ -616,7 +616,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <?= $this->fetch('script') ?>
 
     <!-- jQuery Include -->
-    <?= $html->script('/libraries/jquery.min.js') ?>
+    <!-- <?= $html->script('/libraries/jquery.min.js') ?> -->
     <?= $html->script('/libraries/gmap/jquery.gmap.min.js') ?>
     <?= $html->script('/libraries/jquery.easing.min.js') ?>
     <?= $html->script('/libraries/bootstrap/bootstrap.bundle.min.js') ?>

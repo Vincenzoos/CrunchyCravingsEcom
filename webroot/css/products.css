@@ -1,0 +1,41 @@
+/* Ensure consistent spacing for product cards */
+.main-product {
+    margin-bottom: 20px;
+}
+
+/* Ensure product images are properly sized */
+.inner-product img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Maintain consistent height for product titles */
+.product-title {
+    display: block;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Ensure consistent layout for product box */
+.category-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.row::after {
+    content: "";
+    display: table;
+    clear: both;
+}
