@@ -85,6 +85,16 @@ class ProductsController extends AppController
         // Fetch products
         $query = $this->Products->find();
 
+        // Filter products by category if category_id is provided
+        if ($this->request->getQuery('category_id')) {
+            $categoryId = $this->request->getQuery('category_id');
+
+            // Use the `matching()` method to filter products by category
+            $query = $query->matching('Categories', function ($q) use ($categoryId) {
+                return $q->where(['Categories.id' => $categoryId]);
+            });
+        }
+
         // get input from filter forms for filter functionalities
         $product_name = $this->request->getQuery('product_name');
         $stock_quantity = $this->request->getQuery('stock_quantity');

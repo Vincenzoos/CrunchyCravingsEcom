@@ -313,7 +313,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <li class="nav-item"><a class="nav-link active" title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
 							<li class="nav-item"><a class="nav-link" title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
 							<li class="nav-item dropdown mega-dropdown">
-                                <a title="categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index']) ?>" class="nav-link">categories</a>
+                                <a title="categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'customerIndex']) ?>" class="nav-link">categories</a>
 								<ul class="dropdown-menu mega-dropdown-menu row">
 									<div class="row">
 										<li class="col-lg-3 col-md-6 col-12">

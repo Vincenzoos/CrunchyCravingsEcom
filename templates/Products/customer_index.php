@@ -30,23 +30,9 @@ use Cake\View\Helper\HtmlHelper;
 $html = new HtmlHelper(new \Cake\View\View());
 ?>
 
-<head>
-    <!-- <?= $this->Html->charset() ?>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" type="image/png" href="<?= $this->Url->image('logo.png') ?>">
-    <title><?= $this->fetch('title') ?> - CrunchyCravings</title> -->
-    
+<head>  
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities','shop']) ?>
-
-    <!-- Load jQuery -->
-    <?= $this->Html->script('libraries/jquery.min') ?>
-    <?= $this->Html->script('libraries/fuelux/jquery-ui.min') ?>
-
 </head>
 
 <body>
@@ -203,21 +189,6 @@ $html = new HtmlHelper(new \Cake\View\View());
         </div><!-- shop-box /- -->
     </div>
 
-
-    <!-- Include other libraries -->
-    <?= $this->Html->script('libraries/gmap/jquery.gmap.min') ?>
-    <?= $this->Html->script('libraries/jquery.easing.min') ?>
-    <?= $this->Html->script('libraries/bootstrap/bootstrap.bundle.min') ?>
-    <?= $this->Html->script('libraries/jquery.animateNumber.min') ?>
-    <?= $this->Html->script('libraries/jquery.appear') ?>
-    <?= $this->Html->script('libraries/jquery.knob') ?>
-    <?= $this->Html->script('libraries/wow.min') ?>
-    <?= $this->Html->script('libraries/owl-carousel/owl.carousel.min') ?>
-    <?= $this->Html->script('libraries/expanding-search/modernizr.custom') ?>
-    <?= $this->Html->script('libraries/flexslider/jquery.flexslider-min') ?>
-    <?= $this->Html->script('libraries/jquery.magnific-popup.min') ?>
-
-
     <!-- Filter scripts -->
     <script>
         $(document).ready(function () {
@@ -237,11 +208,6 @@ $html = new HtmlHelper(new \Cake\View\View());
             $("#max-price").val(800);
         });
     </script>
-
-
-
-    <!-- Customized Scripts -->
-    <?= $this->Html->script('functions') ?>
 
 
 </body>

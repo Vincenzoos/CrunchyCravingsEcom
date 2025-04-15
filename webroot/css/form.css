@@ -1,19 +1,19 @@
 #heading {
     color: var(--text-color);
-    font-size: 3rem;
-    padding-top: 1rem !important; /* Override the default padding */
-    padding-bottom: 1rem !important; /* Override the default padding */
-    border-bottom: var(--border-width) solid var(--border-color); /* Black border at the bottom */
-    margin-bottom: var(--border-size) !important; /* Add margin to the bottom */
+    font-size: 2rem;
+    padding-top: 0.5rem !important; /* Override the default padding */
+    padding-bottom: 0.5rem !important; /* Override the default padding */
+    /* border-bottom: var(--border-width) solid var(--border-color); */
+    /* margin-bottom: var(--border-size) !important; */
 }
 
 #form-section {
     background-color: var(--background-color);
     color: var(--text-color);
     /* font-size: 3rem; */
-    padding-top: 1.5rem !important;
-    padding-bottom: 1.5rem !important;
-    margin-bottom: var(--border-size) !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    /* margin-bottom: var(--border-size) !important; */
 }
 
 #form-content {
@@ -26,7 +26,7 @@
 .page-container {
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
-    border-bottom: var(--border-width) solid var(--border-color);
+    /* border-bottom: var(--border-width) solid var(--border-color); */
 }
 
 #table-content {

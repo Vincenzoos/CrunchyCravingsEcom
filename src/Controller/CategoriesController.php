@@ -24,6 +24,20 @@ class CategoriesController extends AppController
     }
 
     /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function customerIndex()
+    {
+        $categories = $this->Categories->find()
+            ->contain(['Products'])
+            ->all();
+    
+        $this->set(compact('categories'));
+    }
+
+    /**
      * View method
      *
      * @param string|null $id Category id.

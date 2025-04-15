@@ -21,15 +21,31 @@ $this->assign('title', 'Contact Us');
 </head>
 
 <body>
+    <!-- Page Breadcrumb -->
+    <!-- container -->
+    <div class="container">
+        <div class="page-breadcrumb">
+            <ol class="breadcrumb">
+                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                <li><a title="Contact Us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'ContactUs']) ?>">Contact Us</a></li>
+            </ol>
+            <div class="return-home-link pull-right">
+                <a title="Return to home page" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">return to home page</a>
+            </div>
+        </div>
+    </div><!-- container /- -->
+    <!-- Page Breadcrumb /- -->
+     
+    <!-- Heading section -->
+    <section id="heading" class="text-center py-5">
+        <div class="container">
+            <h1 class="display-4">Contact Us</h3>
+            <p class="lead">We'd love to hear from you! Fill out the form below to get in touch with us.</p>
+        </div>
+    </section>
+
     <!-- Page Container -->
     <div class="page-container mx-auto my-5">
-        <!-- Heading section -->
-        <section id="heading" class="text-center py-5">
-            <div class="container">
-                <h1 class="display-4">Contact Us</h1>
-                <p class="lead">We'd love to hear from you! Fill out the form below to get in touch with us.</p>
-            </div>
-        </section>
 
         <!-- Contact Form Section -->
         <section id="form-section" class="py-5">
