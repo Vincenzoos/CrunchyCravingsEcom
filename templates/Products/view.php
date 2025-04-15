@@ -47,6 +47,14 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     <td><?= h($product->id) ?></td>
                                 </tr>
                                 <tr>
+                                    <th><?= __('Image') ?></th>
+                                    <td><?= $this->Html->image($product->image_cache_busted_url, [
+                                            'alt' => $product->name,
+                                            'class' => 'img-fluid rounded-top',
+                                            'style' => 'height: 50%; object-fit: cover; width: 100%;'
+                                        ]) ?></td>
+                                </tr>
+                                <tr>
                                     <th><?= __('Name') ?></th>
                                     <td><?= h($product->name) ?></td>
                                 </tr>

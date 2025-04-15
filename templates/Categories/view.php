@@ -83,7 +83,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                                     <td><?= $this->Html->image($product->image_cache_busted_url, [
                                                             'alt' => $product->name,
                                                             'class' => 'img-fluid rounded-top',
-                                                            'style' => 'height: 100px; object-fit: cover; width: 100%;',
+                                                            'style' => 'height: 100%; object-fit: cover; width: 100%;',
                                                         ]) ?></td>
                                                     <td class="text-center">
                                                         <?= $this->Html->link(__('View'), ['controller' => 'Products', 'action' => 'view', $product->id], ['class' => 'btn btn-info btn-sm']) ?>

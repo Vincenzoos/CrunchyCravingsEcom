@@ -68,7 +68,10 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <td data-title="Product" class="product-thumbnail">
                                 <h5><?= h($cartItem->product->name) ?></h5>
                                 <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'view', $cartItem->product->id]) ?>">
-                                    <?= $this->Html->image('products/' . $cartItem->product->image, ['alt' => $cartItem->product->name]) ?>
+                                    <?= $this->Html->image($cartItem->product->image_cache_busted_url, [
+                                        'alt' => $cartItem->product->name,
+                                        'class' => 'img-fluid rounded-top',
+                                        'style' => 'height: 100%; object-fit: cover; width: 80%;']) ?>
                                 </a>
                             </td>
                             <td data-title="Description" class="product-description">
