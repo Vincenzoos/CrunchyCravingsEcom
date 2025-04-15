@@ -25,6 +25,8 @@ $html = new HtmlHelper(new \Cake\View\View());
 <head>
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities','shop']) ?>
+
+    <?= $html->script('/libraries/jquery.min.js') ?>
 </head>
 
 <body data-offset="200" data-spy="scroll" data-target=".primary-navigation">
