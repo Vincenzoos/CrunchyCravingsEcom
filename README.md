@@ -14,8 +14,8 @@ The framework source code can be found here: [cakephp/cakephp](https://github.co
   - email: customer@gmail.com | password: yes
 
 - Admin Accounts
-    - email: asd@gmail.com | password: abc
-    - email: admin@gmail.com | password:
+    - email: asd@gmail.com | password: 123
+    - email: admin@gmail.com | password: yes
 
 ## Installation
 
