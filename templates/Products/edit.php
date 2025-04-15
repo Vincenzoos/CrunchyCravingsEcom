@@ -18,8 +18,6 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities', 'form']) ?>
-
-    <?= $html->script('/libraries/jquery.min.js') ?>
 </head>
 
 <body>
@@ -80,33 +78,16 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 'required' => true,
                             ]) ?>
                         </div>
-                        <!-- <div class="mb-4">
-                            <?= $this->Form->control('categories._ids', [
-                                'type' => 'select',
-                                'multiple' => 'checkbox',
-                                'options' => array_column($product->categories, 'name'),
-
-                                'class' => 'form-check-input',
-                                'label' => ['text' => '<h4>Categories</h4>', 'escape' => false],
-                                'templateVars' => ['class' => 'form-check-label'],
-                            ]) ?>
-                        </div> -->
-                        <div class="mb-4">
-                            <h4>Categories</h4>
-                            <ul class="list-unstyled row">
-                                <?php foreach ($allCategories as $id => $name) : ?>
-                                    <li class="col-lg-3 col-md-6 col-12">
-                                        <div class="form-check">
-                                            <?= $this->Form->checkbox("categories._ids.$id", [
-                                                'value' => $id,
-                                                'class' => 'form-check-input',
-                                                'checked' => in_array($id, $associatedCategoryIds),
-                                            ]) ?>
-                                            <?= $this->Form->label("categories._ids.$id", h($name), ['class' => 'form-check-label']) ?>
-                                        </div>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
+                         <div class="mb-4">
+                             <?= $this->Form->control('categories._ids', [
+                                 'type' => 'select',
+                                 'label' => ['text' => '<h4>Categories</h4>', 'escape' => false],
+                                 'options' => $categoriesList,
+                                 'multiple' => true,
+                                 'class' => 'form-select select2', // use select2
+                                 'empty' => false, // Disable the empty option
+                                 'value' => $this->request->getQuery('categories._ids'),
+                             ]) ?>
                         </div>
                         <div class="text-center">
                             <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary btn-lg']) ?>
@@ -121,4 +102,13 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Select2 Initialization -->
+    <script>
+        jQuery(document).ready(function() {
+            jQuery('.select2').select2({
+                placeholder: "Select categories",
+                allowClear: true,
+            });
+        });
+    </script>
 </body>

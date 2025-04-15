@@ -35,10 +35,25 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Include Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <?= $this->Html->script('https://code.jquery.com/jquery-3.6.0.min.js') ?>
+
+    <!-- Select2 JS -->
+    <?= $this->Html->script('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js') ?>
+
+    <!-- Custom JS   -->
     <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css', 'style', 'default.css', 'flash.css']) ?>
+
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
     <?= $this->fetch('meta') ?>
@@ -120,7 +135,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Contacts</a>
                     <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>" class="list-group-item">Products (Admin)</a>
                     <a href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index']) ?>" class="list-group-item">Categories</a>
-                    <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?>" class="list-group-item">Users</a>
+<!--                    <a href="--><?php //= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?><!--" class="list-group-item">Users</a>-->
                 </ul>
             </div>
         </div>

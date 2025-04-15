@@ -18,7 +18,17 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities', 'table', 'form']) ?>
 
-    <?= $html->script('/libraries/jquery.min.js') ?>
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 
 <body>
@@ -34,41 +44,54 @@ $html = new HtmlHelper(new \Cake\View\View());
         </section>
 
         <!-- Products Filter Form -->
-        <div class="mb-4 p-4 rounded shadow-sm bg-light">
+        <div class="col-md-8 mx-auto mb-4 p-3 rounded shadow-sm bg-light">
             <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
 
             <!-- Product Name Field -->
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <?= $this->Form->control('product_name', [
                     'label' => 'Product Name',
-                    'placeholder' => 'Product name contains...',
+                    'placeholder' => 'Name contains...',
                     'value' => $this->request->getQuery('product_name'),
                     'class' => 'form-control',
                 ]) ?>
             </div>
 
+            <!-- Categories Field -->
+            <div class="col-md-6">
+                <?= $this->Form->control('categories._ids', [
+                    'type' => 'select',
+                    'label' => 'Categories',
+                    'options' => $categoriesList,
+                    'multiple' => true,
+                    'class' => 'form-select select2', // use select2
+                    'empty' => false, // Disable the empty option
+                    'value' => $this->request->getQuery('categories._ids'),
+                ]) ?>
+            </div>
+
             <!-- Min Price Field -->
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <?= $this->Form->control('min_price', [
                     'label' => 'Min Price',
-                    'placeholder' => 'Minimum price...',
+                    'placeholder' => 'Price from...',
                     'value' => $this->request->getQuery('min_price'),
                     'class' => 'form-control',
                 ]) ?>
             </div>
 
             <!-- Max Price Field -->
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <?= $this->Form->control('max_price', [
                     'label' => 'Max Price',
-                    'placeholder' => 'Maximum price...',
+                    'placeholder' => 'Price to...',
                     'value' => $this->request->getQuery('max_price'),
                     'class' => 'form-control',
                 ]) ?>
             </div>
 
             <!-- Filter Button -->
-            <div class="col-md-2 align-self-end">
+            <div class="col-md-12 text-start align-self-center">
                 <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-success']) ?>
                 <?= $this->Html->link('Clear', ['action' => 'index'], ['class' => 'btn btn-danger']) ?>
             </div>
@@ -142,4 +165,14 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Select2 Initialization -->
+    <script>
+        jQuery(document).ready(function() {
+            jQuery('.select2').select2({
+                placeholder: "Select categories",
+                allowClear: true,
+            });
+        });
+    </script>
 </body>
