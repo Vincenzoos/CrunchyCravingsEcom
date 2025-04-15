@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Mailer\Mailer;
 use Exception;
 
 /**
@@ -235,5 +236,71 @@ class CartItemsController extends AppController
 
         // Redirect back to the referring page (or to a dedicated cart view)
         return $this->redirect($this->referer());
+    }
+
+    public function checkout()
+    {
+        // Ensure the user is logged in
+        $user = $this->Authentication->getIdentity();
+//        if (!$user) {
+//            $this->Flash->error(__('Please log in to checkout.'));
+//
+//            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+//        }
+
+        $userId = $user->get('id');
+        // Retrieve cart items for the current user including associated product info
+        $cartItems = $this->CartItems->find('all')
+            ->contain(['Products'])
+            ->where(['CartItems.user_id' => $userId])
+            ->toArray();
+
+        if (empty($cartItems)) {
+            $this->Flash->error(__('Your cart is empty.'));
+
+            return $this->redirect(['action' => 'customerView']);
+        }
+
+        // Calculate the total amount
+        $total = 0;
+        foreach ($cartItems as $item) {
+            $total += $item->line_price;
+        }
+
+        try {
+            $mailer = new Mailer('default');
+            $mailer
+                ->setEmailFormat('both') // sends both html and text versions
+                ->setTo($user->get('email'))
+                ->setSubject('Your Order Confirmation')
+                ->viewBuilder()
+                ->setTemplate('customer_checkout');
+
+            // Pass required variables to your email template
+            $mailer->setViewVars([
+//                'first_name' => $user->get('first_name'),
+//                'last_name'  => $user->get('last_name'),
+                'email'      => $user->get('email'),
+                'cartItems'  => $cartItems,
+                'total'      => $total,
+            ]);
+
+            if (!$mailer->deliver()) {
+                $this->Flash->error(__('We encountered an issue sending your order confirmation email. Please try again.'));
+
+                return $this->redirect(['action' => 'customerView']);
+            }
+
+            $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
+
+            // Optionally clear the cart here if the order is complete
+            // $this->CartItems->deleteAll(['user_id' => $userId]);
+        } catch (Exception $e) {
+            $this->Flash->error(__('Error sending email: '));
+
+            return $this->redirect(['action' => 'customerView']);
+        }
+
+        return $this->redirect(['controller' => 'Products', 'action' => 'customerIndex']);
     }
 }

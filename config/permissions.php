@@ -37,6 +37,7 @@ return [
                  'customerAdd',
                  'update',
                  'delete',
+                 'checkout',
              ],
              'bypassAuth' => true,
          ],

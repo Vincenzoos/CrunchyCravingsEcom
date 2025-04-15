@@ -50,5 +50,5 @@
     </div>
     <h3>Total: <?= $this->Number->currency($total_price, 'AUD') ?></h3>
     <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-secondary">Continue Shopping</a>
-    <a href="#" class="btn btn-primary">Checkout</a>
+    <a href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'checkout']) ?>" class="btn btn-primary">Checkout</a>
 </div>
