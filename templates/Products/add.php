@@ -2,13 +2,16 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Product $product
- * @var string[]|\Cake\Collection\CollectionInterface $allCategories
+ * @var \Cake\Collection\CollectionInterface|array<string> $allCategories
  */
+
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\View;
+
 ?>
 
 <?php
-    use Cake\View\Helper\HtmlHelper;
-    $html = new HtmlHelper(new \Cake\View\View());
+        $html = new HtmlHelper(new View());
 ?>
 
 <head>
@@ -59,6 +62,8 @@
                             <?= $this->Form->control('price', [
                                 'class' => 'form-control mx-auto',
                                 'label' => ['text' => '<h4>Price</h4>', 'escape' => false],
+                                'type' => 'number',
+                                'min' => '0',
                                 'placeholder' => 'Enter the price...',
                                 'required' => true,
                             ]) ?>
@@ -73,6 +78,8 @@
                         <div class="mb-4">
                             <?= $this->Form->control('quantity', [
                                 'class' => 'form-control mx-auto',
+                                'type' => 'number',
+                                'min' => '0',
                                 'label' => ['text' => '<h4>Quantity</h4>', 'escape' => false],
                                 'placeholder' => 'Enter the quantity...',
                                 'required' => true,

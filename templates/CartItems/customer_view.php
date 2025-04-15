@@ -1,9 +1,9 @@
 <!doctype html>
 <!--
 **********************************************************************************************************
-    Copyright (c) 2024 Webstrot Technology 
+    Copyright (c) 2024 Webstrot Technology
 ********************************************************************************************************** -->
-<!-- 
+<!--
 Template Name: Luxury Shop Ecommerce HTML Template
 Version: 1.0.0
 Author: webstrot
@@ -45,7 +45,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
 
-    
+
     <!-- shop container -->
     <div id="shop-container" class="container">
         <!-- Shopping-cart-table -->
@@ -59,7 +59,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <th class="product-price">Price</th>
                         <th class="product-quantity">Quantity</th>
                         <th class="product-subtotal">subtotal</th>
-                        <th class="product-change">edit/delete</th>
+                        <th class="product-action">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,29 +77,33 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 </a>
                             </td>
                             <td data-title="Price" class="product-price">
-                                <span class="price-amount"><?= $this->Number->currency($cartItem->product->price, 'USD') ?></span>
+                                <span class="price-amount"><?= $this->Number->currency($cartItem->product->price, 'AUD') ?></span>
                             </td>
                             <td data-title="Quantity" class="product-quantity">
                                 <div class="quantity">
                                     <?= $this->Form->postLink('+', ['action' => 'updateQuantity', $cartItem->id, $cartItem->quantity + 1], ['class' => 'qtyplus']) ?>
-                                    <input type="text" name="quantity" value="<?= h($cartItem->quantity) ?>" class="qty" readonly />
+                                    <?= $this->Form->input('quantity', [
+                                        'value' => h($cartItem->quantity),
+                                        'class' => 'qty',
+                                        'readonly' => true,
+                                    ]) ?>
                                     <?= $this->Form->postLink('-', ['action' => 'updateQuantity', $cartItem->id, $cartItem->quantity - 1], ['class' => 'qtyminus']) ?>
                                 </div>
                             </td>
                             <td data-title="Subtotal" class="product-subtotal">
-                                <span class="amount"><?= $this->Number->currency($cartItem->quantity * $cartItem->product->price, 'USD') ?></span>
+                                <span class="amount"><?= $this->Number->currency($cartItem->line_price, 'AUD') ?></span>
                             </td>
-                            <td data-title="Edit/Delete" class="product-edit">
-                                <?= $this->Html->link('<i class="fa fa-pencil-square-o"></i>', ['action' => 'edit', $cartItem->id], ['escape' => false, 'class' => 'product-edit']) ?>
-                                <?= $this->Form->postLink('<i class="fa fa-trash-o"></i>', ['action' => 'delete', $cartItem->id], ['escape' => false, 'class' => 'product-delete', 'confirm' => __('Are you sure you want to delete this item?')]) ?>
+                            <td data-title="Action" class="product-action">
+<!--                                --><?php //= $this->Html->link('<i class="fa fa-pencil-square-o"></i>', ['action' => 'edit', $cartItem->id], ['escape' => false, 'class' => 'product-edit']) ?>
+                                <?= $this->Form->postLink('<i class="fa fa-trash-o"></i>', ['action' => 'delete', $cartItem->id], ['escape' => false, 'class' => 'product-delete', 'confirm' => __('Are you sure you want to delete this item ({0})?', $cartItem->product->name)]) ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
             <div class="shopping-cart-footer">
-                <a title="Continue Shopping" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-default">Continue Shopping</a>
-                <a title="Update Shopping Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?>" class="btn btn-default">Update Shopping Cart</a>
+                <a title="Continue Shopping" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-default">&#8592; Continue Shopping</a>
+<!--                <a title="Update Shopping Cart" href="--><?php //= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?><!--" class="btn btn-default">Update Shopping Cart</a>-->
             </div>
         </div> <!-- page /- -->
     </div> <!-- page container /- -->
@@ -121,9 +125,10 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <div class="form-group">
                                 <select class="form-control minimal">
                                     <option selected="selected" value="">Select a country...</option>
-                                    <option value="United States">United States</option>
+                                    <option value="Australia">Australia</option>
                                     <option value="Canada">Canada</option>
                                     <option value="United Kingdom">United Kingdom</option>
+                                    <option value="United States">United States</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -133,12 +138,16 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     <option value="Alaska">Alaska</option>
                                     <option value="Arizona">Arizona</option>
                                     <option value="Arkansas">Arkansas</option>
+                                    <option value="Brisbane">Brisbane</option>
                                     <option value="California">California</option>
                                     <option value="Colorado">Colorado</option>
                                     <option value="Connecticut">Connecticut</option>
                                     <option value="Delaware">Delaware</option>
                                     <option value="Florida">Florida</option>
                                     <option value="Georgia">Georgia</option>
+                                    <option value="Melbourne">Melbourne</option>
+                                    <option value="Perth">Perth</option>
+                                    <option value="Sydney">Sydney</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -169,30 +178,24 @@ $html = new HtmlHelper(new \Cake\View\View());
                     <div class="estimate-details shopping-cart-table">
                         <table>
                             <tbody>
-                                <?php
-                                    $subtotal = 0;
-                                    foreach ($cartItems as $cartItem) {
-                                        $subtotal += $cartItem->quantity * $cartItem->product->price;
-                                    }
-                                ?>
                                 <tr class="cart-subtotal">
                                     <th>Subtotal</th>
-                                    <td><span class="amount"><?= $this->Number->currency($subtotal, 'USD') ?></span></td>
+                                    <td><span class="amount"><?= $this->Number->currency($total_price, 'AUD') ?></span></td>
                                 </tr>
                                 <tr class="order-total">
                                     <th>Grand Total</th>
-                                    <td><strong><span class="total-amount"><?= $this->Number->currency($subtotal, 'USD') ?></span></strong></td>
+                                    <td><strong><span class="total-amount"><?= $this->Number->currency($total_price, 'USD') ?></span></strong></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <a title="Checkout" href="<?= $this->Url->build(['controller' => 'Orders', 'action' => 'checkout']) ?>" class="btn btn-default">Checkout</a>
+                        <a title="Checkout" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'checkout']) ?>" class="btn btn-default">Checkout</a>
                     </div>
                 </div>
             </div>
         </div> <!-- page /- -->
     </div> <!-- page container /- -->
 
-    
+
 
 
 	<!-- jQuery Include -->

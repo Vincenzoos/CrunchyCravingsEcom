@@ -186,10 +186,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                             </li>
                                         </ul>
                                         <span class="amount">
-                                            <?php if ($product->original_price) : ?>
-                                                <del>&dollar;<?= $this->Number->format($product->original_price) ?></del>
-                                            <?php endif; ?>
-                                            &dollar;<?= $this->Number->format($product->price) ?>
+                                            <?= $this->Number->currency($product->price, 'AUD') ?>
                                         </span>
                                     </div>
                                 <?php endforeach; ?>

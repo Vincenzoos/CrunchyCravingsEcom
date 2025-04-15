@@ -128,7 +128,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     <tr>
                                         <td><?= h($product->id) ?></td>
                                         <td><?= h($product->name) ?></td>
-                                        <td><?= $this->Number->currency($product->price, 'USD') ?></td>
+                                        <td><?= $this->Number->currency($product->price, 'AUD') ?></td>
                                         <td><?= h($product->quantity) ?></td>
                                         <td><?= $this->Html->image($product->image_cache_busted_url, [
                                             'alt' => $product->name,

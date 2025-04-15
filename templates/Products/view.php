@@ -43,20 +43,20 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <h3><?= h($product->name) ?></h3>
                             <table class="table table-bordered">
                                 <tr>
+                                    <th><?= __('ID') ?></th>
+                                    <td><?= h($product->id) ?></td>
+                                </tr>
+                                <tr>
                                     <th><?= __('Name') ?></th>
                                     <td><?= h($product->name) ?></td>
                                 </tr>
                                 <tr>
                                     <th><?= __('Price') ?></th>
-                                    <td><?= $this->Number->currency($product->price, 'USD') ?></td>
+                                    <td><?= $this->Number->currency($product->price, 'AUD') ?></td>
                                 </tr>
                                 <tr>
                                     <th><?= __('Quantity') ?></th>
                                     <td><?= h($product->quantity) ?></td>
-                                </tr>
-                                <tr>
-                                    <th><?= __('ID') ?></th>
-                                    <td><?= h($product->id) ?></td>
                                 </tr>
                             </table>
 							<!-- Description Section -->
