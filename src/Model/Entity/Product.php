@@ -46,7 +46,7 @@ class Product extends Entity
      */
     protected function _getImageName(): string
     {
-        return $this->name . ' - ' . date('Y-m-d_H-i-s');
+        return $this->name;
     }
 
     /**

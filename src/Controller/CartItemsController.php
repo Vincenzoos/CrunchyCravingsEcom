@@ -21,10 +21,34 @@ class CartItemsController extends AppController
     public function index()
     {
         $query = $this->CartItems->find()->contain(['Users', 'Products']);
-        // $query = $this->Authorization->applyScope($query);
         $cartItems = $this->paginate($query);
 
         $this->set(compact('cartItems'));
+    }
+
+    /**
+     * Allow specific user to inspect their cart
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function customerView()
+    {
+        // Get the ID of current user
+        $identity = $this->Authentication->getIdentity();
+        $userId = $identity ? $identity->get('id') : null;
+        $query = $this->CartItems->find('all')
+            ->contain(['Products'])
+            ->where([
+                'user_id' => $userId,
+            ]);
+        $cartItems = $this->paginate($query);
+        // Calculate total price
+        $total_price = 0;
+        foreach ($cartItems as $item) {
+            $total_price += $item->line_price;
+        }
+
+        $this->set(compact('cartItems', 'total_price'));
     }
 
     /**
@@ -37,7 +61,6 @@ class CartItemsController extends AppController
     public function view($id = null)
     {
         $cartItem = $this->CartItems->get($id, contain: ['Users', 'Products']);
-        // $this->Authorization->authorize($cartItem);
         $this->set(compact('cartItem'));
     }
 
@@ -49,7 +72,6 @@ class CartItemsController extends AppController
     public function add()
     {
         $cartItem = $this->CartItems->newEmptyEntity();
-        // $this->Authorization->authorize($cartItem);
         if ($this->request->is('post')) {
             $cartItem = $this->CartItems->patchEntity($cartItem, $this->request->getData());
             if ($this->CartItems->save($cartItem)) {
@@ -74,7 +96,6 @@ class CartItemsController extends AppController
     public function edit($id = null)
     {
         $cartItem = $this->CartItems->get($id, contain: []);
-        // $this->Authorization->authorize($cartItem);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $cartItem = $this->CartItems->patchEntity($cartItem, $this->request->getData());
             if ($this->CartItems->save($cartItem)) {
@@ -209,11 +230,6 @@ class CartItemsController extends AppController
     {
         // Ensure the user is logged in
         $user = $this->Authentication->getIdentity();
-//        if (!$user) {
-//            $this->Flash->error(__('Please log in to checkout.'));
-//
-//            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
-//        }
 
         $userId = $user->get('id');
         // Retrieve cart items for the current user including associated product info
@@ -245,6 +261,7 @@ class CartItemsController extends AppController
 
             // Pass required variables to your email template
             $mailer->setViewVars([
+//                Could add first_name and last_name field to Users entity for messages and email
 //                'first_name' => $user->get('first_name'),
 //                'last_name'  => $user->get('last_name'),
                 'email'      => $user->get('email'),
@@ -261,7 +278,7 @@ class CartItemsController extends AppController
             $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
 
             // Optionally clear the cart here if the order is complete
-            // $this->CartItems->deleteAll(['user_id' => $userId]);
+             $this->CartItems->deleteAll(['user_id' => $userId]);
         } catch (Exception $e) {
             $this->Flash->error(__('Error sending email: '));
 

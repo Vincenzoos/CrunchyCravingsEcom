@@ -59,7 +59,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         '/css/media.css',
         '/css/color-schemes/default.css'
     ]) ?>
-    
+
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -236,7 +236,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 									</g>
 								</svg>
 								<!-- cart (2) -->
-                                <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'index']) ?>">cart</a>
+                                <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?>">cart</a>
 <!--                                --><?php //if ($this->Identity->isLoggedIn() && !empty($cartItems)) : ?>
 <!--                                    <div class="cart-dropdown">-->
 <!--                                        <table>-->

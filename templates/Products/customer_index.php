@@ -9,9 +9,9 @@
 <!doctype html>
 <!--
 **********************************************************************************************************
-    Copyright (c) 2024 Webstrot Technology 
+    Copyright (c) 2024 Webstrot Technology
 ********************************************************************************************************** -->
-<!-- 
+<!--
 Template Name: Luxury Shop Ecommerce HTML Template
 Version: 1.0.0
 Author: webstrot
