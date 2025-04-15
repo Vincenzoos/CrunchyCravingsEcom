@@ -323,7 +323,7 @@ class CartItemsController extends AppController
             // Optionally clear the cart here if the order is complete
              $this->CartItems->deleteAll(['user_id' => $userId]);
         } catch (Exception $e) {
-            $this->Flash->error(__('Error sending email: '));
+            $this->Flash->error(__('Error sending email to ' . $user->get('email') . '. The provided email address may not exist, please check the email address and try again.'));
 
             return $this->redirect(['action' => 'customerView']);
         }
