@@ -28,31 +28,6 @@ class CartItemsController extends AppController
     }
 
     /**
-     * Allow specific user to inspect their cart
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function customerView()
-    {
-        // Get the ID of current user
-        $identity = $this->Authentication->getIdentity();
-        $userId = $identity ? $identity->get('id') : null;
-        $query = $this->CartItems->find('all')
-            ->contain(['Products'])
-            ->where([
-                'user_id' => $userId,
-            ]);
-        $cartItems = $this->paginate($query);
-        // Calculate total price
-        $total_price = 0;
-        foreach ($cartItems as $item) {
-            $total_price += $item->line_price;
-        }
-
-        $this->set(compact('cartItems', 'total_price'));
-    }
-
-    /**
      * View method
      *
      * @param string|null $id Cart Item id.

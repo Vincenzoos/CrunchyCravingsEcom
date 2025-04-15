@@ -167,19 +167,13 @@ $html = new HtmlHelper(new \Cake\View\View());
                     <div class="estimate-details shopping-cart-table">
                         <table>
                             <tbody>
-                                <?php
-                                    $subtotal = 0;
-                                    foreach ($cartItems as $cartItem) {
-                                        $subtotal += $cartItem->quantity * $cartItem->product->price;
-                                    }
-                                ?>
                                 <tr class="cart-subtotal">
                                     <th>Subtotal</th>
-                                    <td><span class="amount"><?= $this->Number->currency($subtotal, 'USD') ?></span></td>
+                                    <td><span class="amount"><?= $this->Number->currency($total_price, 'USD') ?></span></td>
                                 </tr>
                                 <tr class="order-total">
                                     <th>Grand Total</th>
-                                    <td><strong><span class="total-amount"><?= $this->Number->currency($subtotal, 'USD') ?></span></strong></td>
+                                    <td><strong><span class="total-amount"><?= $this->Number->currency($total_price, 'USD') ?></span></strong></td>
                                 </tr>
                             </tbody>
                         </table>
