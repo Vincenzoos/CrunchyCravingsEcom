@@ -146,6 +146,49 @@ class CartItemsController extends AppController
     }
 
     /**
+     * Update Quantity Method
+     *
+     * @param string|null $id Cart Item id.
+     * @param int|null $quantity Cart Item new quantity.
+     */
+    public function updateQuantity($id = null, $quantity = null)
+    {
+        // Ensure the ID and quantity are provided
+        if ($id === null || $quantity === null) {
+            $this->Flash->error(__('Invalid request. Please try again.'));
+            return $this->redirect($this->referer());
+        }
+
+        // Ensure the quantity is a positive integer
+        if ($quantity < 1) {
+            $this->Flash->error(__('Quantity must be at least 1.'));
+            return $this->redirect($this->referer());
+        }
+
+        // Fetch the cart item by ID
+        $cartItem = $this->CartItems->get($id);
+
+        if (!$cartItem) {
+            $this->Flash->error(__('Cart item not found.'));
+            return $this->redirect($this->referer());
+        }
+
+        // Update the quantity
+        $cartItem->quantity = $quantity;
+
+        // Save the updated cart item
+        if ($this->CartItems->save($cartItem)) {
+            $this->Flash->success(__('Cart item quantity updated successfully.'));
+        } else {
+            $this->Flash->error(__('Unable to update cart item quantity. Please try again.'));
+        }
+
+        // Redirect back to the referring page
+        return $this->redirect($this->referer());
+    }
+
+
+    /**
      * Delete method
      *
      * @param string|null $id Cart Item id.

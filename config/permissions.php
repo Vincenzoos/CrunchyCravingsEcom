@@ -28,21 +28,32 @@ return [
             ],
             'bypassAuth' => true,
         ],
-         // Public access to the Cart controller
+         // Public access to the Cart functionalities
          [
              'role' => '*',
              'controller' => 'CartItems',
              'action' => [
                  'customerView',
                  'customerAdd',
-                 'update',
+//                 'update',
+                 'updateQuantity',
                  'delete',
                  'checkout',
              ],
              'bypassAuth' => true,
          ],
 
-        // // Public access to the Orders controller
+         // Public access to the Categories functionalities
+         [
+             'role' => '*',
+             'controller' => 'Categories',
+             'action' => [
+                 'customerIndex',
+                 ],
+             'bypassAuth' => true,
+         ],
+
+        // // Public access to the Orders functionalities
         // [
         //     'role' => '*',
         //     'controller' => 'Orders',
