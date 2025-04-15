@@ -19,7 +19,7 @@ use Cake\ORM\Entity;
  */
 class Product extends Entity
 {
-    protected array $_virtual = ['image_name', 'image_full_path'];
+    protected array $_virtual = ['image_full_path', 'image_cache_busted_url'];
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -40,16 +40,6 @@ class Product extends Entity
     ];
 
     /**
-     * A virtual field for setting uploaded image name
-     *
-     * @return string
-     */
-    protected function _getImageName(): string
-    {
-        return $this->name;
-    }
-
-    /**
      * A virtual field for getting full path of image
      *
      * @return string
@@ -61,5 +51,24 @@ class Product extends Entity
         }
         // Fallback to a default image if it's still an object, or no file was uploaded.
         return '/files/Products/image/default-product.jpg';
+    }
+
+    /**
+     * A virtual field for getting image with cache-busting
+     *
+     * @return string
+     */
+    protected function _getImageCacheBustedUrl(): string
+    {
+        // Generate the file path
+        $imagePath = WWW_ROOT . 'files' . DS . 'Products' . DS . 'image' . DS . $this->image;
+
+        // Check if file exists, and append the file modification time as a query parameter
+        if (is_file($imagePath)) {
+            return '/files/Products/image/' . $this->image . '?v=' . filemtime($imagePath);
+        }
+
+        // Fallback to a default image with cache-busting
+        return '/files/Products/image/default-product.jpg?v=' . time();
     }
 }

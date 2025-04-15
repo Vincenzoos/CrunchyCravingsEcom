@@ -76,7 +76,8 @@ $html = new HtmlHelper(new \Cake\View\View());
                         1 => 'Replied',
                         0 => 'Not Replied',
                     ],
-                    'empty' => 'Select reply status...',
+                    'class' => 'form-select select2', // use select2
+                    'empty' => false, // Disable the empty option
                     'default' => '',
                 ]) ?>
             </div>

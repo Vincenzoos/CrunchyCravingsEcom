@@ -30,13 +30,13 @@ use Cake\View\Helper\HtmlHelper;
 $html = new HtmlHelper(new \Cake\View\View());
 ?>
 
-<head>  
+<head>
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities','shop','products']) ?>
 
     <!-- jQuery UI CSS -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    
+
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -45,7 +45,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    
+
 </head>
 
 <body>
@@ -150,12 +150,12 @@ $html = new HtmlHelper(new \Cake\View\View());
                                             <div class="inner-product">
                                                 <!-- Link the product image to the view page -->
                                                 <a href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>">
-                                                    <?= $this->Html->image($product->image_full_path, ['alt' => $product->name, 'class' => 'img-thumbnail', 'style' => 'width: 300px; height: 300px; object-fit: cover;']) ?>
+                                                    <?= $this->Html->image($product->image_cache_busted_url, ['alt' => $product->name, 'class' => 'img-thumbnail', 'style' => 'width: 300px; height: 300px; object-fit: cover;']) ?>
                                                 </a>
                                                 <div class="product-box-inner">
                                                     <ul>
                                                         <li>
-                                                            <a title="View Image" href="<?= $this->Url->build($product->image_full_path) ?>">
+                                                            <a title="View Image" href="<?= $this->Url->build($product->image_cache_busted_url) ?>">
                                                                 <i class="fa fa-eye"></i>
                                                             </a>
                                                         </li>

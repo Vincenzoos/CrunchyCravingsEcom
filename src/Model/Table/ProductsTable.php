@@ -50,7 +50,7 @@ class ProductsTable extends Table
         $this->addBehavior('Josegonzalez/Upload.Upload', [
             'image' => [
                 'nameCallback' => function ($table, $entity, $data, $field, $settings) {
-                    return $entity->image_name . '.' . pathinfo($data->getClientFilename(), PATHINFO_EXTENSION);
+                    return $entity->name . '.' . pathinfo($data->getClientFilename(), PATHINFO_EXTENSION);
                 },
                 'keepFilesOnDelete' => false,
             ],
