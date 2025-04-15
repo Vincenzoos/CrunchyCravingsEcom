@@ -59,7 +59,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         '/css/media.css',
         '/css/color-schemes/default.css'
     ]) ?>
-    
+
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -167,7 +167,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 <a title="Change Password"
                                 id="top_link"
                                 style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword']) ?>"
+                                href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>"
                                 class="list-group-item">CHANGE PASSWORD</a>
                             <?php else : ?>
                                 <a title="Login"
@@ -186,13 +186,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">REGISTER
                                 </a>
                             <?php endif; ?>
-<!--						<div class="input-group input-group1">-->
-<!--							<span class="input-group-btn">-->
-<!--								<button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>-->
-<!--							</span>-->
-<!--							<input type="text" class="form-control" placeholder="Search products">-->
-<!--						</div>-->
-                        <!-- /input-group -->
 					</div>
 					<div class="col-12 col-md-12 col-lg-6 logo-block">
 						<a title="Logo" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">
@@ -201,38 +194,6 @@ $html = new HtmlHelper(new \Cake\View\View());
 					</div>
 					<div class="col-12 col-md-12 col-lg-3 ow-right-padding ">
 						<div class="row" style="display: flex; justify-content: space-between; align-items: center;">
-							<!-- Login and Register -->
-<!--							<div class="col-12 col-sm-6 col-md-6 col-lg-6 ow-right-padding ow-right-padding2 d-flex justify-content-end">-->
-                                <!-- Determine whether to show login or logout, and save the current page in URL redirect to be used as a fallback -->
-<!--                                --><?php //if ($this->Identity->isLoggedIn()) : ?>
-<!--                                    <a title="Logout"-->
-<!--                                    id="top_link"-->
-<!--                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"-->
-<!--                                    href="--><?php //= $this->Url->build([
-//                                        'controller' => 'Auth',
-//                                        'action' => 'logout',
-//                                        '?' => ['redirect' => $this->request->getRequestTarget()]
-//                                    ]) ?><!--"-->
-<!--                                    class="list-group-item">LOGOUT</a>-->
-<!--                                --><?php //else : ?>
-<!--                                    <a title="Login"-->
-<!--                                    id="top_link"-->
-<!--                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"-->
-<!--                                    href="--><?php //= $this->Url->build([
-//                                        'controller' => 'Auth',
-//                                        'action' => 'login',
-//                                        '?' => ['redirect' => $this->request->getRequestTarget()]
-//                                    ]) ?><!--"-->
-<!--                                    class="list-group-item">LOGIN</a>-->
-<!---->
-<!--                                <a title="Register"-->
-<!--                                    id="top_link"-->
-<!--                                    style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"-->
-<!--                                    href="--><?php //= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?><!--">REGISTER-->
-<!--                                </a>-->
-<!--                                --><?php //endif; ?>
-<!--							</div>-->
-
 							<!-- Cart -->
     						<div class="col-12 col-sm-6 col-md-6 col-lg-6 cart-link ow-right-padding d-flex justify-content-end" style="margin-top: 15px; margin-bottom: 15px;">
 								<svg width="16px" height="15px" viewBox="0 0 533.334 533.335">
@@ -243,56 +204,6 @@ $html = new HtmlHelper(new \Cake\View\View());
 								</svg>
 								<!-- cart (2) -->
                                 <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?>">cart</a>
-<!--                                --><?php //if ($this->Identity->isLoggedIn() && !empty($cartItems)) : ?>
-<!--                                    <div class="cart-dropdown">-->
-<!--                                        <table>-->
-<!--                                            --><?php //foreach ($cartItems as $cartItem): ?>
-<!--                                                <tr>-->
-<!--                                                    <td class="product-thumb">-->
-<!--                                                        <a href="--><?php //= $this->Url->build(['controller' => 'Products', 'action' => 'customerView', $cartItem->product->id]) ?><!--">-->
-<!--                                                            --><?php //= $this->Html->image(
-//                                                                isset($cartItem->product->image) ? $cartItem->product->image : 'default.jpg',
-//                                                                ['alt' => h($cartItem->product->name)]
-//                                                            ) ?>
-<!--                                                        </a>-->
-<!--                                                    </td>-->
-<!--                                                    <td>-->
-<!--                                                        <a title="--><?php //= h($cartItem->product->name) ?><!--" href="--><?php //= $this->Url->build(['controller' => 'Products', 'action' => 'customerView', $cartItem->product->id]) ?><!--">-->
-<!--                                                            --><?php //= h($cartItem->product->name) ?>
-<!--                                                        </a>-->
-<!--                                                    </td>-->
-<!--                                                    <td>-->
-<!--                                                        x--><?php //= h($cartItem->quantity) ?>
-<!--                                                    </td>-->
-<!--                                                    <td>-->
-<!--                                                        --><?php //= $this->Number->currency($cartItem->line_price, 'AUD') ?>
-<!--                                                    </td>-->
-<!--                                                    <td>-->
-<!--                                                        <a title="remove" href="--><?php //= $this->Url->build(['controller' => 'CartItems', 'action' => 'remove', $cartItem->id]) ?><!--">-->
-<!--                                                            <i class="fa fa-close"></i>-->
-<!--                                                        </a>-->
-<!--                                                    </td>-->
-<!--                                                </tr>-->
-<!--                                            --><?php //endforeach; ?>
-<!--                                        </table>-->
-<!--                                        --><?php
-//                                        // Calculate the subtotal for display
-//                                        $subtotal = 0;
-//                                        foreach ($cartItems as $item) {
-//                                            $subtotal += $item->line_price;
-//                                        }
-//                                        ?>
-<!--                                        <div class="sub-total">-->
-<!--                                            <p><span>Sub Total</span> --><?php //= $this->Number->currency($subtotal, 'AUD') ?><!--</p>-->
-<!--                                            <p><span>Total</span> --><?php //= $this->Number->currency($subtotal, 'AUD') ?><!--</p>-->
-<!--                                        </div>-->
-<!--                                        <div class="cart-button">-->
-<!--                                            <a title="View Cart" href="--><?php //= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?><!--">View Cart</a>-->
-<!--                                            <a title="Checkout" href="--><?php //= $this->Url->build(['controller' => 'Orders', 'action' => 'checkout']) ?><!--">Checkout</a>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                --><?php //endif; ?>
-
                             </div>
 						</div>
 
@@ -336,8 +247,6 @@ $html = new HtmlHelper(new \Cake\View\View());
 									</div>
 								</ul>
 							</li>
-							<!-- <li class="nav-item"><a class="nav-link" title="About Us" href="#">About Us</a></li> -->
-<!--							<li class="nav-item"><a class="nav-link" title="About Us" href="--><?php //= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'about']) ?><!--">About Us</a></li>-->
                             <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
 						</ul>
 					</div><!--/.nav-collapse -->
@@ -450,8 +359,6 @@ $html = new HtmlHelper(new \Cake\View\View());
 								<ul>
 									<li><a title="Order Status" href="#">Order Status</a></li>
 									<li><a title="My Order History" href="#">My Order History</a></li>
-									<!-- <li><a title="My Favorites" href="#">My Favorites</a></li> -->
-									<!-- <li><a title="Promo codes" href="#">Promo codes</a></li> -->
 									<li><a title="Payments" href="#">Payments</a></li>
 									<li><a title="Returns" href="#">Returns</a></li>
 								</ul>
@@ -462,13 +369,10 @@ $html = new HtmlHelper(new \Cake\View\View());
 								Learn more
 								</h3>
 								<ul>
-                                    <!-- <li><a title="About Us" href="#">About Us</a></li> -->
-<!--                                    <li><a title="About Us" href="--><?php //= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'about']) ?><!--">About Us</a></li>-->
                                     <li><a title="Contact Us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact Us</a></li>
-									<!-- <li><a title="Privacy Policy" href="#">Privacy Policy</a></li> -->
-									<!-- <li><a title="Terms &amp; Conditions" href="#">Terms &amp; Conditions</a></li>
+									 <li><a title="Privacy Policy" href="#">Privacy Policy</a></li>
+									 <li><a title="Terms &amp; Conditions" href="#">Terms &amp; Conditions</a></li>
 									<li><a title="FAQ" href="#">FAQ</a></li>
-									<li><a title="Blog" href="#">Blog</a></li> -->
 								</ul>
 							</aside>
 						</div>

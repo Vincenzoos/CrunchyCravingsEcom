@@ -136,34 +136,39 @@ class AuthController extends AppController
      */
     public function resetPassword(?string $nonce = null)
     {
-        // Find the user by nonce
-        $user = $this->Users->find()
-            ->where(['nonce' => $nonce, 'nonce IS NOT' => null]) // Ensure nonce is not null
-            ->first();
-    
+        // Redirect early if nonce is null or empty.
+        if (empty($nonce)) {
+            $this->Flash->error('Your link is invalid or expired. Please try again.');
+            $this->referer();
+            return $this->redirect(['controller' => 'Pages', 'action' => 'display']);
+        }
+
+        $user = $this->Users->findByNonce($nonce)->first();
+
         // If nonce cannot find the user, or nonce is expired, prompt for re-reset password
         if (!$user || $user->nonce_expiry < DateTime::now()) {
             $this->Flash->error('Your link is invalid or expired. Please try again.');
-    
+
             return $this->redirect(['action' => 'forgetPassword']);
         }
-    
+
         if ($this->request->is(['patch', 'post', 'put'])) {
-            // Use a different validation set in Model/Table file to ensure both fields are filled
+            // Used a different validation set in Model/Table file to ensure both fields are filled
             $user = $this->Users->patchEntity($user, $this->request->getData(), ['validate' => 'resetPassword']);
-    
-            // Clear the nonce-related fields on successful password resets
+
+            // Also clear the nonce-related fields on successful password resets.
+            // This ensures that the reset link can't be used a second time.
             $user->nonce = null;
             $user->nonce_expiry = null;
-    
+
             if ($this->Users->save($user)) {
-                $this->Flash->success('Your password has been successfully reset. Please login with your new password.');
-    
+                $this->Flash->success('Your password has been successfully reset. Please login with new password. ');
+
                 return $this->redirect(['action' => 'login']);
             }
             $this->Flash->error('The password could not be reset. Please try again.');
         }
-    
+
         $this->set(compact('user'));
     }
 
@@ -174,31 +179,19 @@ class AuthController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function changePassword()
+    public function changePassword(?string $id = null)
     {
-        // Check if the user is logged in
-        $userId = $this->request->getAttribute('identity')?->get('id');
-
-        if (!$userId) {
-            $this->Flash->error(__('You must be logged in to change your password.'));
-            return $this->redirect(['action' => 'login']);
-        }
-
-        // Fetch the user record
-        $user = $this->Users->get($userId);
-
+        $user = $this->Users->get($id, ['contain' => []]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData(), [
-                'validate' => 'password',
-            ]);
-
+            // Used a different validation set in Model/Table file to ensure both fields are filled
+            $user = $this->Users->patchEntity($user, $this->request->getData(), ['validate' => 'resetPassword']);
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('Your password has been updated.'));
-                return $this->redirect(['action' => 'logout']);
-            }
-            $this->Flash->error(__('Unable to update your password. Please try again.'));
-        }
+                $this->Flash->success('The user has been saved.');
 
+                return $this->redirect(['controller' => 'Contacts', 'action' => 'index']);
+            }
+            $this->Flash->error('The user could not be saved. Please, try again.');
+        }
         $this->set(compact('user'));
     }
 
@@ -214,8 +207,6 @@ class AuthController extends AppController
 
         // if user passes authentication, grant access to the system
         if ($result && $result->isValid()) {
-            // // set a fallback location in case user logged in without triggering 'unauthenticatedRedirect'
-            // $fallbackLocation = ['controller' => 'Contacts', 'action' => 'index'];
             // Get the currently authenticated user
             $user = $this->request->getAttribute('identity');
 
@@ -227,19 +218,8 @@ class AuthController extends AppController
                 $fallbackLocation = ['controller' => 'Products', 'action' => 'customerIndex'];
             }
 
-            // // and redirect user to the location they're trying to access
-            // return $this->redirect($this->Authentication->getLoginRedirect() ?? $fallbackLocation);
-
-            // set the fallback location in case user logged in without triggering 'unauthenticatedRedirect'
-            // Get the redirect URL from the query parameter
-//            $fallbackLocation = $this->request->getQuery('redirect', [
-//                'controller' => 'Pages',
-//                'action' => 'display',
-//                'landing_page'
-//            ]);
-
             // Redirect to the intended page or fallback to the landing page
-            return $this->redirect($fallbackLocation);
+            return $this->redirect($this->Authentication->getLoginRedirect() ?? $fallbackLocation);
         }
 
         // display error if user submitted their credentials but authentication failed
@@ -261,15 +241,6 @@ class AuthController extends AppController
             $this->Authentication->logout();
 
             $this->Flash->success('You have been logged out successfully. ');
-
-//            $fallbackLocation = $this->request->getQuery('redirect', [
-//                'controller' => 'Pages',
-//                'action' => 'display',
-//                'landing_page'
-//            ]);
-//
-//            // Redirect to the intended page or fallback to the landing page
-//            return $this->redirect($fallbackLocation);
         }
 
         // Otherwise just send them to the login page

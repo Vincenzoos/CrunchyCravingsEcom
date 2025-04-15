@@ -5,7 +5,7 @@
  * @var \App\Model\Entity\User $user
  */
 
-$this->assign('title', 'Forgot Password');
+$this->assign('title', 'Change Password');
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +31,7 @@ $this->assign('title', 'Forgot Password');
         </div>
     </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
-    
+
     <!-- Change Password Section -->
     <section id="heading" class="text-center py-5">
         <div class="container">
