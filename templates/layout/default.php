@@ -59,7 +59,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         '/css/media.css',
         '/css/color-schemes/default.css'
     ]) ?>
-
+    
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -330,7 +330,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 									</div>
 								</ul>
 							</li>
-							<li class="nav-item"><a class="nav-link" title="About Us" href="#">About Us</a></li>
+							<!-- <li class="nav-item"><a class="nav-link" title="About Us" href="#">About Us</a></li> -->
 <!--							<li class="nav-item"><a class="nav-link" title="About Us" href="--><?php //= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'about']) ?><!--">About Us</a></li>-->
                             <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
 						</ul>
@@ -456,7 +456,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 								Learn more
 								</h3>
 								<ul>
-                                    <li><a title="About Us" href="#">About Us</a></li>
+                                    <!-- <li><a title="About Us" href="#">About Us</a></li> -->
 <!--                                    <li><a title="About Us" href="--><?php //= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'about']) ?><!--">About Us</a></li>-->
                                     <li><a title="Contact Us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact Us</a></li>
 									<!-- <li><a title="Privacy Policy" href="#">Privacy Policy</a></li> -->
