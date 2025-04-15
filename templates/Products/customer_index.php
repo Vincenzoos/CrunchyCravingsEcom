@@ -140,7 +140,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <div class="container">
                     <div class="category-box-main product-box-main">
                         <div class="container">
-                            <div class="row justify-content-center">
+                            <div class="row">
                                 <?php foreach ($products as $product) : ?>
                                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 main-product">
                                         <div class="category-box product-box">
