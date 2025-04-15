@@ -18,8 +18,6 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities', 'form']) ?>
-
-    <?= $html->script('/libraries/jquery.min.js') ?>
 </head>
 
 <body>
@@ -57,24 +55,18 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     'placeholder' => 'Enter a brief description...',
                                     'type' => 'textarea',
                                     'rows' => 4,
-                                    'required' => true,
                                 ]) ?>
                             </div>
                             <div class="mb-4">
-                                <h4>Products</h4>
-                                <ul class="list-unstyled row">
-                                    <?php foreach ($products as $id => $name): ?>
-                                        <li class="col-lg-3 col-md-6 col-12">
-                                            <div class="form-check">
-                                                <?= $this->Form->checkbox("products._ids.$id", [
-                                                    'value' => $id,
-                                                    'class' => 'form-check-input',
-                                                ]) ?>
-                                                <?= $this->Form->label("products._ids.$id", h($name), ['class' => 'form-check-label']) ?>
-                                            </div>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
+                                <?= $this->Form->control('products._ids', [
+                                    'type' => 'select',
+                                    'label' => ['text' => '<h4>Products</h4>', 'escape' => false],
+                                    'options' => $productsList,
+                                    'multiple' => true,
+                                    'class' => 'form-select select2', // use select2
+                                    'empty' => false, // Disable the empty option
+                                    'value' => $this->request->getQuery('products._ids'),
+                                ]) ?>
                             </div>
                             <div class="text-center">
                                 <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary btn-lg']) ?>
@@ -90,4 +82,12 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        jQuery(document).ready(function() {
+            jQuery('.select2').select2({
+                placeholder: "Select products",
+                allowClear: true,
+            });
+        });
+    </script>
 </body>

@@ -80,7 +80,11 @@ $html = new HtmlHelper(new \Cake\View\View());
                                                 <tr>
                                                     <td><?= h($product->name) ?></td>
                                                     <td><?= $this->Number->currency($product->price, 'AUD', ['places' => 2]) ?></td>
-                                                    <td><?= empty($product->image) ? 'None' : h($product->image) ?></td>
+                                                    <td><?= $this->Html->image($product->image_cache_busted_url, [
+                                                            'alt' => $product->name,
+                                                            'class' => 'img-fluid rounded-top',
+                                                            'style' => 'height: 100px; object-fit: cover; width: 100%;',
+                                                        ]) ?></td>
                                                     <td class="text-center">
                                                         <?= $this->Html->link(__('View'), ['controller' => 'Products', 'action' => 'view', $product->id], ['class' => 'btn btn-info btn-sm']) ?>
                                                         <?= $this->Html->link(__('Edit'), ['controller' => 'Products', 'action' => 'edit', $product->id], ['class' => 'btn btn-warning btn-sm']) ?>
