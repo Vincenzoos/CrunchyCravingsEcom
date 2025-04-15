@@ -143,12 +143,12 @@ $html = new HtmlHelper(new View());
                             <div class="inner-product">
                                 <!-- Link the product image to the view page -->
                                 <a href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>">
-                                    <?= $html->image('products/' . $product->image, ['alt' => $product->name]) ?>
+                                    <?= $this->Html->image($product->image_full_path, ['alt' => $product->name]) ?>
                                 </a>
                                 <div class="product-box-inner">
                                     <ul>
                                         <li>
-                                            <a title="View Image" href="<?= $html->image('products/' . $product->image, ['alt' => $product->name]) ?>">
+                                            <a title="View Image" href="<?= $this->Url->build($product->image_full_path) ?>">
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                         </li>

@@ -19,6 +19,8 @@ use Cake\ORM\Entity;
  */
 class Product extends Entity
 {
+    protected array $_virtual = ['image_name', 'image_full_path'];
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -36,4 +38,28 @@ class Product extends Entity
         'quantity' => true,
         'categories' => true,
     ];
+
+    /**
+     * A virtual field for setting uploaded image name
+     *
+     * @return string
+     */
+    protected function _getImageName(): string
+    {
+        return $this->name . ' - ' . date('Y-m-d_H-i-s');
+    }
+
+    /**
+     * A virtual field for getting full path of image
+     *
+     * @return string
+     */
+    protected function _getImageFullPath(): string
+    {
+        if (is_string($this->image) && !empty($this->image)) {
+            return '/files/Products/image/' . $this->image;
+        }
+        // Fallback to a default image if it's still an object, or no file was uploaded.
+        return '/files/Products/image/default-product.jpg';
+    }
 }

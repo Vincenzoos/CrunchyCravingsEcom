@@ -2,7 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Product $product
- * @var string[]|\Cake\Collection\CollectionInterface $categories
+ * @var \Cake\Collection\CollectionInterface|array<string> $categories
  */
 ?>
 
@@ -30,7 +30,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div id="form-content">
-                        <?= $this->Form->create($product, ['class' => 'form']) ?>
+                        <?= $this->Form->create($product, ['class' => 'form', 'type' => 'file']) ?>
 
                         <div class="mb-4">
                             <?= $this->Form->control('name', [
@@ -59,10 +59,10 @@
                             ]) ?>
                         </div>
                         <div class="mb-4">
-                            <?= $this->Form->control('Image filename', [
+                            <?= $this->Form->control('image', [
+                                'type' => 'file',
                                 'class' => 'form-control mx-auto',
                                 'label' => ['text' => '<h4>Image URL</h4>', 'escape' => false],
-                                'placeholder' => 'e.g default-product.jpg',
                             ]) ?>
                         </div>
                         <div class="mb-4">
@@ -78,7 +78,7 @@
                                 'type' => 'select',
                                 'multiple' => 'checkbox',
                                 'options' => array_column($product->categories, 'name'),
-                                
+
                                 'class' => 'form-check-input',
                                 'label' => ['text' => '<h4>Categories</h4>', 'escape' => false],
                                 'templateVars' => ['class' => 'form-check-label'],
@@ -87,7 +87,7 @@
                         <div class="mb-4">
                             <h4>Categories</h4>
                             <ul class="list-unstyled row">
-                                <?php foreach ($allCategories as $id => $name): ?>
+                                <?php foreach ($allCategories as $id => $name) : ?>
                                     <li class="col-lg-3 col-md-6 col-12">
                                         <div class="form-check">
                                             <?= $this->Form->checkbox("categories._ids.$id", [

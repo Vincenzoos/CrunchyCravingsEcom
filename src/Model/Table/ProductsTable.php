@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -12,7 +11,6 @@ use Cake\Validation\Validator;
  * Products Model
  *
  * @property \App\Model\Table\CategoriesTable&\Cake\ORM\Association\BelongsToMany $Categories
- *
  * @method \App\Model\Entity\Product newEmptyEntity()
  * @method \App\Model\Entity\Product newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Product> newEntities(array $data, array $options = [])
@@ -48,6 +46,15 @@ class ProductsTable extends Table
             'targetForeignKey' => 'category_id',
             'joinTable' => 'categories_products',
         ]);
+
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'image' => [
+                'nameCallback' => function ($table, $entity, $data, $field, $settings) {
+                    return $entity->image_name . '.' . pathinfo($data->getClientFilename(), PATHINFO_EXTENSION);
+                },
+                'keepFilesOnDelete' => false,
+            ],
+        ]);
     }
 
     /**
@@ -75,9 +82,19 @@ class ProductsTable extends Table
             ->notEmptyString('price');
 
         $validator
-            ->scalar('image')
-            ->maxLength('image', 500)
-            ->allowEmptyString('image');
+            // Allows empty image field
+            ->allowEmptyFile('image')
+            ->add('image', [
+                'validExtension' => [
+                    'rule' => ['extension', ['png', 'jpg', 'jpeg', 'webp']],
+                    'message' => 'Please upload a valid image file (PNG, JPEG, WEBP).',
+                ],
+                // Optional: limit to 5MB
+                'fileSize' => [
+                    'rule' => ['fileSize', '<=', '5MB'],
+                    'message' => 'Please upload an image file smaller than 5MB.',
+                ],
+            ]);
 
         $validator
             ->integer('quantity')

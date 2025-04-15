@@ -147,7 +147,6 @@ class ProductsController extends AppController
         $this->set(compact('product'));
     }
 
-
     /**
      * Customer view method
      *
@@ -248,6 +247,10 @@ class ProductsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $product = $this->Products->get($id);
+        // Handle null products image
+        if (empty($product->image) || $product->image == null) {
+            $product->image = '/img/products/default-product.jpg';
+        }
         if ($this->Products->delete($product)) {
             $this->Flash->success(__('The product has been deleted.'));
         } else {
