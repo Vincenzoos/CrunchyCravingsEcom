@@ -155,29 +155,35 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <!-- Determine whether to show login or logout, and save the current page in URL redirect to be used as a fallback -->
                             <?php if ($this->Identity->isLoggedIn()) : ?>
                                 <a title="Logout"
-                                   id="top_link"
-                                   style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                   href="<?= $this->Url->build([
-                                       'controller' => 'Auth',
-                                       'action' => 'logout',
-                                       '?' => ['redirect' => $this->request->getRequestTarget()]
-                                   ]) ?>"
-                                   class="list-group-item">LOGOUT</a>
+                                id="top_link"
+                                style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
+                                href="<?= $this->Url->build([
+                                    'controller' => 'Auth',
+                                    'action' => 'logout',
+                                    '?' => ['redirect' => $this->request->getRequestTarget()]
+                                ]) ?>"
+                                class="list-group-item">LOGOUT</a>
+
+                                <a title="Change Password"
+                                id="top_link"
+                                style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
+                                href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword']) ?>"
+                                class="list-group-item">CHANGE PASSWORD</a>
                             <?php else : ?>
                                 <a title="Login"
-                                   id="top_link"
-                                   style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                   href="<?= $this->Url->build([
-                                       'controller' => 'Auth',
-                                       'action' => 'login',
-                                       '?' => ['redirect' => $this->request->getRequestTarget()]
-                                   ]) ?>"
-                                   class="list-group-item">LOGIN</a>
+                                id="top_link"
+                                style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
+                                href="<?= $this->Url->build([
+                                    'controller' => 'Auth',
+                                    'action' => 'login',
+                                    '?' => ['redirect' => $this->request->getRequestTarget()]
+                                ]) ?>"
+                                class="list-group-item">LOGIN</a>
 
                                 <a title="Register"
-                                   id="top_link"
-                                   style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                   href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">REGISTER
+                                id="top_link"
+                                style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
+                                href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">REGISTER
                                 </a>
                             <?php endif; ?>
 <!--						<div class="input-group input-group1">-->

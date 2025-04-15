@@ -136,32 +136,34 @@ class AuthController extends AppController
      */
     public function resetPassword(?string $nonce = null)
     {
-        $user = $this->Users->findByNonce($nonce)->first();
-
+        // Find the user by nonce
+        $user = $this->Users->find()
+            ->where(['nonce' => $nonce, 'nonce IS NOT' => null]) // Ensure nonce is not null
+            ->first();
+    
         // If nonce cannot find the user, or nonce is expired, prompt for re-reset password
         if (!$user || $user->nonce_expiry < DateTime::now()) {
             $this->Flash->error('Your link is invalid or expired. Please try again.');
-
+    
             return $this->redirect(['action' => 'forgetPassword']);
         }
-
+    
         if ($this->request->is(['patch', 'post', 'put'])) {
-            // Used a different validation set in Model/Table file to ensure both fields are filled
+            // Use a different validation set in Model/Table file to ensure both fields are filled
             $user = $this->Users->patchEntity($user, $this->request->getData(), ['validate' => 'resetPassword']);
-
-            // Also clear the nonce-related fields on successful password resets.
-            // This ensures that the reset link can't be used a second time.
+    
+            // Clear the nonce-related fields on successful password resets
             $user->nonce = null;
             $user->nonce_expiry = null;
-
+    
             if ($this->Users->save($user)) {
-                $this->Flash->success('Your password has been successfully reset. Please login with new password. ');
-
+                $this->Flash->success('Your password has been successfully reset. Please login with your new password.');
+    
                 return $this->redirect(['action' => 'login']);
             }
-            $this->Flash->error('The password cannot be reset. Please try again.');
+            $this->Flash->error('The password could not be reset. Please try again.');
         }
-
+    
         $this->set(compact('user'));
     }
 
@@ -172,19 +174,31 @@ class AuthController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function changePassword(?string $id = null)
+    public function changePassword()
     {
-        $user = $this->Users->get($id, ['contain' => []]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            // Used a different validation set in Model/Table file to ensure both fields are filled
-            $user = $this->Users->patchEntity($user, $this->request->getData(), ['validate' => 'resetPassword']);
-            if ($this->Users->save($user)) {
-                $this->Flash->success('The user has been saved.');
+        // Check if the user is logged in
+        $userId = $this->request->getAttribute('identity')?->get('id');
 
-                return $this->redirect(['controller' => 'Contacts', 'action' => 'index']);
-            }
-            $this->Flash->error('The user could not be saved. Please, try again.');
+        if (!$userId) {
+            $this->Flash->error(__('You must be logged in to change your password.'));
+            return $this->redirect(['action' => 'login']);
         }
+
+        // Fetch the user record
+        $user = $this->Users->get($userId);
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $user = $this->Users->patchEntity($user, $this->request->getData(), [
+                'validate' => 'password',
+            ]);
+
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('Your password has been updated.'));
+                return $this->redirect(['action' => 'logout']);
+            }
+            $this->Flash->error(__('Unable to update your password. Please try again.'));
+        }
+
         $this->set(compact('user'));
     }
 

@@ -5,45 +5,54 @@
  * @var \App\Model\Entity\User $user
  */
 
-$this->assign('title', 'Change Password');
+$this->assign('title', 'Forgot Password');
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrunchyCravings</title>
-    <!-- Bootstrap CSS -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-
     <!-- Custom CSS -->
-    <?= $this->Html->css(['custom', 'change_password']) ?>
+    <?= $this->Html->css(['utilities', 'form']) ?>
 </head>
 
 <body>
+    <!-- Page Breadcrumb -->
+    <!-- container -->
+    <div class="container">
+        <div class="page-breadcrumb">
+            <ol class="breadcrumb">
+                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                <li><a title="Forgot password" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword']) ?>">Change Password</a></li>
+            </ol>
+            <div class="return-home-link pull-right">
+                <a title="Return to home page" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">return to home page</a>
+            </div>
+        </div>
+    </div><!-- container /- -->
+    <!-- Page Breadcrumb /- -->
+    
+    <!-- Change Password Section -->
+    <section id="heading" class="text-center py-5">
+        <div class="container">
+            <h1 class="display-4">Change Password</h1>
+            <p class="lead">Update your password below.</p>
+        </div>
+    </section>
+
     <!-- Page Container -->
     <div class="page-container mx-auto my-5">
-        <!-- Change Password Section -->
-        <section id="change-password" class="text-center py-5">
-            <div class="container">
-                <h1 class="display-4">Change Password</h1>
-                <p class="lead">Update your password below.</p>
-            </div>
-        </section>
 
         <!-- Change Password Form Section -->
-        <section id="change-password-form" class="py-5">
+        <section id="form-section" class="py-5">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8">
-                        <div class="users-form-content text-center">
+                        <div id="form-content" class="users-form-content text-center">
                             <?= $this->Form->create($user) ?>
                             <!--  Set password to none prevent current hashed_password to get pre-populated into the password field by CakePHP Form helper -->
                             <?= $user->password = ''; ?>
                             <fieldset>
-                                <h1 class="mb-4">Update Your Password</h1>
                                 <?= $this->Flash->render() ?>
                                 <div class="mb-4">
                                     <?= $this->Form->control('password', [

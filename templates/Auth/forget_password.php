@@ -11,36 +11,44 @@ $this->assign('title', 'Forgot Password');
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrunchyCravings</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom CSS -->
-    <?= $this->Html->css(['custom', 'forget_password']) ?>
+    <?= $this->Html->css(['utilities', 'form']) ?>
 </head>
 
 <body>
+    <!-- Page Breadcrumb -->
+    <!-- container -->
+    <div class="container">
+        <div class="page-breadcrumb">
+            <ol class="breadcrumb">
+                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                <li><a title="Forgot password" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'forgetPassword']) ?>">Forgot Password</a></li>
+            </ol>
+            <div class="return-home-link pull-right">
+                <a title="Return to home page" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">return to home page</a>
+            </div>
+        </div>
+    </div><!-- container /- -->
+    <!-- Page Breadcrumb /- -->
+    
+    <!-- Forgot Password Section -->
+    <section id="heading" class="text-center py-5">
+        <div class="container">
+            <h1 class="display-4">Forgot Password</h1>
+            <p class="lead">Enter your email address to reset your password.</p>
+        </div>
+    </section>
+
     <!-- Page Container -->
     <div class="page-container mx-auto my-5">
-        <!-- Forgot Password Section -->
-        <section id="forgot-password" class="text-center py-5">
-            <div class="container">
-                <h1 class="display-4">Forgot Password</h1>
-                <p class="lead">Enter your email address to reset your password.</p>
-            </div>
-        </section>
-
         <!-- Forgot Password Form Section -->
-        <section id="forgot-password-form" class="py-5">
+        <section id="form-section" class="py-5">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8">
-                        <div class="users-form-content text-center">
+                        <div id="form-content" class="users-form-content text-center">
                             <?= $this->Form->create() ?>
                             <fieldset>
-                                <h1 class="mb-4">Reset Your Password</h1>
                                 <?= $this->Flash->render() ?>
                                 <div class="mb-4">
                                     <?= $this->Form->control('email', [

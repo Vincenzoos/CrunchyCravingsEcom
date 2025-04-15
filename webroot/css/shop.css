@@ -6,14 +6,12 @@
 }
 
 #shop-container {
-    background-color: var(--background-color);
     color: var(--text-color);
     margin-top: 1rem !important;
     margin-bottom: 1rem !important;
 }
 
 #shop-box {
-    background-color: var(--background-color);
     padding: 1rem;
     border-radius: 0.5rem;
     border: 1px solid #ddd;

@@ -8,7 +8,6 @@
 }
 
 #form-section {
-    background-color: var(--background-color);
     color: var(--text-color);
     /* font-size: 3rem; */
     padding-top: 1rem !important;
@@ -17,7 +16,6 @@
 }
 
 #form-content {
-    background-color: var(--background-color);
     padding: 2rem;
     border-radius: 0.5rem;
     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
