@@ -94,7 +94,7 @@
                                         <td><?= h($product->name) ?></td>
                                         <td><?= $this->Number->currency($product->price, 'USD') ?></td>
                                         <td><?= h($product->quantity) ?></td>
-                                        <td><?= $this->Html->image($product->image_full_path, ['alt' => $product->name, 'class' => 'img-thumbnail', 'style' => 'max-width: 20%;']) ?></td>
+                                        <td><?= $this->Html->image($product->image_full_path, ['alt' => $product->name, 'class' => 'img-thumbnail', 'style' => 'width: 100px; height: 100px; object-fit: cover;']) ?></td>
                                         <td class="text-center">
                                             <?= $this->Html->link(__('View'), ['action' => 'view', $product->id], ['class' => 'btn btn-info btn-sm']) ?>
                                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $product->id], ['class' => 'btn btn-warning btn-sm']) ?>

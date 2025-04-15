@@ -9,9 +9,9 @@
 <!doctype html>
 <!--
 **********************************************************************************************************
-    Copyright (c) 2024 Webstrot Technology 
+    Copyright (c) 2024 Webstrot Technology
 ********************************************************************************************************** -->
-<!-- 
+<!--
 Template Name: Luxury Shop Ecommerce HTML Template
 Version: 1.0.0
 Author: webstrot
@@ -31,7 +31,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 ?>
 
 <head>
-    <!-- <?= $this->Html->charset() ?>
+    <?= $this->Html->charset() ?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -39,7 +39,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <meta name="author" content="">
     <link rel="icon" type="image/png" href="<?= $this->Url->image('logo.png') ?>">
     <title><?= $this->fetch('title') ?> - CrunchyCravings</title> -->
-    
+
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities','shop']) ?>
 
