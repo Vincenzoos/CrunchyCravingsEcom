@@ -23,8 +23,8 @@ class CartItemsFixture extends TestFixture
                 'user_id' => 1,
                 'product_id' => 1,
                 'quantity' => 1,
-                'created' => '2025-04-14 01:44:14',
-                'modified' => '2025-04-14 01:44:14',
+                'created' => '2025-04-15 00:37:50',
+                'modified' => '2025-04-15 00:37:50',
             ],
         ];
         parent::init();

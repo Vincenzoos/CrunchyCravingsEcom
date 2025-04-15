@@ -152,7 +152,7 @@ INSERT INTO `users` (`id`, `email`, `password`, `role`) VALUES
 (1, 'test@example.com', '$2y$10$fAyHLsidzEmziQNmbxLEh.75.nyw7MAR4CUn1rrzDTb0nVWf29ik6', 'customer'),
 (2, 'asd@gmail.com', '$2y$10$9IYSSmJtwhq/ixYrolnXW.fqx0CzwaGsoVoWeFm/Xgh2J/OADDB8u', 'admin'),
 (3, 'customer@gmail.com', '$2y$10$zXUJ7nuZrzYHdZ5GJdVX3uBtJH8YNaYrK.0HObTF13dK.bIhr3Zbi', 'customer'), -- password is yes (bcrypt, cost 10)
-(4, 'admin@gmail.com', '$2y$10$zXUJ7nuZrzYHdZ5GJdVX3uBtJH8YNaYrK.0HObTF13dK.bIhr3Zbi', 'admin');
+(4, 'admin@gmail.com', '$2y$10$zXUJ7nuZrzYHdZ5GJdVX3uBtJH8YNaYrK.0HObTF13dK.bIhr3Zbi', 'admin'); -- password is yes (bcrypt, cost 10)
 
 --
 -- Table structure for table `cart_items`

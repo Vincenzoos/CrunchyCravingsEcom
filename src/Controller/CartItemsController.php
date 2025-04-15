@@ -10,22 +10,9 @@ use Exception;
  * CartItems Controller
  *
  * @property \App\Model\Table\CartItemsTable $CartItems
- * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  */
 class CartItemsController extends AppController
 {
-    /**
-     * Initialize controller
-     *
-     * @return void
-     */
-    public function initialize(): void
-    {
-        parent::initialize();
-
-        $this->loadComponent('Authorization.Authorization');
-    }
-
     /**
      * Index method
      *
@@ -33,9 +20,10 @@ class CartItemsController extends AppController
      */
     public function index()
     {
-        $query = $this->CartItems->find('all')
-            ->contain(['Users', 'Products']);
+        $query = $this->CartItems->find()->contain(['Users', 'Products']);
+        // $query = $this->Authorization->applyScope($query);
         $cartItems = $this->paginate($query);
+
         $this->set(compact('cartItems'));
     }
 
@@ -71,9 +59,10 @@ class CartItemsController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view(?string $id = null)
+    public function view($id = null)
     {
         $cartItem = $this->CartItems->get($id, contain: ['Users', 'Products']);
+        // $this->Authorization->authorize($cartItem);
         $this->set(compact('cartItem'));
     }
 
@@ -85,6 +74,7 @@ class CartItemsController extends AppController
     public function add()
     {
         $cartItem = $this->CartItems->newEmptyEntity();
+        // $this->Authorization->authorize($cartItem);
         if ($this->request->is('post')) {
             $cartItem = $this->CartItems->patchEntity($cartItem, $this->request->getData());
             if ($this->CartItems->save($cartItem)) {
@@ -106,9 +96,10 @@ class CartItemsController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit(?string $id = null)
+    public function edit($id = null)
     {
         $cartItem = $this->CartItems->get($id, contain: []);
+        // $this->Authorization->authorize($cartItem);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $cartItem = $this->CartItems->patchEntity($cartItem, $this->request->getData());
             if ($this->CartItems->save($cartItem)) {
@@ -165,10 +156,11 @@ class CartItemsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete(?string $id = null)
+    public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $cartItem = $this->CartItems->get($id);
+        // $this->Authorization->authorize($cartItem);
         if ($this->CartItems->delete($cartItem)) {
             $this->Flash->success(__('The cart item has been deleted.'));
         } else {

@@ -29,8 +29,8 @@ $html = new HtmlHelper(new \Cake\View\View());
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" href="<?= $this->Url->image('logo.png') ?>">
     <title><?= $this->fetch('title') ?> - CrunchyCravings</title>
+    <link rel="icon" type="image/png" href="<?= $this->Url->image('logo.png') ?>">
 
 
     <!-- Include Bootstrap CSS -->
@@ -41,6 +41,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css', 'style', 'default.css', 'flash.css']) ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+    <?= $this->fetch('meta') ?>
 
 
     <?= $this->Html->meta('icon', 'images/favicon.png', ['type' => 'icon']) ?>
@@ -58,9 +59,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         '/css/media.css',
         '/css/color-schemes/default.css'
     ]) ?>
-
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
+    
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -103,7 +102,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     </div>
 
     <!-- Admin sidebar menu -->
-    <?php if (!empty($isAdmin)) : ?>
+    <?php if ($this->Identity->get('role') == 'admin') : ?>
         <!-- Sidebar Toggle Button -->
         <button id="sidebarToggle" class="btn btn-primary sidebar-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
             <i class="fas fa-bars"></i>
@@ -237,7 +236,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 									</g>
 								</svg>
 								<!-- cart (2) -->
-                                <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?>">cart</a>
+                                <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'index']) ?>">cart</a>
 <!--                                --><?php //if ($this->Identity->isLoggedIn() && !empty($cartItems)) : ?>
 <!--                                    <div class="cart-dropdown">-->
 <!--                                        <table>-->
@@ -314,13 +313,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <li class="nav-item"><a class="nav-link active" title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
 							<li class="nav-item"><a class="nav-link" title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
 							<li class="nav-item dropdown mega-dropdown">
-								<a title="categories" href="#" class="nav-link dropdown-toggle"
-									data-bs-toggle="dropdown">categories
-									<div role="tooltip" class="tooltip top">
-										<div class="tooltip-arrow"></div>
-										<div class="tooltip-inner">New</div>
-									</div>
-								</a>
+                                <a title="categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index']) ?>" class="nav-link">categories</a>
 								<ul class="dropdown-menu mega-dropdown-menu row">
 									<div class="row">
 										<li class="col-lg-3 col-md-6 col-12">

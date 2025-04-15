@@ -4,18 +4,14 @@
  * @var iterable<\App\Model\Entity\Product> $products
  * @var \Cake\Collection\CollectionInterface|array<string> $categoriesList
  */
-
-use Cake\View\Helper\HtmlHelper;
-use Cake\View\View;
-
 ?>
 
 <!doctype html>
 <!--
 **********************************************************************************************************
-    Copyright (c) 2024 Webstrot Technology
+    Copyright (c) 2024 Webstrot Technology 
 ********************************************************************************************************** -->
-<!--
+<!-- 
 Template Name: Luxury Shop Ecommerce HTML Template
 Version: 1.0.0
 Author: webstrot
@@ -29,14 +25,24 @@ Purchase: http://themeforest.net/user/webstrot  -->
 <!--[if (gt IE 9)|!(IE)]><!-->
 <html class=""> <!--<![endif]-->
 
-
 <?php
-$html = new HtmlHelper(new View());
+use Cake\View\Helper\HtmlHelper;
+$html = new HtmlHelper(new \Cake\View\View());
 ?>
 
 <head>
+    <!-- <?= $this->Html->charset() ?>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href="<?= $this->Url->image('logo.png') ?>">
+    <title><?= $this->fetch('title') ?> - CrunchyCravings</title> -->
+    
     <!-- Custom CSS -->
-    <?= $this->Html->css(['utilities']) ?>
+    <?= $this->Html->css(['utilities','shop']) ?>
+
     <!-- Load jQuery -->
     <?= $this->Html->script('libraries/jquery.min') ?>
     <?= $this->Html->script('libraries/fuelux/jquery-ui.min') ?>
@@ -59,10 +65,10 @@ $html = new HtmlHelper(new View());
     </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
 
-    <!-- Product Filter -->
-    <div class="product-filter">
+    <div id="shop-container">
+        <!-- Product Filter -->
         <div class="container">
-            <div class="product-filter-box bottom-shadow">
+            <div id="shop-box" class="product-filter-box">
                 <!-- Begin Filter Form -->
                 <?= $this->Form->create(null, ['type' => 'get', 'url' => ['action' => 'customerIndex']]) ?>
                 <div class="row">
@@ -125,77 +131,77 @@ $html = new HtmlHelper(new View());
                 <!-- End Filter Form -->
             </div>
         </div>
-    </div>
-    <!-- Product Filter /- -->
+        <!-- Product Filter /- -->
 
-    <!-- Feature Product -->
-    <div id="featured-products" class="featured-products bottom-shadow">
-        <!-- container -->
-        <div class="container">
-            <div class="category-box-main product-box-main">
-                <div class="row">
-                <?php foreach ($products as $product) : ?>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 main-product">
-                        <div class="category-box product-box">
-                            <?php if ($product->on_sale) : ?>
-                                <span class="sale">sales</span>
-                            <?php endif; ?>
-                            <div class="inner-product">
-                                <!-- Link the product image to the view page -->
-                                <a href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>">
-                                    <?= $this->Html->image($product->image_full_path, ['alt' => $product->name, 'class' => 'img-thumbnail', 'style' => 'width: 300px; height: 300px; object-fit: cover;']) ?>
-                                </a>
-                                <div class="product-box-inner">
-                                    <ul>
-                                        <li>
-                                            <a title="View Image" href="<?= $this->Url->build($product->image_full_path) ?>">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a title="Add to Wishlist" href="#">
-                                                <i class="fa fa-heart"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <a title="Add to Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerAdd', $product->id]) ?>" class="btn">add to cart</a>
+        <!-- Feature Product -->
+        <div id="shop-box" class="container">
+            <div id="featured-products" class="featured-products bottom-shadow">
+                <!-- container -->
+                <div class="container">
+                    <div class="category-box-main product-box-main">
+                        <div class="row">
+                        <?php foreach ($products as $product) : ?>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-3 main-product">
+                                <div class="category-box product-box">
+                                    <?php if ($product->on_sale) : ?>
+                                        <span class="sale">sales</span>
+                                    <?php endif; ?>
+                                    <div class="inner-product">
+                                        <!-- Link the product image to the view page -->
+                                        <a href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>">
+                                            <?= $this->Html->image($product->image_full_path, ['alt' => $product->name, 'class' => 'img-thumbnail', 'style' => 'width: 300px; height: 300px; object-fit: cover;']) ?>
+                                        </a>
+                                        <div class="product-box-inner">
+                                            <ul>
+                                                <li>
+                                                    <a title="View Image" href="<?= $this->Url->build($product->image_full_path) ?>">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a title="Add to Wishlist" href="#">
+                                                        <i class="fa fa-heart"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <a title="Add to Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerAdd', $product->id]) ?>" class="btn">add to cart</a>
+                                        </div>
+                                    </div>
                                 </div>
+                                <!-- Link the product title to the view page -->
+                                <a title="<?= h($product->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>" class="product-title">
+                                    <?= h($product->name) ?>
+                                </a>
+                                <ul class="star">
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    </li>
+                                </ul>
+                                <span class="amount">
+                                    <?php if ($product->original_price) : ?>
+                                        <del>&dollar;<?= $this->Number->format($product->original_price) ?></del>
+                                    <?php endif; ?>
+                                    &dollar;<?= $this->Number->format($product->price) ?>
+                                </span>
                             </div>
+                        <?php endforeach; ?>
                         </div>
-                        <!-- Link the product title to the view page -->
-                        <a title="<?= h($product->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>" class="product-title">
-                            <?= h($product->name) ?>
-                        </a>
-                        <ul class="star">
-                            <li>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </li>
-                        </ul>
-                        <span class="amount">
-                            <?php if ($product->original_price) : ?>
-                                <del>&dollar;<?= $this->Number->format($product->original_price) ?></del>
-                            <?php endif; ?>
-                            &dollar;<?= $this->Number->format($product->price) ?>
-                        </span>
                     </div>
-                <?php endforeach; ?>
-                </div>
+                </div><!-- container /- -->
             </div>
-        </div><!-- container /- -->
+            <!-- Feature Product /- -->
+            <div class="loading">
+                <a title="Click here for more products" href="#">
+                    <img alt="loading icon" src="<?= $this->Url->image('load.gif') ?>">
+                    <p>click here for more products</p>
+                </a>
+            </div>
+        </div><!-- shop-box /- -->
     </div>
-    <!-- Feature Product /- -->
-
-    <div class="loading">
-        <a title="Click here for more products" href="#">
-            <img alt="loading icon" src="<?= $this->Url->image('load.gif') ?>">
-            <p>click here for more products</p>
-        </a>
-    </div>
-
 
 
     <!-- Include other libraries -->

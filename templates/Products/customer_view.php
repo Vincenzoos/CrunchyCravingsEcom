@@ -24,7 +24,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 <head>
     <!-- Custom CSS -->
-    <?= $this->Html->css(['utilities']) ?>
+    <?= $this->Html->css(['utilities','shop']) ?>
 </head>
 
 <body>
@@ -45,12 +45,12 @@ $html = new HtmlHelper(new \Cake\View\View());
 	<!-- Page Breadcrumb /- -->
 
 	<!-- Page -->
-	<div id="single-product" class="single-product">
+	<div id="shop-container" class="single-product">
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-md-12 col-lg-7">
-					<!-- Product Images -->
-					<div class="large-product" style="margin-bottom: 40px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border: 1px solid #ddd; border-radius: 5px; background-color: #fff;">
+					<!-- Product Image -->
+					<div id="shop-box" class="large-product" style="margin-bottom: 40px;">
 						<div class="row" style="display: flex; justify-content: center; align-items: center;">
 							<div id="about-slider" class="col-12 col-md-12 col-lg-9 flexslider product-slider">
 								<ul class="slides">
@@ -61,7 +61,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 					</div>
 
 					<!-- Similar Products Section -->
-					<div id="similar-products" style="padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border: 1px solid #ddd; border-radius: 5px; background-color: #fff;">
+					<div id="shop-box" style="padding: 20px;">
 						<h3 style="text-align: center;">Similar Products</h3>
 						<div class="row">
 							<?php foreach ($similarProducts as $similarProduct): ?>
@@ -105,17 +105,17 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 				<!-- Sidebar -->
 				<div class="col-12 col-md-12 col-lg-5 single-product-sidebar">
-					<ul class="categories-list" style="margin-bottom: 20px;">
-						<li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
-						<?php if (!empty($product->categories)): ?>
-							<?php foreach ($product->categories as $category): ?>
-								<li><a title="<?= h($category->name) ?>" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'view', $category->id]) ?>"><?= h($category->name) ?></a></li>
-							<?php endforeach; ?>
-						<?php else: ?>
-							<li>No categories available</li>
-						<?php endif; ?>
-					</ul>
-					<div class="product-info-panel" style="border: 1px solid #ddd; padding: 40px; border-radius: 5px; background-color: #fff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+					<div id="shop-box" class="product-info-panel" style="padding: 40px; margin-bottom: 20px;">
+						<ul class="categories-list" style="margin-bottom: 20px;">
+							<li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
+							<?php if (!empty($product->categories)): ?>
+								<?php foreach ($product->categories as $category): ?>
+									<li><a title="<?= h($category->name) ?>" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'view', $category->id]) ?>"><?= h($category->name) ?></a></li>
+								<?php endforeach; ?>
+							<?php else: ?>
+								<li>No categories available</li>
+							<?php endif; ?>
+						</ul>
 						<div class="page-header">
 							<h3><?= h($product->name) ?></h3>
 						</div>
@@ -132,7 +132,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 						<p><?= h($product->description) ?></p>
 					</div>
 					
-					<aside class="widget widget_recent_post">
+					<aside id="shop-box" class="widget widget_recent_post">
 						<div role="tabpanel">
 							<ul class="nav nav-tabs bottom-shadow" role="tablist">
 								<li class="nav-item" role="presentation"><a title="Pricing" id="pricingtab"
