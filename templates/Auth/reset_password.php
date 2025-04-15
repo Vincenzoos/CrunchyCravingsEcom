@@ -11,6 +11,11 @@ $this->assign('title', 'Reset Password');
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+use Cake\View\Helper\HtmlHelper;
+$html = new HtmlHelper(new \Cake\View\View());
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +25,8 @@ $this->assign('title', 'Reset Password');
 
     <!-- Custom CSS -->
     <?= $this->Html->css(['custom', 'reset_password']) ?>
+
+    <?= $html->script('/libraries/jquery.min.js') ?>
 </head>
 
 <body>

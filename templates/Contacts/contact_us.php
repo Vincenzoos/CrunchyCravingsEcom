@@ -7,6 +7,11 @@ $this->assign('title', 'Contact Us');
 
 ?>
 
+<?php
+use Cake\View\Helper\HtmlHelper;
+$html = new HtmlHelper(new \Cake\View\View());
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +23,8 @@ $this->assign('title', 'Contact Us');
 
     <!-- Recaptcha -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <?= $html->script('/libraries/jquery.min.js') ?>
 </head>
 
 <body>

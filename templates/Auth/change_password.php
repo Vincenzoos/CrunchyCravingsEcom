@@ -8,12 +8,21 @@
 $this->assign('title', 'Change Password');
 ?>
 
+
+<?php
+use Cake\View\Helper\HtmlHelper;
+$html = new HtmlHelper(new \Cake\View\View());
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities', 'form']) ?>
+
+
+    <?= $html->script('/libraries/jquery.min.js') ?>
 </head>
 
 <body>

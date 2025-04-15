@@ -13,6 +13,11 @@
 $this->assign('title', 'Home');
 ?>
 
+<?php
+use Cake\View\Helper\HtmlHelper;
+$html = new HtmlHelper(new \Cake\View\View());
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,9 +25,11 @@ $this->assign('title', 'Home');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrunchyCravings</title>
-
+    
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities', 'landing_page']) ?>
+
+    <?= $html->script('/libraries/jquery.min.js') ?>
 </head>
 
 <body>
