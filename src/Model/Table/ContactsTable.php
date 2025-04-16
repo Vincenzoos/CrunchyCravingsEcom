@@ -63,7 +63,7 @@ class ContactsTable extends Table
             ->notEmptyString('last_name');
 
         $validator
-            ->email('email', false, 'Please enter a valid email address.')
+            ->email('email', true, 'Please enter a valid email address.')
             ->requirePresence('email', 'create')
             ->notEmptyString('email');
 

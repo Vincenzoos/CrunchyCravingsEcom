@@ -55,7 +55,7 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->email('email')
+            ->email('email', true, 'Please enter a valid email address.')
             ->requirePresence('email', 'create')
             ->notEmptyString('email');
 
