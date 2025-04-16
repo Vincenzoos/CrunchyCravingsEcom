@@ -19,7 +19,8 @@
                     <tr>
                         <td>
                             <h3>Reset your account password</h3>
-                            <p>Hi <?= h($first_name) ?>, </p>
+<!--                            <p>Hi --><?php //= h($first_name) ?><!--, </p>-->
+                            <p>Hi <?= h($email) ?>,</p>
                             <p>Thank you for your request to reset the password of your account on <b>CrunchyCravings</b>. </p>
                             <p></p>
                             <p>To reset your account password, use the button below to access the reset password page: </p>
@@ -49,15 +50,14 @@
     </table>
     <!-- END CENTERED WHITE CONTAINER -->
     <!-- START FOOTER -->
-    <div class="footer">
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+    <div class="footer" style="margin-top: 10px; text-align: center; font-size: 12px; color: #999;">
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="width:100%;">
             <tr>
-                <td class="content-block">
-                    This email is addressed to <?= $first_name ?>  <?= $last_name ?> &lt;<?= $email ?>&gt;<br>
-                    Please discard this email if it not meant for you
-                    <br>
-                    <br>
-                    Copyright &copy; <?= date("Y"); ?> Monash FIT Industry Experience
+                <td class="content-block" style="color: darkred; padding: 10px;">
+                    <!--                    This email is addressed to --><?php //= h($first_name) ?><!-- --><?php //= h($last_name) ?><!-- &lt;--><?php //= h($email) ?><!--&gt;<br>-->
+                    This email is addressed to <?= h($email) ?><br>
+                    Please ignore this email if you did not place an order.<br><br>
+                    Copyright &copy; <?= date("Y"); ?> CrunchyCravings
                 </td>
             </tr>
         </table>
