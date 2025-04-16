@@ -252,8 +252,11 @@ $html = new HtmlHelper(new \Cake\View\View());
 											<?php foreach ($categories as $category): ?>
 												<li class="col-lg-3 col-md-6 col-12">
 													<ul>
-														<li class="dropdown-header"><?= h($category->name) ?></li>
-														<li><a title="<?= h($category->name) ?>" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'view', $category->id]) ?>"><?= h($category->name) ?></a></li>
+														<li>
+                                                            <a title="<?= h($category->name) ?>" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex', '?' => ['category_id' => $category->id]]) ?>" class="text-decoration-none text-dark">
+                                                                <?= h($category->name) ?>
+                                                            </a>
+                                                        </li>
 													</ul>
 												</li>
 											<?php endforeach; ?>
