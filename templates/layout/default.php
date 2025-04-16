@@ -550,6 +550,20 @@ $html = new HtmlHelper(new \Cake\View\View());
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Remove any existing favicon links
+            const existingIcons = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
+            existingIcons.forEach(icon => icon.remove());
+
+            // Add your custom favicon
+            const favicon = document.createElement('link');
+            favicon.rel = 'icon';
+            favicon.type = 'image/png';
+            favicon.href = '<?= $this->Url->image('logo.png') ?>';
+            document.head.appendChild(favicon);
+        });
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') ?>
