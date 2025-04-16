@@ -16,7 +16,8 @@
  */
 
 use Cake\View\Helper\HtmlHelper;
-$html = new HtmlHelper(new \Cake\View\View());
+use Cake\View\View;
+$html = new HtmlHelper(new View());
 
 ?>
 <!DOCTYPE html>
@@ -237,11 +238,9 @@ $html = new HtmlHelper(new \Cake\View\View());
 											<?php foreach ($categories as $category): ?>
 												<li class="col-lg-3 col-md-6 col-12">
 													<ul>
-														<li>
                                                             <a title="<?= h($category->name) ?>" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex', '?' => ['category_id' => $category->id]]) ?>" class="text-decoration-none text-dark">
                                                                 <?= h($category->name) ?>
                                                             </a>
-                                                        </li>
 													</ul>
 												</li>
 											<?php endforeach; ?>
@@ -624,8 +623,8 @@ $html = new HtmlHelper(new \Cake\View\View());
     <?= $html->script('/libraries/expanding-search/modernizr.custom.js') ?>
     <?= $html->script('/libraries/flexslider/jquery.flexslider-min.js') ?>
     <?= $html->script('/libraries/jquery.magnific-popup.min.js') ?>
-	<!-- Customized Scripts -->
-	<?= $html->script('/js/functions.js') ?>
+    <!-- Customized Scripts -->
+    <?= $html->script('/js/functions.js') ?>
 
     <?= $this->fetch('script') ?>
 </body>
