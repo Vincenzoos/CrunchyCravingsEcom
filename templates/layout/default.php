@@ -415,32 +415,61 @@ $html = new HtmlHelper(new \Cake\View\View());
             const sidebar = document.getElementById('sidebar');
             const toggleButton = document.getElementById('sidebarToggle');
 
-            // Hide the toggle button when the sidebar is shown
+            // Function to update the state based on the sidebar's visibility
+            function updateSidebarState() {
+                const isSidebarOpen = ((sidebar.classList.contains('show')||sidebar.classList.contains('showing'))&!sidebar.classList.contains('hiding')) || (sidebar.classList.contains('showing') & sidebar.classList.contains('hiding')); // Check if the 'show' class exists
+                console.log(sidebar.classList);
+                if (isSidebarOpen) {
+                    console.log('Sidebar is open');
+                    toggleButton.style.display = 'none';
+                    document.body.style.overflow = 'hidden'; // Disable scrolling
+
+                } else {
+                    console.log('Sidebar is closed');
+                    toggleButton.style.display = 'block';
+                    document.body.style.overflow = ''; // Enable scrolling
+                }
+            }
+
+            // Listen for the sidebar's show and hide events
             sidebar.addEventListener('show.bs.offcanvas', function () {
-                toggleButton.style.display = 'none';
-                document.body.classList.add('no-scroll'); // Add class to disable scrolling
-
-                // Remove any existing backdrops
-                const existingBackdrops = document.querySelectorAll('.offcanvas-backdrop');
-                existingBackdrops.forEach(backdrop => backdrop.remove());
+                updateSidebarState();
+            });
+            sidebar.addEventListener('hide.bs.offcanvas', function () {
+                updateSidebarState();
             });
 
-            // Show the toggle button when the sidebar is hidden
-            sidebar.addEventListener('hidden.bs.offcanvas', function () {
-                toggleButton.style.display = 'block';
-                document.body.classList.remove('no-scroll'); // Remove class to enable scrolling
-            });
-
-            // Detect clicks on the offcanvas-backdrop
+            // Detect clicks on the offcanvas backdrop
             document.addEventListener('click', function (event) {
-                const backdrop = document.querySelector('.offcanvas-backdrop');
+            const backdrop = document.querySelector('.offcanvas-backdrop');
                 if (backdrop && backdrop.contains(event.target)) {
-                    console.log('Backdrop clicked');
-                    document.body.classList.remove('no-scroll'); // Ensure scrolling is re-enabled
+                    updateSidebarState();
                 }
             });
+
+            // Observe the DOM for new backdrops and remove duplicates if they appear
+            const observer = new MutationObserver((mutationsList) => {
+                mutationsList.forEach((mutation) => {
+                    if (mutation.type === 'childList') {
+                        const existingBackdrops = document.querySelectorAll('.offcanvas-backdrop');
+                        if (existingBackdrops.length > 1) {
+                            existingBackdrops.forEach((backdrop, index) => {
+                                if (index > 0) backdrop.remove();
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Start observing the body for added nodes
+            observer.observe(document.body, { childList: true, subtree: true });
+
+            // Initial state check (in case the sidebar is already open on page load)
+            updateSidebarState();
         });
     </script>
+
+    <!-- Accessibility Mode Toggle Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const toggleContainer = document.getElementById('accessibility-toggle');
