@@ -39,3 +39,19 @@
     display: table;
     clear: both;
 }
+
+/* Disable circular styling for product links */
+.product-link {
+    border-radius: 0 !important; /* Remove circular border */
+    width: auto !important; /* Reset width */
+    height: auto !important; /* Reset height */
+    display: inline-block !important; /* Ensure it behaves like a normal link */
+    top: 0; /* Align it to the top */
+    left: 0; /* Align it to the left */
+    z-index: 1;
+}
+
+.category-box {
+    position: relative; /* Set the parent container to relative positioning */
+    overflow: hidden; /* Prevent the link from overflowing the box */
+}

@@ -315,7 +315,8 @@ $html = new HtmlHelper(new \Cake\View\View());
 		<div id="add-banner-section" class="add-banner-section bottom-shadow">
 			<!-- container -->
 			<div class="container" style="display: flex; justify-content: center; align-items: center; height: 100%; text-align: center;">
-				<a title="Add-banner" href="#" style="display: flex; justify-content: center; align-items: center; width: 100%;">
+				<a title="Add-banner" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>"
+                    style="display: flex; justify-content: center; align-items: center; width: 100%;">
 					<?= $html->image('cc_logo.png', ['alt' => 'add-banner', 'style' => 'width: 50%; height: auto;']) ?>
 				</a>
 			</div><!-- container /- -->
@@ -362,10 +363,10 @@ $html = new HtmlHelper(new \Cake\View\View());
 									Our Stores
 								</h3>
 								<ul>
-									<li><a title="Melbourne" href="#">Melbourne</a></li>
-									<li><a title="Sydney" href="#">Sydney</a></li>
-									<li><a title="Brisbane" href="#">Brisbane</a></li>
-									<li><a title="Perth" href="#">Perth</a></li>
+									<li><a title="Melbourne" >Melbourne</a></li>
+									<li><a title="Sydney" >Sydney</a></li>
+									<li><a title="Brisbane" >Brisbane</a></li>
+									<li><a title="Perth" >Perth</a></li>
 								</ul>
 							</aside>
 
@@ -375,10 +376,10 @@ $html = new HtmlHelper(new \Cake\View\View());
 									Orders
 								</h3>
 								<ul>
-									<li><a title="Order Status" href="#">Order Status</a></li>
-									<li><a title="My Order History" href="#">My Order History</a></li>
-									<li><a title="Payments" href="#">Payments</a></li>
-									<li><a title="Returns" href="#">Returns</a></li>
+									<li><a title="Order Status" >Order Status</a></li>
+									<li><a title="My Order History" >My Order History</a></li>
+									<li><a title="Payments" >Payments</a></li>
+									<li><a title="Returns" >Returns</a></li>
 								</ul>
 							</aside>
 
@@ -388,9 +389,9 @@ $html = new HtmlHelper(new \Cake\View\View());
 								</h3>
 								<ul>
                                     <li><a title="Contact Us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact Us</a></li>
-									 <li><a title="Privacy Policy" href="#">Privacy Policy</a></li>
-									 <li><a title="Terms &amp; Conditions" href="#">Terms &amp; Conditions</a></li>
-									<li><a title="FAQ" href="#">FAQ</a></li>
+									 <li><a title="Privacy Policy" >Privacy Policy</a></li>
+									 <li><a title="Terms &amp; Conditions" >Terms &amp; Conditions</a></li>
+									<li><a title="FAQ" >FAQ</a></li>
 								</ul>
 							</aside>
 						</div>
@@ -407,7 +408,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 			<div class="container">
 				<div class="row" style="display: flex; justify-content: center; align-items: center;">
 					<div class="col-12 col-md-12 col-lg-3">
-						<a title="Payment-getway" href="#"><?= $html->image('footer/payment-getway-icon.png', ['alt' => 'payment-icon']) ?></a>
+						<a title="Payment-getway" ><?= $html->image('footer/payment-getway-icon.png', ['alt' => 'payment-icon']) ?></a>
 					</div>
 				</div>
 			</div>
@@ -489,7 +490,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                     document.documentElement.style.setProperty('--fade-text-col', 'var(--accessible-fade-text-col)');
                     document.documentElement.style.setProperty('--fade2-text-col', 'var(--accessible-fade2-text-col)');
                     document.documentElement.style.setProperty('--heading-text-col', 'var(--accessible-heading-text-col)');
-                    document.documentElement.style.setProperty('--text-col', 'var(--accessible-text-col)');
+                    document.documentElement.style.setProperty('--text-col', 'var(--accessible-text-col) !important');
                     document.documentElement.style.setProperty('--main-font', 'var(--accessible-main-font)');
                 } else {
                     // default.css Default mode
@@ -510,7 +511,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                     document.documentElement.style.setProperty('--fade-text-col', 'var(--default-fade-text-col)');
                     document.documentElement.style.setProperty('--fade2-text-col', 'var(--default-fade2-text-col)');
                     document.documentElement.style.setProperty('--heading-text-col', 'var(--default-heading-text-col)');
-                    document.documentElement.style.setProperty('--text-col', 'var(--default-text-col)');
+                    document.documentElement.style.setProperty('--text-col', 'var(--default-text-col) !important');
                     document.documentElement.style.setProperty('--main-font', 'var(--default-main-font)');
                 }
             }
@@ -544,6 +545,27 @@ $html = new HtmlHelper(new \Cake\View\View());
                     flash.style.opacity = '0';
                     setTimeout(() => flash.remove(), 500);
                 });
+            });
+        });
+    </script>
+
+    <!-- Make sure the menu navbar toggles correctly -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('#navbar');
+
+            navbarToggler.addEventListener('click', function () {
+                console.log('Navbar toggler clicked');
+                setTimeout(() => {
+                    if (navbarCollapse.classList.contains('show')) {
+                        navbarCollapse.classList.add('navbar-show');
+                        navbarCollapse.classList.remove('navbar-collapse');
+                    } else {
+                        navbarCollapse.classList.remove('navbar-show');
+                        navbarCollapse.classList.add('navbar-collapse');
+                    }
+                }, 500);
             });
         });
     </script>

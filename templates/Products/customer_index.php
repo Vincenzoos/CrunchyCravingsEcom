@@ -143,35 +143,31 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <div class="row">
                                 <?php foreach ($products as $product) : ?>
                                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 main-product">
-                                        <div class="category-box product-box">
-                                            <?php if ($product->on_sale) : ?>
-                                                <span class="sale">sales</span>
-                                            <?php endif; ?>
-                                            <div class="inner-product">
-                                                <!-- Link the product image to the view page -->
-                                                <a href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>">
+                                        <a href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>" class="product-link">
+                                            <div class="category-box product-box">
+                                                <?php if ($product->on_sale) : ?>
+                                                    <span class="sale">sales</span>
+                                                <?php endif; ?>
+                                                <div class="inner-product">
+                                                    <!-- Link the product image to the view page -->
                                                     <?= $this->Html->image($product->image_cache_busted_url, [
                                                         'alt' => $product->name,
                                                         'class' => 'img-fluid rounded-top',
-                                                        'style' => 'height: 300px; object-fit: cover; width: 100%;']) ?>
-                                                </a>
-                                                <div class="product-box-inner">
-                                                    <ul>
-                                                        <li>
-                                                            <a title="View Image" href="<?= $this->Url->build($product->image_cache_busted_url) ?>">
-                                                                <i class="fa fa-eye"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a title="Add to Wishlist" href="#">
-                                                                <i class="fa fa-heart"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                    <a title="Add to Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerAdd', $product->id]) ?>" class="btn">add to cart</a>
+                                                        'style' => 'height: 300px; object-fit: cover; width: 100%;'
+                                                    ]) ?>
+                                                    <div class="product-box-inner">
+                                                        <ul>
+                                                            <li>
+                                                                <a title="View Image" href="<?= $this->Url->build($product->image_cache_busted_url) ?>">
+                                                                    <i class="fa fa-eye"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <a title="Add to Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerAdd', $product->id]) ?>" class="btn">add to cart</a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </a>
                                         <!-- Link the product title to the view page -->
                                         <a title="<?= h($product->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>" class="product-title">
                                             <?= h($product->name) ?>
@@ -196,12 +192,12 @@ $html = new HtmlHelper(new \Cake\View\View());
                 </div><!-- container /- -->
             </div>
             <!-- Feature Product /- -->
-            <div class="loading">
+            <!-- <div class="loading">
                 <a title="Click here for more products" href="#">
                     <img alt="loading icon" src="<?= $this->Url->image('load.gif') ?>">
                     <p>click here for more products</p>
                 </a>
-            </div>
+            </div> -->
         </div><!-- shop-box /- -->
     </div>
 

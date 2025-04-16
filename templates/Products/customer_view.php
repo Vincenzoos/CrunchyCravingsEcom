@@ -107,7 +107,7 @@ $html = new HtmlHelper(new View());
                                             </div>
                                         </div>
                                     </div>
-                                    <a title="<?= h($similarProduct->name) ?>" href="<?= $this->Url->build(['action' => 'view', $similarProduct->id]) ?>" class="product-title offset-3">
+                                    <a title="<?= h($similarProduct->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $similarProduct->id]) ?>" class="product-title offset-3">
                                         <?= h($similarProduct->name) ?>
                                     </a>
                                     <div class="ratings offset-2">
@@ -142,7 +142,9 @@ $html = new HtmlHelper(new View());
                             </li>
                         </ul>
                         <p><strong>Availability:</strong></p>
-                        <p style="margin-bottom: 40px;"><?= $product->quantity > 0 ? 'In Stock' : 'Out of Stock' ?></p>
+                        <p style="margin-bottom: 40px; color: <?= $product->quantity > 0 ? 'inherit' : 'red' ?>;">
+                            <?= $product->quantity > 0 ? 'In Stock' : 'Out of Stock' ?>
+                        </p></p>
                         <p><strong>The product:</strong></p>
                         <p><?= h($product->description) ?></p>
                         <?php if (!empty($associatedCategoryIds) && !empty($allCategories)) : ?>
