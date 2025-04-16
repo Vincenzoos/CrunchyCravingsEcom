@@ -546,17 +546,28 @@ $html = new HtmlHelper(new View());
         });
     </script>
 
-    <!-- Allow flash message to disappear when clicked on    -->
+    <!-- Allow flash message to disappear when clicked on (auto dismiss after 3 secs) -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const flashMessages = document.querySelectorAll('.success, .error');
             flashMessages.forEach(function (flash) {
-                // Hide when clicked
-                flash.addEventListener('click', function () {
+                let dismissed = false;
+
+                function dismiss() {
+                    if (dismissed) return;
+                    dismissed = true;
                     flash.style.transition = 'opacity 0.5s ease';
                     flash.style.opacity = '0';
-                    setTimeout(() => flash.remove(), 500);
-                });
+                    setTimeout(() => {
+                        if (flash.parentNode) flash.remove();
+                    }, 500);
+                }
+
+                // Hide when clicked
+                flash.addEventListener('click', dismiss);
+
+                // Auto-dismiss after 3 seconds
+                setTimeout(dismiss, 3000);
             });
         });
     </script>
