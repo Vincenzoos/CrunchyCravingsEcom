@@ -35,7 +35,7 @@ class User extends Entity
         'nonce_expiry' => false,
         'created' => false,
         'modified' => false,
-        'role' => false,
+        'role' => true,
     ];
 
     /**
