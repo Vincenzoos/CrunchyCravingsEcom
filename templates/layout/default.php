@@ -63,23 +63,23 @@ $html = new HtmlHelper(new View());
         '/css/components.css',
         '/css/style.css',
         '/css/media.css',
-        '/css/color-schemes/default.css',
+        '/css/color-schemes/default.css'
     ]) ?>
 
 
-    <link href='http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700,700italic' rel='stylesheet'
-        type='text/css'>
-    <link
-        href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,400italic,300italic,500,500italic,700,700italic,900,900italic'
-        rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700,700italic,900,900italic'
-        rel='stylesheet' type='text/css'>
-    <link
-        href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900,900italic'
-        rel='stylesheet' type='text/css'>
-    <link
-        href='http://fonts.googleapis.com/css?family=Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic'
-        rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700,700italic' rel='stylesheet'
+		type='text/css'>
+	<link
+		href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,400italic,300italic,500,500italic,700,700italic,900,900italic'
+		rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700,700italic,900,900italic'
+		rel='stylesheet' type='text/css'>
+	<link
+		href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900,900italic'
+		rel='stylesheet' type='text/css'>
+	<link
+		href='http://fonts.googleapis.com/css?family=Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic'
+		rel='stylesheet' type='text/css'>
 
     <?= $this->fetch('css') ?>
     <?= $this->fetch('meta') ?>
@@ -88,21 +88,21 @@ $html = new HtmlHelper(new View());
 <body id="page-top">
 
     <!-- LOADER -->
-    <div id="site-loader" class="load-complete">
-        <div class="load-position">
-            <div class="logo"><?= $html->image('logo.png', ['alt' => 'logo']) ?></div>
-            <h6>Please wait, loading...</h6>
-            <div class="loading">
-                <div class="loading-line"></div>
-                <div class="loading-break loading-dot-1"></div>
-                <div class="loading-break loading-dot-2"></div>
-                <div class="loading-break loading-dot-3"></div>
-            </div>
-        </div>
-    </div>
-    <!-- Loader /- -->
+	<div id="site-loader" class="load-complete">
+		<div class="load-position">
+			<div class="logo"><?= $html->image('logo.png', ['alt' => 'logo']) ?></div>
+			<h6>Please wait, loading...</h6>
+			<div class="loading">
+				<div class="loading-line"></div>
+				<div class="loading-break loading-dot-1"></div>
+				<div class="loading-break loading-dot-2"></div>
+				<div class="loading-break loading-dot-3"></div>
+			</div>
+		</div>
+	</div>
+	<!-- Loader /- -->
 
-    <a id="top"></a>
+	<a id="top"></a>
 
         <!-- Accessibility Mode Toggle -->
         <div id="accessibility-toggle" class="accessibility-toggle">
@@ -145,15 +145,15 @@ $html = new HtmlHelper(new View());
         </div>
     <?php endif; ?>
 
-    <!-- Header Section -->
-    <header id="header" class="header">
+	<!-- Header Section -->
+	<header id="header" class="header">
 
-        <!-- logo-search-block -->
-        <div class="logo-search-block">
-            <!-- container -->
-            <div class="container">
-                <div class="row" style="display: flex; justify-content: center; align-items: center;">
-                    <div class="col-12 col-md-12 col-lg-3 ow-left-padding  d-flex align-items-center" style="margin-top: 15px; margin-bottom: 15px;">
+		<!-- logo-search-block -->
+		<div class="logo-search-block">
+			<!-- container -->
+			<div class="container">
+				<div class="row" style="display: flex; justify-content: center; align-items: center;">
+					<div class="col-12 col-md-12 col-lg-3 ow-left-padding  d-flex align-items-center" style="margin-top: 15px; margin-bottom: 15px;">
                             <!-- Determine whether to show login or logout, and save the current page in URL redirect to be used as a fallback -->
                             <?php if ($this->Identity->isLoggedIn()) : ?>
                                 <a title="Logout"
@@ -162,7 +162,7 @@ $html = new HtmlHelper(new View());
                                 href="<?= $this->Url->build([
                                     'controller' => 'Auth',
                                     'action' => 'logout',
-                                    '?' => ['redirect' => $this->request->getRequestTarget()],
+                                    '?' => ['redirect' => $this->request->getRequestTarget()]
                                 ]) ?>"
                                 class="list-group-item">LOGOUT</a>
 
@@ -178,7 +178,7 @@ $html = new HtmlHelper(new View());
                                 href="<?= $this->Url->build([
                                     'controller' => 'Auth',
                                     'action' => 'login',
-                                    '?' => ['redirect' => $this->request->getRequestTarget()],
+                                    '?' => ['redirect' => $this->request->getRequestTarget()]
                                 ]) ?>"
                                 class="list-group-item">LOGIN</a>
 
@@ -188,74 +188,75 @@ $html = new HtmlHelper(new View());
                                 href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">REGISTER
                                 </a>
                             <?php endif; ?>
-                    </div>
-                    <div class="col-12 col-md-12 col-lg-6 logo-block">
-                        <a title="Logo" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">
-                            <?= $html->image('cc_logo.png', ['alt' => 'add-banner', 'style' => 'width: 80%; height: auto; margin-top: 15px; margin-bottom: 15px;']) ?>
-                        </a>
-                    </div>
-                    <div class="col-12 col-md-12 col-lg-3 ow-right-padding ">
-                        <div class="row" style="display: flex; justify-content: space-between; align-items: center;">
-                            <!-- Cart -->
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 cart-link ow-right-padding d-flex justify-content-end" style="margin-top: 15px; margin-bottom: 15px;">
-                                <svg width="16px" height="15px" viewBox="0 0 533.334 533.335">
-                                    <g>
-                                        <path
-                                            d="M441.26,300.001c18.333,0,37.454-14.423,42.49-32.052l48.353-169.231c5.036-17.627-5.844-32.05-24.177-32.05H166.667   c0-36.819-29.848-66.667-66.667-66.667H0v66.667h100v283.333c0,27.614,22.386,50,50,50h316.667   c18.409,0,33.334-14.924,33.334-33.333s-14.925-33.334-33.334-33.334h-300v-33.333H441.26z M166.667,133.334h301.461l-28.573,100   H166.667V133.334z M200,491.668c0,22.916-18.75,41.666-41.667,41.666h-16.667c-22.917,0-41.667-18.75-41.667-41.666v-16.667   c0-22.917,18.75-41.667,41.667-41.667h16.667c22.917,0,41.667,18.75,41.667,41.667V491.668z M500,491.668   c0,22.916-18.75,41.666-41.667,41.666h-16.667c-22.916,0-41.666-18.75-41.666-41.666v-16.667c0-22.917,18.75-41.667,41.666-41.667   h16.667c22.917,0,41.667,18.75,41.667,41.667V491.668z" />
-                                    </g>
-                                </svg>
-                                <!-- cart (2) -->
+					</div>
+					<div class="col-12 col-md-12 col-lg-6 logo-block">
+						<a title="Logo" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">
+							<?= $html->image('cc_logo.png', ['alt' => 'add-banner', 'style' => 'width: 80%; height: auto; margin-top: 15px; margin-bottom: 15px;']) ?>
+						</a>
+					</div>
+					<div class="col-12 col-md-12 col-lg-3 ow-right-padding ">
+						<div class="row" style="display: flex; justify-content: space-between; align-items: center;">
+							<!-- Cart -->
+    						<div class="col-12 col-sm-6 col-md-6 col-lg-6 cart-link ow-right-padding d-flex justify-content-end" style="margin-top: 15px; margin-bottom: 15px;">
+								<svg width="16px" height="15px" viewBox="0 0 533.334 533.335">
+									<g>
+										<path
+											d="M441.26,300.001c18.333,0,37.454-14.423,42.49-32.052l48.353-169.231c5.036-17.627-5.844-32.05-24.177-32.05H166.667   c0-36.819-29.848-66.667-66.667-66.667H0v66.667h100v283.333c0,27.614,22.386,50,50,50h316.667   c18.409,0,33.334-14.924,33.334-33.333s-14.925-33.334-33.334-33.334h-300v-33.333H441.26z M166.667,133.334h301.461l-28.573,100   H166.667V133.334z M200,491.668c0,22.916-18.75,41.666-41.667,41.666h-16.667c-22.917,0-41.667-18.75-41.667-41.666v-16.667   c0-22.917,18.75-41.667,41.667-41.667h16.667c22.917,0,41.667,18.75,41.667,41.667V491.668z M500,491.668   c0,22.916-18.75,41.666-41.667,41.666h-16.667c-22.916,0-41.666-18.75-41.666-41.666v-16.667c0-22.917,18.75-41.667,41.666-41.667   h16.667c22.917,0,41.667,18.75,41.667,41.667V491.668z" />
+									</g>
+								</svg>
+								<!-- cart (2) -->
                                 <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?>">cart</a>
                             </div>
-                        </div>
+						</div>
 
-                    </div>
-                </div>
-            </div><!-- container /- -->
-        </div><!-- logo-add-block /- -->
+					</div>
+				</div>
+			</div><!-- container /- -->
+		</div><!-- logo-add-block /- -->
 
-        <!-- menu-block -->
-        <div class="menu-block">
-            <!-- container -->
-            <div class="container">
-                <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-static-top">
-                    <div class="navbar-header">
-                        <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display']) ?>" class="logo"><?= $html->image('logo.png', ['alt' => 'logo']) ?></a>
-                        <button class="navbar-toggler" type="button" id="custom-toggler" aria-label="Toggle navigation">
+		<!-- menu-block -->
+		<div class="menu-block">
+			<!-- container -->
+			<div class="container">
+				<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-static-top">
+					<div class="navbar-header">
+						<a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display']) ?>" class="logo"><?= $html->image('logo.png', ['alt' => 'logo']) ?></a>
+						<button class="navbar-toggler" type="button" id="custom-toggler" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                    </div>
-                    <div class="collapse navbar-collapse" id="navbar">
-                        <ul class="nav navbar-nav">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+					</div>
+					<div class="collapse navbar-collapse" id="navbar">
+						<ul class="nav navbar-nav">
                             <li class="nav-item"><a class="nav-link active" title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
-                            <li class="nav-item dropdown mega-dropdown">
+							<li class="nav-item"><a class="nav-link" title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
+							<li class="nav-item dropdown mega-dropdown">
                                 <a title="categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'customerIndex']) ?>" class="nav-link">categories</a>
-                                <ul class="dropdown-menu mega-dropdown-menu row d-flex text-center justify-content-center">
-                                    <?php foreach ($categories as $category) : ?>
-                                        <li class="col-lg-3 col-md-6 col-12">
-                                            <a title="<?= h($category->name) ?>"
-                                               href="<?= $this->Url->build([
-                                                   'controller' => 'Products',
-                                                   'action' => 'customerIndex',
-                                                   '?' => ['category_id' => $category->id],
-                                               ]) ?>"
-                                               class="dropdown-item text-decoration-none text-dark">
-                                                <?= h($category->name) ?>
-                                            </a>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </li>
+								<ul class="dropdown-menu mega-dropdown-menu row">
+									<div class="row">
+										<li class="col-lg-3 col-md-6 col-12">
+											<?php foreach ($categories as $category): ?>
+												<li class="col-lg-3 col-md-6 col-12">
+													<ul>
+                                                            <a title="<?= h($category->name) ?>" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex', '?' => ['category_id' => $category->id]]) ?>" class="text-decoration-none text-dark">
+                                                                <?= h($category->name) ?>
+                                                            </a>
+													</ul>
+												</li>
+											<?php endforeach; ?>
+										</li>
+
+									</div>
+								</ul>
+							</li>
                             <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
-                        </ul>
-                    </div><!--/.nav-collapse -->
-                </nav>
-            </div><!-- container /- -->
-        </div><!-- menu-block /- -->
-    </header>
-    <!-- Header Section /- -->
+						</ul>
+					</div><!--/.nav-collapse -->
+				</nav>
+			</div><!-- container /- -->
+		</div><!-- menu-block /- -->
+	</header>
+	<!-- Header Section /- -->
 
     <div id="page-content" class="d-flex flex-column min-vh-100">
         <!-- Main Content -->
@@ -268,74 +269,74 @@ $html = new HtmlHelper(new View());
     </div>
 
     <!-- Footer Section -->
-    <div id="footer-section" class="footer-section">
-        <!-- informational-icons -->
-        <div class="informational bottom-shadow">
-            <!-- container -->
-            <div class="container">
-                <ul class="informational-icons">
-                    <li>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <span>Premium quality</span>
-                    </li>
-                    <li>
-                        <i class="fa fa-gift" aria-hidden="true"></i>
-                        <span>Perfect gift</span>
-                    </li>
-                    <li>
-                        <i class="fa fa-leaf" aria-hidden="true"></i>
-                        <span>Eco-friendly</span>
-                    </li>
-                    <li>
-                        <i class="fa fa-trophy" aria-hidden="true"></i>
-                        <span>Top Seller</span>
-                    </li>
-                </ul>
-            </div><!-- container /- -->
-        </div><!-- informational-icons /- -->
+	<div id="footer-section" class="footer-section">
+		<!-- informational-icons -->
+		<div class="informational bottom-shadow">
+			<!-- container -->
+			<div class="container">
+				<ul class="informational-icons">
+					<li>
+						<i class="fa fa-star" aria-hidden="true"></i>
+						<span>Premium quality</span>
+					</li>
+					<li>
+						<i class="fa fa-gift" aria-hidden="true"></i>
+						<span>Perfect gift</span>
+					</li>
+					<li>
+						<i class="fa fa-leaf" aria-hidden="true"></i>
+						<span>Eco-friendly</span>
+					</li>
+					<li>
+						<i class="fa fa-trophy" aria-hidden="true"></i>
+						<span>Top Seller</span>
+					</li>
+				</ul>
+			</div><!-- container /- -->
+		</div><!-- informational-icons /- -->
 
-        <!-- Add Banner -->
-        <div id="add-banner-section" class="add-banner-section bottom-shadow">
-            <!-- container -->
-            <div class="container" style="display: flex; justify-content: center; align-items: center; height: 100%; text-align: center;">
-                <a title="Add-banner" href="#" style="display: flex; justify-content: center; align-items: center; width: 100%;">
-                    <?= $html->image('cc_logo.png', ['alt' => 'add-banner', 'style' => 'width: 50%; height: auto;']) ?>
-                </a>
-            </div><!-- container /- -->
-        </div><!-- Add Banner /- -->
+		<!-- Add Banner -->
+		<div id="add-banner-section" class="add-banner-section bottom-shadow">
+			<!-- container -->
+			<div class="container" style="display: flex; justify-content: center; align-items: center; height: 100%; text-align: center;">
+				<a title="Add-banner" href="#" style="display: flex; justify-content: center; align-items: center; width: 100%;">
+					<?= $html->image('cc_logo.png', ['alt' => 'add-banner', 'style' => 'width: 50%; height: auto;']) ?>
+				</a>
+			</div><!-- container /- -->
+		</div><!-- Add Banner /- -->
 
-        <!-- widget section -->
-        <div class="widget-section bottom-shadow">
-            <!-- container -->
-            <div class="container">
-                <div class="row" style="display: flex; justify-content: center; align-items: center;">
-                    <!-- widget about -->
-                    <aside class="col-12 col-md-12 col-lg-3  widget widget_about">
-                        <div class="address">
-                            <svg viewBox="0 0 512 512">
-                                <path
-                                    d="M192,307.188V160l128-96v227.5c-6.281,0.656-12.938,1.344-20.094,2.062c-27.969,2.813-62.781,6.313-107.281,13.531   L192,307.188z M488.344,145.813L352,64v223.125C406.281,277.188,426.531,253.375,488.344,145.813z M352,319.312V416l160,96V168.719   C445.719,282.938,421,307.906,352,319.312z M21.594,428.938L160,512V344.719C112.031,353.188,66.031,368,21.594,428.938z    M303.094,325.406c-27.531,2.781-61.813,6.219-105.344,13.25l-5.75,0.906V512l128-96v-92.375   C314.531,324.219,309.062,324.812,303.094,325.406z M80,144c-5.469,0-10.813-0.563-16-1.625V256l32-16v-97.625   C90.813,143.438,85.469,144,80,144z M80,0C44.656,0,16,28.625,16,64s28.656,64,64,64c35.375,0,64-28.625,64-64S115.375,0,80,0z    M64,80c-17.688,0-32-14.313-32-32s14.313-32,32-32s32,14.313,32,32S81.688,80,64,80z M128,146.656v113.125l-96,48V146.656   c-12.875-7.531-23.781-18-32-30.344v288.156C52.25,336.25,108.219,321,160,312.25V160l-27.375-16.438   C131.063,144.594,129.625,145.719,128,146.656z" />
-                            </svg>
-                            <h4>CC Headquarterss </h4>
-                            <p>121 King Street, Melbourne </p>
-                            <p>Victoria 3000 Australia</p>
-                        </div>
-                        <div class="helpline">
-                            <svg viewBox="0 0 51.413 51.413">
-                                <path
-                                    d="M25.989,12.274c8.663,0.085,14.09-0.454,14.823,9.148h10.564c0-14.875-12.973-16.88-25.662-16.88    c-12.69,0-25.662,2.005-25.662,16.88h10.482C11.345,11.637,17.398,12.19,25.989,12.274z" />
-                                <path
-                                    d="M5.291,26.204c2.573,0,4.714,0.154,5.19-2.377c0.064-0.344,0.101-0.734,0.101-1.185H10.46H0    C0,26.407,2.369,26.204,5.291,26.204z" />
-                                <path
-                                    d="M40.88,22.642h-0.099c0,0.454,0.039,0.845,0.112,1.185c0.502,2.334,2.64,2.189,5.204,2.189    c2.936,0,5.316,0.193,5.316-3.374H40.88z" />
-                                <path
-                                    d="M35.719,20.078v-1.496c0-0.669-0.771-0.711-1.723-0.711h-1.555c-0.951,0-1.722,0.042-1.722,0.711    v1.289v1h-11v-1v-1.289c0-0.669-0.771-0.711-1.722-0.711h-1.556c-0.951,0-1.722,0.042-1.722,0.711v1.496v1.306    C12.213,23.988,4.013,35.073,3.715,36.415l0.004,8.955c0,0.827,0.673,1.5,1.5,1.5h40c0.827,0,1.5-0.673,1.5-1.5v-9    c-0.295-1.303-8.493-12.383-11-14.987V20.078z M19.177,37.62c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458    s1.458,0.652,1.458,1.458S19.982,37.62,19.177,37.62z M19.177,32.62c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458    s1.458,0.652,1.458,1.458S19.982,32.62,19.177,32.62z M19.177,27.621c-0.805,0-1.458-0.652-1.458-1.458    c0-0.805,0.653-1.458,1.458-1.458s1.458,0.653,1.458,1.458C20.635,26.969,19.982,27.621,19.177,27.621z M25.177,37.62    c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458c0.806,0,1.458,0.652,1.458,1.458S25.983,37.62,25.177,37.62z     M25.177,32.62c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458c0.806,0,1.458,0.652,1.458,1.458    S25.983,32.62,25.177,32.62z M25.177,27.621c-0.805,0-1.458-0.652-1.458-1.458c0-0.805,0.653-1.458,1.458-1.458    c0.806,0,1.458,0.653,1.458,1.458C26.635,26.969,25.983,27.621,25.177,27.621z M31.177,37.62c-0.806,0-1.458-0.652-1.458-1.458    s0.652-1.458,1.458-1.458s1.458,0.652,1.458,1.458S31.983,37.62,31.177,37.62z M31.177,32.62c-0.806,0-1.458-0.652-1.458-1.458    s0.652-1.458,1.458-1.458s1.458,0.652,1.458,1.458S31.983,32.62,31.177,32.62z M31.177,27.621c-0.806,0-1.458-0.652-1.458-1.458    c0-0.805,0.652-1.458,1.458-1.458s1.458,0.653,1.458,1.458C32.635,26.969,31.983,27.621,31.177,27.621z" />
-                            </svg>
-                            <h4>Help Lines</h4>
-                            <p>+61 3 8376 6284</p>
-                            <p>+61 3 8376 6285</p>
-                        </div>
-                    </aside><!-- widget about /- -->
+		<!-- widget section -->
+		<div class="widget-section bottom-shadow">
+			<!-- container -->
+			<div class="container">
+				<div class="row" style="display: flex; justify-content: center; align-items: center;">
+					<!-- widget about -->
+					<aside class="col-12 col-md-12 col-lg-3  widget widget_about">
+						<div class="address">
+							<svg viewBox="0 0 512 512">
+								<path
+									d="M192,307.188V160l128-96v227.5c-6.281,0.656-12.938,1.344-20.094,2.062c-27.969,2.813-62.781,6.313-107.281,13.531   L192,307.188z M488.344,145.813L352,64v223.125C406.281,277.188,426.531,253.375,488.344,145.813z M352,319.312V416l160,96V168.719   C445.719,282.938,421,307.906,352,319.312z M21.594,428.938L160,512V344.719C112.031,353.188,66.031,368,21.594,428.938z    M303.094,325.406c-27.531,2.781-61.813,6.219-105.344,13.25l-5.75,0.906V512l128-96v-92.375   C314.531,324.219,309.062,324.812,303.094,325.406z M80,144c-5.469,0-10.813-0.563-16-1.625V256l32-16v-97.625   C90.813,143.438,85.469,144,80,144z M80,0C44.656,0,16,28.625,16,64s28.656,64,64,64c35.375,0,64-28.625,64-64S115.375,0,80,0z    M64,80c-17.688,0-32-14.313-32-32s14.313-32,32-32s32,14.313,32,32S81.688,80,64,80z M128,146.656v113.125l-96,48V146.656   c-12.875-7.531-23.781-18-32-30.344v288.156C52.25,336.25,108.219,321,160,312.25V160l-27.375-16.438   C131.063,144.594,129.625,145.719,128,146.656z" />
+							</svg>
+							<h4>CC Headquarterss </h4>
+							<p>121 King Street, Melbourne </p>
+							<p>Victoria 3000 Australia</p>
+						</div>
+						<div class="helpline">
+							<svg viewBox="0 0 51.413 51.413">
+								<path
+									d="M25.989,12.274c8.663,0.085,14.09-0.454,14.823,9.148h10.564c0-14.875-12.973-16.88-25.662-16.88    c-12.69,0-25.662,2.005-25.662,16.88h10.482C11.345,11.637,17.398,12.19,25.989,12.274z" />
+								<path
+									d="M5.291,26.204c2.573,0,4.714,0.154,5.19-2.377c0.064-0.344,0.101-0.734,0.101-1.185H10.46H0    C0,26.407,2.369,26.204,5.291,26.204z" />
+								<path
+									d="M40.88,22.642h-0.099c0,0.454,0.039,0.845,0.112,1.185c0.502,2.334,2.64,2.189,5.204,2.189    c2.936,0,5.316,0.193,5.316-3.374H40.88z" />
+								<path
+									d="M35.719,20.078v-1.496c0-0.669-0.771-0.711-1.723-0.711h-1.555c-0.951,0-1.722,0.042-1.722,0.711    v1.289v1h-11v-1v-1.289c0-0.669-0.771-0.711-1.722-0.711h-1.556c-0.951,0-1.722,0.042-1.722,0.711v1.496v1.306    C12.213,23.988,4.013,35.073,3.715,36.415l0.004,8.955c0,0.827,0.673,1.5,1.5,1.5h40c0.827,0,1.5-0.673,1.5-1.5v-9    c-0.295-1.303-8.493-12.383-11-14.987V20.078z M19.177,37.62c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458    s1.458,0.652,1.458,1.458S19.982,37.62,19.177,37.62z M19.177,32.62c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458    s1.458,0.652,1.458,1.458S19.982,32.62,19.177,32.62z M19.177,27.621c-0.805,0-1.458-0.652-1.458-1.458    c0-0.805,0.653-1.458,1.458-1.458s1.458,0.653,1.458,1.458C20.635,26.969,19.982,27.621,19.177,27.621z M25.177,37.62    c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458c0.806,0,1.458,0.652,1.458,1.458S25.983,37.62,25.177,37.62z     M25.177,32.62c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458c0.806,0,1.458,0.652,1.458,1.458    S25.983,32.62,25.177,32.62z M25.177,27.621c-0.805,0-1.458-0.652-1.458-1.458c0-0.805,0.653-1.458,1.458-1.458    c0.806,0,1.458,0.653,1.458,1.458C26.635,26.969,25.983,27.621,25.177,27.621z M31.177,37.62c-0.806,0-1.458-0.652-1.458-1.458    s0.652-1.458,1.458-1.458s1.458,0.652,1.458,1.458S31.983,37.62,31.177,37.62z M31.177,32.62c-0.806,0-1.458-0.652-1.458-1.458    s0.652-1.458,1.458-1.458s1.458,0.652,1.458,1.458S31.983,32.62,31.177,32.62z M31.177,27.621c-0.806,0-1.458-0.652-1.458-1.458    c0-0.805,0.652-1.458,1.458-1.458s1.458,0.653,1.458,1.458C32.635,26.969,31.983,27.621,31.177,27.621z" />
+							</svg>
+							<h4>Help Lines</h4>
+							<p>+61 3 8376 6284</p>
+							<p>+61 3 8376 6285</p>
+						</div>
+					</aside><!-- widget about /- -->
 
 					<!-- col-md-6 -->
 					<div class="col-12 col-md-12 col-lg-6">
@@ -351,33 +352,8 @@ $html = new HtmlHelper(new View());
 									<li><a title="Perth" href="">Perth</a></li>
 								</ul>
 							</aside>
-                    <!-- col-md-6 -->
-                    <div class="col-12 col-md-12 col-lg-6">
-                        <div class="row">
-                            <aside class="col-12  col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
-                                <h3 class="widget-title">
-                                    Our Stores
-                                </h3>
-                                <ul>
-                                    <li><a title="Melbourne" href="#">Melbourne</a></li>
-                                    <li><a title="Sydney" href="#">Sydney</a></li>
-                                    <li><a title="Brisbane" href="#">Brisbane</a></li>
-                                    <li><a title="Perth" href="#">Perth</a></li>
-                                </ul>
-                            </aside>
 
 
-                            <aside class="col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
-                                <h3 class="widget-title">
-                                    Orders
-                                </h3>
-                                <ul>
-                                    <li><a title="Order Status" href="#">Order Status</a></li>
-                                    <li><a title="My Order History" href="#">My Order History</a></li>
-                                    <li><a title="Payments" href="#">Payments</a></li>
-                                    <li><a title="Returns" href="#">Returns</a></li>
-                                </ul>
-                            </aside>
 							<aside class="col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
 								<h3 class="widget-title">
 									Orders
@@ -390,21 +366,12 @@ $html = new HtmlHelper(new View());
 								</ul>
 							</aside>
 
-                            <aside class=" col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
-                            <h3 class="widget-title">
-                                Learn more
-                                </h3>
-                                <ul>
+							<aside class=" col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
+							<h3 class="widget-title">
+								Learn more
+								</h3>
+								<ul>
                                     <li><a title="Contact Us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact Us</a></li>
-                                     <li><a title="Privacy Policy" href="#">Privacy Policy</a></li>
-                                     <li><a title="Terms &amp; Conditions" href="#">Terms &amp; Conditions</a></li>
-                                    <li><a title="FAQ" href="#">FAQ</a></li>
-                                </ul>
-                            </aside>
-                        </div>
-                    </div><!-- col-md-6 /- -->
-                </div>
-            </div>
 									 <li><a title="Privacy Policy" href="">Privacy Policy</a></li>
 									 <li><a title="Terms &amp; Conditions" href="">Terms &amp; Conditions</a></li>
 									<li><a title="FAQ" href="">FAQ</a></li>
@@ -415,22 +382,22 @@ $html = new HtmlHelper(new View());
 				</div>
 			</div>
             <!-- container /- -->
-        </div>
+		</div>
         <!-- widget section /- -->
 
-        <!-- Footer bottom -->
-        <div class="footer-bottom">
-            <!-- container -->
-            <div class="container">
-                <div class="row" style="display: flex; justify-content: center; align-items: center;">
-                    <div class="col-12 col-md-12 col-lg-3">
-                        <a title="Payment-getway" href="#"><?= $html->image('footer/payment-getway-icon.png', ['alt' => 'payment-icon']) ?></a>
-                    </div>
-                </div>
-            </div>
+		<!-- Footer bottom -->
+		<div class="footer-bottom">
+			<!-- container -->
+			<div class="container">
+				<div class="row" style="display: flex; justify-content: center; align-items: center;">
+					<div class="col-12 col-md-12 col-lg-3">
+						<a title="Payment-getway" href=""><?= $html->image('footer/payment-getway-icon.png', ['alt' => 'payment-icon']) ?></a>
+					</div>
+				</div>
+			</div>
             <!-- container /- -->
-            <a title="Back-to-top" id="back-to-top" href="#back-to-top" class="back-to-top"><i class="fa fa-caret-up"></i></a>
-        </div>
+			<a title="Back-to-top" id="back-to-top" href="#back-to-top" class="back-to-top"><i class="fa fa-caret-up"></i></a>
+		</div>
         <!-- Footer Bottom -->
 
         <!-- Copyright -->
@@ -439,7 +406,7 @@ $html = new HtmlHelper(new View());
                 <span>Copyright &copy; CrunchyCravings <?= date('Y') ?></span>
             </div>
         </footer>
-    </div><!-- Footer Section /- -->
+	</div><!-- Footer Section /- -->
 
     <!-- Script to handle sidebar toggle and accessibility mode -->
     <script>
