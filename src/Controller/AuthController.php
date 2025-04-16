@@ -78,9 +78,10 @@ class AuthController extends AppController
                 $user->nonce = Security::randomString(128);
                 $user->nonce_expiry = new DateTime('7 days');
                 if ($this->Users->save($user)) {
-
                     // Override received email to cpanel email for testing
-//                    $recipient = 'crunchy_cravings@u25s1068.iedev.org';
+//                    Configure::load('app_local');
+//                    $override_email = Configure::read('EmailTransport.default.username');
+//                    $recipient = $override_email ?? $user->email;
                     $recipient = $user->email;
 
                     // Now let's send the password reset email
@@ -145,6 +146,7 @@ class AuthController extends AppController
         if (empty($nonce)) {
             $this->Flash->error('Your link is invalid or expired. Please try again.');
             $this->referer();
+
             return $this->redirect(['controller' => 'Pages', 'action' => 'display']);
         }
 

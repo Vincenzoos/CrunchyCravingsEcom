@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Core\Configure;
 use Cake\Mailer\Mailer;
 use Exception;
 
@@ -295,7 +296,9 @@ class CartItemsController extends AppController
 
         try {
             // Override received email to cpanel email for testing
-//            $recipient = 'crunchy_cravings@u25s1068.iedev.org';
+//            Configure::load('app_local');
+//            $override_email = Configure::read('EmailTransport.default.username');
+//            $recipient = $override_email ?? $user->email;
             $recipient = $user->get('email');
 
             $mailer = new Mailer('default');
