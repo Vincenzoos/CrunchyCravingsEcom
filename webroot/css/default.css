@@ -1,10 +1,9 @@
 :root {
     /* Default Colour settings */
-    --default-sidebar-text-color: #dbdbdb; /* Text color */
+    --default-sidebar-text-color: #ffffff; /* Text color */
     --default-sidebar-bg-color: rgba(70, 70, 70, 0.2); /* Background color */
     --default-sidebar-hover-color: rgba(168, 168, 168, 0.2); /* Hover color */
     --sidebar-blur: 10px; /* Sidebar blur effect */
-    --sidebar-font-family: "Playfair Display", serif; /* Font family for sidebar */
 
     --border-width: 1.5px; /* Border line width */
     --border-size: 0.3rem; /* Border size */
@@ -19,9 +18,9 @@
     --default-paginator-hover-color: #0ed0f7; /* Paginator hover color */
     
     /* Accesibility versions of all colours */
-    --accesible-sidebar-text-color: #008cff; /* Accessible text color */
-    --accesible-sidebar-bg-color: rgba(0, 0, 0, 0.2); /* Accessible background color */
-    --accesible-sidebar-hover-color: rgba(45, 61, 151, 0.2); /* Accessible hover color */
+    --accessible-sidebar-text-color: #0000ff; /* Accessible text color */
+    --accessible-sidebar-bg-color: rgba(255,255,255, 0.5); /* Accessible background color */
+    --accessible-sidebar-hover-color: rgba(45, 61, 151, 0.2); /* Accessible hover color */
     
     --accessible-border-color: #000000; /* Accessibility border color */
     --accessible-background-color: #ffffff; /* Accessibility background color */
@@ -74,38 +73,43 @@
 
 /* Sidebar */
 #sidebar.offcanvas {
-    background-color: rgba(43, 43, 43, 0.2); /* Semi-transparent background */
-    backdrop-filter: blur(var(--sidebar-blur)); /* Apply blur effect */
+    background-color: var(--sidebar-bg-color); /* Semi-transparent background */
+    backdrop-filter: blur(var(--sidebar-blur)) !important; /* Apply blur effect */
     -webkit-backdrop-filter: blur(var(--sidebar-blur)); /* For Safari support */
     color: var(--sidebar-text-color); /* Set text color */
-    font-family: var(--sidebar-font-family); /* Set font family */
+    font-family: var(--main-font); /* Set font family */
 }
 
 /* Sidebar Header */
 #sidebar .offcanvas-header {
-    background-color: var(--sidebar-bg-color); /* Slightly darker background for the header */
-    color: var(--sidebar-text-color); /* Set text color */
-    font-family: var(--sidebar-font-family) !important; /* Set font family */
+    background-color: var(--sidebar-bg-color) !important; /* Slightly darker background for the header */
+    color: var(--sidebar-text-color) !important; /* Set text color */
+    font-family: var(--main-font) !important; /* Set font family */
+}
+
+/* Sidebar Title */
+#sidebar .offcanvas-title {
+    color: var(--sidebar-text-color) !important; /* Set text color */
 }
 
 /* Sidebar Body */
 #sidebar .offcanvas-body {
-    background-color: var(--sidebar-bg-color); /* Match the sidebar background */
-    color: var(--sidebar-text-color); /* Set text color */
-    font-family: var(--sidebar-font-family); /* Set font family */
+    background-color: var(--sidebar-bg-color) !important; /* Match the sidebar background */
+    color: var(--sidebar-text-color) !important; /* Set text color */
+    font-family: var(--main-font); /* Set font family */
 }
 
 /* Sidebar List Items */
 #sidebar .list-group-item {
-    background-color: transparent; /* Transparent background for list items */
-    color: var(--sidebar-text-color); /* Set text color */
-    font-family: var(--sidebar-font-family); /* Set font family */
+    background-color: transparent !important; /* Transparent background for list items */
+    color: var(--sidebar-text-color) !important; /* Set text color */
+    font-family: var(--main-font); /* Set font family */
     border: none; /* Remove borders */
 }
 
 #sidebar .list-group-item:hover {
-    background-color: var(--sidebar-hover-color); /* Highlight color on hover */
-    color: var(--sidebar-text-color);
+    background-color: var(--sidebar-hover-color) !important; /* Highlight color on hover */
+    color: var(--sidebar-text-color) !important;
 }
 
 /* Options dropdown ----------------------------------- */

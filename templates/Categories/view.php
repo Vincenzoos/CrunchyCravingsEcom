@@ -35,11 +35,11 @@ $html = new HtmlHelper(new \Cake\View\View());
         </section>
 
         <!-- Category Details Section -->
-        <section id="details-section" class="py-5">
+        <section id="form-section" class="py-5">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8">
-                        <div id="details-content" class="text-center">
+                        <div id="form-content" class="text-center">
                             <h3><?= h($category->name) ?></h3>
                             <table class="table table-bordered">
                                 <tr>
@@ -63,8 +63,8 @@ $html = new HtmlHelper(new \Cake\View\View());
 
                         <!-- Related Products Section -->
                         <?php if (!empty($category->products)) : ?>
-                            <div class="mt-5">
-                                <h4>Related Products</h4>
+                            <div id="form-content" class="mt-5">
+                                <h3 class="text-center">Related Products</h3>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
                                         <thead class="thead-dark">

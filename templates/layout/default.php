@@ -52,7 +52,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js') ?>
 
     <!-- Custom JS   -->
-    <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css', 'style', 'default.css', 'flash.css']) ?>
+    <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css','style','default.css', 'flash.css']) ?>
 
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
@@ -100,8 +100,25 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 <body id="page-top">
 
-    <!-- Accessibility Mode Toggle -->
-    <div id="accessibility-toggle" class="accessibility-toggle">
+    <!-- LOADER -->
+	<div id="site-loader" class="load-complete">
+		<div class="load-position">
+			<div class="logo"><?= $html->image('logo.png', ['alt' => 'logo']) ?></div>
+			<h6>Please wait, loading...</h6>
+			<div class="loading">
+				<div class="loading-line"></div>
+				<div class="loading-break loading-dot-1"></div>
+				<div class="loading-break loading-dot-2"></div>
+				<div class="loading-break loading-dot-3"></div>
+			</div>
+		</div>
+	</div>
+	<!-- Loader /- -->
+
+	<a id="top"></a>
+
+        <!-- Accessibility Mode Toggle -->
+        <div id="accessibility-toggle" class="accessibility-toggle">
         <button id="accessibility-button" class="btn btn-secondary">
             <i class="fa fa-gear fa-spin"></i>
         </button>
@@ -140,23 +157,6 @@ $html = new HtmlHelper(new \Cake\View\View());
             </div>
         </div>
     <?php endif; ?>
-
-    <!-- LOADER -->
-	<div id="site-loader" class="load-complete">
-		<div class="load-position">
-			<div class="logo"><?= $html->image('logo.png', ['alt' => 'logo']) ?></div>
-			<h6>Please wait, loading...</h6>
-			<div class="loading">
-				<div class="loading-line"></div>
-				<div class="loading-break loading-dot-1"></div>
-				<div class="loading-break loading-dot-2"></div>
-				<div class="loading-break loading-dot-3"></div>
-			</div>
-		</div>
-	</div>
-	<!-- Loader /- -->
-
-	<a id="top"></a>
 
 	<!-- Header Section -->
 	<header id="header" class="header">
@@ -468,6 +468,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             // Function to apply accessibility mode
             function applyAccessibilityMode(isEnabled) {
                 if (isEnabled) {
+                    // default.css Accessibility mode
                     document.documentElement.style.setProperty('--sidebar-text-color', 'var(--accessible-sidebar-text-color)');
                     document.documentElement.style.setProperty('--sidebar-bg-color', 'var(--accessible-sidebar-bg-color)');
                     document.documentElement.style.setProperty('--sidebar-hover-color', 'var(--accessible-sidebar-hover-color)');
@@ -480,7 +481,15 @@ $html = new HtmlHelper(new \Cake\View\View());
                     document.documentElement.style.setProperty('--icon-hover-color', 'var(--accessible-icon-hover-color)');
                     document.documentElement.style.setProperty('--paginator-color', 'var(--accessible-paginator-color)');
                     document.documentElement.style.setProperty('--paginator-hover-color', 'var(--accessible-paginator-hover-color)');
+
+                    // style.css Accessibility mode
+                    document.documentElement.style.setProperty('--fade-text-col', 'var(--accessible-fade-text-col)');
+                    document.documentElement.style.setProperty('--fade2-text-col', 'var(--accessible-fade2-text-col)');
+                    document.documentElement.style.setProperty('--heading-text-col', 'var(--accessible-heading-text-col)');
+                    document.documentElement.style.setProperty('--text-col', 'var(--accessible-text-col)');
+                    document.documentElement.style.setProperty('--main-font', 'var(--accessible-main-font)');
                 } else {
+                    // default.css Default mode
                     document.documentElement.style.setProperty('--sidebar-text-color', 'var(--default-sidebar-text-color)');
                     document.documentElement.style.setProperty('--sidebar-bg-color', 'var(--default-sidebar-bg-color)');
                     document.documentElement.style.setProperty('--sidebar-hover-color', 'var(--default-sidebar-hover-color)');
@@ -493,6 +502,13 @@ $html = new HtmlHelper(new \Cake\View\View());
                     document.documentElement.style.setProperty('--icon-hover-color', 'var(--default-icon-hover-color)');
                     document.documentElement.style.setProperty('--paginator-color', 'var(--default-paginator-color)'); /* Paginator color */
                     document.documentElement.style.setProperty('--paginator-hover-color', 'var(--default-paginator-hover-color)'); /* Paginator hover color */
+
+                    // style.css Default mode
+                    document.documentElement.style.setProperty('--fade-text-col', 'var(--default-fade-text-col)');
+                    document.documentElement.style.setProperty('--fade2-text-col', 'var(--default-fade2-text-col)');
+                    document.documentElement.style.setProperty('--heading-text-col', 'var(--default-heading-text-col)');
+                    document.documentElement.style.setProperty('--text-col', 'var(--default-text-col)');
+                    document.documentElement.style.setProperty('--main-font', 'var(--default-main-font)');
                 }
             }
 
