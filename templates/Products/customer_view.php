@@ -175,35 +175,41 @@ $html = new HtmlHelper(new View());
                                     data-bs-target="#reviews" aria-selected="false">Reviews</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane fade show active" id="pricing" role="tabpanel"
-                                    aria-labelledby="pricingtab">
+                                <div class="tab-pane fade show active" id="pricing" role="tabpanel" aria-labelledby="pricingtab">
                                     <div class="shopping-cart-table">
+                                        <!-- Create a CakePHP Form -->
+                                        <?= $this->Form->create(null, [
+                                            'url' => ['controller' => 'CartItems', 'action' => 'customerAdd', $product->id],
+                                            'type' => 'post',
+                                        ]) ?>
                                         <table>
                                             <tbody>
-                                                <tr class="cart-subtotal">
-                                                    <th>Product Price</th>
-                                                    <td><span class="amount"><?= $this->Number->currency($product->price, 'AUD') ?></span></td>
-                                                </tr>
-                                                <tr class="cart-subtotal">
-                                                    <th>Product Quantity</th>
-                                                    <td>
-                                                        <select class="minimal">
-                                                            <?php for ($i = 1; $i <= 10; $i++) : ?>
-                                                                <option><?= $i ?></option>
-                                                            <?php endfor; ?>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                <tr class="order-total">
-                                                    <th>Total Price</th>
-                                                    <td><strong><span class="total-amount"><?= $this->Number->currency($product->price, 'AUD') ?></span></strong></td>
-                                                </tr>
+                                            <tr class="cart-subtotal">
+                                                <th>Product Price</th>
+                                                <td><span class="amount"><?= $this->Number->currency($product->price, 'AUD') ?></span></td>
+                                            </tr>
+                                            <tr class="cart-subtotal">
+                                                <th>Product Quantity</th>
+                                                <td>
+                                                    <?= $this->Form->select('quantity', range(1, 10), [
+                                                        'class' => 'minimal',
+                                                        'id' => 'quantity',
+                                                        'value' => $this->request->getData('quantity'),
+                                                    ]) ?>
+
+                                                </td>
+                                            </tr>
+                                            <tr class="order-total">
+                                                <th>Total Price</th>
+                                                <td><strong><span id="total-amount" class="total-amount"><?= $this->Number->currency($product->price, 'AUD') ?></span></strong></td>
+                                            </tr>
                                             </tbody>
                                         </table>
+                                        <!-- Add Submit Button -->
                                         <ul>
-                                            <li><a title="Buy Now" href="#" style="font-size: 0.9em; padding: 1em;">Buy Now</a></li>
-                                            <li><a title="Add to cart" href="#" style="font-size: 0.9em; padding: 1em;">Add to cart</a></li>
+                                            <li><?= $this->Form->button(__('Add to cart'), ['type' => 'submit', 'class' => 'btn btn-danger', 'style' => 'font-size: 0.9em; padding: 1em;']) ?></li>
                                         </ul>
+                                        <?= $this->Form->end() ?>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviewtab">
@@ -259,5 +265,23 @@ $html = new HtmlHelper(new View());
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get the necessary elements
+            const quantityDropdown = document.getElementById('quantity');
+            const totalPriceElement = document.getElementById('total-amount');
+            const productPrice = <?= json_encode($product->price) ?>; // Pass product price from PHP to JavaScript
+
+            // Add an event listener to the dropdown
+            quantityDropdown.addEventListener('change', () => {
+                const selectedQuantity = parseInt(quantityDropdown.value, 10); // Get selected quantity
+                const totalPrice = (selectedQuantity+1) * productPrice; // Calculate total price
+
+                // Update the total price element
+                totalPriceElement.textContent = `A$ ${totalPrice.toFixed(2)}`; // Format as currency
+            });
+        });
+    </script>
 
 </html>
