@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Core\Configure;
 use Cake\Mailer\Mailer;
 use Exception;
 
@@ -59,7 +58,7 @@ class CartItemsController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
         $cartItem = $this->CartItems->get($id, contain: ['Users', 'Products']);
         $this->set(compact('cartItem'));
@@ -94,7 +93,7 @@ class CartItemsController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
         $cartItem = $this->CartItems->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -152,17 +151,19 @@ class CartItemsController extends AppController
      * @param string|null $id Cart Item id.
      * @param int|null $quantity Cart Item new quantity.
      */
-    public function updateQuantity($id = null, $quantity = null)
+    public function updateQuantity(?string $id = null, ?int $quantity = null)
     {
         // Ensure the ID and quantity are provided
         if ($id === null || $quantity === null) {
             $this->Flash->error(__('Invalid request. Please try again.'));
+
             return $this->redirect($this->referer());
         }
 
         // Ensure the quantity is a positive integer
         if ($quantity < 1) {
             $this->Flash->error(__('Quantity must be at least 1.'));
+
             return $this->redirect($this->referer());
         }
 
@@ -171,6 +172,7 @@ class CartItemsController extends AppController
 
         if (!$cartItem) {
             $this->Flash->error(__('Cart item not found.'));
+
             return $this->redirect($this->referer());
         }
 
@@ -188,7 +190,6 @@ class CartItemsController extends AppController
         return $this->redirect($this->referer());
     }
 
-
     /**
      * Delete method
      *
@@ -196,7 +197,7 @@ class CartItemsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $cartItem = $this->CartItems->get($id);
@@ -243,12 +244,25 @@ class CartItemsController extends AppController
             ])
             ->first();
 
+        // Selected quantity
+        $selected_quantity = $this->request->getData('quantity') + 1;
+
         // If item already existed in cart, only increase quantity of that item in cart
         if (!is_null($existingItem)) {
+            // Check if user select quantity or not (valid should be integer > 0)
+//            if ($selected_quantity > $existingItem->quantity) {
+//                $this->Flash->error(__('"' . $product->name . '" does not have enough stock, please try with less quantity.'));
+//
+//                return $this->redirect($this->referer());
+//            } elseif ($selected_quantity <= 0) {
+//                $this->Flash->error(__('Please select at least one item to add to cart.'));
+//
+//                return $this->redirect($this->referer());
+//            }
             // Increase quantity and re-calculated line_price
-            $existingItem->quantity += 1;
+            $existingItem->quantity += $selected_quantity;
             if ($this->CartItems->save($existingItem)) {
-                $this->Flash->success(__('Cart updated with one more unit of "' . $product->name . '".'));
+                $this->Flash->success(__('Cart updated with ' . $selected_quantity . ' unit(s) of "' . $product->name . '".'));
             } else {
                 $this->Flash->error(__('Unable to update your cart. Please, try again.'));
             }
@@ -257,7 +271,7 @@ class CartItemsController extends AppController
             $cartItem = $this->CartItems->newEmptyEntity();
             $cartItem->user_id = $userId;
             $cartItem->product_id = $productId;
-            $cartItem->quantity = 1;
+            $cartItem->quantity = $selected_quantity;
 
             if ($this->CartItems->save($cartItem)) {
                 $this->Flash->success(__('"' . $product->name . '" has been added to your cart.'));
