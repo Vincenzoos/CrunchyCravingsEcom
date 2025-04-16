@@ -32,67 +32,67 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <p class="lead">Manage all contacts below.</p>
             </div>
         </section>
-
-        <!-- Contacts Filter Form -->
-        <div class="col-md-8 mx-auto mb-4 p-3 rounded shadow-sm bg-light">
-            <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
-
-            <!-- First name Field -->
-            <div class="col-md-6">
-                <?= $this->Form->control('first_name', [
-                    'label' => 'Contact First Name',
-                    'placeholder' => 'First name contains...',
-                    'value' => $this->request->getQuery('first_name'),
-                    'class' => 'form-control',
-                ]) ?>
-            </div>
-
-            <!-- Last name Field -->
-            <div class="col-md-6">
-                <?= $this->Form->control('last_name', [
-                    'label' => 'Contact Last Name',
-                    'placeholder' => 'Last name contains...',
-                    'value' => $this->request->getQuery('last_name'),
-                    'class' => 'form-control',
-                ]) ?>
-            </div>
-            <!-- Sent Date field -->
-            <div class="col-md-6">
-                <?= $this->Form->control('date_sent', [
-                    'label' => 'Date Sent',
-                    'placeholder' => 'Select a date to filter earlier records...',
-                    'type' => 'date',
-                    'dateFormat' => 'YMD',
-                    'class' => 'form-control',
-                ]) ?>
-            </div>
-
-            <!-- Reply Status field -->
-            <div class="col-md-6">
-                <?= $this->Form->control('reply_status', [
-                    'label' => 'Reply Status',
-                    'options' => [
-                        '' => 'All',
-                        1 => 'Replied',
-                        0 => 'Not Replied',
-                    ],
-                    'class' => 'form-select select2', // use select2
-                    'empty' => false, // Disable the empty option
-                    'default' => '',
-                ]) ?>
-            </div>
-
-            <!-- Filter Button -->
-            <div class="col-md-6 offset-md-6 text-end align-self-center">
-                <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-success']) ?>
-                <?= $this->Html->link('Clear', ['action' => 'index'], ['class' => 'btn btn-danger']) ?>
-            </div>
-
-            <?= $this->Form->end() ?>
-        </div>
-
+        
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="form-section" class="d-flex flex-column">
+            <!-- Contacts Filter Form -->
+            <div id="form-content" class="col-md-8 mx-auto mb-4 p-3 rounded shadow-sm bg-light">
+                <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
+
+                <!-- First name Field -->
+                <div class="col-md-6">
+                    <?= $this->Form->control('first_name', [
+                        'label' => 'Contact First Name',
+                        'placeholder' => 'First name contains...',
+                        'value' => $this->request->getQuery('first_name'),
+                        'class' => 'form-control',
+                    ]) ?>
+                </div>
+
+                <!-- Last name Field -->
+                <div class="col-md-6">
+                    <?= $this->Form->control('last_name', [
+                        'label' => 'Contact Last Name',
+                        'placeholder' => 'Last name contains...',
+                        'value' => $this->request->getQuery('last_name'),
+                        'class' => 'form-control',
+                    ]) ?>
+                </div>
+                <!-- Sent Date field -->
+                <div class="col-md-6">
+                    <?= $this->Form->control('date_sent', [
+                        'label' => 'Date Sent',
+                        'placeholder' => 'Select a date to filter earlier records...',
+                        'type' => 'date',
+                        'dateFormat' => 'YMD',
+                        'class' => 'form-control',
+                    ]) ?>
+                </div>
+
+                <!-- Reply Status field -->
+                <div class="col-md-6">
+                    <?= $this->Form->control('reply_status', [
+                        'label' => 'Reply Status',
+                        'options' => [
+                            '' => 'All',
+                            1 => 'Replied',
+                            0 => 'Not Replied',
+                        ],
+                        'class' => 'form-select select2', // use select2
+                        'empty' => false, // Disable the empty option
+                        'default' => '',
+                    ]) ?>
+                </div>
+
+                <!-- Filter Button -->
+                <div class="col-md-6 offset-md-6 text-end align-self-center">
+                    <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-success']) ?>
+                    <?= $this->Html->link('Clear', ['action' => 'index'], ['class' => 'btn btn-danger']) ?>
+                </div>
+
+                <?= $this->Form->end() ?>
+            </div>
+
             <!-- Main Content -->
             <div id="content">
                 <div class="container-fluid" id="table-content">
