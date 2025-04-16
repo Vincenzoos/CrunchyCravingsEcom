@@ -147,14 +147,24 @@ class ProductsController extends AppController
      */
     public function view(?string $id = null)
     {
-        // Fetch all categories using the association
-        $categories = $this->Products->Categories->find('all')->all();
+        // Fetch the current product with associated categories
+        $product = $this->Products->get($id, [
+            'contain' => ['Categories'], // Include associated categories
+        ]);
 
-        // Fetch the current product
-        $product = $this->Products->get($id);
+        // Fetch all categories
+        $allCategories = $this->Products->Categories->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'name',
+        ])->toArray();
+
+        // Get associated category IDs
+        $associatedCategoryIds = array_map(function ($category) {
+            return $category->id;
+        }, $product->categories);
 
         // Pass variables to the view
-        $this->set(compact('product'));
+        $this->set(compact('product','allCategories', 'associatedCategoryIds'));
     }
 
     /**
@@ -166,12 +176,9 @@ class ProductsController extends AppController
      */
     public function customerView(?string $id = null)
     {
-        // Fetch all categories using the association
-        $categories = $this->Products->Categories->find('all')->all();
-
-        // Fetch the current product
+        // Fetch the current product with associated categories
         $product = $this->Products->get($id, [
-            'contain' => ['Categories'], // Include related categories if needed
+            'contain' => ['Categories'], // Include associated categories
         ]);
 
         // Fetch similar products (excluding the current product)
@@ -180,8 +187,19 @@ class ProductsController extends AppController
             ->limit(2) // Limit to 2 products
             ->all();
 
+        // Fetch all categories
+        $allCategories = $this->Products->Categories->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'name',
+        ])->toArray();
+
+        // Get associated category IDs
+        $associatedCategoryIds = array_map(function ($category) {
+            return $category->id;
+        }, $product->categories);
+
         // Pass variables to the view
-        $this->set(compact('categories', 'product', 'similarProducts'));
+        $this->set(compact('product', 'similarProducts','allCategories', 'associatedCategoryIds'));
     }
 
 

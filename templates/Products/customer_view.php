@@ -111,11 +111,15 @@ $html = new HtmlHelper(new \Cake\View\View());
 					<div id="shop-box" class="product-info-panel" style="padding: 40px; margin-bottom: 20px;">
 						<ul class="categories-list" style="margin-bottom: 20px;">
 							<li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
-							<?php if (!empty($product->categories)): ?>
-								<?php foreach ($product->categories as $category): ?>
-									<li><a title="<?= h($category->name) ?>" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'view', $category->id]) ?>"><?= h($category->name) ?></a></li>
-								<?php endforeach; ?>
-							<?php else: ?>
+							<?php if (!empty($associatedCategoryIds) && !empty($allCategories)) : ?>
+								<?php
+								// Get the first associated category ID
+								$firstCategoryId = reset($associatedCategoryIds);
+								// Get the category name from allCategories
+								$firstCategoryName = $allCategories[$firstCategoryId] ?? 'Unknown Category';
+								?>
+								<li><a title="<?= h($firstCategoryName) ?>" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'view', $firstCategoryId]) ?>"><?= h($firstCategoryName) ?></a></li>
+							<?php else : ?>
 								<li>No categories available</li>
 							<?php endif; ?>
 						</ul>
@@ -133,6 +137,23 @@ $html = new HtmlHelper(new \Cake\View\View());
 						<p style="margin-bottom: 40px;"><?= $product->quantity > 0 ? 'In Stock' : 'Out of Stock' ?></p>
 						<p><strong>The product:</strong></p>
 						<p><?= h($product->description) ?></p>
+						<?php if (!empty($associatedCategoryIds) && !empty($allCategories)) : ?>
+							<p><strong>Associated Categories:</strong></p>
+							<ul>
+								<!-- Display categories with commas inbetween by looking up the associated category id and using implode -->
+								<?php $categoryNames = []; ?>
+								<?php foreach ($associatedCategoryIds as $categoryId): ?>
+									<?php if (isset($allCategories[$categoryId])): ?>
+										<?php $categoryNames[] = h($allCategories[$categoryId]); ?>
+									<?php endif; ?>
+								<?php endforeach; ?>
+								<?php if (!empty($categoryNames)): ?>
+									<li><?= implode(', ', $categoryNames) ?></li>
+								<?php endif; ?>
+							</ul>
+						<?php else: ?>
+							<p>No associated categories available.</p>
+						<?php endif; ?>
 					</div>
 					
 					<aside id="shop-box" class="widget widget_recent_post">

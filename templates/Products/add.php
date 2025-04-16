@@ -11,7 +11,7 @@ use Cake\View\View;
 ?>
 
 <?php
-        $html = new HtmlHelper(new View());
+    $html = new HtmlHelper(new View());
 ?>
 
 <head>
@@ -86,7 +86,6 @@ use Cake\View\View;
                             ]) ?>
                         </div>
                         <div class="mb-4">
-
                             <?= $this->Form->control('categories._ids', [
                                 'type' => 'select',
                                 'label' => ['text' => '<h4>Categories</h4>', 'escape' => false],

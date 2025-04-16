@@ -35,11 +35,11 @@ $html = new HtmlHelper(new \Cake\View\View());
         </section>
 
         <!-- Product Details Section -->
-        <section id="details-section" class="py-5">
+        <section id="form-section" class="py-5">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8">
-                        <div id="details-content" class="text-center">
+                        <div id="form-content" class="text-center">
                             <h3><?= h($product->name) ?></h3>
                             <table class="table table-bordered">
                                 <tr>
@@ -66,8 +66,28 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     <th><?= __('Quantity') ?></th>
                                     <td><?= h($product->quantity) ?></td>
                                 </tr>
+                                <tr>
+                                <tr>
+                                    <th><?= __('Associated Categories') ?></th>
+                                    <td>
+                                        <?php if (!empty($associatedCategoryIds) && !empty($allCategories)) : ?>
+                                            <!-- Display categories with commas in between by looking up the associated category id and using implode -->
+                                            <?php $categoryNames = []; ?>
+                                            <?php foreach ($associatedCategoryIds as $categoryId): ?>
+                                                <?php if (isset($allCategories[$categoryId])): ?>
+                                                    <?php $categoryNames[] = h($allCategories[$categoryId]); ?>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                            <?= !empty($categoryNames) ? implode(', ', $categoryNames) : __('No associated categories available.') ?>
+                                        <?php else: ?>
+                                            <?= __('No associated categories available.') ?>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            </tr>
+
                             </table>
-							<!-- Description Section -->
+                            							<!-- Description Section -->
 							<div id="description-content" class="text-center mt-4">
 								<h3><?= __('Description') ?></h3>
 								<table class="table table-bordered">
@@ -77,46 +97,6 @@ $html = new HtmlHelper(new \Cake\View\View());
 								</table>
 							</div>
                         </div>
-
-                        <!-- Related Categories Section -->
-                        <?php if (!empty($product->categories)) : ?>
-                            <div class="mt-5">
-                                <h4>Related Categories</h4>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th><?= __('ID') ?></th>
-                                                <th><?= __('Name') ?></th>
-                                                <th><?= __('Description') ?></th>
-                                                <th class="text-center"><?= __('Actions') ?></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($product->categories as $category) : ?>
-                                                <tr>
-                                                    <td><?= h($category->id) ?></td>
-                                                    <td><?= h($category->name) ?></td>
-                                                    <td><?= h($category->description) ?></td>
-                                                    <td class="text-center">
-                                                        <?= $this->Html->link(__('View'), ['controller' => 'Categories', 'action' => 'view', $category->id], ['class' => 'btn btn-info btn-sm']) ?>
-                                                        <?= $this->Html->link(__('Edit'), ['controller' => 'Categories', 'action' => 'edit', $category->id], ['class' => 'btn btn-warning btn-sm']) ?>
-                                                        <?= $this->Form->postLink(
-                                                            __('Delete'),
-                                                            ['controller' => 'Categories', 'action' => 'delete', $category->id],
-                                                            [
-                                                                'class' => 'btn btn-danger btn-sm',
-                                                                'confirm' => __('Are you sure you want to delete {0}?', $category->name),
-                                                            ]
-                                                        ) ?>
-                                                    </td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        <?php endif; ?>
 
                         <!-- Actions -->
                         <div class="text-center mt-4">

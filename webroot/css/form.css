@@ -18,6 +18,7 @@
 #form-content {
     padding: 2rem;
     border-radius: 0.5rem;
+    border: 1px solid #ddd;
     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
 }
 
