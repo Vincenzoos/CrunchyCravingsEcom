@@ -95,6 +95,8 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     'type' => 'tel',
                                     'pattern' => '^0[1-9]\d{0,2} \d{3} \d{3}$',
                                     'title' => 'Please enter a valid phone number starting with 0 (e.g., 0411 256 454).',
+                                    'onkeyup' => "this.value = formatPhoneNumber(this.value)",
+                                    'escape' => false,
                                     'required' => true,
                                 ]); ?>
                             </div>
@@ -127,6 +129,18 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
+    
+    </body>
+    
 </html>
+    
+<!-- Phone number numerical validation -->
+<script>
+    function formatPhoneNumber(value) {
+        console.log("Formatting phone number:", value);
+        // Remove all non-digit characters
+        value = value.replace(/\D/g, '');
+        // Format as 0XXX XXX XXX
+        return value.replace(/^(\d{1})(\d{3})(\d{3})(\d{3})$/, '$1$2 $3 $4');
+    }
+</script>
