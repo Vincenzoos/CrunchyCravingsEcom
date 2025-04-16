@@ -294,10 +294,14 @@ class CartItemsController extends AppController
         }
 
         try {
+            // Override received email to cpanel email for testing
+//            $recipient = 'crunchy_cravings@u25s1068.iedev.org';
+            $recipient = $user->get('email');
+
             $mailer = new Mailer('default');
             $mailer
                 ->setEmailFormat('both') // sends both html and text versions
-                ->setTo($user->get('email'))
+                ->setTo($recipient)
                 ->setSubject('Your Order Confirmation')
                 ->viewBuilder()
                 ->setTemplate('customer_checkout');

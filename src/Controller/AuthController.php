@@ -78,13 +78,18 @@ class AuthController extends AppController
                 $user->nonce = Security::randomString(128);
                 $user->nonce_expiry = new DateTime('7 days');
                 if ($this->Users->save($user)) {
+
+                    // Override received email to cpanel email for testing
+//                    $recipient = 'crunchy_cravings@u25s1068.iedev.org';
+                    $recipient = $user->email;
+
                     // Now let's send the password reset email
                     $mailer = new Mailer('default');
 
                     // email basic config
                     $mailer
                         ->setEmailFormat('both')
-                        ->setTo($user->email)
+                        ->setTo($recipient)
                         ->setSubject('Reset your account password');
 
                     // select email template
