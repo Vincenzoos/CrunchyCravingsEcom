@@ -91,6 +91,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     'label' => ['text' => '<h4>Date Sent</h4>', 'escape' => false],
                                     'type' => 'date',
                                     'required' => true,
+                                    'value' => date('Y-m-d'),
                                 ]); ?>
                             </div>
                             <div class="text-center">

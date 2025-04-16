@@ -195,10 +195,8 @@ class ContactsController extends AppController
             if ($this->Recaptcha->verify()) {
                 $contact = $this->Contacts->patchEntity($contact, $this->request->getData());
 
-                // Set date_sent to today's date if it isn't provided
-                if (empty($contact->date_sent)) {
-                    $contact->date_sent = date('Y-m-d');
-                }
+                // Set date_sent to today's date
+                $contact->date_sent = date('Y-m-d');
 
                 if ($this->Contacts->save($contact)) {
                     $this->Flash->success(__('Your contact details has been saved.'));

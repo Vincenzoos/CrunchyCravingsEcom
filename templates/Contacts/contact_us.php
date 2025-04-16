@@ -17,7 +17,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 <head>
     <title>CrunchyCravings</title>
-    
+
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities', 'form']) ?>
 
@@ -42,11 +42,11 @@ $html = new HtmlHelper(new \Cake\View\View());
         </div>
     </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
-     
+
     <!-- Heading section -->
     <section id="heading" class="text-center py-5">
         <div class="container">
-            <h1 class="display-4">Contact Us</h3>
+            <h3 class="display-4">Contact Us</h3>
             <p class="lead">We'd love to hear from you! Fill out the form below to get in touch with us.</p>
         </div>
     </section>
@@ -134,11 +134,11 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     </body>
-    
+
 </html>
-    
+
 <!-- Phone number numerical validation -->
 <script>
     function formatPhoneNumber(value) {
