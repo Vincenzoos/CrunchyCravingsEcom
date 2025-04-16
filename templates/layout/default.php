@@ -30,8 +30,8 @@ $html = new HtmlHelper(new \Cake\View\View());
     <meta name="description" content="">
     <meta name="author" content="">
     <title><?= $this->fetch('title') ?> - CrunchyCravings</title>
-    <link rel="icon" type="image/png" href="<?= $this->Url->image('logo.png') ?>">
 
+    <link rel="icon" type="image/png" href="<?= $this->Url->image('logo.png') ?>">
 
     <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -45,18 +45,8 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <!-- jQuery -->
-    <?= $this->Html->script('https://code.jquery.com/jquery-3.6.0.min.js') ?>
-
-    <!-- Select2 JS -->
-    <?= $this->Html->script('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js') ?>
-
-    <!-- Custom JS   -->
+    <!-- Custom CSS, JS -->
     <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css','style','default.css', 'flash.css']) ?>
-
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
-    <?= $this->fetch('meta') ?>
 
 
     <?= $this->Html->meta('icon', 'images/favicon.png', ['type' => 'icon']) ?>
@@ -76,13 +66,6 @@ $html = new HtmlHelper(new \Cake\View\View());
     ]) ?>
 
 
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-      <script src="js/html5/html5shiv.min.js"></script>
-      <script src="js/html5/respond.min.js"></script>
-    <![endif]-->
-
 	<link href='http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700,700italic' rel='stylesheet'
 		type='text/css'>
 	<link
@@ -96,6 +79,9 @@ $html = new HtmlHelper(new \Cake\View\View());
 	<link
 		href='http://fonts.googleapis.com/css?family=Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic'
 		rel='stylesheet' type='text/css'>
+
+    <?= $this->fetch('css') ?>
+    <?= $this->fetch('meta') ?>
 </head>
 
 <body id="page-top">
@@ -234,9 +220,8 @@ $html = new HtmlHelper(new \Cake\View\View());
 				<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-static-top">
 					<div class="navbar-header">
 						<a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display']) ?>" class="logo"><?= $html->image('logo.png', ['alt' => 'logo']) ?></a>
-						<button class="navbar-toggler collapsed" aria-controls="navbar" aria-expanded="false"
-							data-bs-target="#navbar" data-bs-toggle="collapse" type="button"
-							aria-label="Toggle navigation">
+						<button class="navbar-toggler" type="button" id="custom-toggler" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon">
 							<span class="navbar-toggler-icon"></span>
 						</button>
 					</div>
@@ -548,10 +533,40 @@ $html = new HtmlHelper(new \Cake\View\View());
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggler = document.getElementById('custom-toggler');
+            const navbarCollapse = document.getElementById('navbar');
+
+            toggler.addEventListener('click', function () {
+                const isShown = navbarCollapse.classList.contains('show');
+
+                if (isShown) {
+                    navbarCollapse.classList.remove('show');
+                } else {
+                    navbarCollapse.classList.add('show');
+                }
+            });
+        });
+    </script>
+
 
     <!-- Bootstrap core JavaScript-->
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') ?>
-    <?= $this->fetch('script') ?>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/html5/html5shiv.min.js"></script>
+    <script src="js/html5/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery -->
+    <?= $this->Html->script('https://code.jquery.com/jquery-3.6.0.min.js') ?>
+
+    <!-- Select2 JS -->
+    <?= $this->Html->script('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js') ?>
+
 
     <!-- jQuery Include -->
     <?= $html->script('/libraries/gmap/jquery.gmap.min.js') ?>
@@ -568,6 +583,8 @@ $html = new HtmlHelper(new \Cake\View\View());
     <?= $html->script('/libraries/jquery.magnific-popup.min.js') ?>
 	<!-- Customized Scripts -->
 	<?= $html->script('/js/functions.js') ?>
+
+    <?= $this->fetch('script') ?>
 </body>
 
 </html>
