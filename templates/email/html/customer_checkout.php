@@ -70,7 +70,7 @@
     <div class="footer" style="margin-top: 10px; text-align: center; font-size: 12px; color: #999;">
         <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="width:100%;">
             <tr>
-                <td class="content-block" style="padding: 10px;">
+                <td class="content-block" style="color:darkred; padding: 10px;">
 <!--                    This email is addressed to --><?php //= h($first_name) ?><!-- --><?php //= h($last_name) ?><!-- &lt;--><?php //= h($email) ?><!--&gt;<br>-->
                     This email is addressed to <?= h($email) ?><br>
                     Please ignore this email if you did not place an order.<br><br>
