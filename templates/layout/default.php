@@ -152,7 +152,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                     <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Contacts</a>
                     <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>" class="list-group-item">Products (Admin)</a>
                     <a href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index']) ?>" class="list-group-item">Categories</a>
-<!--                    <a href="--><?php //= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?><!--" class="list-group-item">Users</a>-->
+                    <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?>" class="list-group-item">Users</a>
                 </ul>
             </div>
         </div>

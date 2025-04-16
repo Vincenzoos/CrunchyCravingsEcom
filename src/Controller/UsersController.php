@@ -18,9 +18,21 @@ class UsersController extends AppController
     public function index()
     {
         $query = $this->Users->find();
-        $users = $this->paginate($query);
-
-        $this->set(compact('users'));
+    
+        // Apply email filter
+        $email = $this->request->getQuery('email');
+        if (!empty($email)) {
+            $query->where(['Users.email LIKE' => '%' . $email . '%']);
+        }
+    
+        // Apply role filter
+        $role = $this->request->getQuery('role');
+        if (!empty($role)) {
+            $query->where(['Users.role' => $role]);
+        }
+    
+        // Paginate the filtered results
+        $this->set('users', $this->paginate($query));
     }
 
     /**
@@ -65,19 +77,38 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-        $user = $this->Users->get($id, contain: []);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Changing user role is broken, probably a UsersTable issue as well
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+        // Fetch the user by ID
+        $user = $this->Users->get($id);
+    
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            // Patch the user entity with the submitted data
+            $data = $this->request->getData();
+    
+            // If the password field is empty, remove it from the data to avoid overwriting
+            if (empty($data['password'])) {
+                unset($data['password']);
+            }
+    
+            $user = $this->Users->patchEntity($user, $data);
+    
+            // Save the updated user
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The user has been updated successfully.'));
+    
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+    
+            $this->Flash->error(__('The user could not be updated. Please, try again.'));
         }
+    
+        // Pass the user entity to the view
         $this->set(compact('user'));
     }
-
+    
     /**
      * Delete method
      *

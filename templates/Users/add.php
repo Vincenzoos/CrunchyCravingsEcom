@@ -4,30 +4,86 @@
  * @var \App\Model\Entity\User $user
  */
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+
+<?php
+use Cake\View\Helper\HtmlHelper;
+$html = new HtmlHelper(new \Cake\View\View());
+?>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrunchyCravings - Add User</title>
+
+    <!-- Custom CSS -->
+    <?= $this->Html->css(['utilities', 'form']) ?>
+</head>
+
+<body>
+    <!-- Heading Section -->
+    <section id="heading" class="text-center py-5">
+        <div class="container">
+            <h1 class="display-4">Add User</h1>
+            <p class="lead">Fill out the form below to add a new user.</p>
         </div>
-    </aside>
-    <div class="column column-80">
-        <div class="users form content">
-            <?= $this->Form->create($user) ?>
-            <fieldset>
-                <legend><?= __('Add User') ?></legend>
-                <?php
-                    echo $this->Form->control('email');
-                    echo $this->Form->control('password');
-                    echo $this->Form->control('role', [
-                        'options' => ['admin' => 'Admin', 'customer' => 'Customer'],
-                        'label' => __('Role'),
-                        'default' => 'customer',
-                    ]);
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
-            <?= $this->Form->end() ?>
+    </section>
+
+    <!-- Add Form Section -->
+    <section id="form-section" class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div id="form-content" class="bg-light p-4 rounded">
+                        <?= $this->Form->create($user, ['class' => 'form']) ?>
+
+                        <div class="mb-4">
+                            <?= $this->Form->control('email', [
+                                'class' => 'form-control mx-auto',
+                                'label' => ['text' => '<h4>Email</h4>', 'escape' => false],
+                                'placeholder' => 'Enter the user email...',
+                                'required' => true,
+                            ]) ?>
+                        </div>
+                        <div class="mb-4">
+                            <?= $this->Form->control('password', [
+                                'class' => 'form-control mx-auto',
+                                'label' => ['text' => '<h4>Password</h4>', 'escape' => false],
+                                'placeholder' => 'Enter a password...',
+                                'type' => 'password',
+                                'required' => true,
+                            ]) ?>
+                        </div>
+                        <div class="mb-4">
+                            <?= $this->Form->control('role', [
+                                'type' => 'select',
+                                'label' => ['text' => '<h4>Role</h4>', 'escape' => false],
+                                'options' => ['admin' => 'Admin', 'customer' => 'Customer'],
+                                'class' => 'form-select select2',
+                                'empty' => false, // Disable the empty option
+                                'default' => 'customer',
+                            ]) ?>
+                        </div>
+                        <div class="text-center">
+                            <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary btn-lg']) ?>
+                            <?= $this->Html->link('Cancel', ['action' => 'index'], ['class' => 'btn btn-link']) ?>
+                        </div>
+                        <?= $this->Form->end() ?>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Select2 Initialization -->
+    <script>
+        jQuery(document).ready(function() {
+            jQuery('.select2').select2({
+                placeholder: "Select a role",
+                allowClear: true,
+            });
+        });
+    </script>
+</body>
