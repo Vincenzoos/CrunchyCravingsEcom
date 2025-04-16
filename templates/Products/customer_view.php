@@ -97,11 +97,6 @@ $html = new HtmlHelper(new View());
                                                             <i class="fa fa-eye"></i>
                                                         </a>
                                                     </li>
-                                                    <li>
-                                                        <a title="Add to Wishlist" href="#">
-                                                            <i class="fa fa-heart"></i>
-                                                        </a>
-                                                    </li>
                                                 </ul>
                                                 <a title="Add to Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerAdd', $similarProduct->id]) ?>" class="btn">add to cart</a>
                                             </div>
