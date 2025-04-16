@@ -67,6 +67,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     'class' => 'form-control mx-auto',
                                     'label' => ['text' => '<h4 class="text-center">First Name</h4>', 'escape' => false],
                                     'placeholder' => 'Enter your first name...',
+                                    'maxlength' => 20,
                                     'required' => true,
                                 ]); ?>
                             </div>
@@ -75,6 +76,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     'class' => 'form-control mx-auto',
                                     'label' => ['text' => '<h4 class="text-center">Last Name</h4>', 'escape' => false],
                                     'placeholder' => 'Enter your last name...',
+                                    'maxlength' => 20,
                                     'required' => true,
                                 ]); ?>
                             </div>
@@ -84,6 +86,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     'label' => ['text' => '<h4 class="text-center">Email</h4>', 'escape' => false],
                                     'placeholder' => 'Enter your email (e.g., abc@example.com)',
                                     'type' => 'email',
+                                    'maxlength' => 40,
                                     'required' => true,
                                 ]); ?>
                             </div>
@@ -103,10 +106,12 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <div class="mb-4">
                                 <?= $this->Form->control('message', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h4 class="text-center">Message</h4>', 'escape' => false],
+                                    'label' => ['text' => '<h4 class="text-center" id="message-label">Message (0/100)</h4>', 'escape' => false],
                                     'placeholder' => 'Enter your message',
                                     'type' => 'textarea',
                                     'rows' => 5,
+                                    'onkeyup' => "limitMessageLength(this)",
+                                    'maxlength' => 100,
                                     'required' => true,
                                 ]); ?>
                             </div>
@@ -142,5 +147,18 @@ $html = new HtmlHelper(new \Cake\View\View());
         value = value.replace(/\D/g, '');
         // Format as 0XXX XXX XXX
         return value.replace(/^(\d{1})(\d{3})(\d{3})(\d{3})$/, '$1$2 $3 $4');
+    }
+</script>
+
+<!-- Message length limit -->
+<script>
+    function limitMessageLength(textarea) {
+        const maxLength = 100;
+        const currentLength = textarea.value.length;
+        if (currentLength > maxLength) {
+            textarea.value = textarea.value.substring(0, maxLength);
+        }
+        const label = document.getElementById('message-label');
+        label.innerHTML = `Message (${currentLength}/${maxLength})`;
     }
 </script>
