@@ -337,6 +337,20 @@ $html = new HtmlHelper(new View());
                         </div>
                     </aside><!-- widget about /- -->
 
+					<!-- col-md-6 -->
+					<div class="col-12 col-md-12 col-lg-6">
+						<div class="row">
+							<aside class="col-12  col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
+								<h3 class="widget-title">
+									Our Stores
+								</h3>
+								<ul>
+                                    <li><a title="Melbourne" href="">Melbourne</a></li>
+									<li><a title="Sydney" href="">Sydney</a></li>
+									<li><a title="Brisbane" href="">Brisbane</a></li>
+									<li><a title="Perth" href="">Perth</a></li>
+								</ul>
+							</aside>
                     <!-- col-md-6 -->
                     <div class="col-12 col-md-12 col-lg-6">
                         <div class="row">
@@ -364,6 +378,17 @@ $html = new HtmlHelper(new View());
                                     <li><a title="Returns" href="#">Returns</a></li>
                                 </ul>
                             </aside>
+							<aside class="col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
+								<h3 class="widget-title">
+									Orders
+								</h3>
+								<ul>
+									<li><a title="Order Status" href="">Order Status</a></li>
+									<li><a title="My Order History" href="">My Order History</a></li>
+									<li><a title="Payments" href="">Payments</a></li>
+									<li><a title="Returns" href="">Returns</a></li>
+								</ul>
+							</aside>
 
                             <aside class=" col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
                             <h3 class="widget-title">
@@ -380,6 +405,15 @@ $html = new HtmlHelper(new View());
                     </div><!-- col-md-6 /- -->
                 </div>
             </div>
+									 <li><a title="Privacy Policy" href="">Privacy Policy</a></li>
+									 <li><a title="Terms &amp; Conditions" href="">Terms &amp; Conditions</a></li>
+									<li><a title="FAQ" href="">FAQ</a></li>
+								</ul>
+							</aside>
+						</div>
+					</div><!-- col-md-6 /- -->
+				</div>
+			</div>
             <!-- container /- -->
         </div>
         <!-- widget section /- -->
@@ -548,6 +582,20 @@ $html = new HtmlHelper(new View());
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Remove any existing favicon links
+            const existingIcons = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
+            existingIcons.forEach(icon => icon.remove());
+
+            // Add your custom favicon
+            const favicon = document.createElement('link');
+            favicon.rel = 'icon';
+            favicon.type = 'image/png';
+            favicon.href = '<?= $this->Url->image('logo.png') ?>';
+            document.head.appendChild(favicon);
+        });
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') ?>

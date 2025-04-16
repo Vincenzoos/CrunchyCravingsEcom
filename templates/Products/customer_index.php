@@ -70,62 +70,60 @@ $html = new HtmlHelper(new \Cake\View\View());
             <div id="shop-box" class="product-filter-box">
                 <!-- Begin Filter Form -->
                 <?= $this->Form->create(null, ['type' => 'get', 'url' => ['action' => 'customerIndex']]) ?>
-                <div class="row">
-                    <!-- Price Range Slider -->
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <h4>Filter by Price</h4>
-                        <!-- <div id="slider-range"></div> -->
-                        <div class="price-input row">
-                            <!-- Min Price Field -->
-                            <div class="col-12 col-md-6">
-                                <?= $this->Form->control('min_price', [
-                                    'id' => 'min-price',
-                                    'label' => 'From:',
-                                    'placeholder' => '0',
-                                    'type' => 'number',
-                                    'min' => '0',
-                                    'max' => '500',
-                                    'value' => $this->request->getQuery('min_price'),
-                                    'class' => 'form-control',
-                                ]) ?>
-                            </div>
-                            <!-- Max Price Field -->
-                            <div class="col-12 col-md-6">
-                                <?= $this->Form->control('max_price', [
-                                    'id' => 'max-price',
-                                    'label' => 'To:',
-                                    'placeholder' => '500',
-                                    'type' => 'number',
-                                    'min' => '0',
-                                    'max' => '500',
-                                    'value' => $this->request->getQuery('max_price'),
-                                    'class' => 'form-control',
-                                ]) ?>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Categories -->
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <h4>Filter by Categories</h4>
-                        <div class="col-12">
-                            <?= $this->Form->control('categories._ids', [
-                                'type' => 'select',
-                                'label' => 'Categories',
-                                'options' => $categoriesList,
-                                'multiple' => true,
-                                'class' => 'form-select select2', // use select2
-                                'empty' => false, // Disable the empty option
-                                'value' => $this->request->getQuery('categories._ids'),
+                <!-- Price Range Section -->
+                <div class="col-12">
+                    <h4 class="text-center">Filter by Price</h4>
+                    <div class="price-input d-flex justify-content-center align-items-center">
+                        <!-- Min Price Field -->
+                        <div class="me-2">
+                            <?= $this->Form->control('min_price', [
+                                'id' => 'min-price',
+                                'label' => 'From:',
+                                'placeholder' => '0',
+                                'type' => 'number',
+                                'min' => '0',
+                                'max' => '500',
+                                'value' => $this->request->getQuery('min_price'),
+                                'class' => 'form-control',
                             ]) ?>
                         </div>
-
-                        <!-- Submit Button -->
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-success">Apply Filters</button>
-                            <a href="<?= $this->Url->build(['action' => 'customerIndex']) ?>" class="btn btn-danger">Clear Filters</a>
+                        <!-- Max Price Field -->
+                        <div>
+                            <?= $this->Form->control('max_price', [
+                                'id' => 'max-price',
+                                'label' => 'To:',
+                                'placeholder' => '500',
+                                'type' => 'number',
+                                'min' => '0',
+                                'max' => '500',
+                                'value' => $this->request->getQuery('max_price'),
+                                'class' => 'form-control',
+                            ]) ?>
                         </div>
                     </div>
+                </div>
+
+                <!-- Categories Section -->
+                <div class="col-12 mt-4">
+                    <h4 class="text-center">Filter by Categories</h4>
+                    <div class="col-12">
+                        <?= $this->Form->control('categories._ids', [
+                            'type' => 'select',
+                            'options' => $categoriesList,
+                            'multiple' => true,
+                            'class' => 'form-select select2', // use select2
+                            'empty' => false, // Disable the empty option
+                            'value' => $this->request->getQuery('categories._ids'),
+                            'label' => false, // Remove the label
+                        ]) ?>
+                    </div>
+                </div>
+
+                <!-- Buttons Section -->
+                <div class="col-12 text-center mt-4">
+                    <button type="submit" class="btn btn-success me-2">Apply Filters</button>
+                    <a href="<?= $this->Url->build(['action' => 'customerIndex']) ?>" class="btn btn-danger">Clear Filters</a>
                 </div>
                 <?= $this->Form->end() ?>
                 <!-- End Filter Form -->
@@ -143,31 +141,29 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <div class="row">
                                 <?php foreach ($products as $product) : ?>
                                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 main-product">
-                                        <a href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>" class="product-link">
-                                            <div class="category-box product-box">
-                                                <?php if ($product->on_sale) : ?>
-                                                    <span class="sale">sales</span>
-                                                <?php endif; ?>
-                                                <div class="inner-product">
-                                                    <!-- Link the product image to the view page -->
-                                                    <?= $this->Html->image($product->image_cache_busted_url, [
-                                                        'alt' => $product->name,
-                                                        'class' => 'img-fluid rounded-top',
-                                                        'style' => 'height: 300px; object-fit: cover; width: 100%;'
-                                                    ]) ?>
-                                                    <div class="product-box-inner">
-                                                        <ul>
-                                                            <li>
-                                                                <a title="View Image" href="<?= $this->Url->build($product->image_cache_busted_url) ?>">
-                                                                    <i class="fa fa-eye"></i>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                        <a title="Add to Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerAdd', $product->id]) ?>" class="btn">add to cart</a>
-                                                    </div>
+                                        <div class="category-box product-box">
+                                            <?php if ($product->on_sale) : ?>
+                                                <span class="sale">sales</span>
+                                            <?php endif; ?>
+                                            <div class="inner-product">
+                                                <!-- Link the product image to the view page -->
+                                                <?= $this->Html->image($product->image_cache_busted_url, [
+                                                    'alt' => $product->name,
+                                                    'class' => 'img-fluid rounded-top',
+                                                    'style' => 'height: 300px; object-fit: cover; width: 100%;'
+                                                ]) ?>
+                                                <div class="product-box-inner">
+                                                    <ul>
+                                                        <li>
+                                                            <a title="View Image" href="<?= $this->Url->build($product->image_cache_busted_url) ?>">
+                                                                <i class="fa fa-eye"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <a title="Add to Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerAdd', $product->id]) ?>" class="btn">add to cart</a>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </div>
                                         <!-- Link the product title to the view page -->
                                         <a title="<?= h($product->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>" class="product-title">
                                             <?= h($product->name) ?>
