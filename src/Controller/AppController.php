@@ -60,6 +60,7 @@ class AppController extends Controller
          * see https://book.cakephp.org/5/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+        #TODO: Add field validation, sanitization, restriction for all website forms
     }
 
     public function beforeRender(EventInterface $event)
