@@ -45,6 +45,8 @@ use Cake\View\View;
                                 'class' => 'form-control mx-auto',
                                 'label' => ['text' => '<h4>Product Name</h4>', 'escape' => false],
                                 'placeholder' => 'Enter the product name...',
+                                'pattern' => '^[a-zA-Z\s]+$',
+                                'title' => 'Please use only letters and spaces for your product name',
                                 'required' => true,
                             ]) ?>
                         </div>
