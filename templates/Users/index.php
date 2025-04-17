@@ -101,9 +101,9 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     <tr>
                                         <td><?= h($user->email) ?></td>
                                         <td><?= h($user->role) ?></td>
-                                        <td><?= h($user->nonce_expiry) ?></td>
-                                        <td><?= h($user->created) ?></td>
-                                        <td><?= h($user->modified) ?></td>
+                                        <td><?= h(empty($user->nonce_expiry) ? $user->nonce_expiry : $user->nonce_expiry->format('d/m/Y H:i: a')) ?></td>
+                                        <td><?= h($user->created->format('d/m/Y H:i a')) ?></td>
+                                        <td><?= h($user->modified->format('d/m/Y H:i a')) ?></td>
                                         <td class="text-center">
                                             <?= $this->Html->link(__('View'), ['action' => 'view', $user->id], ['class' => 'btn btn-info btn-sm']) ?>
                                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id], ['class' => 'btn btn-warning btn-sm']) ?>
