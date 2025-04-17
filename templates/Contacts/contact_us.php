@@ -74,6 +74,7 @@ $html = new HtmlHelper(new View());
                                     'pattern' => '^[a-zA-Z\s]+$',
                                     'title' => 'Please use only letters and spaces for your first name',
                                 ]); ?>
+                                <?= $this->Form->error('first_name', 'Please use only letters and spaces for your first name') ?>
                             </div>
                             <div class="mb-4">
                                 <?= $this->Form->control('last_name', [
@@ -85,6 +86,7 @@ $html = new HtmlHelper(new View());
                                     'pattern' => '^[a-zA-Z\s]+$',
                                     'title' => 'Please use only letters and spaces for your first name',
                                 ]); ?>
+                                <?= $this->Form->error('last_name', 'Please use only letters and spaces for your last name') ?>
                             </div>
                             <div class="mb-4">
                                 <?= $this->Form->control('email', [
