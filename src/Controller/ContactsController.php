@@ -48,7 +48,10 @@ class ContactsController extends AppController
     public function index()
     {
         // Order contacts by date sent from latest to earliest by default
-        $query = $this->Contacts->find()->orderBy(['Contacts.date_sent DESC']);
+        $query = $this->Contacts->find()->orderBy([
+            'Contacts.date_sent DESC',
+            'Contacts.id' => 'DESC',
+        ]);
 
         // Retrieve data from filter form
         $first_name = $this->request->getQuery('first_name');
@@ -193,17 +196,36 @@ class ContactsController extends AppController
         $contact = $this->Contacts->newEmptyEntity();
         if ($this->request->is('post')) {
             if ($this->Recaptcha->verify()) {
-                $contact = $this->Contacts->patchEntity($contact, $this->request->getData());
+                // Get submitted data
+                $data = $this->request->getData();
+
+                // Sanitize user input fields to remove script tags
+                foreach ($data as $key => $value) {
+                    if (is_string($value)) {
+                        $sanitized = strip_tags($value);
+                        // Trim to ensure that strings with only whitespace are considered empty
+                        // Add fallback as empty string (using a space)
+                        $data[$key] = trim($sanitized) !== '' ? $sanitized : ' ';
+                    }
+                }
+
+                // Patch sanitized data into the entity
+                $contact = $this->Contacts->patchEntity($contact, $data);
 
                 // Set date_sent to today's date
                 $contact->date_sent = date('Y-m-d');
 
-                if ($this->Contacts->save($contact)) {
-                    $this->Flash->success(__('Your contact details has been saved.'));
-
-                    return $this->redirect(['controller' => 'Contacts', 'action' => 'contact_us']);
+                // Check for validation errors
+                if ($contact->getErrors()) {
+                    $this->Flash->error(__('Please correct the errors in the form.'));
                 } else {
-                    $this->Flash->error(__('Unable to send your contact details.'));
+                    if ($this->Contacts->save($contact)) {
+                        $this->Flash->success(__('Your contact details has been saved.'));
+
+                        return $this->redirect(['controller' => 'Contacts', 'action' => 'contact_us']);
+                    } else {
+                        $this->Flash->error(__('Unable to send your contact details.'));
+                    }
                 }
             } else {
                 // You can debug developers errors with

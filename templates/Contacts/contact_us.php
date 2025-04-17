@@ -3,13 +3,15 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Contact $contact
  */
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\View;
+
 $this->assign('title', 'Contact Us');
 
 ?>
 
 <?php
-use Cake\View\Helper\HtmlHelper;
-$html = new HtmlHelper(new \Cake\View\View());
+$html = new HtmlHelper(new View());
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +71,8 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     'placeholder' => 'Enter your first name...',
                                     'maxlength' => 20,
                                     'required' => true,
+                                    'pattern' => '^[a-zA-Z\s]+$',
+                                    'title' => 'Please use only letters and spaces for your first name',
                                 ]); ?>
                             </div>
                             <div class="mb-4">
@@ -78,6 +82,8 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     'placeholder' => 'Enter your last name...',
                                     'maxlength' => 20,
                                     'required' => true,
+                                    'pattern' => '^[a-zA-Z\s]+$',
+                                    'title' => 'Please use only letters and spaces for your first name',
                                 ]); ?>
                             </div>
                             <div class="mb-4">
@@ -98,8 +104,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     'type' => 'tel',
                                     'pattern' => '^0[1-9]\d{0,2} \d{3} \d{3}$',
                                     'title' => 'Please enter a valid phone number starting with 0 (e.g., 0411 256 454).',
-                                    'onkeyup' => "this.value = formatPhoneNumber(this.value)",
-                                    'escape' => false,
+                                    'onkeyup' => 'this.value = formatPhoneNumber(this.value)',
                                     'required' => true,
                                 ]); ?>
                             </div>
@@ -110,7 +115,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     'placeholder' => 'Enter your message',
                                     'type' => 'textarea',
                                     'rows' => 5,
-                                    'onkeyup' => "limitMessageLength(this)",
+                                    'onkeyup' => 'limitMessageLength(this)',
                                     'maxlength' => 100,
                                     'required' => true,
                                 ]); ?>
@@ -160,5 +165,14 @@ $html = new HtmlHelper(new \Cake\View\View());
         }
         const label = document.getElementById('message-label');
         label.innerHTML = `Message (${currentLength}/${maxLength})`;
+    }
+</script>
+
+<!-- Script tag removal validation -->
+<script>
+    function removeScriptTags(input) {
+        console.log("Sanitizing input:", input.value);
+        // Remove any <script> tags from the input
+        input.value = input.value.replace(/<[^>]*>/g, '');
     }
 </script>
