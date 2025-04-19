@@ -68,29 +68,25 @@ class AppController extends Controller
     public function beforeRender(EventInterface $event)
     {
         parent::beforeRender($event);
-
-//        // Check if the Identity object is available
-//        $isAdmin = false;
-//        if ($this->Authentication->getIdentity()) {
-//            $isAdmin = $this->Authentication->getIdentity()->get('role') === 'admin';
-//        }
-//
-//        // Pass the variable to the view
-//        $this->set('isAdmin', $isAdmin);
-        // Get current user identity from Authentication component.
-//        $identity = $this->Authentication->getIdentity();
-//
-//        if ($identity) {
-//            $userId = $identity->get('id') ?? null;
-//            // Query CartItems for the specific user, and eager-load Products
-//            $cartItems = $this->fetchTable('CartItems')->find('all')
-//                ->contain(['Products'])
-//                ->where(['CartItems.user_id' => $userId]);
-//
-//            $this->set(compact('cartItems'));
-//        } else {
-//            // Optionally set cartItems as an empty array for non-logged in users.
-//            $this->set('cartItems', []);
-//        }
+    
+        $cartCount = 0;
+    
+        // Check if the user is logged in
+        if ($this->Authentication->getIdentity()) {
+            $userId = $this->Authentication->getIdentity()->get('id');
+    
+            // Fetch cart count from the database for authenticated users
+            $cartCount = $this->fetchTable('CartItems')->find()
+                ->where(['user_id' => $userId])
+                ->count();
+        } else {
+            // Fetch cart count from the session for unauthenticated users
+            $session = $this->getRequest()->getSession();
+            $cart = $session->read('Cart') ?? [];
+            $cartCount = array_sum(array_column($cart, 'quantity'));
+        }
+    
+        // Pass the cart count to the view
+        $this->set(compact('cartCount'));
     }
 }
