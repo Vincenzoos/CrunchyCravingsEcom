@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Core\Configure;
+use Cake\Event\EventInterface;
+use Cake\Log\Log;
 use Cake\Mailer\Mailer;
 use Exception;
-use Cake\Log\Log;
+use stdClass;
 
 /**
  * CartItems Controller
@@ -38,14 +39,14 @@ class CartItemsController extends AppController
         // Check if the user is logged in
         $identity = $this->Authentication->getIdentity();
         $userId = $identity ? $identity->get('id') : null;
-    
+
         if ($userId) {
             // Fetch cart items for the logged-in user
             $query = $this->CartItems->find('all')
                 ->contain(['Products'])
                 ->where(['user_id' => $userId]);
             $cartItems = $this->paginate($query);
-    
+
             // Calculate total price
             $total_price = 0;
             foreach ($cartItems as $item) {
@@ -53,7 +54,7 @@ class CartItemsController extends AppController
             }
 
             Log::write('debug', json_encode($cartItems));
-    
+
             $this->set(compact('cartItems', 'total_price'));
         } else {
             // Fetch cart items from session for unauthenticated users
@@ -68,10 +69,10 @@ class CartItemsController extends AppController
                 $product = $this->CartItems->Products->find()
                     ->where(['id' => $productId])
                     ->first();
-    
+
                 if ($product) {
                     // Combine product details with session cart data
-                    $cartItem = new \stdClass();
+                    $cartItem = new stdClass();
                     $cartItem->id = $productId;
                     $cartItem->user_id = null; // Unauthenticated users don't have a user ID
                     $cartItem->product_id = $productId;
@@ -80,9 +81,9 @@ class CartItemsController extends AppController
                     $cartItem->modified = null; // No modified timestamp for session-based cart
                     $cartItem->line_price = ($product->price ?? 0) * $item['quantity']; // Default to 0 if price is null
                     $cartItem->product = $product;
-    
+
                     $cartItems[] = $cartItem;
-    
+
                     // Add to total price
                     $total_price += $cartItem->line_price;
                 }
@@ -166,32 +167,34 @@ class CartItemsController extends AppController
             // Get the current user identity
             $identity = $this->Authentication->getIdentity();
             $userId = $identity ? $identity->get('id') : null;
-    
+
             // Get the new quantity from the request
             $quantity = $this->request->getData('quantity');
-    
+
             // Ensure the quantity is valid
             if ($quantity < 1) {
                 $this->Flash->error(__('Quantity must be at least 1.'));
+
                 return $this->redirect($this->referer());
             }
-    
+
             if ($userId) {
                 // Handle logged-in users (database-based cart)
                 $cartItem = $this->CartItems->find()
                     ->where(['id' => $id, 'user_id' => $userId])
                     ->contain(['Products'])
                     ->first();
-    
+
                 if (!$cartItem) {
                     $this->Flash->error(__('Cart item not found.'));
+
                     return $this->redirect($this->referer());
                 }
-    
+
                 // Update the quantity and save
                 $cartItem->quantity = $quantity;
                 $cartItem->line_price = $cartItem->product->price * $quantity;
-    
+
                 if ($this->CartItems->save($cartItem)) {
                     $this->Flash->success(__('Cart item quantity updated successfully.'));
                 } else {
@@ -204,6 +207,7 @@ class CartItemsController extends AppController
 
                 if (!isset($cart[$id])) {
                     $this->Flash->error(__('Cart item not found.'));
+
                     return $this->redirect($this->referer());
                 }
 
@@ -214,9 +218,10 @@ class CartItemsController extends AppController
 
                 if (!$product) {
                     $this->Flash->error(__('Product not found.'));
+
                     return $this->redirect($this->referer());
                 }
-    
+
                 // Update the quantity and line price in the session cart
                 $cart[$id]['quantity'] = $quantity;
                 $cart[$id]['price'] = $product->price; // Ensure price is set
@@ -224,11 +229,11 @@ class CartItemsController extends AppController
 
                 // Save the updated cart back to the session
                 $session->write('Cart', $cart);
-    
+
                 $this->Flash->success(__('Cart item quantity updated successfully.'));
             }
         }
-    
+
         // Redirect back to the referring page
         return $this->redirect($this->referer());
     }
@@ -244,35 +249,38 @@ class CartItemsController extends AppController
         // Ensure the ID and quantity are provided
         if ($id === null || $quantity === null) {
             $this->Flash->error(__('Invalid request. Please try again.'));
+
             return $this->redirect($this->referer());
         }
-    
+
         // Ensure the quantity is a positive integer
         if ($quantity < 1) {
             $this->Flash->error(__('Quantity must be at least 1.'));
+
             return $this->redirect($this->referer());
         }
-    
+
         // Check if the user is logged in
         $identity = $this->Authentication->getIdentity();
         $userId = $identity ? $identity->get('id') : null;
-    
+
         if ($userId) {
             // Handle logged-in users (database-based cart)
             $cartItem = $this->CartItems->find()
                 ->where(['id' => $id, 'user_id' => $userId])
                 ->contain(['Products'])
                 ->first();
-    
+
             if (!$cartItem) {
                 $this->Flash->error(__('Cart item not found.'));
+
                 return $this->redirect($this->referer());
             }
-    
+
             // Update the quantity and line price
             $cartItem->quantity = $quantity;
             $cartItem->line_price = $cartItem->product->price * $quantity;
-    
+
             if ($this->CartItems->save($cartItem)) {
                 $this->Flash->success(__('Cart item quantity updated successfully.'));
             } else {
@@ -282,32 +290,34 @@ class CartItemsController extends AppController
             // Handle unauthenticated users (session-based cart)
             $session = $this->request->getSession();
             $cart = $session->read('Cart') ?? [];
-    
+
             if (!isset($cart[$id])) {
                 $this->Flash->error(__('Cart item not found.'));
+
                 return $this->redirect($this->referer());
             }
-    
+
             // Fetch the product details dynamically
             $product = $this->CartItems->Products->find()
                 ->where(['id' => $id])
                 ->first();
-    
+
             if (!$product) {
                 $this->Flash->error(__('Product not found.'));
+
                 return $this->redirect($this->referer());
             }
-    
+
             // Update the quantity and line price in the session cart
             $cart[$id]['quantity'] = $quantity;
             $cart[$id]['line_price'] = $product->price * $quantity;
-    
+
             // Save the updated cart back to the session
             $session->write('Cart', $cart);
-    
+
             $this->Flash->success(__('Cart item quantity updated successfully.'));
         }
-    
+
         // Redirect back to the referring page
         return $this->redirect($this->referer());
     }
@@ -323,13 +333,13 @@ class CartItemsController extends AppController
     {
         $identity = $this->Authentication->getIdentity();
         $userId = $identity ? $identity->get('id') : null;
-    
+
         if ($userId) {
             // Delete from database for logged-in users
             $cartItem = $this->CartItems->find('all')
                 ->where(['user_id' => $userId, 'product_id' => $productId])
                 ->first();
-    
+
             if ($cartItem && $this->CartItems->delete($cartItem)) {
                 $this->Flash->success(__('The cart item has been deleted.'));
             } else {
@@ -339,7 +349,7 @@ class CartItemsController extends AppController
             // Delete from session for unauthenticated users
             $session = $this->request->getSession();
             $cart = $session->read('Cart') ?? [];
-    
+
             if (isset($cart[$productId])) {
                 unset($cart[$productId]);
                 $session->write('Cart', $cart);
@@ -348,7 +358,7 @@ class CartItemsController extends AppController
                 $this->Flash->error(__('Cart item not found.'));
             }
         }
-    
+
         return $this->redirect(['action' => 'customerView']);
     }
 
@@ -358,7 +368,7 @@ class CartItemsController extends AppController
      * @param string|null $productId Product ID.
      * @return \Cake\Http\Response|null Redirects to customerView.
      */
-    public function customerAdd($productId = null)
+    public function customerAdd(?string $productId = null)
     {
         // Only allow POST and GET
         $this->request->allowMethod(['get', 'post']);
@@ -371,20 +381,20 @@ class CartItemsController extends AppController
 
             return $this->redirect($this->referer());
         }
-        
+
         // Check if the product is in stock
         if ($product->quantity <= 0) {
             $this->Flash->error(__('"' . $product->name . '" is out of stock.'));
-            
+
             return $this->redirect($this->referer());
         }
 
         // Get the ID of current user
         $identity = $this->Authentication->getIdentity();
         $userId = $identity ? $identity->get('id') : null;
-        
-        $selected_quantity = $this->request->getData('quantity') ?? 1;
-        
+
+        $selected_quantity = $this->request->getData('quantity') + 1 ?? 1;
+
         // Check if the user is logged in
         if ($userId) {
             // Check if the product is already in the current user's cart
@@ -396,15 +406,14 @@ class CartItemsController extends AppController
             ])
             ->first();
 
-            
-            // Selected quantity
-            $selected_quantity = $this->request->getData('quantity') ?? 1;
+//            $selected_quantity = $this->request->getData('quantity') + 1 ?? 1;
 
             // If item already existed in cart, only increase quantity of that item in cart
             if (!is_null($existingItem)) {
                 // Validate the selected quantity
                 if ($selected_quantity <= 0) {
                     $this->Flash->error(__('Please select at least one item to add to the cart.'));
+
                     return $this->redirect($this->referer());
                 }
 
@@ -415,6 +424,7 @@ class CartItemsController extends AppController
                 // Check stock availability
                 if ($existingItem->quantity > $product->quantity) {
                     $this->Flash->error(__('"' . $product->name . '" does not have enough stock. Please try with a smaller quantity.'));
+
                     return $this->redirect($this->referer());
                 }
 
@@ -476,12 +486,13 @@ class CartItemsController extends AppController
                 ->contain(['Products'])
                 ->where(['CartItems.user_id' => $userId])
                 ->toArray();
-    
+
             if (empty($cartItems)) {
                 $this->Flash->error(__('Your cart is empty.'));
+
                 return $this->redirect(['action' => 'customerView']);
             }
-    
+
             // Calculate the total amount
             foreach ($cartItems as $item) {
                 $item->line_price = $item->line_price ?? 0; // Ensure line_price is set
@@ -491,35 +502,36 @@ class CartItemsController extends AppController
             // Retrieve cart items from the session for unauthenticated users
             $session = $this->request->getSession();
             $cart = $session->read('Cart') ?? [];
-    
+
             if (empty($cart)) {
                 $this->Flash->error(__('Your cart is empty.'));
+
                 return $this->redirect(['action' => 'customerView']);
             }
-    
+
             // Fetch product details for each item in the session cart
             foreach ($cart as $productId => $item) {
                 $product = $this->CartItems->Products->find()
                     ->where(['id' => $productId])
                     ->first();
-    
+
                 if ($product) {
                     $cartItems[] = [
                         'product' => $product,
                         'quantity' => $item['quantity'],
-                        'line_price' => $item['line_price'] ?? ($product->price * $item['quantity']), // Default to calculated value
+                        'line_price' => $item['line_price'] ?? $product->price * $item['quantity'], // Default to calculated value
                     ];
-                    $total += $item['line_price'] ?? ($product->price * $item['quantity']);
+                    $total += $item['line_price'] ?? $product->price * $item['quantity'];
                 }
             }
         }
 
         try {
             Log::write('debug', json_encode($cartItems));
-            
+
             // Determine the recipient email
             $recipient = $userId ? $identity->get('email') : 'guest@example.com'; // Replace with a default email for guests
-    
+
             $mailer = new Mailer('default');
             $mailer
                 ->setEmailFormat('both') // Sends both HTML and text versions
@@ -527,21 +539,22 @@ class CartItemsController extends AppController
                 ->setSubject('Your Order Confirmation')
                 ->viewBuilder()
                 ->setTemplate('customer_checkout');
-    
+
             // Pass required variables to your email template
             $mailer->setViewVars([
                 'email' => $recipient,
                 'cartItems' => $cartItems,
                 'total' => $total,
             ]);
-    
+
             if (!$mailer->deliver()) {
                 $this->Flash->error(__('We encountered an issue sending your order confirmation email. Please try again.'));
+
                 return $this->redirect(['action' => 'customerView']);
             }
-    
+
             $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
-    
+
             // Clear the cart after checkout
             if ($userId) {
                 $this->CartItems->deleteAll(['user_id' => $userId]);
@@ -550,12 +563,12 @@ class CartItemsController extends AppController
             }
         } catch (Exception $e) {
             $this->Flash->error(__('Error sending email to ' . $recipient . '. The provided email address may not exist, please check the email address and try again.'));
+
             return $this->redirect(['action' => 'customerView']);
         }
-    
+
         return $this->redirect(['controller' => 'Products', 'action' => 'customerIndex']);
     }
-
 
     /**
      * Clear the cart
@@ -577,14 +590,15 @@ class CartItemsController extends AppController
         }
 
         $this->Flash->success(__('Your cart has been cleared.'));
+
         return $this->redirect(['action' => 'customerView']);
     }
 
     // Override the beforeFilter method to allow unauthenticated access to these pages
-    public function beforeFilter(\Cake\Event\EventInterface $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
-        
+
         $this->Authentication->allowUnauthenticated(['customerView', 'customerAdd', 'updateQuantity', 'delete', 'checkout', 'clearCart', 'update']);
     }
 }
