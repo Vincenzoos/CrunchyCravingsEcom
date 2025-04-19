@@ -288,12 +288,11 @@ class ProductsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    // Override the beforeFilter method to allow unauthenticated access to specific actions
+    // Override the beforeFilter method to allow unauthenticated access to these pages
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
 
-        // Allow unauthenticated access to the 'index' and 'view' actions in the ProductsController
-        $this->Authentication->allowUnauthenticated(['index', 'view']);
+        $this->Authentication->allowUnauthenticated(['customerIndex', 'customerView']);
     }
 }

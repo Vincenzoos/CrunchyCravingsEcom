@@ -32,7 +32,10 @@ class AuthController extends AppController
 
         // By default, CakePHP will (sensibly) default to preventing users from accessing any actions on a controller.
         // These actions, however, are typically required for users who have not yet logged in.
-        $this->Authentication->allowUnauthenticated(['login', 'register', 'forgetPassword', 'resetPassword']);
+        $this->Authentication->allowUnauthenticated([
+            'login', 'register', 'forgetPassword', 'resetPassword',
+            'customerIndex', 'customerView',
+        ]);
 
         // CakePHP loads the model with the same name as the controller by default.
         // Since we don't have an Auth model, we'll need to load "Users" model when starting the controller manually.
@@ -217,6 +220,8 @@ class AuthController extends AppController
         if ($result && $result->isValid()) {
             // Get the currently authenticated user
             $user = $this->request->getAttribute('identity');
+            $userId = $user->get('id');
+    
 
             // Determine redirect location based on role
             // set a fallback location in case user logged in without triggering 'unauthenticatedRedirect'
@@ -225,6 +230,31 @@ class AuthController extends AppController
             } else {
                 $fallbackLocation = ['controller' => 'Products', 'action' => 'customerIndex'];
             }
+
+
+            // // Merge session cart with database cart
+            // $session = $this->request->getSession();
+            // $sessionCart = $session->read('Cart') ?? [];
+
+            // foreach ($sessionCart as $productId => $item) {
+            //     $existingItem = $this->CartItems->find('all')
+            //         ->where(['user_id' => $userId, 'product_id' => $productId])
+            //         ->first();
+
+            //     if ($existingItem) {
+            //         $existingItem->quantity += $item['quantity'];
+            //         $this->CartItems->save($existingItem);
+            //     } else {
+            //         $cartItem = $this->CartItems->newEmptyEntity();
+            //         $cartItem->user_id = $userId;
+            //         $cartItem->product_id = $productId;
+            //         $cartItem->quantity = $item['quantity'];
+            //         $this->CartItems->save($cartItem);
+            //     }
+            // }
+
+            // // Clear session cart
+            // $session->delete('Cart');
 
             // Redirect to the intended page or fallback to the landing page
             return $this->redirect($this->Authentication->getLoginRedirect() ?? $fallbackLocation);

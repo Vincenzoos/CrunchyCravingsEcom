@@ -21,10 +21,17 @@ Thank you for shopping with CrunchyCravings.
 Below is a summary of your order:
 
 <?php foreach ($cartItems as $item): ?>
-    Product: <?= h($item->product->name) ?>
-    Quantity: <?= h($item->quantity) ?>
-    Unit Price: <?= $this->Number->currency($item->product->price, 'AUD') ?>
-    Sub Total: <?= $this->Number->currency($item->line_price, 'AUD') ?>
+    <?php
+        Log::write('debug', [
+            'product_name' => $item->product->name,
+            'price' => $item->product->price,
+            'line_price' => $item->line_price,
+        ]);
+    ?>
+    Product: <?= h($item->product->name ?? 'Unknown Product') ?>
+    Quantity: <?= h($item->quantity ?? 0) ?>
+    Unit Price: <?= $this->Number->currency($item->product->price ?? 0, 'AUD') ?>
+    Sub Total: <?= $this->Number->currency($item->line_price ?? 0, 'AUD') ?>
     --------------------------------------------------
 <?php endforeach; ?>
 

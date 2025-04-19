@@ -414,57 +414,60 @@ $html = new HtmlHelper(new View());
             const sidebar = document.getElementById('sidebar');
             const toggleButton = document.getElementById('sidebarToggle');
 
-            // Function to update the state based on the sidebar's visibility
-            function updateSidebarState() {
-                const isSidebarOpen = ((sidebar.classList.contains('show')||sidebar.classList.contains('showing'))&!sidebar.classList.contains('hiding')) || (sidebar.classList.contains('showing') & sidebar.classList.contains('hiding')); // Check if the 'show' class exists
-                console.log(sidebar.classList);
-                if (isSidebarOpen) {
-                    console.log('Sidebar is open');
-                    toggleButton.style.display = 'none';
-                    document.body.style.overflow = 'hidden'; // Disable scrolling
+            // Only proceed if the sidebar element exists
+            if (sidebar) {
+                // Function to update the state based on the sidebar's visibility
+                function updateSidebarState() {
+                    const isSidebarOpen = ((sidebar.classList.contains('show')||sidebar.classList.contains('showing'))&!sidebar.classList.contains('hiding')) || (sidebar.classList.contains('showing') & sidebar.classList.contains('hiding')); // Check if the 'show' class exists
+                    console.log(sidebar.classList);
+                    if (isSidebarOpen) {
+                        console.log('Sidebar is open');
+                        toggleButton.style.display = 'none';
+                        document.body.style.overflow = 'hidden'; // Disable scrolling
 
-                } else {
-                    console.log('Sidebar is closed');
-                    toggleButton.style.display = 'block';
-                    document.body.style.overflow = ''; // Enable scrolling
+                    } else {
+                        console.log('Sidebar is closed');
+                        toggleButton.style.display = 'block';
+                        document.body.style.overflow = ''; // Enable scrolling
+                    }
                 }
-            }
 
-            // Listen for the sidebar's show and hide events
-            sidebar.addEventListener('show.bs.offcanvas', function () {
-                updateSidebarState();
-            });
-            sidebar.addEventListener('hide.bs.offcanvas', function () {
-                updateSidebarState();
-            });
-
-            // Detect clicks on the offcanvas backdrop
-            document.addEventListener('click', function (event) {
-            const backdrop = document.querySelector('.offcanvas-backdrop');
-                if (backdrop && backdrop.contains(event.target)) {
+                // Listen for the sidebar's show and hide events
+                sidebar.addEventListener('show.bs.offcanvas', function () {
                     updateSidebarState();
-                }
-            });
+                });
+                sidebar.addEventListener('hide.bs.offcanvas', function () {
+                    updateSidebarState();
+                });
 
-            // Observe the DOM for new backdrops and remove duplicates if they appear
-            const observer = new MutationObserver((mutationsList) => {
-                mutationsList.forEach((mutation) => {
-                    if (mutation.type === 'childList') {
-                        const existingBackdrops = document.querySelectorAll('.offcanvas-backdrop');
-                        if (existingBackdrops.length > 1) {
-                            existingBackdrops.forEach((backdrop, index) => {
-                                if (index > 0) backdrop.remove();
-                            });
-                        }
+                // Detect clicks on the offcanvas backdrop
+                document.addEventListener('click', function (event) {
+                const backdrop = document.querySelector('.offcanvas-backdrop');
+                    if (backdrop && backdrop.contains(event.target)) {
+                        updateSidebarState();
                     }
                 });
-            });
 
-            // Start observing the body for added nodes
-            observer.observe(document.body, { childList: true, subtree: true });
+                // Observe the DOM for new backdrops and remove duplicates if they appear
+                const observer = new MutationObserver((mutationsList) => {
+                    mutationsList.forEach((mutation) => {
+                        if (mutation.type === 'childList') {
+                            const existingBackdrops = document.querySelectorAll('.offcanvas-backdrop');
+                            if (existingBackdrops.length > 1) {
+                                existingBackdrops.forEach((backdrop, index) => {
+                                    if (index > 0) backdrop.remove();
+                                });
+                            }
+                        }
+                    });
+                });
 
-            // Initial state check (in case the sidebar is already open on page load)
-            updateSidebarState();
+                // Start observing the body for added nodes
+                observer.observe(document.body, { childList: true, subtree: true });
+
+                // Initial state check (in case the sidebar is already open on page load)
+                updateSidebarState();
+            }
         });
     </script>
 
