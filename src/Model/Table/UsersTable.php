@@ -66,6 +66,27 @@ class UsersTable extends Table
             ->notEmptyString('password');
 
         $validator
+            ->email('email', false, 'Please provide a valid email address.')
+            ->requirePresence('email', 'create')
+            ->notEmptyString('email', 'Email is required.');
+    
+        $validator
+            ->scalar('password')
+            ->minLength('password', 8, 'Password must be at least 8 characters long.')
+            ->regex('password', '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', 'Password must contain at least one uppercase letter, one number, and one special character.')
+            ->requirePresence('password', 'create')
+            ->notEmptyString('password', 'Password is required.');
+    
+        $validator
+            ->add('password_confirm', 'custom', [
+                'rule' => function ($value, $context) {
+                    return $value === $context['data']['password'];
+                },
+                'message' => 'Passwords do not match.',
+            ])
+            ->notEmptyString('password_confirm', 'Please confirm your password.');
+    
+        $validator
             ->inList('role', ['admin', 'customer'], 'Please select a valid role.')
             ->requirePresence('role', 'create')
             ->notEmptyString('role');
