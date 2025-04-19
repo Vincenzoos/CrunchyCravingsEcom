@@ -51,12 +51,15 @@ use Cake\View\View;
                             ]) ?>
                         </div>
                         <div class="mb-4">
-                            <?= $this->Form->control('description', [
+                        <?= $this->Form->control('description', [
                                 'class' => 'form-control mx-auto',
-                                'label' => ['text' => '<h4>Description</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4 class="text-center" id="description-label">Description (0/150)</h4>', 'escape' => false],
                                 'placeholder' => 'Enter a brief description...',
-                                'type' => 'textarea',
+                                'type' => 'tel',
                                 'rows' => 4,
+                                'onkeyup' => 'limitInputLength(this, "description-label", "Description", 150)',
+                                'oninput' => 'removeScriptTags(this)',
+                                'maxlength' => 150, // Override maxlength
                                 'required' => true,
                             ]) ?>
                         </div>
@@ -121,4 +124,7 @@ use Cake\View\View;
             });
         });
     </script>
+
+    <!-- Custom JS -->
+    <?= $this->Html->script('form-utils') ?>
 </body>

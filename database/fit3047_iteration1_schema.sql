@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS cart_items;
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL
+  `description` varchar(255) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -112,7 +112,7 @@ INSERT INTO `contacts` (`id`, `first_name`, `last_name`, `email`, `phone_number`
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL,
+  `description` varchar(255) NULL,
   `price` decimal(10,2) NOT NULL,
   `image` varchar(500) DEFAULT NULL,
   `quantity` int(11) NOT NULL DEFAULT 0

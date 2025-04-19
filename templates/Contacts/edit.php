@@ -69,20 +69,27 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 <div class="mb-4">
                                     <?= $this->Form->control('phone_number', [
                                         'class' => 'form-control mx-auto',
-                                        'label' => ['text' => '<h4>Phone Number</h4>', 'escape' => false],
-                                        'placeholder' => 'Enter the phone number...',
+                                        'label' => ['text' => '<h4 class="text-center">Phone Number</h4>', 'escape' => false],
+                                        'placeholder' => 'Enter your phone number (e.g., 0452 452 234)',
                                         'type' => 'tel',
+                                        'pattern' => '^0[1-9]\d{0,2} \d{3} \d{3}$',
+                                        'title' => 'Please enter a valid phone number starting with 0 (e.g., 0411 256 454).',
+                                        'onkeyup' => 'this.value = formatPhoneNumber(this.value)',
                                         'required' => true,
-                                    ]) ?>
+                                    ]); ?>
                                 </div>
                                 <div class="mb-4">
                                     <?= $this->Form->control('message', [
                                         'class' => 'form-control mx-auto',
-                                        'label' => ['text' => '<h4>Message</h4>', 'escape' => false],
-                                        'placeholder' => 'Enter the message...',
+                                        'label' => ['text' => '<h4 class="text-center" id="message-label">Message (0/150)</h4>', 'escape' => false],
+                                        'placeholder' => 'Enter your message',
                                         'type' => 'textarea',
                                         'rows' => 5,
-                                    ]) ?>
+                                        'onkeyup' => 'limitInputLength(this, "message-label", "Message", 150)',
+                                        'oninput' => 'removeScriptTags(this)',
+                                        'maxlength' => 150, // Override maxlength
+                                        'required' => true,
+                                    ]); ?>
                                 </div>
                                 <div class="mb-4">
                                     <h4>Replied</h4>
@@ -127,4 +134,22 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <?= $this->Html->script('form-utils') ?>
+    <!-- Limit initial input length -->
+    <script>
+        function waitForElement(selector, callback) {
+            const element = document.querySelector(selector);
+            if (element) {
+                callback(element);
+            } else {
+                setTimeout(() => waitForElement(selector, callback), 100); // Retry after 100ms
+            }
+        }
+
+        waitForElement('input[name="message"]', function (messageInput) {
+            limitInputLength(messageInput, 'message-label', 'Message', 150);
+        });
+    </script>
 </body>

@@ -617,12 +617,12 @@ $html = new HtmlHelper(new View());
     <script src="js/html5/respond.min.js"></script>
     <![endif]-->
 
+    
     <!-- jQuery -->
     <?= $this->Html->script('https://code.jquery.com/jquery-3.6.0.min.js') ?>
-
+    
     <!-- Select2 JS -->
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js') ?>
-
 
     <!-- jQuery Include -->
     <?= $html->script('/libraries/gmap/jquery.gmap.min.js') ?>

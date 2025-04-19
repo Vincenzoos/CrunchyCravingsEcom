@@ -113,12 +113,13 @@ $html = new HtmlHelper(new View());
                             <div class="mb-4">
                                 <?= $this->Form->control('message', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h4 class="text-center" id="message-label">Message (0/100)</h4>', 'escape' => false],
+                                    'label' => ['text' => '<h4 class="text-center" id="message-label">Message (0/150)</h4>', 'escape' => false],
                                     'placeholder' => 'Enter your message',
                                     'type' => 'textarea',
                                     'rows' => 5,
-                                    'onkeyup' => 'limitMessageLength(this)',
-                                    'maxlength' => 100,
+                                    'onkeyup' => 'limitInputLength(this, "message-label", "Message", 150)',
+                                    'oninput' => 'removeScriptTags(this)',
+                                    'maxlength' => 150, // Override maxlength
                                     'required' => true,
                                 ]); ?>
                             </div>
@@ -145,36 +146,3 @@ $html = new HtmlHelper(new View());
     </body>
 
 </html>
-
-<!-- Phone number numerical validation -->
-<script>
-    function formatPhoneNumber(value) {
-        console.log("Formatting phone number:", value);
-        // Remove all non-digit characters
-        value = value.replace(/\D/g, '');
-        // Format as 0XXX XXX XXX
-        return value.replace(/^(\d{1})(\d{3})(\d{3})(\d{3})$/, '$1$2 $3 $4');
-    }
-</script>
-
-<!-- Message length limit -->
-<script>
-    function limitMessageLength(textarea) {
-        const maxLength = 100;
-        const currentLength = textarea.value.length;
-        if (currentLength > maxLength) {
-            textarea.value = textarea.value.substring(0, maxLength);
-        }
-        const label = document.getElementById('message-label');
-        label.innerHTML = `Message (${currentLength}/${maxLength})`;
-    }
-</script>
-
-<!-- Script tag removal validation -->
-<script>
-    function removeScriptTags(input) {
-        console.log("Sanitizing input:", input.value);
-        // Remove any <script> tags from the input
-        input.value = input.value.replace(/<[^>]*>/g, '');
-    }
-</script>

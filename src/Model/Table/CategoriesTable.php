@@ -60,13 +60,14 @@ class CategoriesTable extends Table
     {
         $validator
             ->scalar('name')
-            ->maxLength('name', 255)
+            ->maxLength('name', 30)
             ->requirePresence('name', 'create')
             ->notEmptyString('name')
             ->add('name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('description')
+            ->maxLength('description', 100)
             ->allowEmptyString('description');
 
         return $validator;

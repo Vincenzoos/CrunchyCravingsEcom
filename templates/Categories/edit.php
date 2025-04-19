@@ -50,10 +50,14 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <div class="mb-4">
                                 <?= $this->Form->control('description', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h4>Description</h4>', 'escape' => false],
+                                    'label' => ['text' => '<h4 class="text-center" id="description-label">Description (0/150)</h4>', 'escape' => false],
                                     'placeholder' => 'Enter a brief description...',
-                                    'type' => 'textarea',
+                                    'type' => 'tel',
                                     'rows' => 4,
+                                    'onkeyup' => 'limitInputLength(this, "description-label", "Description", 150)',
+                                    'oninput' => 'removeScriptTags(this)',
+                                    'maxlength' => 150, // Override maxlength
+                                    'required' => true,
                                 ]) ?>
                             </div>
                             <div class="mb-4">
@@ -88,6 +92,24 @@ $html = new HtmlHelper(new \Cake\View\View());
                 placeholder: "Select products",
                 allowClear: true,
             });
+        });
+    </script>
+
+    <!-- Custom JS -->
+    <?= $this->Html->script('form-utils') ?>
+    <!-- Limit initial input length -->
+    <script>
+        function waitForElement(selector, callback) {
+            const element = document.querySelector(selector);
+            if (element) {
+                callback(element);
+            } else {
+                setTimeout(() => waitForElement(selector, callback), 100); // Retry after 100ms
+            }
+        }
+
+        waitForElement('input[name="description"]', function (descriptionInput) {
+            limitInputLength(descriptionInput, 'description-label', 'Description', 150);
         });
     </script>
 </body>
