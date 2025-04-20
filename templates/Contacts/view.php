@@ -69,7 +69,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 </tr>
                             </table>
 							<div id="message-content" class="text-center mt-4">
-								<h3><?= __('Description') ?></h3>
+								<h3><?= __('Message') ?></h3>
 								<table class="table table-bordered">
 									<tr>
 										<td><?= $this->Text->autoParagraph(h($contact->message)); ?></td>

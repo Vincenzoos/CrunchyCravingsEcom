@@ -121,7 +121,7 @@ const MSG_MAX_LENGTH = 150;
                                 <div class="mb-4 has-validation">
                                     <?= $this->Form->control('date_sent', [
                                         'class' => 'form-control mx-auto',
-                                        'label' => ['text' => '<h4>Date Sent</h4>', 'escape' => false],
+                                        'label' => ['text' => '<h4><span style="color: red;">*</span>Date Sent</h4>', 'escape' => false],
                                         'type' => 'date',
                                         'required' => true,
                                         'value' => date('d-m-Y'),
