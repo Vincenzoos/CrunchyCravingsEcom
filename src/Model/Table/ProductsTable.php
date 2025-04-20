@@ -83,6 +83,15 @@ class ProductsTable extends Table
         $validator
             ->scalar('description')
             ->maxLength('description', 150, 'Description must be 150 characters or less.')
+            ->add('description', 'noHtmlTags', [
+                'rule' => function ($value, $context) {
+                    // Validate by comparing the value with its stripped version.
+                    // You can also allow certain tags by providing an allowlist as the second parameter.
+                    // For example: strip_tags($value, '<p><br>')
+                    return $value === strip_tags($value);
+                },
+                'message' => 'HTML tags are not allowed in the description.'
+            ])
             ->allowEmptyString('description');
 
         $validator
