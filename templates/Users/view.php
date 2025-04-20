@@ -40,10 +40,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <h3><?= h($user->email) ?></h3>
                             <table class="table table-bordered">
                                 <tr>
-                                    <th><?= __('ID') ?></th>
-                                    <td><?= h($user->id) ?></td>
-                                </tr>
-                                <tr>
                                     <th><?= __('Email') ?></th>
                                     <td><?= h($user->email) ?></td>
                                 </tr>
@@ -51,21 +47,21 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     <th><?= __('Role') ?></th>
                                     <td><?= h($user->role) ?></td>
                                 </tr>
-                                <tr>
-                                    <th><?= __('Nonce') ?></th>
-                                    <td><?= h($user->nonce) ?></td>
-                                </tr>
+<!--                                <tr>-->
+<!--                                    <th>--><?php //= __('Nonce') ?><!--</th>-->
+<!--                                    <td>--><?php //= h($user->nonce) ?><!--</td>-->
+<!--                                </tr>-->
                                 <tr>
                                     <th><?= __('Nonce Expiry') ?></th>
-                                    <td><?= h($user->nonce_expiry) ?></td>
+                                    <td><?= h($user->nonce_expiry->format('d/m/Y H:i a')) ?></td>
                                 </tr>
                                 <tr>
                                     <th><?= __('Created') ?></th>
-                                    <td><?= h($user->created) ?></td>
+                                    <td><?= h($user->created->format('d/m/Y H:i a')) ?></td>
                                 </tr>
                                 <tr>
                                     <th><?= __('Modified') ?></th>
-                                    <td><?= h($user->modified) ?></td>
+                                    <td><?= h($user->modified->format('d/m/Y H:i a')) ?></td>
                                 </tr>
                             </table>
                         </div>

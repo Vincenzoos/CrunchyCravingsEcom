@@ -43,10 +43,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <h3><?= h($product->name) ?></h3>
                             <table class="table table-bordered">
                                 <tr>
-                                    <th><?= __('ID') ?></th>
-                                    <td><?= h($product->id) ?></td>
-                                </tr>
-                                <tr>
                                     <th><?= __('Image') ?></th>
                                     <td><?= $this->Html->image($product->image_cache_busted_url, [
                                             'alt' => $product->name,

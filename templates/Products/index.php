@@ -104,7 +104,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <table class="table table-bordered table-hover shadow mb-4">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th><?= $this->Paginator->sort('id', __('ID')) ?></th>
                                     <th><?= $this->Paginator->sort('name', __('Name')) ?></th>
                                     <th><?= $this->Paginator->sort('price', __('Price')) ?></th>
                                     <th><?= $this->Paginator->sort('quantity', __('Quantity')) ?></th>
@@ -115,7 +114,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <tbody>
                                 <?php foreach ($products as $product) : ?>
                                     <tr>
-                                        <td><?= h($product->id) ?></td>
                                         <td><?= h($product->name) ?></td>
                                         <td><?= $this->Number->currency($product->price, 'AUD') ?></td>
                                         <td><?= h($product->quantity) ?></td>

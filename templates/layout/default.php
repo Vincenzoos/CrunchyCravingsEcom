@@ -53,7 +53,7 @@ $html = new HtmlHelper(new View());
     <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css','style','default.css', 'flash.message']) ?>
 
 
-    <?= $this->Html->meta('icon', 'images/favicon.png', ['type' => 'icon']) ?>
+    <?= $this->Html->meta('icon', 'img/favicon.png', ['type' => 'icon']) ?>
     <?= $this->Html->css([
         '/libraries/bootstrap/bootstrap.min.css',
         '/libraries/fuelux/jquery-ui.min.css',

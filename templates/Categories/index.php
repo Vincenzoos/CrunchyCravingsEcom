@@ -43,7 +43,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <table class="table table-bordered table-hover shadow mb-4">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th><?= $this->Paginator->sort('id', __('ID')) ?></th>
                                     <th><?= $this->Paginator->sort('name', __('Name')) ?></th>
                                     <th class="text-center"><?= __('Actions') ?></th>
                                 </tr>
@@ -51,7 +50,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <tbody>
                                 <?php foreach ($categories as $category): ?>
                                     <tr>
-                                        <td><?= h($category->id) ?></td>
                                         <td><?= h($category->name) ?></td>
                                         <td class="text-center">
                                             <?= $this->Html->link(__('View'), ['action' => 'view', $category->id], ['class' => 'btn btn-info btn-sm']) ?>
@@ -61,7 +59,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                                 ['action' => 'delete', $category->id],
                                                 [
                                                     'class' => 'btn btn-danger btn-sm',
-                                                    'confirm' => __('Are you sure you want to delete {0}?', $category->name),
+                                                    'confirm' => __('Are you sure you want to delete this category: {0}?', $category->name),
                                                 ]
                                             ) ?>
                                         </td>

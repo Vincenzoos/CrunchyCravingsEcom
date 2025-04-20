@@ -46,10 +46,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     <th><?= __('Name') ?></th>
                                     <td><?= h($category->name) ?></td>
                                 </tr>
-                                <tr>
-                                    <th><?= __('ID') ?></th>
-                                    <td><?= h($category->id) ?></td>
-                                </tr>
                             </table>
                             <div id="description-content" class="text-center mt-4">
                                 <h3><?= __('Description') ?></h3>
