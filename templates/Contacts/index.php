@@ -97,6 +97,9 @@ $html = new HtmlHelper(new \Cake\View\View());
             <div id="content">
                 <div class="container-fluid" id="table-content">
                     <?= $this->Flash->render() ?>
+                    <div class="text-center mt-4">
+                        <?= $this->Html->link('Add New Contact', ['action' => 'add'], ['class' => 'btn btn-success']) ?>
+                    </div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover shadow mb-4">
                                 <thead class="thead-dark">
@@ -135,9 +138,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 <?php endforeach; ?>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="text-center mt-4">
-                            <?= $this->Html->link('Add New Contact', ['action' => 'add'], ['class' => 'btn btn-success']) ?>
                         </div>
                     </div>
 

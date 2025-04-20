@@ -78,7 +78,7 @@ const MSG_MAX_LENGTH = 150;
                                     'pattern' => '^[a-zA-Z\s]+$',
                                     'title' => 'Please use only letters and spaces for your first name',
                                 ]); ?>
-                                <div class="invalid-feedback">Please use only letters and spaces for your first name</div>
+                                <div class="invalid-feedback">Please use only letters and spaces for your first name.</div>
                             </div>
                             <div class="mb-4 has-validation">
                                 <?= $this->Form->control('last_name', [
@@ -90,7 +90,7 @@ const MSG_MAX_LENGTH = 150;
                                     'pattern' => '^[a-zA-Z\s]+$',
                                     'title' => 'Please use only letters and spaces for your last name',
                                 ]); ?>
-                                <div class="invalid-feedback">Please use only letters and spaces for your last name</div>
+                                <div class="invalid-feedback">Please use only letters and spaces for your last name.</div>
                             </div>
                             <div class="mb-4 has-validation">
                                 <?= $this->Form->control('email', [
@@ -101,7 +101,7 @@ const MSG_MAX_LENGTH = 150;
                                     'maxlength' => 40,
                                     'required' => true,
                                 ]); ?>
-                                <div class="invalid-feedback">Please enter a valid email in the correct format (e.g., abc@example.com)</div>
+                                <div class="invalid-feedback">Please enter a valid email in the correct format (e.g., abc@example.com).</div>
                             </div>
                             <div class="mb-4 has-validation">
                                 <?= $this->Form->control('phone_number', [
@@ -116,7 +116,7 @@ const MSG_MAX_LENGTH = 150;
                                 ]); ?>
                                 <div class="invalid-feedback">Please enter a valid phone number starting with 0 (e.g., 0411 256 454).</div>
                             </div>
-                            <div class="mb-4">
+                            <div class="mb-4 has-validation">
                                 <?= $this->Form->control('message', [
                                     'class' => 'form-control mx-auto',
                                     'label' => ['text' => '<h4 class="text-center" id="message-label"><span style="color: red;">*</span>Message (<span id="character-count">0</span>/' . MSG_MAX_LENGTH . ')</h4>', 'escape' => false],
@@ -127,7 +127,7 @@ const MSG_MAX_LENGTH = 150;
                                     'maxlength' => MSG_MAX_LENGTH, // Override maxlength
                                     'required' => true,
                                 ]); ?>
-                                <div class="invalid-feedback">Please enter your message</div>
+                                <div class="invalid-feedback">Please enter your message.</div>
                             </div>
                             <div class="mb-4">
                                 <?= $this->Recaptcha->display() ?>
