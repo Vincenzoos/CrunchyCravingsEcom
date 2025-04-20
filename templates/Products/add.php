@@ -12,6 +12,7 @@ use Cake\View\View;
 
 <?php
     $html = new HtmlHelper(new View());
+    const DESC_MAX_LENGTH = 150;
 ?>
 
 <head>
@@ -38,6 +39,7 @@ use Cake\View\View;
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div id="form-content" class="bg-light p-4 rounded">
+                        <!-- Allow customized form validation styling -->
                         <?php $this->Form->setTemplates([
                             'inputContainer' => '{{content}}']); ?>
                         <?= $this->Form->create($product, ['class' => 'form needs-validation', 'type' => 'file', 'novalidate' => true]) ?>
@@ -57,13 +59,14 @@ use Cake\View\View;
                         <div class="mb-4">
                         <?= $this->Form->control('description', [
                                 'class' => 'form-control mx-auto',
-                                'label' => ['text' => '<h4 class="text-center" id="description-label">Description (0/150)</h4>', 'escape' => false],
+                                'id' => 'description',
+                                'label' => ['text' => '<h4 class="text-center" id="description-label">Description (<span id="character-count">0</span>/' . DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
                                 'placeholder' => 'Enter a brief description...',
                                 'type' => 'textarea',
                                 'rows' => 4,
-                                'onkeyup' => 'limitInputLength(this, "description-label", "Description", 150)',
+                                'onkeyup' => 'limitInputLength(this, "character-count", ' . DESC_MAX_LENGTH . ')',
                                 'oninput' => 'removeScriptTags(this)',
-                                'maxlength' => 150, // Override maxlength
+                                'maxlength' => DESC_MAX_LENGTH, // Override maxlength
                             ]) ?>
                         </div>
                         <div class="mb-4 has-validation">
@@ -88,7 +91,7 @@ use Cake\View\View;
                         <div class="mb-4 has-validation">
                             <?= $this->Form->control('quantity', [
                                 'class' => 'form-control mx-auto',
-                                'label' => ['text' => '<h4><span style="color: red;">*</span>Quantity</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4>Quantity</h4>', 'escape' => false],
                                 'type' => 'number',
                                 'min' => '0',
                                 'max' => '1000',
@@ -100,7 +103,7 @@ use Cake\View\View;
                         <div class="mb-4 has-validation">
                             <?= $this->Form->control('categories._ids', [
                                 'type' => 'select',
-                                'label' => ['text' => '<h4>Categories</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4><span style="color: red;">*</span>Categories</h4>', 'escape' => false],
                                 'options' => $categoriesList,
                                 'multiple' => true,
                                 'class' => 'form-select select2', // use select2
