@@ -32,7 +32,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <p class="lead">Manage all contacts below.</p>
             </div>
         </section>
-        
+
         <!-- Content Wrapper -->
         <div id="form-section" class="d-flex flex-column">
             <!-- Contacts Filter Form -->
@@ -118,7 +118,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                         <td><?= $this->Html->link(h($contact->email), 'mailto:' . h($contact->email)) ?></td>
                                         <td><?= h($contact->phone_number) ?></td>
                                         <td><?= h($contact->reply_status) ?></td>
-                                        <td><?= h($contact->date_sent->format('d/m/Y')) ?></td>
+                                        <td><?= h($contact->date_sent ? $contact->date_sent->format('d/m/Y') : 'N/A') ?></td>
                                         <td class="text-center">
                                             <?= $this->Html->link(__('View'), ['action' => 'view', $contact->id], ['class' => 'btn btn-info btn-sm']) ?>
                                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $contact->id], ['class' => 'btn btn-warning btn-sm']) ?>
@@ -127,7 +127,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                                 ['action' => 'delete', $contact->id],
                                                 [
                                                     'class' => 'btn btn-danger btn-sm',
-                                                    'confirm' => __('Are you sure you want to delete {0}?', $contact->first_name . ' ' . $contact->last_name),
+                                                    'confirm' => __('Are you sure you want to delete this contact: {0} ({1})?', $contact->full_name, $contact->email),
                                                 ],
                                             ) ?>
                                         </td>

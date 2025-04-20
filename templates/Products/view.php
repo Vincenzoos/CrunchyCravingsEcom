@@ -102,12 +102,12 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 ['action' => 'delete', $product->id],
                                 [
                                     'class' => 'btn btn-danger',
-                                    'confirm' => __('Are you sure you want to delete {0}?', $product->name),
+                                    'confirm' => __('Are you sure you want to delete this product: {0}?', $product->name),
                                 ]
                             ) ?>
                         </div>
 						<div class="text-center mt-4">
-							<?= $this->Html->link('Back to Products', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+							<?= $this->Html->link('Back to Products List', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
 						</div>
                     </div>
                 </div>

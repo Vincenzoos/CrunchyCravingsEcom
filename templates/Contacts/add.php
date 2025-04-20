@@ -101,19 +101,17 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 ]); ?>
                             </div>
                             <div class="text-center">
-                                <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-success btn-lg']) ?>
-                            </div>
-                            <div class="text-center mt-4">
-                                <?= $this->Html->link('View Contacts List', ['controller' => 'Contacts', 'action' => 'index'], ['class' => 'btn btn-primary']) ?>
+                                <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary btn-lg']) ?>
+                                <?= $this->Html->link('Cancel', ['controller' => 'Contacts', 'action' => 'index'], ['class' => 'btn btn-link']) ?>
                             </div>
                             <?= $this->Form->end() ?>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-4">
-                <?= $this->Html->link('Back to Dashboard', '#', ['class' => 'btn btn-link']) ?>
-            </div>
+<!--            <div class="text-center mt-4">-->
+<!--                --><?php //= $this->Html->link('Back to Dashboard', '#', ['class' => 'btn btn-link']) ?>
+<!--            </div>-->
         </section>
     </div>
 

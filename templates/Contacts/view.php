@@ -85,18 +85,17 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 'confirm' => __('Are you sure you want to delete this contact: {0} ({1})?', $contact->full_name, $contact->email),
                                 'class' => 'btn btn-danger'
                             ]) ?>
-                            <?= $this->Html->link('Add New Contact', ['action' => 'add'], ['class' => 'btn btn-success']) ?>
                         </div>
                         <div class="text-center mt-4">
-                            <?= $this->Html->link('View Contacts List', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+                            <?= $this->Html->link('Back to Contacts List', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <div class="text-center mt-4">
-            <?= $this->Html->link('Back to Dashboard', '#', ['class' => 'btn btn-link']) ?>
-        </div>
+<!--        <div class="text-center mt-4">-->
+<!--            --><?php //= $this->Html->link('Back to Dashboard', '#', ['class' => 'btn btn-link']) ?>
+<!--        </div>-->
     </div>
 
     <!-- Bootstrap JS -->

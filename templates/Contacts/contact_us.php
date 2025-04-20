@@ -119,7 +119,7 @@ const MSG_MAX_LENGTH = 150;
                             <div class="mb-4">
                                 <?= $this->Form->control('message', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h4 class="text-center" id="message-label">Message (<span id="character-count">0</span>/' . MSG_MAX_LENGTH . ')</h4>', 'escape' => false],
+                                    'label' => ['text' => '<h4 class="text-center" id="message-label"><span style="color: red;">*</span>Message (<span id="character-count">0</span>/' . MSG_MAX_LENGTH . ')</h4>', 'escape' => false],
                                     'placeholder' => 'Enter your message',
                                     'type' => 'textarea',
                                     'rows' => 5,
@@ -127,7 +127,7 @@ const MSG_MAX_LENGTH = 150;
                                     'maxlength' => MSG_MAX_LENGTH, // Override maxlength
                                     'required' => true,
                                 ]); ?>
-                                <div class="invalid-feedback">Please enter your inquiry</div>
+                                <div class="invalid-feedback">Please enter your message</div>
                             </div>
                             <div class="mb-4">
                                 <?= $this->Recaptcha->display() ?>

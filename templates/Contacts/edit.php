@@ -109,23 +109,11 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     ]) ?>
                                 </div>
                             </fieldset>
-                            <div class="form-group">
-                                <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary btn-block']) ?>
+                            <div class="text-center">
+                                <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary btn-lg']) ?>
+                                <?= $this->Html->link('Cancel', ['controller' => 'Contacts', 'action' => 'index'], ['class' => 'btn btn-link']) ?>
                             </div>
                             <?= $this->Form->end() ?>
-                        </div>
-                        <div class="text-center mt-4">
-                            <?= $this->Form->postLink('Delete Contact', ['action' => 'delete', $contact->id], [
-                                'confirm' => __('Are you sure you want to delete this contact: {0} ({1})?', $contact->full_name, $contact->email),
-                                'class' => 'btn btn-danger'
-                            ]) ?>
-                            <?= $this->Html->link('Add New Contact', ['action' => 'add'], ['class' => 'btn btn-success']) ?>
-                        </div>
-                        <div class="text-center mt-4">
-                            <?= $this->Html->link('View Contacts List', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
-                        </div>
-                        <div class="text-center mt-4">
-                            <?= $this->Html->link('Back to Dashboard', '#', ['class' => 'btn btn-link']) ?>
                         </div>
                     </div>
                 </div>
