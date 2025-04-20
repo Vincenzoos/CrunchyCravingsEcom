@@ -47,7 +47,7 @@ $html = new HtmlHelper(new View());
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Custom CSS, JS -->
-    <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css','style','default.css', 'flash.css']) ?>
+    <?= $this->Html->css(['/vendor/fontawesome-free/css/all.min.css','style','default.css', 'cake']) ?>
 
 
     <?= $this->Html->meta('icon', 'images/favicon.png', ['type' => 'icon']) ?>
@@ -551,32 +551,6 @@ $html = new HtmlHelper(new View());
         });
     </script>
 
-    <!-- Allow flash message to disappear when clicked on (auto dismiss after 3 secs) -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const flashMessages = document.querySelectorAll('.success, .error');
-            flashMessages.forEach(function (flash) {
-                let dismissed = false;
-
-                function dismiss() {
-                    if (dismissed) return;
-                    dismissed = true;
-                    flash.style.transition = 'opacity 0.5s ease';
-                    flash.style.opacity = '0';
-                    setTimeout(() => {
-                        if (flash.parentNode) flash.remove();
-                    }, 500);
-                }
-
-                // Hide when clicked
-                flash.addEventListener('click', dismiss);
-
-                // Auto-dismiss after 3 seconds
-                setTimeout(dismiss, 3000);
-            });
-        });
-    </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const toggler = document.getElementById('custom-toggler');
@@ -619,10 +593,10 @@ $html = new HtmlHelper(new View());
     <script src="js/html5/respond.min.js"></script>
     <![endif]-->
 
-    
+
     <!-- jQuery -->
     <?= $this->Html->script('https://code.jquery.com/jquery-3.6.0.min.js') ?>
-    
+
     <!-- Select2 JS -->
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js') ?>
 

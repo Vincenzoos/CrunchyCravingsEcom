@@ -70,15 +70,32 @@ class ProductsTable extends Table
             ->maxLength('name', 255)
             ->requirePresence('name', 'create')
             ->notEmptyString('name')
-            ->add('name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->add('name', 'validFormat', [
+                'rule' => ['custom', '/^[a-zA-Z\s]+$/'],
+                'message' => 'Please use only letters and spaces for your product name.',
+            ])
+            ->add('name', 'unique', [
+                'rule' => 'validateUnique',
+                'provider' => 'table',
+                'message' => 'This product name is already in use.',
+            ]);
 
         $validator
             ->scalar('description')
+            ->maxLength('description', 150, 'Description must be 150 characters or less.')
             ->allowEmptyString('description');
 
         $validator
             ->decimal('price')
             ->requirePresence('price', 'create')
+            ->add('price', 'min', [
+                'rule' => ['comparison', '>=', 0],
+                'message' => 'Price must be greater than or equal to 0.',
+            ])
+            ->add('price', 'max', [
+                'rule' => ['comparison', '<=', 500],
+                'message' => 'Price must be less than or equal to 500.',
+            ])
             ->notEmptyString('price');
 
         $validator
@@ -98,7 +115,11 @@ class ProductsTable extends Table
 
         $validator
             ->integer('quantity')
-            ->allowEmptyString('quantity');
+            ->add('quantity', 'range', [
+                'rule' => ['range', -1, 101], // Allows 0 (since -1 < 0) and 100 (since 100 < 101)
+                'message' => 'Product quantity ranges from 0 to 100.',
+            ])
+        ->allowEmptyString('quantity');
 
         return $validator;
     }

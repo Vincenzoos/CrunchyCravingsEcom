@@ -38,40 +38,45 @@ use Cake\View\View;
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div id="form-content" class="bg-light p-4 rounded">
-                        <?= $this->Form->create($product, ['class' => 'form', 'type' => 'file']) ?>
+                        <?php $this->Form->setTemplates([
+                            'inputContainer' => '{{content}}']); ?>
+                        <?= $this->Form->create($product, ['class' => 'form needs-validation', 'type' => 'file', 'novalidate' => true]) ?>
 
-                        <div class="mb-4">
+                        <div class="mb-4 has-validation">
                             <?= $this->Form->control('name', [
                                 'class' => 'form-control mx-auto',
-                                'label' => ['text' => '<h4>Product Name</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4><span style="color: red;">*</span>Product Name</h4>', 'escape' => false],
                                 'placeholder' => 'Enter the product name...',
                                 'pattern' => '^[a-zA-Z\s]+$',
                                 'title' => 'Please use only letters and spaces for your product name',
                                 'required' => true,
                             ]) ?>
+                            <div class="invalid-feedback">Please use only letters and spaces for your product name</div>
                         </div>
+
                         <div class="mb-4">
                         <?= $this->Form->control('description', [
                                 'class' => 'form-control mx-auto',
                                 'label' => ['text' => '<h4 class="text-center" id="description-label">Description (0/150)</h4>', 'escape' => false],
                                 'placeholder' => 'Enter a brief description...',
-                                'type' => 'tel',
+                                'type' => 'textarea',
                                 'rows' => 4,
                                 'onkeyup' => 'limitInputLength(this, "description-label", "Description", 150)',
                                 'oninput' => 'removeScriptTags(this)',
                                 'maxlength' => 150, // Override maxlength
-                                'required' => true,
                             ]) ?>
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-4 has-validation">
                             <?= $this->Form->control('price', [
                                 'class' => 'form-control mx-auto',
-                                'label' => ['text' => '<h4>Price</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4><span style="color: red;">*</span>Price</h4>', 'escape' => false],
                                 'type' => 'number',
                                 'min' => '0',
-                                'placeholder' => 'Enter the price...',
+                                'max' => '500',
+                                'placeholder' => 'Please set your product price...',
                                 'required' => true,
                             ]) ?>
+                            <div class="invalid-feedback">Product price ranges from 0 to 500</div>
                         </div>
                         <div class="mb-4">
                             <?= $this->Form->control('image', [
@@ -80,17 +85,19 @@ use Cake\View\View;
                                 'label' => ['text' => '<h4>Image URL</h4>', 'escape' => false],
                             ]) ?>
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-4 has-validation">
                             <?= $this->Form->control('quantity', [
                                 'class' => 'form-control mx-auto',
+                                'label' => ['text' => '<h4><span style="color: red;">*</span>Quantity</h4>', 'escape' => false],
                                 'type' => 'number',
                                 'min' => '0',
-                                'label' => ['text' => '<h4>Quantity</h4>', 'escape' => false],
+                                'max' => '1000',
                                 'placeholder' => 'Enter the quantity...',
                                 'required' => true,
                             ]) ?>
+                            <div class="invalid-feedback">Product quantity ranges from 0 to 100</div>
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-4 has-validation">
                             <?= $this->Form->control('categories._ids', [
                                 'type' => 'select',
                                 'label' => ['text' => '<h4>Categories</h4>', 'escape' => false],
@@ -99,7 +106,9 @@ use Cake\View\View;
                                 'class' => 'form-select select2', // use select2
                                 'empty' => false, // Disable the empty option
                                 'value' => $this->request->getQuery('categories._ids'),
+                                'required' => true,
                             ]) ?>
+                            <div class="invalid-feedback">Product should have at least a category</div>
                         </div>
                         <div class="text-center">
                             <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary btn-lg']) ?>
@@ -127,4 +136,5 @@ use Cake\View\View;
 
     <!-- Custom JS -->
     <?= $this->Html->script('form-utils') ?>
+    <?= $this->Html->script('form-validation') ?>
 </body>
