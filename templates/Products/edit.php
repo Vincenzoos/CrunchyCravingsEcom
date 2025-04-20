@@ -90,7 +90,7 @@ const DESC_MAX_LENGTH = '150';
                         <div class="mb-4 has-validation">
                             <?= $this->Form->control('quantity', [
                                 'class' => 'form-control mx-auto',
-                                'label' => ['text' => '<h4>Quantity</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4><span style="color: red;">*</span>Quantity</h4>', 'escape' => false],
                                 'type' => 'number',
                                 'min' => '0',
                                 'max' => '1000',
@@ -136,9 +136,10 @@ const DESC_MAX_LENGTH = '150';
         });
     </script>
 
+    <!-- get the current number of character in description text area -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            initializeCharacterCount('description', 'character-count', ' . DESC_MAX_LENGTH . ');
+            initializeCharacterCount('description', 'character-count');
         });
     </script>
 

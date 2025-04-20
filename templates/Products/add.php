@@ -91,7 +91,7 @@ use Cake\View\View;
                         <div class="mb-4 has-validation">
                             <?= $this->Form->control('quantity', [
                                 'class' => 'form-control mx-auto',
-                                'label' => ['text' => '<h4>Quantity</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4><span style="color: red;">*</span>Quantity</h4>', 'escape' => false],
                                 'type' => 'number',
                                 'min' => '0',
                                 'max' => '1000',

@@ -52,7 +52,7 @@ function removeScriptTags(input)
  * @param {string} spanId - The ID of the <span> element to update.
  * @param {number} maxLength - The maximum allowed number of characters.
  */
-function initializeCharacterCount(textareaId, spanId, maxLength)
+function initializeCharacterCount(textareaId, spanId)
 {
     const textarea = document.getElementById(textareaId); // Find the textarea
     const span = document.getElementById(spanId); // Find the span for the character count
