@@ -1,0 +1,44 @@
+:root {
+    --color-message-success-bg: #4caf50;
+    --color-message-success-text: white;
+
+    --color-message-warning-bg: #d3b800;
+    --color-message-warning-text: white;
+
+    --color-message-error-bg: #dd3e46;
+    --color-message-error-text: white;
+
+    --color-message-info-bg: blue;
+    --color-message-info-text: white;
+}
+
+
+/* Flash messages */
+.message {
+    position: fixed; /* Fix the error/success message on screen */
+    top: 20px; /* Distance from the top of the screen */
+    font-size: 18px; /* Larger font size */
+    font-weight: bold; /* Bold text */
+    border-radius: 8px; /* Round the corners */
+    background: var(--color-message-info-bg);
+    color: var(--color-message-info-text);
+    margin: auto;
+    width: fit-content;
+    padding: 15px 30px; /* Add some padding for better visibility */
+    cursor: pointer;
+}
+.message.hidden {
+    display: none;
+}
+.message.success {
+    background: var(--color-message-success-bg);
+    color: var(--color-message-success-text);
+}
+.message.warning {
+    background: var(--color-message-warning-bg);
+    color: var(--color-message-warning-text);
+}
+.message.error {
+    background: var(--color-message-error-bg);
+    color: var(--color-message-error-text);
+}
