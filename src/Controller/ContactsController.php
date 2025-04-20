@@ -109,7 +109,7 @@ class ContactsController extends AppController
         if ($this->request->is('post')) {
             $contact = $this->Contacts->patchEntity($contact, $this->request->getData());
             if (empty($contact->date_sent)) {
-                $contact->date_sent = date('Y-m-d');
+                $contact->date_sent = date('d-m-Y');
             }
             if ($this->Contacts->save($contact)) {
                 $this->Flash->success(__('The contact has been saved.'));
@@ -199,21 +199,11 @@ class ContactsController extends AppController
                 // Get submitted data
                 $data = $this->request->getData();
 
-                // Sanitize user input fields to remove script tags
-                foreach ($data as $key => $value) {
-                    if (is_string($value)) {
-                        $sanitized = strip_tags($value);
-                        // Trim to ensure that strings with only whitespace are considered empty
-                        // Add fallback as empty string (using a space)
-                        $data[$key] = trim($sanitized) !== '' ? $sanitized : ' ';
-                    }
-                }
-
                 // Patch sanitized data into the entity
                 $contact = $this->Contacts->patchEntity($contact, $data);
 
                 // Set date_sent to today's date
-                $contact->date_sent = date('Y-m-d');
+                $contact->date_sent = date('d-m-Y');
 
                 // Check for validation errors
                 if ($contact->getErrors()) {

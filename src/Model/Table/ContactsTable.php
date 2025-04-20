@@ -52,12 +52,20 @@ class ContactsTable extends Table
             ->scalar('first_name')
             ->maxLength('first_name', 255)
             ->requirePresence('first_name', 'create')
+            ->add('name', 'validFormat', [
+                'rule' => ['custom', '/^[a-zA-Z\s]+$/'],
+                'message' => 'Please use only letters and spaces for your first name.',
+            ])
             ->notEmptyString('first_name');
 
         $validator
             ->scalar('last_name')
             ->maxLength('last_name', 255)
             ->requirePresence('last_name', 'create')
+            ->add('name', 'validFormat', [
+                'rule' => ['custom', '/^[a-zA-Z\s]+$/'],
+                'message' => 'Please use only letters and spaces for your last name.',
+            ])
             ->notEmptyString('last_name');
 
         $validator
@@ -81,7 +89,17 @@ class ContactsTable extends Table
         $validator
             ->scalar('message')
             ->requirePresence('message', 'create')
-            ->notEmptyString('message');
+            ->maxLength('description', 150, 'Message must be 150 characters or less.')
+            ->add('message', 'noHtmlTags', [
+                'rule' => function ($value, $context) {
+                    // Validate by comparing the value with its stripped version.
+                    // You can also allow certain tags by providing an allowlist as the second parameter.
+                    // For example: strip_tags($value, '<p><br>')
+                    return $value === strip_tags($value);
+                },
+                'message' => 'HTML tags are not allowed in the message.',
+            ])
+        ->notEmptyString('message');
 
         $validator
             ->boolean('replied')

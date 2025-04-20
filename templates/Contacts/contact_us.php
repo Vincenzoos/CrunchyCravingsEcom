@@ -12,6 +12,7 @@ $this->assign('title', 'Contact Us');
 
 <?php
 $html = new HtmlHelper(new View());
+const MSG_MAX_LENGTH = 150;
 ?>
 
 <!DOCTYPE html>
@@ -62,46 +63,50 @@ $html = new HtmlHelper(new View());
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <div id="form-content">
-                            <?= $this->Form->create($contact, ['url' => ['controller' => 'Contacts', 'action' => 'contactUs']]) ?>
+                            <!-- Allow customized form validation styling -->
+                            <?php $this->Form->setTemplates([
+                                'inputContainer' => '{{content}}']); ?>
+                            <?= $this->Form->create($contact, ['url' => ['controller' => 'Contacts', 'action' => 'contactUs'], 'class'=>'form needs-validation', 'novalidate'=>true]) ?>
 
-                            <div class="mb-4">
+                            <div class="mb-4 has-validation">
                                 <?= $this->Form->control('first_name', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h4 class="text-center">First Name</h4>', 'escape' => false],
+                                    'label' => ['text' => '<h4 class="text-center"><span style="color: red;">*</span>First Name</h4>', 'escape' => false],
                                     'placeholder' => 'Enter your first name...',
                                     'maxlength' => 20,
                                     'required' => true,
                                     'pattern' => '^[a-zA-Z\s]+$',
                                     'title' => 'Please use only letters and spaces for your first name',
                                 ]); ?>
-                                <?= $this->Form->error('first_name', 'Please use only letters and spaces for your first name') ?>
+                                <div class="invalid-feedback">Please use only letters and spaces for your first name</div>
                             </div>
-                            <div class="mb-4">
+                            <div class="mb-4 has-validation">
                                 <?= $this->Form->control('last_name', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h4 class="text-center">Last Name</h4>', 'escape' => false],
+                                    'label' => ['text' => '<h4 class="text-center"><span style="color: red;">*</span>Last Name</h4>', 'escape' => false],
                                     'placeholder' => 'Enter your last name...',
                                     'maxlength' => 20,
                                     'required' => true,
                                     'pattern' => '^[a-zA-Z\s]+$',
-                                    'title' => 'Please use only letters and spaces for your first name',
+                                    'title' => 'Please use only letters and spaces for your last name',
                                 ]); ?>
-                                <?= $this->Form->error('last_name', 'Please use only letters and spaces for your last name') ?>
+                                <div class="invalid-feedback">Please use only letters and spaces for your last name</div>
                             </div>
-                            <div class="mb-4">
+                            <div class="mb-4 has-validation">
                                 <?= $this->Form->control('email', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h4 class="text-center">Email</h4>', 'escape' => false],
+                                    'label' => ['text' => '<h4 class="text-center"><span style="color: red;">*</span>Email</h4>', 'escape' => false],
                                     'placeholder' => 'Enter your email (e.g., abc@example.com)',
                                     'type' => 'email',
                                     'maxlength' => 40,
                                     'required' => true,
                                 ]); ?>
+                                <div class="invalid-feedback">Please enter a valid email in the correct format (e.g., abc@example.com)</div>
                             </div>
-                            <div class="mb-4">
+                            <div class="mb-4 has-validation">
                                 <?= $this->Form->control('phone_number', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h4 class="text-center">Phone Number</h4>', 'escape' => false],
+                                    'label' => ['text' => '<h4 class="text-center"><span style="color: red;">*</span>Phone Number</h4>', 'escape' => false],
                                     'placeholder' => 'Enter your phone number (e.g., 0452 452 234)',
                                     'type' => 'tel',
                                     'pattern' => '^0[1-9]\d{0,2} \d{3} \d{3}$',
@@ -109,19 +114,20 @@ $html = new HtmlHelper(new View());
                                     'onkeyup' => 'this.value = formatPhoneNumber(this.value)',
                                     'required' => true,
                                 ]); ?>
+                                <div class="invalid-feedback">Please enter a valid phone number starting with 0 (e.g., 0411 256 454).</div>
                             </div>
                             <div class="mb-4">
                                 <?= $this->Form->control('message', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h4 class="text-center" id="message-label">Message (0/150)</h4>', 'escape' => false],
+                                    'label' => ['text' => '<h4 class="text-center" id="message-label">Message (<span id="character-count">0</span>/' . MSG_MAX_LENGTH . ')</h4>', 'escape' => false],
                                     'placeholder' => 'Enter your message',
                                     'type' => 'textarea',
                                     'rows' => 5,
-                                    'onkeyup' => 'limitInputLength(this, "message-label", "Message", 150)',
-                                    'oninput' => 'removeScriptTags(this)',
-                                    'maxlength' => 150, // Override maxlength
+                                    'onkeyup' => 'limitInputLength(this, "character-count", ' . MSG_MAX_LENGTH . '); removeScriptTags(this);',
+                                    'maxlength' => MSG_MAX_LENGTH, // Override maxlength
                                     'required' => true,
                                 ]); ?>
+                                <div class="invalid-feedback">Please enter your inquiry</div>
                             </div>
                             <div class="mb-4">
                                 <?= $this->Recaptcha->display() ?>
@@ -140,8 +146,18 @@ $html = new HtmlHelper(new View());
         </section>
     </div>
 
+    <!-- get the current number of character in message text area -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeCharacterCount('message', 'character-count');
+        });
+    </script>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <?= $this->Html->script('form-utils') ?>
+    <?= $this->Html->script('form-validation') ?>
 
     </body>
 
