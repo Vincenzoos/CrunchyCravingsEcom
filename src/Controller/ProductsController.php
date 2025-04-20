@@ -218,7 +218,7 @@ class ProductsController extends AppController
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The product could not be saved. Please, try again.'));
+            $this->Flash->error(__('The product could not be saved. Please try again.'));
         }
 
         // Fetch all categories
@@ -247,7 +247,7 @@ class ProductsController extends AppController
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The product could not be saved. Please, try again.'));
+            $this->Flash->error(__('The product could not be saved. Please try again.'));
         }
 
         // Fetch all categories
@@ -282,7 +282,7 @@ class ProductsController extends AppController
         if ($this->Products->delete($product)) {
             $this->Flash->success(__('The product has been deleted.'));
         } else {
-            $this->Flash->error(__('The product could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The product could not be deleted. Please try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
