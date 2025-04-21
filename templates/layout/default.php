@@ -105,10 +105,9 @@ $html = new HtmlHelper(new View());
 	</div>
 	<!-- Loader /- -->
 
-	<a id="top"></a>
 
-        <!-- Accessibility Mode Toggle -->
-        <div id="accessibility-toggle" class="accessibility-toggle">
+    <!-- Accessibility Mode Toggle -->
+    <div id="accessibility-toggle" class="accessibility-toggle">
         <button id="accessibility-button" class="btn btn-secondary">
             <i class="fa fa-gear fa-spin"></i>
         </button>
@@ -235,25 +234,7 @@ $html = new HtmlHelper(new View());
 						<ul class="nav navbar-nav">
                             <li class="nav-item"><a class="nav-link active" title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
 							<li class="nav-item"><a class="nav-link" title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
-							<li class="nav-item dropdown mega-dropdown">
-                                <a title="categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'customerIndex']) ?>" class="nav-link">categories</a>
-								<ul class="dropdown-menu mega-dropdown-menu row">
-									<div class="row">
-										<li class="col-lg-3 col-md-6 col-12">
-											<?php foreach ($categories as $category): ?>
-												<li class="col-lg-3 col-md-6 col-12">
-													<ul>
-                                                            <a title="<?= h($category->name) ?>" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex', '?' => ['category_id' => $category->id]]) ?>" class="text-decoration-none text-dark">
-                                                                <?= h($category->name) ?>
-                                                            </a>
-													</ul>
-												</li>
-											<?php endforeach; ?>
-										</li>
-
-									</div>
-								</ul>
-							</li>
+							<li class="nav-item"><a title="categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'customerIndex']) ?>" class="nav-link">categories</a></li>
                             <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
 						</ul>
 					</div><!--/.nav-collapse -->
@@ -413,7 +394,7 @@ $html = new HtmlHelper(new View());
         </footer>
 	</div><!-- Footer Section /- -->
 
-    <!-- Script to handle sidebar toggle and accessibility mode -->
+    <!-- Script to handle sidebar toggle mode -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.getElementById('sidebar');
@@ -554,6 +535,7 @@ $html = new HtmlHelper(new View());
         });
     </script>
 
+    <!-- Fix navbar collapse issue -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const toggler = document.getElementById('custom-toggler');
@@ -571,9 +553,10 @@ $html = new HtmlHelper(new View());
         });
     </script>
 
+    <!-- Replace icon script to overide template  -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Remove any existing favicon links
+            // Remove all existing favicon links
             const existingIcons = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
             existingIcons.forEach(icon => icon.remove());
 
