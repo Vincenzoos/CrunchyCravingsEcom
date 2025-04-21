@@ -73,11 +73,6 @@ class ProductsTable extends Table
             ->add('name', 'validFormat', [
                 'rule' => ['custom', '/^[a-zA-Z\s]+$/'],
                 'message' => 'Please use only letters and spaces for your product name.',
-            ])
-            ->add('name', 'unique', [
-                'rule' => 'validateUnique',
-                'provider' => 'table',
-                'message' => 'This product name is already in use.',
             ]);
 
         $validator
@@ -142,7 +137,10 @@ class ProductsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->isUnique(['name']), ['errorField' => 'name']);
+        $rules->add($rules->isUnique(['name']), [
+            'errorField' => 'name',
+            'message' => 'This product name is already in use.',
+        ]);
 
         return $rules;
     }

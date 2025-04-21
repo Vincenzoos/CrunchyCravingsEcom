@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Core\Configure;
 use Cake\Event\EventInterface;
 use Cake\Log\Log;
 use Cake\Mailer\Mailer;
@@ -464,70 +463,40 @@ class CartItemsController extends AppController
         return $this->redirect($this->referer());
     }
 
-    public function checkout()
+    public function authenticatedCheckout()
     {
-        // Check if the user is logged in
-        $identity = $this->Authentication->getIdentity();
-        $userId = $identity ? $identity->get('id') : null;
+        // Ensure the user is logged in
+        $user = $this->Authentication->getIdentity();
 
-        $cartItems = [];
+        $userId = $user->get('id');
+        // Retrieve cart items for the current user including associated product info
+        $cartItems = $this->CartItems->find('all')
+            ->contain(['Products'])
+            ->where(['CartItems.user_id' => $userId])
+            ->toArray();
+
+        if (empty($cartItems)) {
+            $this->Flash->error(__('Your cart is empty.'));
+
+            return $this->redirect(['action' => 'customerView']);
+        }
+
+        // Calculate the total amount
         $total = 0;
-
-        if ($userId) {
-            // Retrieve cart items for the logged-in user including associated product info
-            $cartItems = $this->CartItems->find('all')
-                ->contain(['Products'])
-                ->where(['CartItems.user_id' => $userId])
-                ->toArray();
-
-            if (empty($cartItems)) {
-                $this->Flash->error(__('Your cart is empty.'));
-
-                return $this->redirect(['action' => 'customerView']);
-            }
-
-            // Calculate the total amount
-            foreach ($cartItems as $item) {
-                $item->line_price = $item->line_price ?? 0; // Ensure line_price is set
-                $total += $item->line_price;
-            }
-        } else {
-            // Retrieve cart items from the session for unauthenticated users
-            $session = $this->request->getSession();
-            $cart = $session->read('Cart') ?? [];
-
-            if (empty($cart)) {
-                $this->Flash->error(__('Your cart is empty.'));
-
-                return $this->redirect(['action' => 'customerView']);
-            }
-
-            // Fetch product details for each item in the session cart
-            foreach ($cart as $productId => $item) {
-                $product = $this->CartItems->Products->find()
-                    ->where(['id' => $productId])
-                    ->first();
-
-                if ($product) {
-                    $cartItems[] = [
-                        'product' => $product,
-                        'quantity' => $item['quantity'],
-                        'line_price' => $item['line_price'] ?? $product->price * $item['quantity'], // Default to calculated value
-                    ];
-                    $total += $item['line_price'] ?? $product->price * $item['quantity'];
-                }
-            }
+        foreach ($cartItems as $item) {
+            $total += $item->line_price;
         }
 
         try {
-            Log::write('debug', json_encode($cartItems));
-
-            // Determine the recipient email
-            $recipient = $userId ? $identity->get('email') : 'guest@example.com'; // Replace with a default email for guests
+            // Override received email to cpanel email for testing
+//            Configure::load('app_local');
+//            $override_email = Configure::read('EmailTransport.default.username');
+//            $recipient = $override_email ?? $user->email;
+            $recipient = $user->get('email');
 
             $mailer = new Mailer('default');
             $mailer
-                ->setEmailFormat('both') // Sends both HTML and text versions
+                ->setEmailFormat('both') // sends both html and text versions
                 ->setTo($recipient)
                 ->setSubject('Your Order Confirmation')
                 ->viewBuilder()
@@ -535,7 +504,7 @@ class CartItemsController extends AppController
 
             // Pass required variables to your email template
             $mailer->setViewVars([
-                'email' => $recipient,
+                'email' => $user->get('email'),
                 'cartItems' => $cartItems,
                 'total' => $total,
             ]);
@@ -548,12 +517,81 @@ class CartItemsController extends AppController
 
             $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
 
-            // Clear the cart after checkout
-            if ($userId) {
-                $this->CartItems->deleteAll(['user_id' => $userId]);
-            } else {
-                $session->delete('Cart');
+            // Optionally clear the cart here if the order is complete
+            $this->CartItems->deleteAll(['user_id' => $userId]);
+        } catch (Exception $e) {
+            $this->Flash->error(__('Error sending email to ' . $user->get('email') . '. The provided email address may not exist, please check the email address and try again.'));
+
+            return $this->redirect(['action' => 'customerView']);
+        }
+
+        return $this->redirect(['controller' => 'Products', 'action' => 'customerIndex']);
+    }
+
+    public function unauthenticatedCheckout()
+    {
+        // Retrieve cart items from the session for unauthenticated users
+        $session = $this->request->getSession();
+        $cart = $session->read('Cart') ?? [];
+
+        if (empty($cart)) {
+            $this->Flash->error(__('Your cart is empty.'));
+
+            return $this->redirect(['action' => 'customerView']);
+        }
+
+        $cartItems = [];
+        $total = 0;
+
+        // For each cart item in the session, fetch detailed product information using product ID as key
+        foreach ($cart as $productId => $item) {
+                // Calculate line price: if item['line_price'] is not empty, use it; otherwise, calculate it
+                $linePrice = $item['price'] * $item['quantity'];
+
+                // Create a product object to match the email template expectation
+                $productObj = new stdClass();
+                $productObj->name = $item['name'];
+                $productObj->price = $item['price'];
+
+                // Create a cart item object that stores the product object, quantity, and line price
+                $cartItem = new stdClass();
+                $cartItem->product = $productObj;
+                $cartItem->quantity = $item['quantity'];
+                $cartItem->line_price = $linePrice;
+
+                $cartItems[] = $cartItem;
+                $total += $linePrice;
+        }
+
+        // Log cart details for debugging
+        Log::write('debug', json_encode($cartItems));
+
+        // TODO: Use a default email for guests—you might later replace this by capturing an input email address
+        $recipient = 'guest@example.com';
+
+        try {
+            $mailer = new Mailer('default');
+            $mailer
+                ->setEmailFormat('both')
+                ->setTo($recipient)
+                ->setSubject('Your Order Confirmation')
+                ->viewBuilder()
+                ->setTemplate('customer_checkout');
+
+            $mailer->setViewVars([
+                'email' => $recipient,
+                'cartItems' => $cartItems,
+                'total' => $total,
+            ]);
+
+            if (!$mailer->deliver()) {
+                $this->Flash->error(__('We encountered an issue sending your order confirmation email. Please try again.'));
+
+                return $this->redirect(['action' => 'customerView']);
             }
+
+            // Clear the cart from the session after checkout
+            $session->delete('Cart');
         } catch (Exception $e) {
             $this->Flash->error(__('Error sending email to ' . $recipient . '. The provided email address may not exist, please check the email address and try again.'));
 
@@ -562,6 +600,122 @@ class CartItemsController extends AppController
 
         return $this->redirect(['controller' => 'Products', 'action' => 'customerIndex']);
     }
+
+//    public function checkout()
+//    {
+//        // Check if the user is logged in
+//        $identity = $this->Authentication->getIdentity();
+//        $userId = $identity ? $identity->get('id') : null;
+//
+//        $cartItems = [];
+//        $total = 0;
+//
+//        if ($userId) {
+//            // Retrieve cart items for the logged-in user including associated product info
+//            $cartItems = $this->CartItems->find('all')
+//                ->contain(['Products'])
+//                ->where(['CartItems.user_id' => $userId])
+//                ->toArray();
+//
+//            if (empty($cartItems)) {
+//                $this->Flash->error(__('Your cart is empty.'));
+//
+//                return $this->redirect(['action' => 'customerView']);
+//            }
+//
+//            // Calculate the total amount
+//            foreach ($cartItems as $item) {
+////                $item->line_price = $item->line_price ?? 0; // Ensure line_price is set
+//                $total += $item->line_price;
+//            }
+//        } else {
+//            // Retrieve cart items from the session for unauthenticated users
+//            $session = $this->request->getSession();
+//            $cart = $session->read('Cart') ?? [];
+//
+//            if (empty($cart)) {
+//                $this->Flash->error(__('Your cart is empty.'));
+//
+//                return $this->redirect(['action' => 'customerView']);
+//            }
+//
+//            // Fetch product details for each item in the session cart
+//            foreach ($cart as $productId => $item) {
+//                $product = $this->CartItems->Products->find()
+//                    ->where(['id' => $productId])
+//                    ->first();
+//
+//                if ($product) {
+//                    $cartItems[] = [
+//                        'product' => $product,
+//                        'quantity' => $item['quantity'],
+//                        'line_price' => $item['line_price'] ?? $product->price * $item['quantity'], // Default to calculated value
+//                    ];
+//                    $total += $item['line_price'] ?? $product->price * $item['quantity'];
+//                }
+//            }
+//        }
+//
+//        try {
+//            Log::write('debug', json_encode($cartItems));
+//
+//            // Determine the recipient email
+//            if ($userId) {
+//                // Override received email with cpanel email for cpanel testing
+////                Configure::load('app_local');
+////                $override_email = Configure::read('EmailTransport.default.username');
+////                $recipient = $override_email ?? $identity->email;
+//                $recipient = $identity->email;
+//            } else {
+//                // Override received email with cpanel email for cpanel testing
+////            Configure::load('app_local');
+////            $override_email = Configure::read('EmailTransport.default.username');
+////            $recipient = $override_email ?? $user->email;
+//
+//                // TODO: default email should be replaced with input email.
+//                // TODO: potentially split checkout into loginCheckOut and publicCheckOut
+//                $recipient = 'guest@example.com'; // Replace with a default email for guests
+//            }
+//
+//            $mailer = new Mailer('default');
+//            $mailer
+//                ->setEmailFormat('both') // Sends both HTML and text versions
+//                ->setTo($recipient)
+//                ->setSubject('Your Order Confirmation')
+//                ->viewBuilder()
+//                ->setTemplate('customer_checkout');
+//
+//            // Pass required variables to your email template
+//            $mailer->setViewVars([
+////                'email' => $recipient,
+//                // For cpanel testing
+//                'email' => $userId ? $identity->get('email') : 'guest@example.com',
+//                'cartItems' => $cartItems,
+//                'total' => $total,
+//            ]);
+//
+//            if (!$mailer->deliver()) {
+//                $this->Flash->error(__('We encountered an issue sending your order confirmation email. Please try again.'));
+//
+//                return $this->redirect(['action' => 'customerView']);
+//            }
+//
+//            $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
+//
+//            // Clear the cart after checkout
+//            if ($userId) {
+//                $this->CartItems->deleteAll(['user_id' => $userId]);
+//            } else {
+//                $session->delete('Cart');
+//            }
+//        } catch (Exception $e) {
+//            $this->Flash->error(__('Error sending email to ' . $recipient . '. The provided email address may not exist, please check the email address and try again.'));
+//
+//            return $this->redirect(['action' => 'customerView']);
+//        }
+//
+//        return $this->redirect(['controller' => 'Products', 'action' => 'customerIndex']);
+//    }
 
     /**
      * Clear the cart
@@ -592,6 +746,6 @@ class CartItemsController extends AppController
     {
         parent::beforeFilter($event);
 
-        $this->Authentication->allowUnauthenticated(['customerView', 'customerAdd', 'updateQuantity', 'delete', 'checkout', 'clearCart', 'update']);
+        $this->Authentication->allowUnauthenticated(['customerView', 'customerAdd', 'updateQuantity', 'delete', 'clearCart', 'update', 'unauthenticatedCheckout']);
     }
 }

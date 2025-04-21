@@ -9,6 +9,9 @@
  * @var array $cartItems Array of cart items (each item is expected to have a product, quantity, and line_price)
  * @var float $total Total order amount
  */
+
+use Cake\Log\Log;
+
 ?>
 <!--Thank you for your order, --><?php //= h($first_name) ?><!--!-->
 Thank you for your order, <?= h($email) ?>!
@@ -22,11 +25,11 @@ Below is a summary of your order:
 
 <?php foreach ($cartItems as $item): ?>
     <?php
-        Log::write('debug', [
+        Log::write('debug', json_encode([
             'product_name' => $item->product->name,
             'price' => $item->product->price,
             'line_price' => $item->line_price,
-        ]);
+        ]));
     ?>
     Product: <?= h($item->product->name ?? 'Unknown Product') ?>
     Quantity: <?= h($item->quantity ?? 0) ?>

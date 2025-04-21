@@ -19,7 +19,8 @@ Purchase: http://themeforest.net/user/webstrot  -->
 
 <?php
 use Cake\View\Helper\HtmlHelper;
-$html = new HtmlHelper(new \Cake\View\View());
+use Cake\View\View;
+$html = new HtmlHelper(new View());
 ?>
 
 <head>
@@ -63,7 +64,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($cartItems as $cartItem): ?>
+                    <?php foreach ($cartItems as $cartItem) : ?>
                         <tr>
                             <td data-title="Product" class="product-thumbnail">
                                 <h5><?= h($cartItem->product->name) ?></h5>
@@ -111,6 +112,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         </div> <!-- page /- -->
     </div> <!-- page container /- -->
 
+    <!-- TODO: Either remove shipping and promo code, redo the layout or fully implementing them and keep the current layout   -->
     <!-- shop container -->
     <div id="shop-container" class="container">
         <!-- Shopping Cart Estimate Section -->
@@ -118,63 +120,63 @@ $html = new HtmlHelper(new \Cake\View\View());
             <h1>Shipping & Checkout</h1>
             <div class="row">
                 <!-- col-md-4 -->
-                <div class="col-12 col-md-12 col-lg-4">
-                    <div class="section-header">
-                        <h3>estimate shipping and tax</h3>
-                    </div>
-                    <div class="estimate-details shopping-cart-table">
-                        <h4>Enter your destination to get a shipping estimate</h4>
-                        <form>
-                            <div class="form-group">
-                                <select class="form-control minimal">
-                                    <option selected="selected" value="">Select a country...</option>
-                                    <option value="Australia">Australia</option>
-                                    <option value="Canada">Canada</option>
-                                    <option value="United Kingdom">United Kingdom</option>
-                                    <option value="United States">United States</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control minimal">
-                                    <option selected="selected" value="">Select a state...</option>
-                                    <option value="Alabama">Alabama</option>
-                                    <option value="Alaska">Alaska</option>
-                                    <option value="Arizona">Arizona</option>
-                                    <option value="Arkansas">Arkansas</option>
-                                    <option value="Brisbane">Brisbane</option>
-                                    <option value="California">California</option>
-                                    <option value="Colorado">Colorado</option>
-                                    <option value="Connecticut">Connecticut</option>
-                                    <option value="Delaware">Delaware</option>
-                                    <option value="Florida">Florida</option>
-                                    <option value="Georgia">Georgia</option>
-                                    <option value="Melbourne">Melbourne</option>
-                                    <option value="Perth">Perth</option>
-                                    <option value="Sydney">Sydney</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="zip" class="form-control" placeholder="zip/postal-code">
-                            </div>
-                            <input type="submit" value="get a quote" class="btn btn-default">
-                        </form>
-                    </div>
-                </div>
-                <div class="col-12 col-md-12 col-lg-4">
-                    <div class="section-header">
-                        <h3>Promo code</h3>
-                    </div>
-                    <div class="estimate-details shopping-cart-table coupon">
-                        <h4>Enter a coupon code</h4>
-                        <form>
-                            <div class="form-group">
-                                <input type="text" name="" class="form-control" placeholder="">
-                                <input type="submit" value="apply" class="btn">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-12 col-md-12 col-lg-4">
+<!--                <div class="col-12 col-md-12 col-lg-4">-->
+<!--                    <div class="section-header">-->
+<!--                        <h3>estimate shipping and tax</h3>-->
+<!--                    </div>-->
+<!--                    <div class="estimate-details shopping-cart-table">-->
+<!--                        <h4>Enter your destination to get a shipping estimate</h4>-->
+<!--                        <form>-->
+<!--                            <div class="form-group">-->
+<!--                                <select class="form-control minimal">-->
+<!--                                    <option selected="selected" value="">Select a country...</option>-->
+<!--                                    <option value="Australia">Australia</option>-->
+<!--                                    <option value="Canada">Canada</option>-->
+<!--                                    <option value="United Kingdom">United Kingdom</option>-->
+<!--                                    <option value="United States">United States</option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <select class="form-control minimal">-->
+<!--                                    <option selected="selected" value="">Select a state...</option>-->
+<!--                                    <option value="Alabama">Alabama</option>-->
+<!--                                    <option value="Alaska">Alaska</option>-->
+<!--                                    <option value="Arizona">Arizona</option>-->
+<!--                                    <option value="Arkansas">Arkansas</option>-->
+<!--                                    <option value="Brisbane">Brisbane</option>-->
+<!--                                    <option value="California">California</option>-->
+<!--                                    <option value="Colorado">Colorado</option>-->
+<!--                                    <option value="Connecticut">Connecticut</option>-->
+<!--                                    <option value="Delaware">Delaware</option>-->
+<!--                                    <option value="Florida">Florida</option>-->
+<!--                                    <option value="Georgia">Georgia</option>-->
+<!--                                    <option value="Melbourne">Melbourne</option>-->
+<!--                                    <option value="Perth">Perth</option>-->
+<!--                                    <option value="Sydney">Sydney</option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <input type="text" name="zip" class="form-control" placeholder="zip/postal-code">-->
+<!--                            </div>-->
+<!--                            <input type="submit" value="get a quote" class="btn btn-default">-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-12 col-md-12 col-lg-4">-->
+<!--                    <div class="section-header">-->
+<!--                        <h3>Promo code</h3>-->
+<!--                    </div>-->
+<!--                    <div class="estimate-details shopping-cart-table coupon">-->
+<!--                        <h4>Enter a coupon code</h4>-->
+<!--                        <form>-->
+<!--                            <div class="form-group">-->
+<!--                                <input type="text" name="" class="form-control" placeholder="">-->
+<!--                                <input type="submit" value="apply" class="btn">-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="col-12 col-md-12 col-lg-12">
                     <div class="section-header">
                         <h3>Payment</h3>
                     </div>
@@ -191,7 +193,13 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 </tr>
                             </tbody>
                         </table>
-                        <a title="Checkout" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'checkout']) ?>" class="btn btn-default">Checkout</a>
+                        <!-- Checkout for login user -->
+                        <?php if ($this->Identity->isLoggedIn()) : ?>
+                            <a title="Checkout" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'authenticatedCheckout']) ?>" class="btn btn-default">Checkout</a>
+                        <?php else : ?>
+                            <!-- Checkout for public (unauthenticated) user -->
+                        <a title="Checkout" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'unauthenticatedCheckout']) ?>" class="btn btn-default">Checkout</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -201,23 +209,23 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 
 
-	<!-- jQuery Include -->
-	<script src="libraries/jquery.min.js"></script>
-	<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false'></script>
-	<script src="libraries/gmap/jquery.gmap.min.js"></script> <!-- Light Box -->
-	<script src="libraries/jquery.easing.min.js"></script><!-- Easing Animation Effect -->
-	<script src="libraries/bootstrap/bootstrap.bundle.min.js"></script> <!-- Core Bootstrap v3.3.4 -->
-	<script src="libraries/fuelux/jquery-ui.min.js"></script>
-	<script src="libraries/jquery.animateNumber.min.js"></script> <!-- Used for Animated Numbers -->
-	<script src="libraries/jquery.appear.js"></script> <!-- It Loads jQuery when element is appears -->
-	<script src="libraries/jquery.knob.js"></script> <!-- Used for Loading Circle -->
-	<script src="libraries/wow.min.js"></script> <!-- Use For Animation -->
-	<script src="libraries/owl-carousel/owl.carousel.min.js"></script> <!-- Core Owl Carousel CSS File  *	v1.3.3 -->
-	<script src="libraries/expanding-search/modernizr.custom.js"></script> <!-- Core Owl Carousel CSS File  *	v1.3.3 -->
-	<script src="libraries/flexslider/jquery.flexslider-min.js"></script> <!-- flexslider   -->
-	<script src="libraries/jquery.magnific-popup.min.js"></script> <!-- Light Box -->
-	<!-- Customized Scripts -->
-	<script src="js/functions.js"></script>
+    <!-- jQuery Include -->
+    <script src="libraries/jquery.min.js"></script>
+    <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false'></script>
+    <script src="libraries/gmap/jquery.gmap.min.js"></script> <!-- Light Box -->
+    <script src="libraries/jquery.easing.min.js"></script><!-- Easing Animation Effect -->
+    <script src="libraries/bootstrap/bootstrap.bundle.min.js"></script> <!-- Core Bootstrap v3.3.4 -->
+    <script src="libraries/fuelux/jquery-ui.min.js"></script>
+    <script src="libraries/jquery.animateNumber.min.js"></script> <!-- Used for Animated Numbers -->
+    <script src="libraries/jquery.appear.js"></script> <!-- It Loads jQuery when element is appears -->
+    <script src="libraries/jquery.knob.js"></script> <!-- Used for Loading Circle -->
+    <script src="libraries/wow.min.js"></script> <!-- Use For Animation -->
+    <script src="libraries/owl-carousel/owl.carousel.min.js"></script> <!-- Core Owl Carousel CSS File  *   v1.3.3 -->
+    <script src="libraries/expanding-search/modernizr.custom.js"></script> <!-- Core Owl Carousel CSS File  *   v1.3.3 -->
+    <script src="libraries/flexslider/jquery.flexslider-min.js"></script> <!-- flexslider   -->
+    <script src="libraries/jquery.magnific-popup.min.js"></script> <!-- Light Box -->
+    <!-- Customized Scripts -->
+    <script src="js/functions.js"></script>
 
 </body>
 

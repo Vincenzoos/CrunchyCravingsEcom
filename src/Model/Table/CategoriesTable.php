@@ -3,15 +3,14 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+
 /**
  * Categories Model
  *
  * @property \App\Model\Table\ProductsTable&\Cake\ORM\Association\BelongsToMany $Products
- *
  * @method \App\Model\Entity\Category newEmptyEntity()
  * @method \App\Model\Entity\Category newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Category> newEntities(array $data, array $options = [])
@@ -65,11 +64,6 @@ class CategoriesTable extends Table
             ->add('name', 'validFormat', [
                 'rule' => ['custom', '/^[a-zA-Z\s]+$/'],
                 'message' => 'Please use only letters and spaces for your category name.',
-            ])
-            ->add('name', 'unique', [
-                'rule' => 'validateUnique',
-                'provider' => 'table',
-                'message' => 'This category name is already in use. Please choose another name.',
             ]);
 
         $validator
@@ -82,7 +76,7 @@ class CategoriesTable extends Table
                     // For example: strip_tags($value, '<p><br>')
                     return $value === strip_tags($value);
                 },
-                'message' => 'HTML tags are not allowed in the description.'
+                'message' => 'HTML tags are not allowed in the description.',
             ])
             ->allowEmptyString('description');
 
@@ -98,7 +92,10 @@ class CategoriesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->isUnique(['name']), ['errorField' => 'name']);
+        $rules->add($rules->isUnique(['name']), [
+            'errorField' => 'name',
+            'message' => 'This category name is already in use.',
+        ]);
 
         return $rules;
     }

@@ -68,11 +68,6 @@ class UsersTable extends Table
             ->notEmptyString('password');
 
         $validator
-            ->email('email', true, 'Please provide a valid email address.')
-            ->requirePresence('email', 'create')
-            ->notEmptyString('email', 'Email is required.');
-
-        $validator
             ->add('password_confirm', 'custom', [
                 'rule' => function ($value, $context) {
                     return $value === $context['data']['password'];
@@ -108,7 +103,7 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->isUnique(['email']), [
-            'errorField' => 'email',
+            'errorField' => 'email', 'message' => 'This email is already taken.',
         ]);
 
         return $rules;
