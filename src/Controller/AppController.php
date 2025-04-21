@@ -68,24 +68,26 @@ class AppController extends Controller
     public function beforeRender(EventInterface $event)
     {
         parent::beforeRender($event);
-    
+
         $cartCount = 0;
-    
+
         // Check if the user is logged in
         if ($this->Authentication->getIdentity()) {
             $userId = $this->Authentication->getIdentity()->get('id');
-    
+
             // Fetch cart count from the database for authenticated users
             $cartCount = $this->fetchTable('CartItems')->find()
                 ->where(['user_id' => $userId])
-                ->count();
+                ->select(['total_quantity' => 'SUM(quantity)'])
+                ->first()
+                ->total_quantity ?? 0; // Use 0 as a fallback if no items are found
         } else {
             // Fetch cart count from the session for unauthenticated users
             $session = $this->getRequest()->getSession();
             $cart = $session->read('Cart') ?? [];
             $cartCount = array_sum(array_column($cart, 'quantity'));
         }
-    
+
         // Pass the cart count to the view
         $this->set(compact('cartCount'));
     }
