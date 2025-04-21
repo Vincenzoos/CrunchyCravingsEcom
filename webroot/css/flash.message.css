@@ -15,16 +15,19 @@
 
 /* Flash messages */
 .message {
-    position: fixed; /* Fix the error/success message on screen */
-    top: 20px; /* Distance from the top of the screen */
+    position: absolute; /* Fix the error/success message on screen */
+    top: 15%; /* Distance from the top of the screen */
+    left: 50%; /* Position the left edge at the center of the viewport */
+    transform: translateX(-50%); /* Adjust the position to center the element horizontally */
     font-size: 18px; /* Larger font size */
     font-weight: bold; /* Bold text */
     border-radius: 8px; /* Round the corners */
     background: var(--color-message-info-bg);
     color: var(--color-message-info-text);
-    margin: auto;
     width: fit-content;
+    text-align: center;
     padding: 15px 30px; /* Add some padding for better visibility */
+    z-index: 9999;
     cursor: pointer;
 }
 .message.hidden {
