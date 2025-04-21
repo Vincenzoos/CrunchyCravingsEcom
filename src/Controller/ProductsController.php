@@ -132,6 +132,32 @@ class ProductsController extends AppController
                 ->where(['Categories.id IN' => $selectedCategories]);
         }
 
+        $sort = $this->request->getQuery('sort');
+
+        // Default sorting
+        $order = ['Products.created' => 'DESC'];
+    
+        // Adjust sorting based on the 'sort' parameter
+        if ($sort === 'price_asc') {
+            $order = ['Products.price' => 'ASC'];
+        } elseif ($sort === 'price_desc') {
+            $order = ['Products.price' => 'DESC'];
+        } elseif ($sort === 'newest') {
+            $order = ['Products.created' => 'DESC'];
+        }
+        
+        // Apply sorting to the query
+        $query->order($order);
+    
+        // Fetch products with the specified order
+        $products = $this->Products->find('all', [
+            'order' => $order,
+            'contain' => ['Categories'], // Include related data if needed
+        ]);
+    
+        $categoriesList = $this->Products->Categories->find('list');
+
+        // Apply pagination
         $products = $this->paginate($query);
 
         // Pass variables to the view

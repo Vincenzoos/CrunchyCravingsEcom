@@ -64,137 +64,139 @@ $html = new HtmlHelper(new \Cake\View\View());
     </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
 
-    <div id="shop-container">
-        <!-- Product Filter -->
-        <div class="container">
-            <div id="shop-box" class="product-filter-box">
-                <!-- Begin Filter Form -->
+    <!-- Shop container -->
+    <div class="container" id="shop-container">
+        <!-- Top Bar -->
+        <div class="row align-items-center mb-3">
+            <div class="col">
+                <h4 class="mb-0">Products</h4>
+            </div>
+            <div class="col-auto d-flex align-items-center">
+                <!-- Show/Hide Filters Button -->
+                <button id="toggle-filters" class="btn btn-outline-primary">
+                    Show Filters <i class="fa fa-sliders"></i>
+                </button>
+
+                <!-- Sort By Dropdown -->
+                <div id="sort-dropdown">
+                <button id="sort-button" class="btn btn-outline-secondary">
+                    Sort By
+                </button>
+                <div id="sort-options" class="dropdown-menu">
+                    <ul style="list-style-type: none; padding: 0; margin: 0;">
+                        <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'newest'])]) ?>">Newest</a></li>
+                        <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'price_desc'])]) ?>">Price: High-Low</a></li>
+                        <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'price_asc'])]) ?>">Price: Low-High</a></li>
+                    </ul>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <div class="row" id="shop-container">
+            <!-- Sidebar for Filters -->
+            <div id="filter-sidebar" class="hidden">
                 <?= $this->Form->create(null, ['type' => 'get', 'url' => ['action' => 'customerIndex']]) ?>
 
                 <!-- Price Range Section -->
-                <div class="col-12">
-                    <h4 class="text-center">Filter by Price</h4>
-                    <div class="price-input d-flex justify-content-center align-items-center">
-                        <!-- Min Price Field -->
-                        <div class="me-2">
-                            <?= $this->Form->control('min_price', [
-                                'id' => 'min-price',
-                                'label' => 'From:',
-                                'placeholder' => '0',
-                                'type' => 'number',
-                                'min' => '0',
-                                'max' => '500',
-                                'value' => $this->request->getQuery('min_price'),
-                                'class' => 'form-control',
-                            ]) ?>
-                        </div>
-                        <!-- Max Price Field -->
-                        <div>
-                            <?= $this->Form->control('max_price', [
-                                'id' => 'max-price',
-                                'label' => 'To:',
-                                'placeholder' => '500',
-                                'type' => 'number',
-                                'min' => '0',
-                                'max' => '500',
-                                'value' => $this->request->getQuery('max_price'),
-                                'class' => 'form-control',
-                            ]) ?>
+                <div class="mb-4">
+                    <button class="btn w-100 mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#price-range-collapse" aria-expanded="false" aria-controls="price-range-collapse">
+                        Price Range <i class="fa fa-chevron-down float-end"></i>
+                    </button>
+                    <div class="collapse" id="price-range-collapse">
+                        <div id="slider-range" class="mb-3"></div>
+                        <div class="d-flex justify-content-between">
+                            <div class="input-group me-2">
+                                <input type="number" id="min-price" name="min_price" class="form-control" placeholder="Min" value="<?= $this->request->getQuery('min_price') ?? 0 ?>" min="0" max="500">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <div class="input-group ms-2">
+                                <input type="number" id="max-price" name="max_price" class="form-control" placeholder="Max" value="<?= $this->request->getQuery('max_price') ?? 500 ?>" min="0" max="500">
+                                <span class="input-group-text">$</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Categories Section -->
-                <div class="col-12 mt-4">
-                    <h4 class="text-center">Filter by Categories</h4>
-                    <div class="col-12">
+                <div class="mb-4">
+                    <button class="btn w-100 mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#categories-collapse" aria-expanded="false" aria-controls="categories-collapse">
+                        Categories <i class="fa fa-chevron-down float-end"></i>
+                    </button>
+                    <div class="collapse" id="categories-collapse">
                         <?= $this->Form->control('categories._ids', [
                             'type' => 'select',
                             'options' => $categoriesList,
                             'multiple' => true,
-                            'class' => 'form-select select2', // use select2
-                            'empty' => false, // Disable the empty option
+                            'class' => 'form-select select2',
+                            'empty' => false,
                             'value' => $this->request->getQuery('categories._ids'),
-                            'label' => false, // Remove the label
+                            'label' => false,
                         ]) ?>
                     </div>
                 </div>
 
                 <!-- Buttons Section -->
-                <div class="col-12 text-center mt-4">
-                    <button type="submit" class="btn btn-success me-2">Apply Filters</button>
-                    <a href="<?= $this->Url->build(['action' => 'customerIndex']) ?>" class="btn btn-danger">Clear Filters</a>
-                </div>
+                <!-- <div class="text-center"> -->
+                    <button type="submit" class="btn btn-success me-2">Apply</button>
+                    <a href="<?= $this->Url->build(['action' => 'customerIndex']) ?>" class="btn btn-danger">Clear</a>
+                <!-- </div> -->
+
                 <?= $this->Form->end() ?>
-                <!-- End Filter Form -->
+            </div>
+            <!-- Sidebar for Filters /- -->
+
+            <!-- Feature Products -->
+            <div id="featured-products" class="featured-products">
+                <div class="category-box-main product-box-main">
+                    <div class="row">
+                        <?php foreach ($products as $product) : ?>
+                            <div class="col-lg-4 col-md-6 col-sm-12 main-product">
+                                <div class="category-box product-box">
+                                    <?php if ($product->on_sale) : ?>
+                                        <span class="sale">sales</span>
+                                    <?php endif; ?>
+                                    <div class="inner-product">
+                                        <!-- Link the product image to the view page -->
+                                        <?= $this->Html->image($product->image_cache_busted_url, [
+                                            'alt' => $product->name,
+                                            'class' => 'img-fluid rounded-top',
+                                            'style' => 'width: auto; height: auto; object-fit: cover;'
+                                        ]) ?>
+                                        <div class="product-box-inner">
+                                            <ul>
+                                                <li>
+                                                    <a title="View Image" href="<?= $this->Url->build($product->image_cache_busted_url) ?>">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <a title="Add to Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerAdd', $product->id]) ?>" class="btn">add to cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Link the product title to the view page -->
+                                <a title="<?= h($product->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>" class="product-title">
+                                    <?= h($product->name) ?>
+                                </a>
+                                <ul class="star">
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    </li>
+                                </ul>
+                                <span class="amount">
+                                    <?= $this->Number->currency($product->price, 'AUD') ?>
+                                </span>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- Product Filter /- -->
-
-        <!-- Feature Product -->
-        <div id="shop-box" class="container">
-            <div id="featured-products" class="featured-products bottom-shadow">
-                <!-- container -->
-                <div class="container">
-                    <div class="category-box-main product-box-main">
-                        <div class="container">
-                            <div class="row">
-                                <?php foreach ($products as $product) : ?>
-                                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 main-product">
-                                        <div class="category-box product-box">
-                                            <?php if ($product->on_sale) : ?>
-                                                <span class="sale">sales</span>
-                                            <?php endif; ?>
-                                            <div class="inner-product">
-                                                <!-- Link the product image to the view page -->
-                                                <?= $this->Html->image($product->image_cache_busted_url, [
-                                                    'alt' => $product->name,
-                                                    'class' => 'img-fluid rounded-top',
-                                                    'style' => 'height: 300px; object-fit: cover; width: 100%;'
-                                                ]) ?>
-                                                <div class="product-box-inner">
-                                                    <ul>
-                                                        <li>
-                                                            <a title="View Image" href="<?= $this->Url->build($product->image_cache_busted_url) ?>">
-                                                                <i class="fa fa-eye"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                    <a title="Add to Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerAdd', $product->id]) ?>" class="btn">add to cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Link the product title to the view page -->
-                                        <a title="<?= h($product->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>" class="product-title">
-                                            <?= h($product->name) ?>
-                                        </a>
-                                        <ul class="star">
-                                            <li>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </li>
-                                        </ul>
-                                        <span class="amount">
-                                            <?= $this->Number->currency($product->price, 'AUD') ?>
-                                        </span>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- container /- -->
-            </div>
-            <!-- Feature Product /- -->
-            <!-- <div class="loading">
-                <a title="Click here for more products" href="#">
-                    <img alt="loading icon" src="<?= $this->Url->image('load.gif') ?>">
-                    <p>click here for more products</p>
-                </a>
-            </div> -->
-        </div><!-- shop-box /- -->
     </div>
 
     <!-- Select2 Initialization -->
@@ -207,8 +209,54 @@ $html = new HtmlHelper(new \Cake\View\View());
         });
     </script>
 
-    <!-- Filter scripts -->
-    <!-- <script>
+    <!-- Sort Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sortButton = document.getElementById('sort-button');
+            const sortOptions = document.getElementById('sort-options');
+
+            // Toggle the visibility of the dropdown menu
+            sortButton.addEventListener('click', function (event) {
+                event.stopPropagation(); // Prevent the click from propagating to the document
+                sortOptions.classList.toggle('show');
+            });
+
+            // Close the dropdown if clicked outside
+            document.addEventListener('click', function (event) {
+                if (!sortButton.contains(event.target) && !sortOptions.contains(event.target)) {
+                    sortOptions.classList.remove('show');
+                }
+            });
+        });
+    </script>
+
+    <!-- Filter sidebar toggle script and resuze featured products -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleFiltersButton = document.getElementById('toggle-filters');
+            const filterSidebar = document.getElementById('filter-sidebar');
+            const featuredProducts = document.getElementById('featured-products');
+
+            toggleFiltersButton.addEventListener('click', function () {
+                if (!filterSidebar.classList.contains('open')) {
+                    // Show the sidebar
+                    filterSidebar.classList.add('open');
+                    filterSidebar.classList.remove('hidden');
+                    featuredProducts.style.width = '80%'; // Adjust featured-products width
+                    toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
+                } else {
+                    // Hide the sidebar
+                    filterSidebar.classList.remove('open');
+                    filterSidebar.classList.add('hidden');
+                    featuredProducts.style.width = '100%'; // Expand featured-products to full width
+                    toggleFiltersButton.innerHTML = 'Show Filters <i class="fa fa-sliders"></i>';
+                }
+            });
+        });
+    </script>
+
+    <!-- Filter script -->
+    <script>
         jQuery.noConflict();
         jQuery(document).ready(function($) {
             // Initialize the slider with absolute min and max values
@@ -245,9 +293,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             jQuery("#min-price").val(jQuery("#slider-range").slider("values", 0));
             jQuery("#max-price").val(jQuery("#slider-range").slider("values", 1));
         });
-    </script> -->
-
-
+    </script>
 </body>
 
 </html>

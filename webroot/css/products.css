@@ -1,6 +1,7 @@
 /* Ensure consistent spacing for product cards */
 .main-product {
     margin-bottom: 20px;
+    background-color: transparent !important;
 }
 
 /* Ensure product images are properly sized */
@@ -38,4 +39,110 @@
     content: "";
     display: table;
     clear: both;
+}
+
+
+/* Dropdown Menu for Sorting -------------------------------- */
+.sort-dropdown {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 10px 0;
+    width: 200px;
+    font-family: var(--main-font);
+}
+
+.sort-dropdown .picker_close {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.sort-dropdown .sort-options {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.sort-dropdown .dropdown-item:hover {
+    color: #007bff;
+}
+
+.sort-dropdown.open .sort-options {
+    display: block;
+}
+
+/* Sort button */
+#sort-button {
+    margin-left: 1rem;
+    border: 1px solid #333;
+    color: var(--text-color); /* Match text color */
+    font-family: var(--main-font); /* Use main font */
+}
+
+/* sorting options */
+#sort-options {
+    padding: 0.8rem;
+}
+
+#sort-options ul {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+
+#sort-options ul li a {
+    color: var(--text-color);
+    text-decoration: none; /* Remove underline from links */
+    font-family: var(--main-font);
+}
+
+#sort-options ul li a:hover {
+    background-color: var(--sidebar-hover-color); /* Highlight background on hover */
+    color: var(--text-color); /* Adjust text color on hover */
+}
+
+/* Filter sidebar ------------------------------------------- */
+#filter-sidebar {
+    color: var(--text-color);
+    font-family: var(--main-font);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    margin-right: 1rem; 
+}
+
+/* Apply shared styles to both IDs */
+#featured-products {
+    /* Manually apply styles from shop-box */
+    padding: 1rem;
+    border-radius: 0.5rem;
+    /* border: 1px solid #ddd; */
+    /* box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(145deg, #ffffff, #f3f0f0); */
+    background-color: transparent !important;
+    flex: 1; /* Automatically take up the remaining space */
+}
+
+#filter-sidebar {
+    top: 0;
+    left: 0;
+    width: 25%; /* Sidebar width */
+    height: 100%; /* Full height */
+    background-color: #fff; /* Sidebar background */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Optional shadow */
+    opacity: 0;
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+#filter-sidebar.hidden {
+    display: none; /* Completely remove it from the layout */
+    transform: none; /* Reset transform to avoid conflicts */
+}
+
+#filter-sidebar.open {
+    opacity: 1; /* Fully visible */
 }

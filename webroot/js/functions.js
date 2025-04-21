@@ -144,57 +144,6 @@
 		var window_width = $(window).width();
 		// $(".header").css("height", window_height + "px");
 		
-		/* Categories Section */
-		$('.category-section').each(function ()
-		{
-			var $this = $(this);
-			var myVal = $(this).data("value");
-
-			$this.appear(function()
-			{
-				$('.category-section .category-box-main:nth-child(odd)').addClass('animated slideInLeft').delay( 10000 );			
-				$('.category-section .category-box-main:nth-child(even)').addClass('animated slideInRight').delay( 10000 );			
-			});
-		});
-		
-		/* Featured Section */
-		$('.featured-products').each(function ()
-		{
-			var $this = $(this);
-			var myVal = $(this).data("value");
-
-			$this.appear(function()
-			{
-				$('.featured-products .category-box-main:nth-child(odd)').addClass('animated slideInLeft').delay( 10000 );			
-				$('.featured-products .category-box-main:nth-child(even)').addClass('animated slideInRight').delay( 10000 );			
-			});
-		});
-		
-		/* blog Section */
-		$('.blog-section').each(function ()
-		{
-			var $this = $(this);
-			var myVal = $(this).data("value");
-
-			$this.appear(function()
-			{
-				$('.blog-section .col-md-3').addClass('animated slideInLeft').delay( 10000 );			
-			});
-		});
-		
-		/* About Section */
-		$('.about-section').each(function ()
-		{
-			var $this = $(this);
-			var myVal = $(this).data("value");
-
-			$this.appear(function()
-			{
-				$('.about-section .about-content-box .col-md-6:nth-child(odd)').addClass('animated slideInLeft').delay( 10000 );			
-				$('.about-section .about-content-box .col-md-6:nth-child(even)').addClass('animated slideInRight').delay( 10000 );			
-			});
-		});
-		
 		/* footer Section */
 		$('.footer-section').each(function ()
 		{
@@ -319,7 +268,7 @@
 
 		/* Loader */
 		$( '.loading a' ).on('click', function(e) {
-			$( ".category-box-main.new-categories" ).removeClass('animated slideInLeft');
+			// $( ".category-box-main.new-categories" ).removeClass('animated slideInLeft');
 			$( ".category-box-main.new-categories" ).css( 'display','block' ).addClass("animated fadeInUp").delay( 100 );
 			$(".loading").css("display","none");
 			return false;
