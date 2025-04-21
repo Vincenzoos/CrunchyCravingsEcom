@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Core\Configure;
 use Cake\Event\EventInterface;
 use Cake\Log\Log;
 use Cake\Mailer\Mailer;
@@ -180,10 +181,7 @@ class CartItemsController extends AppController
 
             if ($userId) {
                 // Handle logged-in users (database-based cart)
-                $cartItem = $this->CartItems->find()
-                    ->where(['id' => $id, 'user_id' => $userId])
-                    ->contain(['Products'])
-                    ->first();
+                $cartItem = $this->CartItems->get($id);
 
                 if (!$cartItem) {
                     $this->Flash->error(__('Cart item not found.'));
@@ -193,7 +191,7 @@ class CartItemsController extends AppController
 
                 // Update the quantity and save
                 $cartItem->quantity = $quantity;
-                $cartItem->line_price = $cartItem->product->price * $quantity;
+//                $cartItem->line_price = $cartItem->product->price * $quantity;
 
                 if ($this->CartItems->save($cartItem)) {
                     $this->Flash->success(__('Cart item quantity updated successfully.'));
@@ -213,7 +211,7 @@ class CartItemsController extends AppController
 
                 // Fetch the product details dynamically
                 $product = $this->CartItems->Products->find()
-                    ->where(['id' => $id])
+                    ->where(['CartItems.id' => $id])
                     ->first();
 
                 if (!$product) {
@@ -266,10 +264,7 @@ class CartItemsController extends AppController
 
         if ($userId) {
             // Handle logged-in users (database-based cart)
-            $cartItem = $this->CartItems->find()
-                ->where(['id' => $id, 'user_id' => $userId])
-                ->contain(['Products'])
-                ->first();
+            $cartItem = $this->CartItems->get($id);
 
             if (!$cartItem) {
                 $this->Flash->error(__('Cart item not found.'));
@@ -277,10 +272,10 @@ class CartItemsController extends AppController
                 return $this->redirect($this->referer());
             }
 
-            // Update the quantity and line price
+            // Update the quantity (dont need update line_price since it is virtual field, used for display only)
             $cartItem->quantity = $quantity;
-            $cartItem->line_price = $cartItem->product->price * $quantity;
 
+            // Save the updated cart item
             if ($this->CartItems->save($cartItem)) {
                 $this->Flash->success(__('Cart item quantity updated successfully.'));
             } else {
@@ -329,16 +324,14 @@ class CartItemsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete(?string $productId = null)
+    public function delete(?string $id = null)
     {
         $identity = $this->Authentication->getIdentity();
         $userId = $identity ? $identity->get('id') : null;
 
         if ($userId) {
             // Delete from database for logged-in users
-            $cartItem = $this->CartItems->find('all')
-                ->where(['user_id' => $userId, 'product_id' => $productId])
-                ->first();
+            $cartItem = $this->CartItems->get($id);
 
             if ($cartItem && $this->CartItems->delete($cartItem)) {
                 $this->Flash->success(__('The cart item has been deleted.'));
@@ -350,8 +343,8 @@ class CartItemsController extends AppController
             $session = $this->request->getSession();
             $cart = $session->read('Cart') ?? [];
 
-            if (isset($cart[$productId])) {
-                unset($cart[$productId]);
+            if (isset($cart[$id])) {
+                unset($cart[$id]);
                 $session->write('Cart', $cart);
                 $this->Flash->success(__('The cart item has been deleted.'));
             } else {
@@ -419,7 +412,7 @@ class CartItemsController extends AppController
 
                 // Update the quantity and recalculate the line price
                 $existingItem->quantity += $selected_quantity;
-                $existingItem->line_price = $existingItem->quantity * $product->price;
+//                $existingItem->line_price = $existingItem->quantity * $product->price;
 
                 // Check stock availability
                 if ($existingItem->quantity > $product->quantity) {
