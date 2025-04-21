@@ -311,6 +311,7 @@ $html = new HtmlHelper(new View());
 		</div><!-- Add Banner /- -->
 
 		<!-- widget section -->
+        <!--        TODO: Need to recenter footer since unusable links commented out -->
 		<div class="widget-section bottom-shadow">
 			<!-- container -->
 			<div class="container">
@@ -347,30 +348,30 @@ $html = new HtmlHelper(new View());
 					<!-- col-md-6 -->
 					<div class="col-12 col-md-12 col-lg-6">
 						<div class="row">
-							<aside class="col-12  col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
-								<h3 class="widget-title">
-									Our Stores
-								</h3>
-								<ul>
-                                    <li><a title="Melbourne" href="">Melbourne</a></li>
-									<li><a title="Sydney" href="">Sydney</a></li>
-									<li><a title="Brisbane" href="">Brisbane</a></li>
-									<li><a title="Perth" href="">Perth</a></li>
-								</ul>
-							</aside>
+<!--							<aside class="col-12  col-sm-4 col-md-4 col-lg-4 widget widget_list_style">-->
+<!--								<h3 class="widget-title">-->
+<!--									Our Stores-->
+<!--								</h3>-->
+<!--								<ul>-->
+<!--                                    <li><a title="Melbourne" href="">Melbourne</a></li>-->
+<!--									<li><a title="Sydney" href="">Sydney</a></li>-->
+<!--									<li><a title="Brisbane" href="">Brisbane</a></li>-->
+<!--									<li><a title="Perth" href="">Perth</a></li>-->
+<!--								</ul>-->
+<!--							</aside>-->
 
 
-							<aside class="col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
-								<h3 class="widget-title">
-									Orders
-								</h3>
-								<ul>
-									<li><a title="Order Status" href="">Order Status</a></li>
-									<li><a title="My Order History" href="">My Order History</a></li>
-									<li><a title="Payments" href="">Payments</a></li>
-									<li><a title="Returns" href="">Returns</a></li>
-								</ul>
-							</aside>
+<!--							<aside class="col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">-->
+<!--								<h3 class="widget-title">-->
+<!--									Orders-->
+<!--								</h3>-->
+<!--								<ul>-->
+<!--									<li><a title="Order Status" href="">Order Status</a></li>-->
+<!--									<li><a title="My Order History" href="">My Order History</a></li>-->
+<!--									<li><a title="Payments" href="">Payments</a></li>-->
+<!--									<li><a title="Returns" href="">Returns</a></li>-->
+<!--								</ul>-->
+<!--							</aside>-->
 
 							<aside class=" col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
 							<h3 class="widget-title">
@@ -378,9 +379,9 @@ $html = new HtmlHelper(new View());
 								</h3>
 								<ul>
                                     <li><a title="Contact Us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact Us</a></li>
-									 <li><a title="Privacy Policy" href="">Privacy Policy</a></li>
-									 <li><a title="Terms &amp; Conditions" href="">Terms &amp; Conditions</a></li>
-									<li><a title="FAQ" href="">FAQ</a></li>
+<!--									 <li><a title="Privacy Policy" href="">Privacy Policy</a></li>-->
+<!--									 <li><a title="Terms &amp; Conditions" href="">Terms &amp; Conditions</a></li>-->
+<!--									<li><a title="FAQ" href="">FAQ</a></li>-->
 								</ul>
 							</aside>
 						</div>
@@ -397,7 +398,7 @@ $html = new HtmlHelper(new View());
 			<div class="container">
 				<div class="row" style="display: flex; justify-content: center; align-items: center;">
 					<div class="col-12 col-md-12 col-lg-3">
-						<a title="Payment-getway" href=""><?= $html->image('footer/payment-getway-icon.png', ['alt' => 'payment-icon']) ?></a>
+<!--						<a title="Payment-getway" href="">--><?php //= $html->image('footer/payment-getway-icon.png', ['alt' => 'payment-icon']) ?><!--</a>-->
 					</div>
 				</div>
 			</div>
