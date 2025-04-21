@@ -3,11 +3,14 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User $user
  */
+
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\View;
+
 ?>
 
 <?php
-use Cake\View\Helper\HtmlHelper;
-$html = new HtmlHelper(new \Cake\View\View());
+$html = new HtmlHelper(new View());
 ?>
 
 <head>
@@ -39,7 +42,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <div class="mb-4">
                             <?= $this->Form->control('email', [
                                 'class' => 'form-control mx-auto',
-                                'label' => ['text' => '<h4>Email</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4><span style="color: red;">*</span>Email</h4>', 'escape' => false],
                                 'placeholder' => 'Enter the user email...',
                                 'required' => true,
                             ]) ?>
@@ -47,16 +50,19 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <div class="mb-4">
                             <?= $this->Form->control('password', [
                                 'class' => 'form-control mx-auto',
-                                'label' => ['text' => '<h4>Password</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4><span style="color: red;">*</span>Password</h4>', 'escape' => false],
                                 'placeholder' => 'Enter a password...',
                                 'type' => 'password',
+                                'minlength' => 8,
+                                'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
+                                'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
                                 'required' => true,
                             ]) ?>
                         </div>
                         <div class="mb-4">
                             <?= $this->Form->control('role', [
                                 'type' => 'select',
-                                'label' => ['text' => '<h4>Role</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4><span style="color: red;">*</span>Role</h4>', 'escape' => false],
                                 'options' => ['admin' => 'Admin', 'customer' => 'Customer'],
                                 'class' => 'form-select select2',
                                 'empty' => false, // Disable the empty option
