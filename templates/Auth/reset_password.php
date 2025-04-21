@@ -59,6 +59,9 @@ $html = new HtmlHelper(new \Cake\View\View());
                                         'placeholder' => 'Enter your new password...',
                                         'type' => 'password',
                                         'required' => true,
+                                        'minlength' => 8,
+                                        'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
+                                        'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
                                     ]); ?>
                                 </div>
                                 <div class="mb-4">
@@ -68,6 +71,9 @@ $html = new HtmlHelper(new \Cake\View\View());
                                         'placeholder' => 'Re-enter your new password...',
                                         'type' => 'password',
                                         'required' => true,
+                                        'minlength' => 8,
+                                        'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
+                                        'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
                                     ]); ?>
                                 </div>
                             </fieldset>
