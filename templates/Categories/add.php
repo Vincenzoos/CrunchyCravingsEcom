@@ -2,13 +2,17 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Category $category
- * @var \Cake\Collection\CollectionInterface|string[] $products
+ * @var \Cake\Collection\CollectionInterface|array<string> $products
  */
+
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\View;
+
 ?>
 
 <?php
-use Cake\View\Helper\HtmlHelper;
-$html = new HtmlHelper(new \Cake\View\View());
+$html = new HtmlHelper(new View());
+const DESC_MAX_LENGTH = 150;
 ?>
 
 <head>
@@ -38,27 +42,32 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <div id="form-content" class="bg-light p-4 rounded">
-                            <?= $this->Form->create($category, ['class' => 'form']) ?>
+                            <!-- Allow customized form validation styling -->
+                            <?php $this->Form->setTemplates([
+                                'inputContainer' => '{{content}}']); ?>
+                            <?= $this->Form->create($category, ['class' => 'form needs-validation', 'novalidate' => true]) ?>
 
-                            <div class="mb-4">
+                            <div class="mb-4 has-validation">
                                 <?= $this->Form->control('name', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h4>Category Name</h4>', 'escape' => false],
+                                    'label' => ['text' => '<h4><span style="color: red;">*</span>Category Name</h4>', 'escape' => false],
                                     'placeholder' => 'Enter the category name...',
+                                    'pattern' => '^[a-zA-Z\s]+$',
+                                    'title' => 'Please use only letters and spaces for your category name',
                                     'required' => true,
                                 ]) ?>
+                                <div class="invalid-feedback">Please use only letters and spaces for your category name.</div>
                             </div>
                             <div class="mb-4">
                                 <?= $this->Form->control('description', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h4 class="text-center" id="description-label">Description (0/150)</h4>', 'escape' => false],
+                                    'label' => ['text' => '<h4 class="text-center" id="description-label">Description (<span id="character-count">0</span>/' . DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
                                     'placeholder' => 'Enter a brief description...',
                                     'type' => 'tel',
                                     'rows' => 4,
-                                    'onkeyup' => 'limitInputLength(this, "description-label", "Description", 150)',
+                                    'onkeyup' => 'limitInputLength(this, "character-count", ' . DESC_MAX_LENGTH . ')',
                                     'oninput' => 'removeScriptTags(this)',
-                                    'maxlength' => 150, // Override maxlength
-                                    'required' => true,
+                                    'maxlength' => DESC_MAX_LENGTH, // Override maxlength
                                 ]) ?>
                             </div>
                             <div class="mb-4">
@@ -97,4 +106,5 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Custom JS -->
     <?= $this->Html->script('form-utils') ?>
+    <?= $this->Html->script('form-validation') ?>
 </body>

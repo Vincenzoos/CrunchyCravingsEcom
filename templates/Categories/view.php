@@ -89,7 +89,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                                             ['controller' => 'Products', 'action' => 'delete', $product->id],
                                                             [
                                                                 'class' => 'btn btn-danger btn-sm',
-                                                                'confirm' => __('Are you sure you want to delete {0}?', $product->name),
+                                                                'confirm' => __('Are you sure you want to delete this product: {0}?', $product->name),
                                                             ]
                                                         ) ?>
                                                     </td>
@@ -109,12 +109,12 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 ['action' => 'delete', $category->id],
                                 [
                                     'class' => 'btn btn-danger',
-                                    'confirm' => __('Are you sure you want to delete {0}?', $category->name),
+                                    'confirm' => __('Are you sure you want to delete this category: {0}?', $category->name),
                                 ]
                             ) ?>
                         </div>
                         <div class="text-center mt-4">
-                            <?= $this->Html->link('Back to Categories', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+                            <?= $this->Html->link('Back to Categories List', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
                         </div>
                     </div>
                 </div>

@@ -7,7 +7,6 @@ use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-
 /**
  * Categories Model
  *
@@ -63,11 +62,28 @@ class CategoriesTable extends Table
             ->maxLength('name', 30)
             ->requirePresence('name', 'create')
             ->notEmptyString('name')
-            ->add('name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->add('name', 'validFormat', [
+                'rule' => ['custom', '/^[a-zA-Z\s]+$/'],
+                'message' => 'Please use only letters and spaces for your category name.',
+            ])
+            ->add('name', 'unique', [
+                'rule' => 'validateUnique',
+                'provider' => 'table',
+                'message' => 'This category name is already in use. Please choose another name.',
+            ]);
 
         $validator
             ->scalar('description')
-            ->maxLength('description', 100)
+            ->maxLength('description', 150)
+            ->add('description', 'noHtmlTags', [
+                'rule' => function ($value, $context) {
+                    // Validate by comparing the value with its stripped version.
+                    // You can also allow certain tags by providing an allowlist as the second parameter.
+                    // For example: strip_tags($value, '<p><br>')
+                    return $value === strip_tags($value);
+                },
+                'message' => 'HTML tags are not allowed in the description.'
+            ])
             ->allowEmptyString('description');
 
         return $validator;
