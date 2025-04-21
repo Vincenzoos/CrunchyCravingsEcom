@@ -64,6 +64,9 @@ $html = new HtmlHelper(new \Cake\View\View());
                                         'label' => ['text' => '<h3 class="text-center">Password</h3>', 'escape' => false],
                                         'placeholder' => 'Enter your password...',
                                         'type' => 'password',
+                                        'minlength' => 8,
+                                        'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
+                                        'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
                                         'required' => true,
                                     ]); ?>
                                 </div>
@@ -73,6 +76,9 @@ $html = new HtmlHelper(new \Cake\View\View());
                                         'label' => ['text' => '<h3 class="text-center">Confirm Password</h3>', 'escape' => false],
                                         'placeholder' => 'Re-enter your password...',
                                         'type' => 'password',
+                                        'minlength' => 8,
+                                        'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
+                                        'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
                                         'required' => true,
                                     ]); ?>
                                 </div>
