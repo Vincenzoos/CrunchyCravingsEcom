@@ -19,7 +19,8 @@ Purchase: http://themeforest.net/user/webstrot  -->
 
 <?php
 use Cake\View\Helper\HtmlHelper;
-$html = new HtmlHelper(new \Cake\View\View());
+use Cake\View\View;
+$html = new HtmlHelper(new View());
 ?>
 
 <head>
@@ -63,7 +64,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($cartItems as $cartItem): ?>
+                    <?php foreach ($cartItems as $cartItem) : ?>
                         <tr>
                             <td data-title="Product" class="product-thumbnail">
                                 <h5><?= h($cartItem->product->name) ?></h5>
@@ -191,7 +192,13 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 </tr>
                             </tbody>
                         </table>
-                        <a title="Checkout" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'checkout']) ?>" class="btn btn-default">Checkout</a>
+                        <!-- Checkout for login user -->
+                        <?php if ($this->Identity->isLoggedIn()) : ?>
+                            <a title="Checkout" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'authenticatedCheckout']) ?>" class="btn btn-default">Checkout</a>
+                        <?php else : ?>
+                            <!-- Checkout for public (unauthenticated) user -->
+                        <a title="Checkout" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'unauthenticatedCheckout']) ?>" class="btn btn-default">Checkout</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -201,23 +208,23 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 
 
-	<!-- jQuery Include -->
-	<script src="libraries/jquery.min.js"></script>
-	<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false'></script>
-	<script src="libraries/gmap/jquery.gmap.min.js"></script> <!-- Light Box -->
-	<script src="libraries/jquery.easing.min.js"></script><!-- Easing Animation Effect -->
-	<script src="libraries/bootstrap/bootstrap.bundle.min.js"></script> <!-- Core Bootstrap v3.3.4 -->
-	<script src="libraries/fuelux/jquery-ui.min.js"></script>
-	<script src="libraries/jquery.animateNumber.min.js"></script> <!-- Used for Animated Numbers -->
-	<script src="libraries/jquery.appear.js"></script> <!-- It Loads jQuery when element is appears -->
-	<script src="libraries/jquery.knob.js"></script> <!-- Used for Loading Circle -->
-	<script src="libraries/wow.min.js"></script> <!-- Use For Animation -->
-	<script src="libraries/owl-carousel/owl.carousel.min.js"></script> <!-- Core Owl Carousel CSS File  *	v1.3.3 -->
-	<script src="libraries/expanding-search/modernizr.custom.js"></script> <!-- Core Owl Carousel CSS File  *	v1.3.3 -->
-	<script src="libraries/flexslider/jquery.flexslider-min.js"></script> <!-- flexslider   -->
-	<script src="libraries/jquery.magnific-popup.min.js"></script> <!-- Light Box -->
-	<!-- Customized Scripts -->
-	<script src="js/functions.js"></script>
+    <!-- jQuery Include -->
+    <script src="libraries/jquery.min.js"></script>
+    <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false'></script>
+    <script src="libraries/gmap/jquery.gmap.min.js"></script> <!-- Light Box -->
+    <script src="libraries/jquery.easing.min.js"></script><!-- Easing Animation Effect -->
+    <script src="libraries/bootstrap/bootstrap.bundle.min.js"></script> <!-- Core Bootstrap v3.3.4 -->
+    <script src="libraries/fuelux/jquery-ui.min.js"></script>
+    <script src="libraries/jquery.animateNumber.min.js"></script> <!-- Used for Animated Numbers -->
+    <script src="libraries/jquery.appear.js"></script> <!-- It Loads jQuery when element is appears -->
+    <script src="libraries/jquery.knob.js"></script> <!-- Used for Loading Circle -->
+    <script src="libraries/wow.min.js"></script> <!-- Use For Animation -->
+    <script src="libraries/owl-carousel/owl.carousel.min.js"></script> <!-- Core Owl Carousel CSS File  *   v1.3.3 -->
+    <script src="libraries/expanding-search/modernizr.custom.js"></script> <!-- Core Owl Carousel CSS File  *   v1.3.3 -->
+    <script src="libraries/flexslider/jquery.flexslider-min.js"></script> <!-- flexslider   -->
+    <script src="libraries/jquery.magnific-popup.min.js"></script> <!-- Light Box -->
+    <!-- Customized Scripts -->
+    <script src="js/functions.js"></script>
 
 </body>
 
