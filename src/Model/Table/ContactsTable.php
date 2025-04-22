@@ -50,7 +50,7 @@ class ContactsTable extends Table
     {
         $validator
             ->scalar('first_name')
-            ->maxLength('first_name', 255)
+            ->maxLength('first_name', 50)
             ->requirePresence('first_name', 'create')
             ->add('name', 'validFormat', [
                 'rule' => ['custom', '/^[a-zA-Z\s]+$/'],
@@ -60,7 +60,7 @@ class ContactsTable extends Table
 
         $validator
             ->scalar('last_name')
-            ->maxLength('last_name', 255)
+            ->maxLength('last_name', 50)
             ->requirePresence('last_name', 'create')
             ->add('name', 'validFormat', [
                 'rule' => ['custom', '/^[a-zA-Z\s]+$/'],
