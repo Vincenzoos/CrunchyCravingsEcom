@@ -32,3 +32,21 @@
     padding-top: 1rem !important;
     padding-bottom: 2rem !important;
 }
+
+#requirements-content {
+    /* padding-top: 0.5rem !important; */
+    padding-bottom: 0.5rem !important;
+}
+
+#requirements-content ul {
+    padding-left: 1.5rem;
+    margin-left: 0;
+}
+
+#requirements-content ul li {
+    color: var(--text-color);
+    font-family: var(--main-font);
+    list-style-type: disc;
+    padding-left: 0;
+    margin-left: 0;
+}

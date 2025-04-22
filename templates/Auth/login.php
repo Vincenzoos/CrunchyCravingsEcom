@@ -43,23 +43,33 @@ $html = new HtmlHelper(new View());
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <div id="form-content" class="text-center">
+                        <div id="form-content">
                             <?= $this->Form->create() ?>
                             <fieldset>
                                 <?= $this->Flash->render() ?>
                                 <div class="mb-4">
                                     <?= $this->Form->control('email', [
                                         'class' => 'form-control mx-auto',
-                                        'label' => ['text' => '<h3 class="text-center">Email</h3>', 'escape' => false],
+                                        'label' => ['text' => '<h3>Email</h3>', 'escape' => false],
                                         'placeholder' => 'Enter your email...',
                                         'type' => 'email',
                                         'required' => true,
                                     ]); ?>
                                 </div>
                                 <div class="mb-4">
+                                    <h3>Password</h3>
+                                    <!-- Password Requirements-->
+                                    <div id="requirements-content">
+                                        <ul class="text-start mt-2">
+                                            <li>Must be at least 8 characters long</li>
+                                            <li>Must contain at least one uppercase letter</li>
+                                            <li>Must contain at least one number</li>
+                                            <li>Must contain at least one special character (e.g., @$!%*?&)</li>
+                                        </ul>
+                                    </div>
                                     <?= $this->Form->control('password', [
                                         'class' => 'form-control mx-auto',
-                                        'label' => ['text' => '<h3 class="text-center">Password</h3>', 'escape' => false],
+                                        'label' => false,
                                         'placeholder' => 'Enter your password...',
                                         'type' => 'password',
                                         'minlength' => 8,
