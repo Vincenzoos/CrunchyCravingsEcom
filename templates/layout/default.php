@@ -254,30 +254,6 @@ $html = new HtmlHelper(new View());
 
     <!-- Footer Section -->
 	<div id="footer-section" class="footer-section">
-		<!-- informational-icons -->
-		<div class="informational bottom-shadow">
-			<!-- container -->
-			<div class="container">
-				<ul class="informational-icons">
-					<li>
-						<i class="fa fa-star" aria-hidden="true"></i>
-						<span>Premium quality</span>
-					</li>
-					<li>
-						<i class="fa fa-gift" aria-hidden="true"></i>
-						<span>Perfect gift</span>
-					</li>
-					<li>
-						<i class="fa fa-leaf" aria-hidden="true"></i>
-						<span>Eco-friendly</span>
-					</li>
-					<li>
-						<i class="fa fa-trophy" aria-hidden="true"></i>
-						<span>Top Seller</span>
-					</li>
-				</ul>
-			</div><!-- container /- -->
-		</div><!-- informational-icons /- -->
 
 		<!-- Add Banner -->
 		<div id="add-banner-section" class="add-banner-section bottom-shadow">
