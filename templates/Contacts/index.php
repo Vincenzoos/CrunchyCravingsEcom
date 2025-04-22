@@ -28,7 +28,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         <!-- Heading Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">Contacts List</h1>
+                <h1 class="display-4">Enquiries</h1>
                 <p class="lead">Manage all contacts below.</p>
             </div>
         </section>
