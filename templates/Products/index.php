@@ -145,17 +145,19 @@ $html = new HtmlHelper(new \Cake\View\View());
                 </div>
 
                 <!-- Paginator -->
-                <div class="d-flex justify-content-center align-items-center mt-4">
-                    <ul class="pagination">
-                        <?= $this->Paginator->first(__('<< First')) ?>
-                        <?= $this->Paginator->prev(__('< Previous')) ?>
-                        <p class="text-muted mx-3 mb-0">
-                            <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} records out of {{count}} total')) ?>
-                        </p>
-                        <?= $this->Paginator->next(__('Next >')) ?>
-                        <?= $this->Paginator->last(__('Last >>')) ?>
-                    </ul>
-                </div>
+                <?php if ($this->Paginator->hasPrev() || $this->Paginator->hasNext()): ?>
+                    <div class="d-flex justify-content-center align-items-center mt-4">
+                        <ul class="pagination">
+                            <?= $this->Paginator->first(__('<< First')) ?>
+                            <?= $this->Paginator->prev(__('< Previous')) ?>
+                            <p class="text-muted mx-3 mb-0">
+                                <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} records out of {{count}} total')) ?>
+                            </p>
+                            <?= $this->Paginator->next(__('Next >')) ?>
+                            <?= $this->Paginator->last(__('Last >>')) ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     <!-- </div> -->
