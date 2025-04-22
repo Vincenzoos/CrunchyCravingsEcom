@@ -149,47 +149,46 @@ $html = new HtmlHelper(new View());
 
 	<!-- Header Section -->
 	<header id="header" class="header">
-
 		<!-- logo-search-block -->
 		<div class="logo-search-block">
 			<!-- container -->
 			<div class="container">
 				<div class="row" style="display: flex; justify-content: center; align-items: center;">
 					<div class="col-12 col-md-12 col-lg-3 ow-left-padding  d-flex align-items-center" style="margin-top: 15px; margin-bottom: 15px;">
-                            <!-- Determine whether to show login or logout, and save the current page in URL redirect to be used as a fallback -->
-                            <?php if ($this->Identity->isLoggedIn()) : ?>
-                                <a title="Logout"
-                                id="top_link"
-                                style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                href="<?= $this->Url->build([
-                                    'controller' => 'Auth',
-                                    'action' => 'logout',
-                                    '?' => ['redirect' => $this->request->getRequestTarget()]
-                                ]) ?>"
-                                class="list-group-item">LOGOUT</a>
+                        <!-- Determine whether to show login or logout, and save the current page in URL redirect to be used as a fallback -->
+                        <?php if ($this->Identity->isLoggedIn()) : ?>
+                            <a title="Logout"
+                            id="top_link"
+                            style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
+                            href="<?= $this->Url->build([
+                                'controller' => 'Auth',
+                                'action' => 'logout',
+                                '?' => ['redirect' => $this->request->getRequestTarget()]
+                            ]) ?>"
+                            class="list-group-item">LOGOUT</a>
 
-                                <a title="Change Password"
-                                id="top_link"
-                                style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>"
-                                class="list-group-item">CHANGE PASSWORD</a>
-                            <?php else : ?>
-                                <a title="Login"
-                                id="top_link"
-                                style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                href="<?= $this->Url->build([
-                                    'controller' => 'Auth',
-                                    'action' => 'login',
-                                    '?' => ['redirect' => $this->request->getRequestTarget()]
-                                ]) ?>"
-                                class="list-group-item">LOGIN</a>
+                            <a title="Change Password"
+                            id="top_link"
+                            style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
+                            href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>"
+                            class="list-group-item">CHANGE PASSWORD</a>
+                        <?php else : ?>
+                            <a title="Login"
+                            id="top_link"
+                            style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
+                            href="<?= $this->Url->build([
+                                'controller' => 'Auth',
+                                'action' => 'login',
+                                '?' => ['redirect' => $this->request->getRequestTarget()]
+                            ]) ?>"
+                            class="list-group-item">LOGIN</a>
 
-                                <a title="Register"
-                                id="top_link"
-                                style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                                href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">REGISTER
-                                </a>
-                            <?php endif; ?>
+                            <a title="Register"
+                            id="top_link"
+                            style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
+                            href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">REGISTER
+                            </a>
+                        <?php endif; ?>
 					</div>
 					<div class="col-12 col-md-12 col-lg-6 logo-block">
 						<a title="Logo" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">
@@ -226,7 +225,7 @@ $html = new HtmlHelper(new View());
 					<div class="navbar-header">
 						<a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display']) ?>" class="logo"><?= $html->image('logo.png', ['alt' => 'logo']) ?></a>
 						<button class="navbar-toggler" type="button" id="custom-toggler" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon">
+                            <span class="navbar-toggler-icon">
 							<span class="navbar-toggler-icon"></span>
 						</button>
 					</div>
@@ -298,7 +297,7 @@ $html = new HtmlHelper(new View());
 			<div class="container">
 				<div class="row" style="display: flex; justify-content: center; align-items: center;">
 					<!-- widget about -->
-					<aside class="col-12 col-md-12 col-lg-3  widget widget_about">
+                    <aside class="col-12 col-md-12 col-lg-4 widget widget_about" style="display: flex; justify-content: center; align-items: center;">
 						<div class="address">
 							<svg viewBox="0 0 512 512">
 								<path
@@ -311,68 +310,53 @@ $html = new HtmlHelper(new View());
 						</div>
 						<div class="helpline">
 							<svg viewBox="0 0 51.413 51.413">
-								<path
-									d="M25.989,12.274c8.663,0.085,14.09-0.454,14.823,9.148h10.564c0-14.875-12.973-16.88-25.662-16.88    c-12.69,0-25.662,2.005-25.662,16.88h10.482C11.345,11.637,17.398,12.19,25.989,12.274z" />
-								<path
-									d="M5.291,26.204c2.573,0,4.714,0.154,5.19-2.377c0.064-0.344,0.101-0.734,0.101-1.185H10.46H0    C0,26.407,2.369,26.204,5.291,26.204z" />
-								<path
-									d="M40.88,22.642h-0.099c0,0.454,0.039,0.845,0.112,1.185c0.502,2.334,2.64,2.189,5.204,2.189    c2.936,0,5.316,0.193,5.316-3.374H40.88z" />
-								<path
-									d="M35.719,20.078v-1.496c0-0.669-0.771-0.711-1.723-0.711h-1.555c-0.951,0-1.722,0.042-1.722,0.711    v1.289v1h-11v-1v-1.289c0-0.669-0.771-0.711-1.722-0.711h-1.556c-0.951,0-1.722,0.042-1.722,0.711v1.496v1.306    C12.213,23.988,4.013,35.073,3.715,36.415l0.004,8.955c0,0.827,0.673,1.5,1.5,1.5h40c0.827,0,1.5-0.673,1.5-1.5v-9    c-0.295-1.303-8.493-12.383-11-14.987V20.078z M19.177,37.62c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458    s1.458,0.652,1.458,1.458S19.982,37.62,19.177,37.62z M19.177,32.62c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458    s1.458,0.652,1.458,1.458S19.982,32.62,19.177,32.62z M19.177,27.621c-0.805,0-1.458-0.652-1.458-1.458    c0-0.805,0.653-1.458,1.458-1.458s1.458,0.653,1.458,1.458C20.635,26.969,19.982,27.621,19.177,27.621z M25.177,37.62    c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458c0.806,0,1.458,0.652,1.458,1.458S25.983,37.62,25.177,37.62z     M25.177,32.62c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458c0.806,0,1.458,0.652,1.458,1.458    S25.983,32.62,25.177,32.62z M25.177,27.621c-0.805,0-1.458-0.652-1.458-1.458c0-0.805,0.653-1.458,1.458-1.458    c0.806,0,1.458,0.653,1.458,1.458C26.635,26.969,25.983,27.621,25.177,27.621z M31.177,37.62c-0.806,0-1.458-0.652-1.458-1.458    s0.652-1.458,1.458-1.458s1.458,0.652,1.458,1.458S31.983,37.62,31.177,37.62z M31.177,32.62c-0.806,0-1.458-0.652-1.458-1.458    s0.652-1.458,1.458-1.458s1.458,0.652,1.458,1.458S31.983,32.62,31.177,32.62z M31.177,27.621c-0.806,0-1.458-0.652-1.458-1.458    c0-0.805,0.652-1.458,1.458-1.458s1.458,0.653,1.458,1.458C32.635,26.969,31.983,27.621,31.177,27.621z" />
 							</svg>
 							<h4>Help Lines</h4>
 							<a href="tel:+61 3 8376 6284">+61 3 8376 6284</a><br>
 							<a href="tel:+61 3 8376 6285">+61 3 8376 6285</a>
 						</div>
 					</aside><!-- widget about /- -->
-
-					<!-- col-md-6 -->
-					<div class="col-12 col-md-12 col-lg-6">
-						<div class="row">
-<!--							<aside class="col-12  col-sm-4 col-md-4 col-lg-4 widget widget_list_style">-->
-<!--								<h3 class="widget-title">-->
-<!--									Our Stores-->
-<!--								</h3>-->
-<!--								<ul>-->
-<!--                                    <li><a title="Melbourne" href="">Melbourne</a></li>-->
-<!--									<li><a title="Sydney" href="">Sydney</a></li>-->
-<!--									<li><a title="Brisbane" href="">Brisbane</a></li>-->
-<!--									<li><a title="Perth" href="">Perth</a></li>-->
-<!--								</ul>-->
-<!--							</aside>-->
-
-
-<!--							<aside class="col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">-->
-<!--								<h3 class="widget-title">-->
-<!--									Orders-->
-<!--								</h3>-->
-<!--								<ul>-->
-<!--									<li><a title="Order Status" href="">Order Status</a></li>-->
-<!--									<li><a title="My Order History" href="">My Order History</a></li>-->
-<!--									<li><a title="Payments" href="">Payments</a></li>-->
-<!--									<li><a title="Returns" href="">Returns</a></li>-->
-<!--								</ul>-->
-<!--							</aside>-->
-
-							<aside class=" col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">
-							<h3 class="widget-title">
-								Learn more
-								</h3>
-								<ul>
-                                    <li><a title="Contact Us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact Us</a></li>
-<!--									 <li><a title="Privacy Policy" href="">Privacy Policy</a></li>-->
-<!--									 <li><a title="Terms &amp; Conditions" href="">Terms &amp; Conditions</a></li>-->
-<!--									<li><a title="FAQ" href="">FAQ</a></li>-->
-								</ul>
-							</aside>
-						</div>
-					</div><!-- col-md-6 /- -->
 				</div>
 			</div>
             <!-- container /- -->
 		</div>
         <!-- widget section /- -->
 
+        <!-- Phone logo saved -->
+         <!-- <path
+                d="M25.989,12.274c8.663,0.085,14.09-0.454,14.823,9.148h10.564c0-14.875-12.973-16.88-25.662-16.88    c-12.69,0-25.662,2.005-25.662,16.88h10.482C11.345,11.637,17.398,12.19,25.989,12.274z" />
+            <path
+                d="M5.291,26.204c2.573,0,4.714,0.154,5.19-2.377c0.064-0.344,0.101-0.734,0.101-1.185H10.46H0    C0,26.407,2.369,26.204,5.291,26.204z" />
+            <path
+                d="M40.88,22.642h-0.099c0,0.454,0.039,0.845,0.112,1.185c0.502,2.334,2.64,2.189,5.204,2.189    c2.936,0,5.316,0.193,5.316-3.374H40.88z" />
+            <path
+                d="M35.719,20.078v-1.496c0-0.669-0.771-0.711-1.723-0.711h-1.555c-0.951,0-1.722,0.042-1.722,0.711    v1.289v1h-11v-1v-1.289c0-0.669-0.771-0.711-1.722-0.711h-1.556c-0.951,0-1.722,0.042-1.722,0.711v1.496v1.306    C12.213,23.988,4.013,35.073,3.715,36.415l0.004,8.955c0,0.827,0.673,1.5,1.5,1.5h40c0.827,0,1.5-0.673,1.5-1.5v-9    c-0.295-1.303-8.493-12.383-11-14.987V20.078z M19.177,37.62c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458    s1.458,0.652,1.458,1.458S19.982,37.62,19.177,37.62z M19.177,32.62c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458    s1.458,0.652,1.458,1.458S19.982,32.62,19.177,32.62z M19.177,27.621c-0.805,0-1.458-0.652-1.458-1.458    c0-0.805,0.653-1.458,1.458-1.458s1.458,0.653,1.458,1.458C20.635,26.969,19.982,27.621,19.177,27.621z M25.177,37.62    c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458c0.806,0,1.458,0.652,1.458,1.458S25.983,37.62,25.177,37.62z     M25.177,32.62c-0.805,0-1.458-0.652-1.458-1.458s0.653-1.458,1.458-1.458c0.806,0,1.458,0.652,1.458,1.458    S25.983,32.62,25.177,32.62z M25.177,27.621c-0.805,0-1.458-0.652-1.458-1.458c0-0.805,0.653-1.458,1.458-1.458    c0.806,0,1.458,0.653,1.458,1.458C26.635,26.969,25.983,27.621,25.177,27.621z M31.177,37.62c-0.806,0-1.458-0.652-1.458-1.458    s0.652-1.458,1.458-1.458s1.458,0.652,1.458,1.458S31.983,37.62,31.177,37.62z M31.177,32.62c-0.806,0-1.458-0.652-1.458-1.458    s0.652-1.458,1.458-1.458s1.458,0.652,1.458,1.458S31.983,32.62,31.177,32.62z M31.177,27.621c-0.806,0-1.458-0.652-1.458-1.458    c0-0.805,0.652-1.458,1.458-1.458s1.458,0.653,1.458,1.458C32.635,26.969,31.983,27.621,31.177,27.621z" /> -->
+
+        <!-- Old footer sections saved (will need after order system implemented) -->
+        <!--							<aside class="col-12  col-sm-4 col-md-4 col-lg-4 widget widget_list_style">-->
+        <!--								<h3 class="widget-title">-->
+        <!--									Our Stores-->
+        <!--								</h3>-->
+        <!--								<ul>-->
+        <!--                                    <li><a title="Melbourne" href="">Melbourne</a></li>-->
+        <!--									<li><a title="Sydney" href="">Sydney</a></li>-->
+        <!--									<li><a title="Brisbane" href="">Brisbane</a></li>-->
+        <!--									<li><a title="Perth" href="">Perth</a></li>-->
+        <!--								</ul>-->
+        <!--							</aside>-->
+        
+        
+        <!--							<aside class="col-12 col-sm-4 col-md-4 col-lg-4 widget widget_list_style">-->
+        <!--								<h3 class="widget-title">-->
+        <!--									Orders-->
+        <!--								</h3>-->
+        <!--								<ul>-->
+        <!--									<li><a title="Order Status" href="">Order Status</a></li>-->
+        <!--									<li><a title="My Order History" href="">My Order History</a></li>-->
+        <!--									<li><a title="Payments" href="">Payments</a></li>-->
+        <!--									<li><a title="Returns" href="">Returns</a></li>-->
+        <!--								</ul>-->
+        <!--							</aside>-->
 		<!-- Footer bottom -->
 		<div class="footer-bottom">
 			<!-- container -->
