@@ -39,9 +39,6 @@ const MSG_MAX_LENGTH = 150;
                 <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
                 <li><a title="Contact Us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'ContactUs']) ?>">Contact Us</a></li>
             </ol>
-            <div class="return-home-link pull-right">
-                <a title="Return to home page" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">return to home page</a>
-            </div>
         </div>
     </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->

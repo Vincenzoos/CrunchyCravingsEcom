@@ -31,9 +31,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
                 <li><a title="Forgot password" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'forgetPassword']) ?>">Forgot Password</a></li>
             </ol>
-            <div class="return-home-link pull-right">
-                <a title="Return to home page" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">return to home page</a>
-            </div>
         </div>
     </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
