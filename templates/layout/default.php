@@ -259,9 +259,9 @@ $html = new HtmlHelper(new View());
 		<div id="add-banner-section" class="add-banner-section bottom-shadow">
 			<!-- container -->
 			<div class="container" style="display: flex; justify-content: center; align-items: center; height: 100%; text-align: center;">
-				<a title="Add-banner" href="#" style="display: flex; justify-content: center; align-items: center; width: 100%;">
-					<?= $html->image('cc_logo.png', ['alt' => 'add-banner', 'style' => 'width: 50%; height: auto;']) ?>
-				</a>
+                <a title="Logo" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">
+                    <?= $html->image('cc_logo.png', ['alt' => 'add-banner', 'style' => 'width: 50%; height: auto; margin-top: 15px; margin-bottom: 0px;']) ?>
+                </a>
 			</div><!-- container /- -->
 		</div><!-- Add Banner /- -->
 
