@@ -101,7 +101,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <div class="container-fluid" id="table-content">
                     <?= $this->Flash->render() ?>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover shadow mb-4">
+                        <table class="table table-bordered table-hover shadow mb-4" style="width: 40%;">
                             <thead class="thead-dark">
                                 <tr>
                                     <th><?= $this->Paginator->sort('name', __('Name')) ?></th>
