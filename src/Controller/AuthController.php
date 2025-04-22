@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\Table\UsersTable;
-use Cake\Core\Configure;
 use Cake\I18n\DateTime;
 use Cake\Mailer\Mailer;
 use Cake\Utility\Security;
+// Used for cpanel testing
+use Cake\Core\Configure;
 
 /**
  * Auth Controller
@@ -228,7 +229,7 @@ class AuthController extends AppController
             // Get the currently authenticated user
             $user = $this->request->getAttribute('identity');
             $userId = $user->get('id');
-    
+
 
             // Determine redirect location based on role
             // set a fallback location in case user logged in without triggering 'unauthenticatedRedirect'
