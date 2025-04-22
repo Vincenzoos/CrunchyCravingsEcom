@@ -44,7 +44,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         <section id="form-section" class="py-5">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <div id="form-content" class="text-center">
                             <?= $this->Form->create($user) ?>
                             <fieldset>

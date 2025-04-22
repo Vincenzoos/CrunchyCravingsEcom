@@ -42,11 +42,10 @@ $html = new HtmlHelper(new View());
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- jQuery UI CSS -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-    <!-- Select2 CSS -->
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Custom CSS, JS -->
@@ -388,57 +387,23 @@ $html = new HtmlHelper(new View());
 
             // Only proceed if the sidebar element exists
             if (sidebar) {
-                // Function to update the state based on the sidebar's visibility
-                function updateSidebarState() {
-                    const isSidebarOpen = ((sidebar.classList.contains('show')||sidebar.classList.contains('showing'))&!sidebar.classList.contains('hiding')) || (sidebar.classList.contains('showing') & sidebar.classList.contains('hiding')); // Check if the 'show' class exists
-                    console.log(sidebar.classList);
-                    if (isSidebarOpen) {
-                        console.log('Sidebar is open');
-                        toggleButton.style.display = 'none';
-                        document.body.style.overflow = 'hidden'; // Disable scrolling
-
-                    } else {
-                        console.log('Sidebar is closed');
-                        toggleButton.style.display = 'block';
-                        document.body.style.overflow = ''; // Enable scrolling
-                    }
-                }
-
                 // Listen for the sidebar's show and hide events
                 sidebar.addEventListener('show.bs.offcanvas', function () {
-                    updateSidebarState();
+                    console.log('Sidebar shown');
+                    toggleButton.style.display = 'none';
                 });
                 sidebar.addEventListener('hide.bs.offcanvas', function () {
-                    updateSidebarState();
+                    console.log('Sidebar closed');
+                    toggleButton.style.display = 'block';
                 });
 
                 // Detect clicks on the offcanvas backdrop
                 document.addEventListener('click', function (event) {
                 const backdrop = document.querySelector('.offcanvas-backdrop');
                     if (backdrop && backdrop.contains(event.target)) {
-                        updateSidebarState();
+                        toggleButton.style.display = 'block';
                     }
                 });
-
-                // Observe the DOM for new backdrops and remove duplicates if they appear
-                const observer = new MutationObserver((mutationsList) => {
-                    mutationsList.forEach((mutation) => {
-                        if (mutation.type === 'childList') {
-                            const existingBackdrops = document.querySelectorAll('.offcanvas-backdrop');
-                            if (existingBackdrops.length > 1) {
-                                existingBackdrops.forEach((backdrop, index) => {
-                                    if (index > 0) backdrop.remove();
-                                });
-                            }
-                        }
-                    });
-                });
-
-                // Start observing the body for added nodes
-                observer.observe(document.body, { childList: true, subtree: true });
-
-                // Initial state check (in case the sidebar is already open on page load)
-                updateSidebarState();
             }
         });
     </script>
@@ -555,17 +520,6 @@ $html = new HtmlHelper(new View());
         });
     </script>
 
-    <!-- Bootstrap core JavaScript-->
-    <?= $this->Html->script('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js') ?>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="js/html5/html5shiv.min.js"></script>
-    <script src="js/html5/respond.min.js"></script>
-    <![endif]-->
-
-
     <!-- jQuery -->
     <?= $this->Html->script('https://code.jquery.com/jquery-3.6.0.min.js') ?>
 
@@ -575,7 +529,6 @@ $html = new HtmlHelper(new View());
     <!-- jQuery Include -->
     <?= $html->script('/libraries/gmap/jquery.gmap.min.js') ?>
     <?= $html->script('/libraries/jquery.easing.min.js') ?>
-    <?= $html->script('/libraries/bootstrap/bootstrap.bundle.min.js') ?>
     <?= $html->script('/libraries/fuelux/jquery-ui.min.js') ?>
     <?= $html->script('/libraries/jquery.animateNumber.min.js') ?>
     <?= $html->script('/libraries/jquery.appear.js') ?>

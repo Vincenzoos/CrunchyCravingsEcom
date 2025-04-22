@@ -33,7 +33,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         </section>
 
         <!-- Products Filter Form -->
-        <div class="col-md-8 mx-auto mb-4 p-3 rounded shadow-sm bg-light">
+        <div class="col-md-6 mx-auto mb-4 p-3 rounded shadow-sm bg-light">
             <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
 
             <!-- Product Name Field -->
