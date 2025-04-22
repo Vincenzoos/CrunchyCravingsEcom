@@ -8,6 +8,8 @@ use Cake\Log\Log;
 use Cake\Mailer\Mailer;
 use Exception;
 use stdClass;
+// Used for cpanel testing
+use Cake\Core\Configure;
 
 /**
  * CartItems Controller
@@ -567,6 +569,11 @@ class CartItemsController extends AppController
         Log::write('debug', json_encode($cartItems));
 
         // TODO: Use a default email for guests—you might later replace this by capturing an input email address
+
+        // Override received email to cpanel email for testing
+//            Configure::load('app_local');
+//            $override_email = Configure::read('EmailTransport.default.username');
+//            $recipient = $override_email ?? $user->email;
         $recipient = 'guest@example.com';
 
         try {

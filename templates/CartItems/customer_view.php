@@ -189,7 +189,7 @@ $html = new HtmlHelper(new View());
                                 </tr>
                                 <tr class="order-total">
                                     <th>Grand Total</th>
-                                    <td><strong><span class="total-amount"><?= $this->Number->currency($total_price, 'USD') ?></span></strong></td>
+                                    <td><strong><span class="total-amount"><?= $this->Number->currency($total_price, 'AUD') ?></span></strong></td>
                                 </tr>
                             </tbody>
                         </table>

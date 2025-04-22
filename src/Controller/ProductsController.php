@@ -178,16 +178,16 @@ class ProductsController extends AppController
         } elseif ($sort === 'newest') {
             $order = ['Products.id' => 'ASC'];
         }
-        
+
         // Apply sorting to the query
         $query->order($order);
-    
+
         // Fetch products with the specified order
         $products = $this->Products->find('all', [
             'order' => $order,
             'contain' => ['Categories'], // Include related data if needed
         ]);
-    
+
         $categoriesList = $this->Products->Categories->find('list');
 
         // Apply pagination

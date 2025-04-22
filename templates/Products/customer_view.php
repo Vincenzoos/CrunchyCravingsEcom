@@ -66,7 +66,7 @@ $html = new HtmlHelper(new View());
                                     <?= $this->Html->image($product->image_cache_busted_url, [
                                         'alt' => $product->name,
                                         'class' => 'img-fluid rounded-top',
-                                        'style' => 'height: 300px; object-fit: cover; width: 100%;']) ?>
+                                        'style' => 'height: fit-content; object-fit: cover; width: fit-content;']) ?>
                                 </ul>
                             </div>
                         </div>

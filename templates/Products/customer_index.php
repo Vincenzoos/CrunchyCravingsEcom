@@ -91,7 +91,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             </div>
             </div>
         </div>
-        
+
         <div class="row" id="shop-container">
             <!-- Sidebar for Filters -->
             <div id="filter-sidebar" class="hidden">
@@ -186,7 +186,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                                         <?= $this->Html->image($product->image_cache_busted_url, [
                                             'alt' => $product->name,
                                             'class' => 'img-fluid rounded-top',
-                                            'style' => 'width: auto; height: auto; object-fit: cover;'
                                         ]) ?>
                                         <div class="product-box-inner">
                                             <ul>
