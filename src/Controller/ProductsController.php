@@ -143,7 +143,7 @@ class ProductsController extends AppController
         } elseif ($sort === 'price_desc') {
             $order = ['Products.price' => 'DESC'];
         } elseif ($sort === 'newest') {
-            $order = ['Products.created' => 'DESC'];
+            $order = ['Products.id' => 'ASC'];
         }
         
         // Apply sorting to the query
