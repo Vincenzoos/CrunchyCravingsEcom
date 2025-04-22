@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use SebastianBergmann\Environment\Console;
+use Cake\Log\Log;
+
 /**
  * Products Controller
  *
@@ -48,12 +51,42 @@ class ProductsController extends AppController
         }
 
         // Filter products by price (from min to max inclusive)
-        if (is_numeric($min_price)) {
-            $query->where(['Products.price >=' => $min_price]);
-        }
+        $priceRanges = $this->request->getQuery('price_range') ?? [];
+        $minPrice = $this->request->getQuery('min_price');
+        $maxPrice = $this->request->getQuery('max_price');
 
-        if (is_numeric($max_price)) {
-            $query->where(['Products.price <=' => $max_price]);
+        $query = $this->Products->find();
+
+        if (!empty($minPrice) || !empty($maxPrice)) {
+            if (!empty($minPrice)) {
+                $query->where(['price >=' => $minPrice]);
+            }
+            if (!empty($maxPrice)) {
+                $query->where(['price <=' => $maxPrice]);
+            }
+        } else {
+            $orConditions = [];
+            if (in_array('under_20', $priceRanges)) {
+                $orConditions[] = ['price <' => 20];
+            }
+            if (in_array('20_50', $priceRanges)) {
+                $orConditions[] = ['price >=' => 20, 'price <=' => 50];
+            }
+            if (in_array('50_100', $priceRanges)) {
+                $orConditions[] = ['price >=' => 50, 'price <=' => 100];
+            }
+            if (in_array('100_plus', $priceRanges)) {
+                $orConditions[] = ['price >' => 100];
+            }
+        
+            Log::write('debug', "orConditions start -----------------------------------------------------");
+            Log::write('debug', json_encode($orConditions));
+            Log::write('debug', "orConditions end -------------------------------------------------------");
+            // debug($orConditions);
+
+            if (!empty($orConditions)) {
+                $query->where(['OR' => $orConditions]);
+            }
         }
 
         // Filter products by categories (exact match)
@@ -135,7 +168,7 @@ class ProductsController extends AppController
         $sort = $this->request->getQuery('sort');
 
         // Default sorting
-        $order = ['Products.created' => 'DESC'];
+        $order = ['Products.id' => 'ASC'];
     
         // Adjust sorting based on the 'sort' parameter
         if ($sort === 'price_asc') {

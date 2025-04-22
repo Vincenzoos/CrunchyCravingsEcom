@@ -34,14 +34,13 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities','shop','products']) ?>
 
-    <!-- jQuery UI CSS -->
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- jQuery -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
 
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -73,7 +72,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             </div>
             <div class="col-auto d-flex align-items-center">
                 <!-- Show/Hide Filters Button -->
-                <button id="toggle-filters" class="btn btn-outline-primary">
+                <button id="filters-button" class="btn btn-outline-primary">
                     Show Filters <i class="fa fa-sliders"></i>
                 </button>
 
@@ -104,15 +103,41 @@ $html = new HtmlHelper(new \Cake\View\View());
                         Price Range <i class="fa fa-chevron-down float-end"></i>
                     </button>
                     <div class="collapse" id="price-range-collapse">
-                        <div id="slider-range" class="mb-3"></div>
-                        <div class="d-flex justify-content-between">
+                        <!-- Predefined Price Range Checkboxes -->
+                        <div class="form-check">
+                            <input class="form-check-input price-checkbox" type="checkbox" name="price_range[]" value="under_20" id="price-under-20" <?= in_array('under_20', $this->request->getQuery('price_range') ?? []) ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="price-under-20">
+                                Under $20
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input price-checkbox" type="checkbox" name="price_range[]" value="20_50" id="price-20-50" <?= in_array('20_50', $this->request->getQuery('price_range') ?? []) ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="price-20-50">
+                                $20 - $50
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input price-checkbox" type="checkbox" name="price_range[]" value="50_100" id="price-50-100" <?= in_array('50_100', $this->request->getQuery('price_range') ?? []) ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="price-50-100">
+                                $50 - $100
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input price-checkbox" type="checkbox" name="price_range[]" value="100_plus" id="price-100-plus" <?= in_array('100_plus', $this->request->getQuery('price_range') ?? []) ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="price-100-plus">
+                                $100+
+                            </label>
+                        </div>
+
+                        <!-- Custom Price Range Inputs -->
+                        <div class="d-flex justify-content-between mt-3">
                             <div class="input-group me-2">
-                                <input type="number" id="min-price" name="min_price" class="form-control" placeholder="Min" value="<?= $this->request->getQuery('min_price') ?? 0 ?>" min="0" max="500">
                                 <span class="input-group-text">$</span>
+                                <input type="number" id="min-price" name="min_price" class="form-control custom-price-input" placeholder="Min" value="<?= h($this->request->getQuery('min_price') ?? '') ?>" min="0">
                             </div>
                             <div class="input-group ms-2">
-                                <input type="number" id="max-price" name="max_price" class="form-control" placeholder="Max" value="<?= $this->request->getQuery('max_price') ?? 500 ?>" min="0" max="500">
                                 <span class="input-group-text">$</span>
+                                <input type="number" id="max-price" name="max_price" class="form-control custom-price-input" placeholder="Max" value="<?= h($this->request->getQuery('max_price') ?? '') ?>" min="0">
                             </div>
                         </div>
                     </div>
@@ -233,7 +258,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Filter sidebar toggle script and resuze featured products -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const toggleFiltersButton = document.getElementById('toggle-filters');
+            const toggleFiltersButton = document.getElementById('filters-button');
             const filterSidebar = document.getElementById('filter-sidebar');
             const featuredProducts = document.getElementById('featured-products');
 
@@ -242,13 +267,13 @@ $html = new HtmlHelper(new \Cake\View\View());
                     // Show the sidebar
                     filterSidebar.classList.add('open');
                     filterSidebar.classList.remove('hidden');
-                    featuredProducts.style.width = '80%'; // Adjust featured-products width
+                    // featuredProducts.style.width = '80%'; // Adjust featured-products width
                     toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
                 } else {
                     // Hide the sidebar
                     filterSidebar.classList.remove('open');
                     filterSidebar.classList.add('hidden');
-                    featuredProducts.style.width = '100%'; // Expand featured-products to full width
+                    // featuredProducts.style.width = '100%'; // Expand featured-products to full width
                     toggleFiltersButton.innerHTML = 'Show Filters <i class="fa fa-sliders"></i>';
                 }
             });
@@ -257,41 +282,39 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Filter script -->
     <script>
-        jQuery.noConflict();
-        jQuery(document).ready(function($) {
-            // Initialize the slider with absolute min and max values
-            jQuery("#slider-range").slider({
-                range: true,
-                min: 1, // Absolute minimum
-                max: 500, // Absolute maximum
-                values: [
-                    jQuery("#min-price").val() || 1, // Use the current min value or default to 1
-                    jQuery("#max-price").val() || 500 // Use the current max value or default to 500
-                ],
-                slide: function(event, ui) {
-                    // Update the input boxes when the slider is moved
-                    jQuery("#min-price").val(ui.values[0]);
-                    jQuery("#max-price").val(ui.values[1]);
-                    console.log("Min Price: " + ui.values[0] + ", Max Price: " + ui.values[1]);
-                }
+        document.addEventListener('DOMContentLoaded', function () {
+            const priceCheckboxes = document.querySelectorAll('.price-checkbox');
+            const customPriceInputs = document.querySelectorAll('.custom-price-input');
+
+            // Disable checkboxes when custom price inputs are used
+            customPriceInputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    if (this.value !== '') {
+                        priceCheckboxes.forEach(checkbox => {
+                            checkbox.disabled = true;
+                            checkbox.checked = false;
+                        });
+                    } else {
+                        // Re-enable checkboxes if both custom inputs are empty
+                        if ([...customPriceInputs].every(input => input.value === '')) {
+                            priceCheckboxes.forEach(checkbox => {
+                                checkbox.disabled = false;
+                            });
+                        }
+                    }
+                });
             });
 
-            // Update the slider when the input boxes are manually changed
-            jQuery("#min-price, #max-price").on("change", function() {
-                const minPrice = parseInt(jQuery("#min-price").val()) || 1;
-                const maxPrice = parseInt(jQuery("#max-price").val()) || 500;
-
-                // Ensure the values are within the slider's range
-                if (minPrice < 1) jQuery("#min-price").val(1);
-                if (maxPrice > 500) jQuery("#max-price").val(500);
-
-                // Update the slider values
-                jQuery("#slider-range").slider("values", [minPrice, maxPrice]);
+            // Clear custom price inputs when a checkbox is selected
+            priceCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    if (this.checked) {
+                        customPriceInputs.forEach(input => {
+                            input.value = '';
+                        });
+                    }
+                });
             });
-
-            // Set initial values in the input boxes
-            jQuery("#min-price").val(jQuery("#slider-range").slider("values", 0));
-            jQuery("#max-price").val(jQuery("#slider-range").slider("values", 1));
         });
     </script>
 </body>
