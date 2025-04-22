@@ -53,7 +53,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 <!--                                </tr>-->
                                 <tr>
                                     <th><?= __('Nonce Expiry') ?></th>
-                                    <td><?= h($user->nonce_expiry->format('d/m/Y H:i a')) ?></td>
+                                    <td><?= h(empty($user->nonce_expiry) ? 'N/A' : $user->nonce_expiry->format('d/m/Y H:i a')) ?></td>
                                 </tr>
                                 <tr>
                                     <th><?= __('Created') ?></th>
@@ -61,7 +61,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 </tr>
                                 <tr>
                                     <th><?= __('Modified') ?></th>
-                                    <td><?= h($user->modified->format('d/m/Y H:i a')) ?></td>
+                                    <td><?= h(empty($user->modified) ? 'N/A' : $user->modified->format('d/m/Y H:i a')) ?></td>
                                 </tr>
                             </table>
                         </div>

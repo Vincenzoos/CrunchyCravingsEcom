@@ -3,11 +3,14 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\User> $users
  */
+
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\View;
+
 ?>
 
 <?php
-use Cake\View\Helper\HtmlHelper;
-$html = new HtmlHelper(new \Cake\View\View());
+$html = new HtmlHelper(new View());
 ?>
 
 <head>
@@ -101,9 +104,9 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     <tr>
                                         <td><?= h($user->email) ?></td>
                                         <td><?= h($user->role) ?></td>
-                                        <td><?= h(empty($user->nonce_expiry) ? $user->nonce_expiry : $user->nonce_expiry->format('d/m/Y H:i: a')) ?></td>
+                                        <td><?= h(empty($user->nonce_expiry) ? 'N/A' : $user->nonce_expiry->format('d/m/Y H:i: a')) ?></td>
                                         <td><?= h($user->created->format('d/m/Y H:i a')) ?></td>
-                                        <td><?= h($user->modified->format('d/m/Y H:i a')) ?></td>
+                                        <td><?= h(empty($user->modified) ? 'N/A' : $user->modified->format('d/m/Y H:i a')) ?></td>
                                         <td class="text-center">
                                             <?= $this->Html->link(__('View'), ['action' => 'view', $user->id], ['class' => 'btn btn-info btn-sm']) ?>
                                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id], ['class' => 'btn btn-warning btn-sm']) ?>
@@ -113,7 +116,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                                 [
                                                     'class' => 'btn btn-danger btn-sm',
                                                     'confirm' => __('Are you sure you want to delete {0}?', $user->email),
-                                                ]
+                                                ],
                                             ) ?>
                                         </td>
                                     </tr>
