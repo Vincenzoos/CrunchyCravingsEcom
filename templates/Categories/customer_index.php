@@ -45,8 +45,6 @@ $html = new HtmlHelper(new \Cake\View\View());
     </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
 
-
-
     <div id="shop-container" class="container my-5">
         <div class="row">
             <?php foreach ($categories as $category): ?>

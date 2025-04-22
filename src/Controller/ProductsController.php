@@ -32,8 +32,6 @@ class ProductsController extends AppController
         // get input from filter forms for filter functionalities
         $product_name = $this->request->getQuery('product_name');
         $stock_quantity = $this->request->getQuery('stock_quantity');
-        $min_price = $this->request->getQuery('min_price');
-        $max_price = $this->request->getQuery('max_price');
         // get list of key-value pairs (key: category_name - value: category_name)
         $categoriesList = $this->Products->Categories->find('list')->all();
         // retrieve list of categories_id selected in dropdown of filter form
@@ -50,50 +48,24 @@ class ProductsController extends AppController
             $query->where(['Products.quantity <=' => $stock_quantity]);
         }
 
-        // Filter products by price (from min to max inclusive)
-        $priceRanges = $this->request->getQuery('price_range') ?? [];
-        $minPrice = $this->request->getQuery('min_price');
-        $maxPrice = $this->request->getQuery('max_price');
-
-        $query = $this->Products->find();
-
-        if (!empty($minPrice) || !empty($maxPrice)) {
-            if (!empty($minPrice)) {
-                $query->where(['price >=' => $minPrice]);
-            }
-            if (!empty($maxPrice)) {
-                $query->where(['price <=' => $maxPrice]);
-            }
-        } else {
-            $orConditions = [];
-            if (in_array('under_20', $priceRanges)) {
-                $orConditions[] = ['price <' => 20];
-            }
-            if (in_array('20_50', $priceRanges)) {
-                $orConditions[] = ['price >=' => 20, 'price <=' => 50];
-            }
-            if (in_array('50_100', $priceRanges)) {
-                $orConditions[] = ['price >=' => 50, 'price <=' => 100];
-            }
-            if (in_array('100_plus', $priceRanges)) {
-                $orConditions[] = ['price >' => 100];
-            }
-        
-            Log::write('debug', "orConditions start -----------------------------------------------------");
-            Log::write('debug', json_encode($orConditions));
-            Log::write('debug', "orConditions end -------------------------------------------------------");
-            // debug($orConditions);
-
-            if (!empty($orConditions)) {
-                $query->where(['OR' => $orConditions]);
-            }
-        }
-
         // Filter products by categories (exact match)
         if (!empty($selectedCategories) && $selectedCategories !== ['']) {
             $query->matching('Categories')
                 ->groupBy(['Products.id'])
                 ->where(['Categories.id IN' => $selectedCategories]);
+        }
+
+        // Filter products by price (from min to max inclusive)
+        $minPrice = $this->request->getQuery('min_price');
+        $maxPrice = $this->request->getQuery('max_price');
+
+        // Filter products by price (from min to max inclusive)
+        if (is_numeric($minPrice)) {
+            $query->where(['Products.price >=' => $minPrice]);
+        }
+
+        if (is_numeric($maxPrice)) {
+            $query->where(['Products.price <=' => $maxPrice]);
         }
 
         $products = $this->paginate($query);
@@ -131,8 +103,6 @@ class ProductsController extends AppController
         // get input from filter forms for filter functionalities
         $product_name = $this->request->getQuery('product_name');
         $stock_quantity = $this->request->getQuery('stock_quantity');
-        $min_price = $this->request->getQuery('min_price');
-        $max_price = $this->request->getQuery('max_price');
         // get list of key-value pairs (key: category_name - value: category_name)
         $categoriesList = $this->Products->Categories->find('list')->all();
         // retrieve list of categories_id selected in dropdown of filter form
@@ -149,21 +119,48 @@ class ProductsController extends AppController
             $query->where(['Products.quantity <=' => $stock_quantity]);
         }
 
-        // Filter products by price (from min to max inclusive)
-        if (is_numeric($min_price)) {
-            $query->where(['Products.price >=' => $min_price]);
-        }
-
-        if (is_numeric($max_price)) {
-            $query->where(['Products.price <=' => $max_price]);
-        }
-
         // Filter products by categories (exact match)
         if (!empty($selectedCategories) && $selectedCategories !== ['']) {
             $query->matching('Categories')
                 ->groupBy(['Products.id'])
                 ->where(['Categories.id IN' => $selectedCategories]);
         }
+
+        // Filter products by price (from min to max inclusive)
+        $priceRanges = $this->request->getQuery('price_range') ?? [];
+        $minPrice = $this->request->getQuery('min_price');
+        $maxPrice = $this->request->getQuery('max_price');
+        
+        if (!empty($minPrice) || !empty($maxPrice)) {
+            // Apply custom price range filtering
+            if (is_numeric($minPrice)) {
+                $query->where(['Products.price >=' => $minPrice]);
+            }
+    
+            if (is_numeric($maxPrice)) {
+                $query->where(['Products.price <=' => $maxPrice]);
+            }
+        } else {
+            // Apply predefined price range filtering
+            $priceConditions = [];
+            if (in_array('under_20', $priceRanges)) {
+                $priceConditions[] = ['Products.price <' => 20];
+            }
+            if (in_array('20_50', $priceRanges)) {
+                $priceConditions[] = ['Products.price >=' => 20, 'Products.price <=' => 50];
+            }
+            if (in_array('50_100', $priceRanges)) {
+                $priceConditions[] = ['Products.price >=' => 50, 'Products.price <=' => 100];
+            }
+            if (in_array('100_plus', $priceRanges)) {
+                $priceConditions[] = ['Products.price >' => 100];
+            }
+
+            if (!empty($priceConditions)) {
+                $query->where(['OR' => $priceConditions]);
+            }
+        }
+        Log::write('debug', 'Price range: ' . implode(', ', $priceRanges));
 
         $sort = $this->request->getQuery('sort');
 

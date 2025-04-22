@@ -41,7 +41,6 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
@@ -129,15 +128,25 @@ $html = new HtmlHelper(new \Cake\View\View());
                             </label>
                         </div>
 
+                        <!-- Enable Custom Price Range Checkbox -->
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="use-custom-range" name="use_custom_range" value="1" <?= $this->request->getQuery('use_custom_range') ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="use-custom-range">
+                                Custom Range
+                            </label>
+                        </div>
+
                         <!-- Custom Price Range Inputs -->
-                        <div class="d-flex justify-content-between mt-3">
-                            <div class="input-group me-2">
-                                <span class="input-group-text">$</span>
-                                <input type="number" id="min-price" name="min_price" class="form-control custom-price-input" placeholder="Min" value="<?= h($this->request->getQuery('min_price') ?? '') ?>" min="0">
-                            </div>
-                            <div class="input-group ms-2">
-                                <span class="input-group-text">$</span>
-                                <input type="number" id="max-price" name="max_price" class="form-control custom-price-input" placeholder="Max" value="<?= h($this->request->getQuery('max_price') ?? '') ?>" min="0">
+                        <div id="custom-range-container" class="mt-3" style="display: <?= $this->request->getQuery('use_custom_range') ? 'block' : 'none' ?>;">
+                            <div class="d-flex justify-content-between">
+                                <div class="input-group me-2">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" id="min-price" name="min_price" class="form-control custom-price-input" placeholder="Min" value="<?= h($this->request->getQuery('min_price') ?? '') ?>" min="0">
+                                </div>
+                                <div class="input-group ms-2">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" id="max-price" name="max_price" class="form-control custom-price-input" placeholder="Max" value="<?= h($this->request->getQuery('max_price') ?? '') ?>" min="0">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -282,38 +291,42 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Filter script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const priceCheckboxes = document.querySelectorAll('.price-checkbox');
+            const useCustomRangeCheckbox = document.getElementById('use-custom-range');
+            const customRangeContainer = document.getElementById('custom-range-container');
             const customPriceInputs = document.querySelectorAll('.custom-price-input');
+            const priceCheckboxes = document.querySelectorAll('.price-checkbox');
 
-            // Disable checkboxes when custom price inputs are used
-            customPriceInputs.forEach(input => {
-                input.addEventListener('input', function () {
-                    if (this.value !== '') {
-                        priceCheckboxes.forEach(checkbox => {
-                            checkbox.disabled = true;
-                            checkbox.checked = false;
-                        });
-                    } else {
-                        // Re-enable checkboxes if both custom inputs are empty
-                        if ([...customPriceInputs].every(input => input.value === '')) {
-                            priceCheckboxes.forEach(checkbox => {
-                                checkbox.disabled = false;
-                            });
-                        }
-                    }
-                });
+            // Toggle visibility of custom range container
+            useCustomRangeCheckbox.addEventListener('change', function () {
+                if (this.checked) {
+                    customRangeContainer.style.display = 'block';
+                    customPriceInputs.forEach(input => input.disabled = false);
+                    priceCheckboxes.forEach(checkbox => {
+                        checkbox.disabled = true;
+                        checkbox.checked = false;
+                    });
+                } else {
+                    customRangeContainer.style.display = 'none';
+                    customPriceInputs.forEach(input => {
+                        input.disabled = true;
+                        input.value = '';
+                    });
+                    priceCheckboxes.forEach(checkbox => checkbox.disabled = false);
+                }
             });
 
-            // Clear custom price inputs when a checkbox is selected
-            priceCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function () {
-                    if (this.checked) {
-                        customPriceInputs.forEach(input => {
-                            input.value = '';
-                        });
-                    }
+            // Initialize state on page load
+            if (useCustomRangeCheckbox.checked) {
+                customRangeContainer.style.display = 'block';
+                customPriceInputs.forEach(input => input.disabled = false);
+                priceCheckboxes.forEach(checkbox => {
+                    checkbox.disabled = true;
+                    checkbox.checked = false;
                 });
-            });
+            } else {
+                customRangeContainer.style.display = 'none';
+                customPriceInputs.forEach(input => input.disabled = true);
+            }
         });
     </script>
 </body>
