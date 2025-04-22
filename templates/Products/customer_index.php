@@ -161,7 +161,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                                         <?= $this->Html->image($product->image_cache_busted_url, [
                                             'alt' => $product->name,
                                             'class' => 'img-fluid rounded-top',
-                                            'style' => 'width: fit-content; height: fit-content; object-fit: cover;'
                                         ]) ?>
                                         <div class="product-box-inner">
                                             <ul>
