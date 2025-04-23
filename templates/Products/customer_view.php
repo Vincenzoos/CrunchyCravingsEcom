@@ -117,7 +117,7 @@ $html = new HtmlHelper(new View());
                                         </ul>
                                     </div>
                                     <span class="amount coupon-amount">
-                                            <?= $this->Number->currency($product->price, 'AUD') ?>
+                                            <?= $this->Number->currency($similarProduct->price, 'AUD') ?>
                                     </span>
                                 </div>
                             <?php endforeach; ?>
@@ -130,7 +130,7 @@ $html = new HtmlHelper(new View());
                     <div id="shop-box" class="product-info-panel" style="padding: 40px; margin-bottom: 20px;">
                         <div class="page-header">
                             <h3>Product Details</h3>
-                        </div>  
+                        </div>
                         <ul class="star" style="margin-bottom: 20px;">
                             <li>
                                 <?php for ($i = 1; $i <= 5; $i++) : ?>
@@ -141,9 +141,7 @@ $html = new HtmlHelper(new View());
                         <p><strong>Availability:</strong></p>
                         <p style="margin-bottom: 40px; color: <?= $product->quantity > 0 ? 'inherit' : 'red' ?>;">
                             <?= $product->quantity > 0 ? 'In Stock' : 'Out of Stock' ?>
-                        </p></p>
-                        <p><strong>The product:</strong></p>
-                        <p><?= h($product->description) ?></p>
+                        </p>
                         <?php if (!empty($associatedCategoryIds) && !empty($allCategories)) : ?>
                             <p><strong>Associated Categories:</strong></p>
                             <ul>
@@ -161,6 +159,12 @@ $html = new HtmlHelper(new View());
                         <?php else : ?>
                             <p>No associated categories available.</p>
                         <?php endif; ?>
+                        <!-- Could use padding instead here                       -->
+                        <br>
+                        <p><strong>Description:</strong></p>
+                        <p><?= h($product->description) ?></p>
+                        <p><strong>Ingredients:</strong></p>
+                        <p><?= h($product->ingredients) ?></p>
                     </div>
 
                     <aside id="shop-box" class="widget widget_recent_post">
@@ -280,7 +284,7 @@ $html = new HtmlHelper(new View());
         </div>
     </div>
 
-    <!-- Quanity dropdown script -->
+    <!-- Quality dropdown script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const quantityDropdown = document.getElementById('quantity');
@@ -302,6 +306,6 @@ $html = new HtmlHelper(new View());
             });
         });
     </script>
-    
+
 
 </html>
