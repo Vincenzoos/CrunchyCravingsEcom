@@ -120,6 +120,7 @@ CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(75) NOT NULL,
   `description` varchar(255) NULL,
+  `ingredients` varchar(255) NULL,
   `price` decimal(10,2) NOT NULL,
   `image` varchar(500) DEFAULT NULL,
   `quantity` int(11) NOT NULL DEFAULT 0
@@ -129,17 +130,17 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO products (id, name, description, price, image, quantity) VALUES
-(1, 'Lavosh Signature Crackers', 'Crunchy and savory, our Lavosh Signature Crackers are perfect as a standalone snack or paired with your favorite wine.', 9.99, "default-product.jpg", 0),
-(2, 'Lavosh Artisan Flatbread', 'Experience the delicate taste of our Lavosh Artisan Flatbread, ideal for creating a gourmet morning meal.', 7.49, "default-product.jpg", 10),
-(3, 'Lavosh Deluxe Hamper', 'Our Lavosh Deluxe Hamper offers a curated selection including premium lavosh crackers, flatbread, fine wine, and gourmet treats – the perfect gift of choice.', 49.99, "default-product.jpg", 20),
-(4, 'Lavosh Mini Crackers', 'Bite-sized Lavosh Mini Crackers, perfect for dipping or as a light snack.', 4.99, "default-product.jpg", 15),
-(5, 'Lavosh Gluten-Free Flatbread', 'Enjoy the same great taste of Lavosh Flatbread, now in a gluten-free option.', 8.99, "default-product.jpg", 8),
-(6, 'Lavosh Party Hamper', 'A party-ready hamper featuring a variety of Lavosh crackers, flatbread, and gourmet dips.', 59.99, "default-product.jpg", 5),
-(7, 'Lavosh Spicy Crackers', 'Add a kick to your snack time with our Lavosh Spicy Crackers, seasoned with a blend of spices.', 10.99, "default-product.jpg", 12),
-(8, 'Lavosh Sweet Flatbread', 'A sweet twist on our classic flatbread, perfect for desserts or breakfast.', 6.99, "default-product.jpg", 18),
-(9, 'Lavosh Premium Hamper', 'An exclusive hamper featuring our finest Lavosh products and premium accompaniments.', 79.99, "default-product.jpg", 3),
-(10, 'Lavosh Herb Crackers', 'Infused with a blend of fresh herbs, these crackers are a flavorful snack.', 9.49, "default-product.jpg", 20);
+INSERT INTO products (id, name, description, price, image, quantity, ingredients) VALUES
+  (1, 'Lavosh Signature Crackers', 'Crunchy and savory, perfect alone or with wine.', 9.99, "default-product.jpg", 0, 'Wheat flour (70%), Olive oil (10%), Sea salt (5%), Sesame seeds (5%), Yeast, Sugar'),
+  (2, 'Lavosh Artisan Flatbread', 'Delicate taste, ideal for gourmet breakfasts.', 7.49, "default-product.jpg", 10, 'Wheat flour (65%), Honey (8%), Sunflower seeds (10%), Rosemary (3%), Sea salt, Yeast'),
+  (3, 'Lavosh Deluxe Hamper', 'A curated selection including premium lavosh products.', 49.99, "default-product.jpg", 20, 'Contains various lavosh crackers, Artisanal cheeses, Fine wine, Mixed nuts'),
+  (4, 'Lavosh Mini Crackers', 'Bite-sized, perfect for dipping or snacking.', 4.99, "default-product.jpg", 15, 'Wheat flour (72%), Butter (12%), Black pepper (3%), Garlic powder (2%), Yeast, Sugar'),
+  (5, 'Lavosh Gluten-Free Flatbread', 'Same great taste, now gluten-free.', 8.99, "default-product.jpg", 8, 'Almond flour (50%), Flax seeds (20%), Tapioca starch (15%), Sea salt (5%), Xanthan gum'),
+  (6, 'Lavosh Party Hamper', 'A party-ready hamper with crackers, flatbread, and dips.', 59.99, "default-product.jpg", 5, 'Assorted lavosh (50%), Hummus (15%), Guacamole (15%), Artisanal dips (20%)'),
+  (7, 'Lavosh Spicy Crackers', 'Seasoned with a bold blend of spices.', 10.99, "default-product.jpg", 12, 'Wheat flour (68%), Chili flakes (6%), Smoked paprika (5%), Black pepper (4%), Yeast, Salt'),
+  (8, 'Lavosh Sweet Flatbread', 'A sweet twist for desserts or breakfast.', 6.99, "default-product.jpg", 18, 'Wheat flour (65%), Honey (10%), Cinnamon (5%), Dried fruits (10%), Butter, Sugar'),
+  (9, 'Lavosh Premium Hamper', 'An exclusive hamper featuring premium accompaniments.', 79.99, "default-product.jpg", 3, 'Premium lavosh selection, Dried fruits, Nuts, Fine wine'),
+  (10, 'Lavosh Herb Crackers', 'Infused with a blend of fresh herbs.', 9.49, "default-product.jpg", 20, 'Wheat flour (65%), Basil (5%), Oregano (5%), Thyme (5%), Parsley (5%), Olive oil (10%), Yeast, Salt');
 
 -- --------------------------------------------------------
 
