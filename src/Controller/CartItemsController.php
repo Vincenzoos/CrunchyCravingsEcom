@@ -55,8 +55,6 @@ class CartItemsController extends AppController
                 $total_price += $item->line_price;
             }
 
-            Log::write('debug', json_encode($cartItems));
-
             $this->set(compact('cartItems', 'total_price'));
         } else {
             // Fetch cart items from session for unauthenticated users
@@ -90,8 +88,6 @@ class CartItemsController extends AppController
                     $total_price += $cartItem->line_price;
                 }
             }
-
-            Log::write('debug', json_encode($cartItems));
 
             $this->set(compact('cartItems', 'total_price'));
         }
@@ -243,20 +239,99 @@ class CartItemsController extends AppController
      * @param string|null $id Cart Item id.
      * @param int|null $quantity Cart Item new quantity.
      */
-    public function updateQuantity(?string $id = null, ?int $quantity = null)
+    // public function updateQuantity(?string $id = null, ?int $quantity = null)
+    // {
+    //     // Ensure the ID and quantity are provided
+    //     if ($id === null || $quantity === null) {
+    //         $this->Flash->error(__('Invalid request. Please try again.'));
+
+    //         return $this->redirect($this->referer());
+    //     }
+
+    //     // Ensure the quantity is a positive integer
+    //     if ($quantity < 1) {
+    //         $this->Flash->error(__('Quantity must be at least 1.'));
+
+    //         return $this->redirect($this->referer());
+    //     }
+
+    //     // Check if the user is logged in
+    //     $identity = $this->Authentication->getIdentity();
+    //     $userId = $identity ? $identity->get('id') : null;
+
+    //     if ($userId) {
+    //         // Handle logged-in users (database-based cart)
+    //         $cartItem = $this->CartItems->get($id);
+
+    //         if (!$cartItem) {
+    //             $this->Flash->error(__('Cart item not found.'));
+
+    //             return $this->redirect($this->referer());
+    //         }
+
+    //         // Update the quantity (dont need update line_price since it is virtual field, used for display only)
+    //         $cartItem->quantity = $quantity;
+
+    //         // Save the updated cart item
+    //         if ($this->CartItems->save($cartItem)) {
+    //             $this->Flash->success(__('Cart item quantity updated successfully.'));
+    //         } else {
+    //             $this->Flash->error(__('Unable to update cart item quantity. Please try again.'));
+    //         }
+    //     } else {
+    //         // Handle unauthenticated users (session-based cart)
+    //         $session = $this->request->getSession();
+    //         $cart = $session->read('Cart') ?? [];
+
+    //         if (!isset($cart[$id])) {
+    //             $this->Flash->error(__('Cart item not found.'));
+
+    //             return $this->redirect($this->referer());
+    //         }
+
+    //         // Fetch the product details dynamically
+    //         $product = $this->CartItems->Products->find()
+    //             ->where(['id' => $id])
+    //             ->first();
+
+    //         if (!$product) {
+    //             $this->Flash->error(__('Product not found.'));
+
+    //             return $this->redirect($this->referer());
+    //         }
+
+    //         // Update the quantity and line price in the session cart
+    //         $cart[$id]['quantity'] = $quantity;
+    //         $cart[$id]['line_price'] = $product->price * $quantity;
+
+    //         // Save the updated cart back to the session
+    //         $session->write('Cart', $cart);
+
+    //         $this->Flash->success(__('Cart item quantity updated successfully.'));
+    //     }
+
+    //     // Redirect back to the referring page
+    //     return $this->redirect($this->referer());
+    // }
+
+    public function updateQuantityAjax()
     {
-        // Ensure the ID and quantity are provided
-        if ($id === null || $quantity === null) {
-            $this->Flash->error(__('Invalid request. Please try again.'));
+        $this->request->allowMethod(['post', 'ajax']); // Allow only POST and AJAX requests
 
-            return $this->redirect($this->referer());
-        }
 
-        // Ensure the quantity is a positive integer
-        if ($quantity < 1) {
-            $this->Flash->error(__('Quantity must be at least 1.'));
+        $cartItemId = $this->request->getData('cart_item_id');
+        $newQuantity = $this->request->getData('quantity');
 
-            return $this->redirect($this->referer());
+        // Log the incoming request data
+        // Log::write('debug', "Received cart_item_id: $cartItemId, quantity: $newQuantity");
+
+        // Ensure the quantity is valid
+        if ($newQuantity < 1) {
+            $response = ['success' => false, 'message' => 'Quantity must be at least 1.'];
+            Log::write('debug', json_encode($response)); // Log the response
+            $this->set('response', $response);
+            $this->viewBuilder()->setOption('serialize', ['response']);
+            return;
         }
 
         // Check if the user is logged in
@@ -265,57 +340,50 @@ class CartItemsController extends AppController
 
         if ($userId) {
             // Handle logged-in users (database-based cart)
-            $cartItem = $this->CartItems->get($id);
-
-            if (!$cartItem) {
-                $this->Flash->error(__('Cart item not found.'));
-
-                return $this->redirect($this->referer());
-            }
-
-            // Update the quantity (dont need update line_price since it is virtual field, used for display only)
-            $cartItem->quantity = $quantity;
-
-            // Save the updated cart item
-            if ($this->CartItems->save($cartItem)) {
-                $this->Flash->success(__('Cart item quantity updated successfully.'));
+            $cartItem = $this->CartItems->get($cartItemId, ['contain' => ['Products']]);
+            if ($cartItem) {
+                $cartItem->quantity = $newQuantity;
+                $cartItem->line_price = $cartItem->quantity * $cartItem->product->price;
+                
+                if ($this->CartItems->save($cartItem)) {
+                    $response = [
+                        'success' => true,
+                        'line_price' => $cartItem->line_price,
+                        'total_price' => $this->CartItems->calculateTotalPrice($userId),
+                    ];
+                } else {
+                    $response = ['success' => false, 'message' => 'Failed to update cart item.'];
+                }
             } else {
-                $this->Flash->error(__('Unable to update cart item quantity. Please try again.'));
+                $response = ['success' => false, 'message' => 'Cart item not found.'];
             }
         } else {
             // Handle unauthenticated users (session-based cart)
             $session = $this->request->getSession();
             $cart = $session->read('Cart') ?? [];
 
-            if (!isset($cart[$id])) {
-                $this->Flash->error(__('Cart item not found.'));
+            if (!isset($cart[$cartItemId])) {
+                $response = ['success' => false, 'message' => 'Cart item not found.'];
+            } else {
+                $cart[$cartItemId]['quantity'] = $newQuantity;
+                $cart[$cartItemId]['line_price'] = $cart[$cartItemId]['price'] * $newQuantity;
 
-                return $this->redirect($this->referer());
+                $session->write('Cart', $cart);
+
+                $response = [
+                    'success' => true,
+                    'line_price' => $cart[$cartItemId]['line_price'],
+                    'total_price' => array_sum(array_column($cart, 'line_price')),
+                ];
             }
-
-            // Fetch the product details dynamically
-            $product = $this->CartItems->Products->find()
-                ->where(['id' => $id])
-                ->first();
-
-            if (!$product) {
-                $this->Flash->error(__('Product not found.'));
-
-                return $this->redirect($this->referer());
-            }
-
-            // Update the quantity and line price in the session cart
-            $cart[$id]['quantity'] = $quantity;
-            $cart[$id]['line_price'] = $product->price * $quantity;
-
-            // Save the updated cart back to the session
-            $session->write('Cart', $cart);
-
-            $this->Flash->success(__('Cart item quantity updated successfully.'));
         }
 
-        // Redirect back to the referring page
-        return $this->redirect($this->referer());
+
+        // Set the response data and serialize it to JSON
+        $this->set(compact('response'));
+        $this->viewBuilder()->setOption('serialize', ['response']);
+        $this->viewBuilder()->disableAutoLayout(); // Disable the layout rendering
+        $this->render(null,null); // Render the response without a view
     }
 
     /**
@@ -608,122 +676,6 @@ class CartItemsController extends AppController
         return $this->redirect(['controller' => 'Products', 'action' => 'customerIndex']);
     }
 
-//    public function checkout()
-//    {
-//        // Check if the user is logged in
-//        $identity = $this->Authentication->getIdentity();
-//        $userId = $identity ? $identity->get('id') : null;
-//
-//        $cartItems = [];
-//        $total = 0;
-//
-//        if ($userId) {
-//            // Retrieve cart items for the logged-in user including associated product info
-//            $cartItems = $this->CartItems->find('all')
-//                ->contain(['Products'])
-//                ->where(['CartItems.user_id' => $userId])
-//                ->toArray();
-//
-//            if (empty($cartItems)) {
-//                $this->Flash->error(__('Your cart is empty.'));
-//
-//                return $this->redirect(['action' => 'customerView']);
-//            }
-//
-//            // Calculate the total amount
-//            foreach ($cartItems as $item) {
-////                $item->line_price = $item->line_price ?? 0; // Ensure line_price is set
-//                $total += $item->line_price;
-//            }
-//        } else {
-//            // Retrieve cart items from the session for unauthenticated users
-//            $session = $this->request->getSession();
-//            $cart = $session->read('Cart') ?? [];
-//
-//            if (empty($cart)) {
-//                $this->Flash->error(__('Your cart is empty.'));
-//
-//                return $this->redirect(['action' => 'customerView']);
-//            }
-//
-//            // Fetch product details for each item in the session cart
-//            foreach ($cart as $productId => $item) {
-//                $product = $this->CartItems->Products->find()
-//                    ->where(['id' => $productId])
-//                    ->first();
-//
-//                if ($product) {
-//                    $cartItems[] = [
-//                        'product' => $product,
-//                        'quantity' => $item['quantity'],
-//                        'line_price' => $item['line_price'] ?? $product->price * $item['quantity'], // Default to calculated value
-//                    ];
-//                    $total += $item['line_price'] ?? $product->price * $item['quantity'];
-//                }
-//            }
-//        }
-//
-//        try {
-//            Log::write('debug', json_encode($cartItems));
-//
-//            // Determine the recipient email
-//            if ($userId) {
-//                // Override received email with cpanel email for cpanel testing
-////                Configure::load('app_local');
-////                $override_email = Configure::read('EmailTransport.default.username');
-////                $recipient = $override_email ?? $identity->email;
-//                $recipient = $identity->email;
-//            } else {
-//                // Override received email with cpanel email for cpanel testing
-////            Configure::load('app_local');
-////            $override_email = Configure::read('EmailTransport.default.username');
-////            $recipient = $override_email ?? $user->email;
-//
-//                // TODO: default email should be replaced with input email.
-//                // TODO: potentially split checkout into loginCheckOut and publicCheckOut
-//                $recipient = 'guest@example.com'; // Replace with a default email for guests
-//            }
-//
-//            $mailer = new Mailer('default');
-//            $mailer
-//                ->setEmailFormat('both') // Sends both HTML and text versions
-//                ->setTo($recipient)
-//                ->setSubject('Your Order Confirmation')
-//                ->viewBuilder()
-//                ->setTemplate('customer_checkout');
-//
-//            // Pass required variables to your email template
-//            $mailer->setViewVars([
-////                'email' => $recipient,
-//                // For cpanel testing
-//                'email' => $userId ? $identity->get('email') : 'guest@example.com',
-//                'cartItems' => $cartItems,
-//                'total' => $total,
-//            ]);
-//
-//            if (!$mailer->deliver()) {
-//                $this->Flash->error(__('We encountered an issue sending your order confirmation email. Please try again.'));
-//
-//                return $this->redirect(['action' => 'customerView']);
-//            }
-//
-//            $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
-//
-//            // Clear the cart after checkout
-//            if ($userId) {
-//                $this->CartItems->deleteAll(['user_id' => $userId]);
-//            } else {
-//                $session->delete('Cart');
-//            }
-//        } catch (Exception $e) {
-//            $this->Flash->error(__('Error sending email to ' . $recipient . '. The provided email address may not exist, please check the email address and try again.'));
-//
-//            return $this->redirect(['action' => 'customerView']);
-//        }
-//
-//        return $this->redirect(['controller' => 'Products', 'action' => 'customerIndex']);
-//    }
-
     /**
      * Clear the cart
      *
@@ -753,6 +705,11 @@ class CartItemsController extends AppController
     {
         parent::beforeFilter($event);
 
-        $this->Authentication->allowUnauthenticated(['customerView', 'customerAdd', 'updateQuantity', 'delete', 'clearCart', 'update', 'unauthenticatedCheckout']);
+        $this->Authentication->allowUnauthenticated(['customerView', 'customerAdd', 'updateQuantityAjax', 'delete', 'clearCart', 'update', 'unauthenticatedCheckout']);
+        if ($this->request->getParam('action') === 'updateQuantityAjax') {
+            $this->Authorization->skipAuthorization();
+            $this->getEventManager()->off($this->FormProtection);
+        }
+ 
     }
 }

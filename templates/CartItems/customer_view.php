@@ -17,7 +17,7 @@ Purchase: http://themeforest.net/user/webstrot  -->
 <!--[if (gt IE 9)|!(IE)]><!-->
 <html class=""> <!--<![endif]-->
 
-<?php
+<sc?php
 use Cake\View\Helper\HtmlHelper;
 use Cake\View\View;
 $html = new HtmlHelper(new View());
@@ -25,11 +25,11 @@ $html = new HtmlHelper(new View());
 
 <head>
     <!-- Custom CSS -->
-    <?= $this->Html->css(['utilities','shop']) ?>
+    <?= $this->Html->css(['utilities','shop','cart']) ?>
 
 </head>
 
-<body data-offset="200" data-spy="scroll" data-target=".primary-navigation">
+< data-offset="200" data-spy="scroll" data-target=".primary-navigation">
     <!-- Page Breadcrumb -->
     <!-- container -->
     <div class="container">
@@ -80,15 +80,22 @@ $html = new HtmlHelper(new View());
                                 <span class="price-amount"><?= $this->Number->currency($cartItem->product->price, 'AUD') ?></span>
                             </td>
                             <td data-title="Quantity" class="product-quantity">
-                                <div class="quantity">
-                                    <?= $this->Form->postLink('+', ['action' => 'updateQuantity', $cartItem->id, $cartItem->quantity + 1], ['class' => 'qtyplus']) ?>
-                                    <?= $this->Form->input('quantity', [
-                                        'value' => h($cartItem->quantity),
-                                        'class' => 'qty',
-                                        'readonly' => true,
-                                    ]) ?>
-                                    <?= $this->Form->postLink('-', ['action' => 'updateQuantity', $cartItem->id, $cartItem->quantity - 1], ['class' => 'qtyminus']) ?>
-                                </div>
+
+
+                                <td data-title="Quantity" class="product-quantity">
+                                    <!-- <input type="number" class="qty form-control text-center" value="<?= h($cartItem->quantity) ?>" data-cart-item-id="<?= $cartItem->id ?>" readonly style="width: 50px; display: inline-block; font-size: 0.9rem;"> -->
+                                    <div class="d-flex flex-column align-items-center">
+                                        <h class="quantity"><?= h($cartItem->quantity) ?></h>
+                                        <div class="d-flex justify-content-center mt-1">
+                                            <button class="qtyplus btn btn-outline-secondary btn-sm me-1" data-cart-item-id="<?= $cartItem->id ?>" data-action="increase">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button class="qtyminus btn btn-outline-secondary btn-sm" data-cart-item-id="<?= $cartItem->id ?>" data-action="decrease">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
                             </td>
                             <td data-title="Subtotal" class="product-subtotal">
                                 <span class="amount"><?= $this->Number->currency($cartItem->line_price, 'AUD') ?></span>
@@ -201,6 +208,62 @@ $html = new HtmlHelper(new View());
             </div>
         </div> <!-- page /- -->
     </div> <!-- page container /- -->
+
+
+    <!-- Send AJAX and update cart item without page reload  -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Handle quantity button clicks
+            document.querySelectorAll('.qtyplus, .qtyminus').forEach(button => {
+                button.addEventListener('click', event => {
+                    const cartItemId = button.getAttribute('data-cart-item-id'); // Get the cart item ID
+                    const action = button.getAttribute('data-action'); // Get the action (increase or decrease)
+                    const quantityElement = button.closest('tr').querySelector('.quantity'); // Get the quantity element
+                    let currentQuantity = parseInt(quantityElement.textContent, 10); // Get the current quantity
+
+                    // Update the quantity based on the action
+                    if (action === 'increase') {
+                        currentQuantity++;
+                    } else if (action === 'decrease' && currentQuantity > 1) {
+                        currentQuantity--;
+                    }
+
+                    // Update the quantity in the DOM
+                    quantityElement.textContent = currentQuantity;
+
+                    // Send the updated quantity to the server via AJAX
+                    fetch('<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'updateQuantityAjax']) ?>', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': '<?= $this->request->getAttribute('csrfToken') ?>'
+                        },
+                        body: JSON.stringify({ cart_item_id: cartItemId, quantity: currentQuantity })
+                    })
+                    .then(() => {
+                        // Update the line price using currentQuantity and product price
+                        const productPrice = parseFloat(button.closest('tr').querySelector('.product-price .price-amount').textContent.replace(/[^0-9.-]+/g, ""));
+                        const linePriceElement = button.closest('tr').querySelector('.product-subtotal .amount');
+                        const updatedLinePrice = productPrice * currentQuantity;
+                        linePriceElement.textContent = formatCurrency(updatedLinePrice, 'AUD');
+
+                        // Update the total price by recalculating all line prices
+                        let updatedTotalPrice = 0;
+                        document.querySelectorAll('.product-subtotal .amount').forEach(subtotalElement => {
+                            updatedTotalPrice += parseFloat(subtotalElement.textContent.replace(/[^0-9.-]+/g, ""));
+                        });
+                        const totalPriceElement = document.querySelector('.total-amount');
+                        totalPriceElement.textContent = formatCurrency(updatedTotalPrice);
+                    })
+                });
+            });
+        });
+        // Helper function to format currency in JavaScript
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(amount);
+        }
+    </script>
+    <!-- End AJAX script -->
 
 </body>
 

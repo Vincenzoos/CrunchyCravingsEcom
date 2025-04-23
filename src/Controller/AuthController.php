@@ -36,6 +36,7 @@ class AuthController extends AppController
         $this->Authentication->allowUnauthenticated([
             'login', 'register', 'forgetPassword', 'resetPassword',
             'customerIndex', 'customerView',
+            'updateQuantityAjax',
         ]);
 
         // CakePHP loads the model with the same name as the controller by default.

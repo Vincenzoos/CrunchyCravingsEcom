@@ -22,11 +22,6 @@
     background: linear-gradient(145deg, #ffffff, #f3f0f0); /* Soft gradient background */
 }
 
-.main-product {
-    /* margin-bottom: 20px; */
-    background-color: transparent !important;
-}
-
 .page-header {
     margin-top: 0;
 }

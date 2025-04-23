@@ -1,0 +1,24 @@
+/* Ensure consistent button dimensions */
+.qtyplus, .qtyminus {
+    width: 30px; /* Set a fixed width */
+    height: 30px; /* Set a fixed height */
+    line-height: 30px; /* Center the icon vertically */
+    text-align: center; /* Center the icon horizontally */
+    border: 1px solid #ddd; /* Add a consistent border */
+    border-radius: 4px; /* Optional: Add rounded corners */
+    background-color: #f8f9fa; /* Default background color */
+    transition: all 0.2s ease-in-out; /* Smooth transition for hover effects */
+}
+
+/* Hover effect */
+.qtyplus:hover, .qtyminus:hover {
+    background-color: #e0e0e0; /* Change background color on hover */
+    border-color: #ccc; /* Optional: Change border color on hover */
+    cursor: pointer; /* Show pointer cursor on hover */
+}
+
+/* Prevent shifting caused by focus outline */
+.qtyplus:focus, .qtyminus:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2); /* Optional: Add a custom focus effect */
+}

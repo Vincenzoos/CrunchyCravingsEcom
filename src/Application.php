@@ -136,7 +136,22 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             ))
 
             // Add Request authorization
-            ->add(new RequestAuthorizationMiddleware())
+            ->add(new RequestAuthorizationMiddleware([
+            'skipAuthorizationCheck' => function (ServerRequestInterface $request) {
+                $controller = $request->getAttribute('controller');
+                $action = $request->getAttribute('action');
+
+                // Skip authorization for CartItemsController::updateQuantityAjax
+                return $controller === 'CartItems' && $action === 'updateQuantityAjax';
+            },
+            'authorizeAll' => function (ServerRequestInterface $request) {
+                $controller = $request->getAttribute('controller');
+                $action = $request->getAttribute('action');
+
+                // Allow all authorization checks to pass for updateQuantityAjax
+                return $controller === 'CartItems' && $action === 'updateQuantityAjax';
+            },
+            ]))
 
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()
@@ -146,7 +161,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // Cross Site Request Forgery (CSRF) Protection Middleware
             // https://book.cakephp.org/4/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
             ->add(new CsrfProtectionMiddleware([
-                'httponly' => true,
+            'httponly' => true,
             ]));
 
         return $middlewareQueue;
@@ -190,6 +205,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 'prefix' => null,
             ]),
         ]);
+
+        $authenticationService->setConfig('log', false);
 
         return $authenticationService;
     }

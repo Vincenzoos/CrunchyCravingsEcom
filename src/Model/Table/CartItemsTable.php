@@ -96,4 +96,14 @@ class CartItemsTable extends Table
 
         return $rules;
     }
+
+    public function calculateTotalPrice($userId)
+    {
+        $query = $this->find()
+            ->where(['user_id' => $userId])
+            ->contain(['Products'])
+            ->select(['total' => 'SUM(CartItems.quantity * Products.price)']);
+
+        return $query->first()->total ?? 0;
+    }
 }

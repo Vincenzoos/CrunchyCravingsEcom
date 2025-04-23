@@ -26,9 +26,8 @@ $html = new HtmlHelper(new View());
 
 <head>
     <!-- Custom CSS -->
-    <?= $this->Html->css(['utilities','shop']) ?>
+    <?= $this->Html->css(['utilities','shop','products']) ?>
 
-    <?= $html->script('/libraries/jquery.min.js') ?>
 </head>
 
 <body>
@@ -104,6 +103,7 @@ $html = new HtmlHelper(new View());
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Link the product title to the view page -->
                                     <a title="<?= h($similarProduct->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $similarProduct->id]) ?>" class="product-title">
                                         <?= h($similarProduct->name) ?>
                                     </a>

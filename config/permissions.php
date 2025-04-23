@@ -35,10 +35,9 @@ return [
              'action' => [
                  'customerView',
                  'customerAdd',
-//                 'update',
                  'updateQuantity',
+                 'updateQuantityAjax',
                  'delete',
-//                 'checkout',
                  'authenticatedCheckout',
                  'unauthenticatedCheckout',
              ],
