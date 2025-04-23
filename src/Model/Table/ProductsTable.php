@@ -47,6 +47,10 @@ class ProductsTable extends Table
             'joinTable' => 'categories_products',
         ]);
 
+        $this->hasMany('CartItems', [
+            'foreignKey' => 'product_id',
+        ]);
+
         $this->addBehavior('Josegonzalez/Upload.Upload', [
             'image' => [
                 'nameCallback' => function ($table, $entity, $data, $field, $settings) {

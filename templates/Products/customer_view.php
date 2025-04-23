@@ -57,6 +57,9 @@ $html = new HtmlHelper(new View());
                 <div class="col-12 col-md-12 col-lg-7">
                     <!-- Product Image -->
                     <div id="shop-box" class="large-product" style="margin-bottom: 40px;">
+                        <div class="page-header" style="padding: 20px;">
+                            <h3><?= h($product->name) ?></h3>
+                        </div>
                         <div class="row" style="display: flex; justify-content: center; align-items: center;">
                             <div id="about-slider" class="col-12 col-md-12 col-lg-9 flexslider product-slider">
                                 <ul class="slides">
@@ -71,10 +74,12 @@ $html = new HtmlHelper(new View());
 
                     <!-- Similar Products Section -->
                     <div id="shop-box" style="padding: 20px;">
-                        <h3 style="text-align: center;">Similar Products</h3>
+                        <div class="page-header" style="padding: 20px;">
+                            <h3>Similar Products</h3>
+                        </div>
                         <div class="row">
                             <?php foreach ($similarProducts as $similarProduct) : ?>
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 main-product">
+                                <div class="col-lg-6 col-md-6 col-sm-6 main-product">
                                     <div class="category-box product-box">
                                         <?php if ($similarProduct->on_sale) : ?>
                                             <span class="sale">sales</span>
@@ -84,8 +89,8 @@ $html = new HtmlHelper(new View());
                                             <a href="<?= $this->Url->build(['action' => 'customerView', $similarProduct->id]) ?>">
                                                 <?= $this->Html->image($similarProduct->image_cache_busted_url, [
                                                     'alt' => $similarProduct->name,
-                                                    'class' => 'img-fluid rounded-top',
-                                                    'style' => 'height: 300px; object-fit: cover; width: 100%;']) ?>
+                                                    'class' => 'img-fluid rounded-top'
+                                                ]) ?>
                                             </a>
                                             <div class="product-box-inner">
                                                 <ul>
@@ -124,8 +129,8 @@ $html = new HtmlHelper(new View());
                 <div class="col-12 col-md-12 col-lg-5 single-product-sidebar">
                     <div id="shop-box" class="product-info-panel" style="padding: 40px; margin-bottom: 20px;">
                         <div class="page-header">
-                            <h3><?= h($product->name) ?></h3>
-                        </div>
+                            <h3>Product Details</h3>
+                        </div>  
                         <ul class="star" style="margin-bottom: 20px;">
                             <li>
                                 <?php for ($i = 1; $i <= 5; $i++) : ?>
@@ -189,10 +194,25 @@ $html = new HtmlHelper(new View());
                                                         'class' => 'minimal',
                                                         'id' => 'quantity',
                                                         'value' => $this->request->getData('quantity'),
+                                                        'data-stock' => $product->quantity,
+                                                        'data-cart' => $cartQuantity,
                                                     ]) ?>
-
                                                 </td>
                                             </tr>
+                                            <script>
+                                                document.addEventListener('DOMContentLoaded', () => {
+                                                    const quantityDropdown = document.getElementById('quantity');
+                                                    const stockCount = parseInt(quantityDropdown.dataset.stock, 10);
+                                                    const cartQuantity = parseInt(quantityDropdown.dataset.cart, 10);
+
+                                                    Array.from(quantityDropdown.options).forEach(option => {
+                                                        const optionValue = parseInt(option.value, 10);
+                                                        if (optionValue > stockCount + cartQuantity) {
+                                                            option.style.color = 'red';
+                                                        }
+                                                    });
+                                                });
+                                            </script>
                                             <tr class="order-total">
                                                 <th>Total Price</th>
                                                 <td><strong><span id="total-amount" class="total-amount"><?= $this->Number->currency($product->price, 'AUD') ?></span></strong></td>
@@ -260,22 +280,28 @@ $html = new HtmlHelper(new View());
         </div>
     </div>
 
+    <!-- Quanity dropdown script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Get the necessary elements
             const quantityDropdown = document.getElementById('quantity');
-            const totalPriceElement = document.getElementById('total-amount');
-            const productPrice = <?= json_encode($product->price) ?>; // Pass product price from PHP to JavaScript
+            const stockCount = parseInt(quantityDropdown.dataset.stock, 10); // Total stock for the product
+            const cartQuantity = parseInt(quantityDropdown.dataset.cart, 10); // Quantity already in the cart
 
-            // Add an event listener to the dropdown
-            quantityDropdown.addEventListener('change', () => {
-                const selectedQuantity = parseInt(quantityDropdown.value, 10); // Get selected quantity
-                const totalPrice = (selectedQuantity+1) * productPrice; // Calculate total price
+            // Iterate through each option in the dropdown
+            Array.from(quantityDropdown.options).forEach(option => {
+                const optionValue = parseInt(option.value, 10); // Get the value of the option
 
-                // Update the total price element
-                totalPriceElement.textContent = `A$ ${totalPrice.toFixed(2)}`; // Format as currency
+            // Check if the option exceeds the available stock
+            if (optionValue > stockCount - cartQuantity) {
+                option.style.color = "#e0e0e0";
+                option.disabled = true;
+            } else {
+                option.style.color = '';
+                option.disabled = false;
+            }
             });
         });
     </script>
+    
 
 </html>

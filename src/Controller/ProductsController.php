@@ -254,8 +254,20 @@ class ProductsController extends AppController
             return $category->id;
         }, $product->categories);
 
+        // Fetch the quantity of the product in the cart
+        $cartQuantity = 0; // Default to 0 if no cart items exist
+        if ($this->Authentication->getIdentity()) {
+            $userId = $this->Authentication->getIdentity()->get('id');
+            $cartItem = $this->Products->CartItems->find()
+                ->where(['product_id' => $id, 'user_id' => $userId])
+                ->first();
+            if ($cartItem) {
+                $cartQuantity = $cartItem->quantity;
+            }
+        }
+
         // Pass variables to the view
-        $this->set(compact('product', 'similarProducts','allCategories', 'associatedCategoryIds'));
+        $this->set(compact('product', 'similarProducts','allCategories', 'associatedCategoryIds', 'cartQuantity'));
     }
 
 

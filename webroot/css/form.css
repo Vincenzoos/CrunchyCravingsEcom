@@ -53,11 +53,3 @@
     padding-left: 1.5rem;
     margin-left: 0;
 }
-
-#requirements-content ul li {
-    color: var(--text-color);
-    font-family: var(--main-font);
-    list-style-type: disc;
-    padding-left: 0;
-    margin-left: 0;
-}
