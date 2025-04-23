@@ -29,7 +29,7 @@ $html = new HtmlHelper(new View());
 
 </head>
 
-< data-offset="200" data-spy="scroll" data-target=".primary-navigation">
+<data-offset="200" data-spy="scroll" data-target=".primary-navigation">
     <!-- Page Breadcrumb -->
     <!-- container -->
     <div class="container">

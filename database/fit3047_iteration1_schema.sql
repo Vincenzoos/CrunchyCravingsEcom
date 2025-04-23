@@ -130,16 +130,16 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO products (id, name, description, price, image, quantity) VALUES
-(1, 'Lavosh Signature Crackers', 'Crunchy and savory, our Lavosh Signature Crackers are perfect as a standalone snack or paired with your favorite wine.', 9.99, "default-product.jpg", 0),
-(2, 'Lavosh Artisan Flatbread', 'Experience the delicate taste of our Lavosh Artisan Flatbread, ideal for creating a gourmet morning meal.', 7.49, "default-product.jpg", 10),
-(3, 'Lavosh Deluxe Hamper', 'Our Lavosh Deluxe Hamper offers a curated selection including premium lavosh crackers, flatbread, fine wine, and gourmet treats – the perfect gift of choice.', 49.99, "default-product.jpg", 20),
-(4, 'Lavosh Mini Crackers', 'Bite-sized Lavosh Mini Crackers, perfect for dipping or as a light snack.', 4.99, "default-product.jpg", 15),
-(5, 'Lavosh Gluten-Free Flatbread', 'Enjoy the same great taste of Lavosh Flatbread, now in a gluten-free option.', 8.99, "default-product.jpg", 8),
-(6, 'Lavosh Party Hamper', 'A party-ready hamper featuring a variety of Lavosh crackers, flatbread, and gourmet dips.', 59.99, "default-product.jpg", 5),
-(7, 'Lavosh Spicy Crackers', 'Add a kick to your snack time with our Lavosh Spicy Crackers, seasoned with a blend of spices.', 10.99, "default-product.jpg", 12),
-(8, 'Lavosh Sweet Flatbread', 'A sweet twist on our classic flatbread, perfect for desserts or breakfast.', 6.99, "default-product.jpg", 18),
-(9, 'Lavosh Premium Hamper', 'An exclusive hamper featuring our finest Lavosh products and premium accompaniments.', 79.99, "default-product.jpg", 3),
-(10, 'Lavosh Herb Crackers', 'Infused with a blend of fresh herbs, these crackers are a flavorful snack.', 9.49, "default-product.jpg", 20);
+(1, 'Lavosh Signature Crackers', 'Crunchy and savory, our Lavosh Signature Crackers are perfect as a standalone snack or paired with your favorite wine.', 9.99, "Signature_Crackers.png", 0),
+(2, 'Lavosh Artisan Flatbread', 'Experience the delicate taste of our Lavosh Artisan Flatbread, ideal for creating a gourmet morning meal.', 7.49, "Artisan_Flatbread.png", 10),
+(3, 'Lavosh Deluxe Hamper', 'Our Lavosh Deluxe Hamper offers a curated selection including premium lavosh crackers, flatbread, fine wine, and gourmet treats – the perfect gift of choice.', 49.99, "Deluxe_Hamper.png", 20),
+(4, 'Lavosh Mini Crackers', 'Bite-sized Lavosh Mini Crackers, perfect for dipping or as a light snack.', 4.99, "Mini_Crackers.png", 15),
+(5, 'Lavosh Gluten-Free Flatbread', 'Enjoy the same great taste of Lavosh Flatbread, now in a gluten-free option.', 8.99, "Gluten_Free_Flatbread.png", 8),
+(6, 'Lavosh Party Hamper', 'A party-ready hamper featuring a variety of Lavosh crackers, flatbread, and gourmet dips.', 59.99, "Party_Hamper.png", 5),
+(7, 'Lavosh Spicy Crackers', 'Add a kick to your snack time with our Lavosh Spicy Crackers, seasoned with a blend of spices.', 10.99, "Spicy_Crackers.png", 12),
+(8, 'Lavosh Sweet Flatbread', 'A sweet twist on our classic flatbread, perfect for desserts or breakfast.', 6.99, "Sweet_Flatbread.png", 18),
+(9, 'Lavosh Premium Hamper', 'An exclusive hamper featuring our finest Lavosh products and premium accompaniments.', 79.99, "Premium_Hamper.png", 3),
+(10, 'Lavosh Herb Crackers', 'Infused with a blend of fresh herbs, these crackers are a flavorful snack.', 9.49, "Herb_Crackers.png", 20);
 
 -- --------------------------------------------------------
 

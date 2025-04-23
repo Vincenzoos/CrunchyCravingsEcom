@@ -237,9 +237,17 @@ class ProductsController extends AppController
             'contain' => ['Categories'], // Include associated categories
         ]);
 
+        // Get associated category IDs
+        $associatedCategoryIds = array_map(function ($category) {
+            return $category->id;
+        }, $product->categories);
+
         // Fetch similar products (excluding the current product)
         $similarProducts = $this->Products->find()
-            ->where(['id !=' => $id]) // Exclude the current product
+            ->matching('Categories', function ($q) use ($associatedCategoryIds) {
+            return $q->where(['Categories.id IN' => $associatedCategoryIds]);
+            })
+            ->where(['Products.id !=' => $id]) // Exclude the current product
             ->limit(2) // Limit to 2 products
             ->all();
 
@@ -248,11 +256,6 @@ class ProductsController extends AppController
             'keyField' => 'id',
             'valueField' => 'name',
         ])->toArray();
-
-        // Get associated category IDs
-        $associatedCategoryIds = array_map(function ($category) {
-            return $category->id;
-        }, $product->categories);
 
         // Fetch the quantity of the product in the cart
         $cartQuantity = 0; // Default to 0 if no cart items exist
