@@ -37,6 +37,7 @@ class Product extends Entity
         'image' => true,
         'quantity' => true,
         'categories' => true,
+        'ingredients' => true,
     ];
 
     /**

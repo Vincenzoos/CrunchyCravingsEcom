@@ -3,11 +3,14 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Product $product
  */
+
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\View;
+
 ?>
 
 <?php
-use Cake\View\Helper\HtmlHelper;
-$html = new HtmlHelper(new \Cake\View\View());
+$html = new HtmlHelper(new View());
 ?>
 
 <head>
@@ -47,7 +50,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     <td><?= $this->Html->image($product->image_cache_busted_url, [
                                             'alt' => $product->name,
                                             'class' => 'img-fluid rounded-top',
-                                            'style' => 'height: 50%; object-fit: cover; width: 100%;'
                                         ]) ?></td>
                                 </tr>
                                 <tr>
@@ -69,30 +71,38 @@ $html = new HtmlHelper(new \Cake\View\View());
                                         <?php if (!empty($associatedCategoryIds) && !empty($allCategories)) : ?>
                                             <!-- Display categories with commas in between by looking up the associated category id and using implode -->
                                             <?php $categoryNames = []; ?>
-                                            <?php foreach ($associatedCategoryIds as $categoryId): ?>
-                                                <?php if (isset($allCategories[$categoryId])): ?>
+                                            <?php foreach ($associatedCategoryIds as $categoryId) : ?>
+                                                <?php if (isset($allCategories[$categoryId])) : ?>
                                                     <?php $categoryNames[] = h($allCategories[$categoryId]); ?>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
                                             <?= !empty($categoryNames) ? implode(', ', $categoryNames) : __('No associated categories available.') ?>
-                                        <?php else: ?>
+                                        <?php else : ?>
                                             <?= __('No associated categories available.') ?>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
-                            </tr>
-
                             </table>
-                            							<!-- Description Section -->
-							<div id="description-content" class="text-center mt-4">
-								<h3><?= __('Description') ?></h3>
-								<table class="table table-bordered">
-									<tr>
-										<td><?= $this->Text->autoParagraph(h($product->description)); ?></td>
-									</tr>
-								</table>
-							</div>
+                            <div id="description-content" class="text-center mt-4">
+                                <h3><?= __('Ingredients') ?></h3>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td><?= $this->Text->autoParagraph(h($product->ingredients)); ?></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                                                        <!-- Description Section -->
+                            <div id="description-content" class="text-center mt-4">
+                                <h3><?= __('Description') ?></h3>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td><?= $this->Text->autoParagraph(h($product->description)); ?></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
+                    </div>
 
                         <!-- Actions -->
                         <div class="text-center mt-4">
@@ -103,12 +113,12 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 [
                                     'class' => 'btn btn-danger',
                                     'confirm' => __('Are you sure you want to delete this product: {0}?', $product->name),
-                                ]
+                                ],
                             ) ?>
                         </div>
-						<div class="text-center mt-4">
-							<?= $this->Html->link('Back to Products List', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
-						</div>
+                        <div class="text-center mt-4">
+                            <?= $this->Html->link('Back to Products List', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -60,11 +60,26 @@ use Cake\View\View;
                         <?= $this->Form->control('description', [
                                 'class' => 'form-control mx-auto',
                                 'id' => 'description',
-                                'label' => ['text' => '<h4 class="text-center" id="description-label">Description (<span id="character-count">0</span>/' . DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4 class="text-center" id="description-label">Description (<span id="desc-character-count">0</span>/' . DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
                                 'placeholder' => 'Enter a brief description...',
                                 'type' => 'textarea',
                                 'rows' => 4,
-                                'onkeyup' => 'limitInputLength(this, "character-count", ' . DESC_MAX_LENGTH . ')',
+                                'onkeyup' => 'limitInputLength(this, "desc-character-count", ' . DESC_MAX_LENGTH . ')',
+                                'oninput' => 'removeScriptTags(this)',
+                                'maxlength' => DESC_MAX_LENGTH, // Override maxlength
+                            ]) ?>
+                        </div>
+                        <div class="mb-4">
+                            <?= $this->Form->control('ingredients', [
+                                'class' => 'form-control mx-auto',
+                                'id' => 'ingredients',
+                                'label' => ['text' => '<h4 class="text-center" id="ingredients-label">Ingredients (<span id="ingr-character-count">0</span>/' . DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
+                                'placeholder' => 'List out the ingredients...',
+                                'type' => 'textarea',
+                                'pattern' => '^[A-Za-z0-9%.,() ]+$',
+                                'title' => 'Only letters, numbers, spaces, parenthesis and percentage sign are allowed.',
+                                'rows' => 4,
+                                'onkeyup' => 'limitInputLength(this, "ingr-character-count", ' . DESC_MAX_LENGTH . ')',
                                 'oninput' => 'removeScriptTags(this)',
                                 'maxlength' => DESC_MAX_LENGTH, // Override maxlength
                             ]) ?>

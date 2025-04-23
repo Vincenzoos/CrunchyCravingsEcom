@@ -59,11 +59,26 @@ const DESC_MAX_LENGTH = '250';
                             <?= $this->Form->control('description', [
                                 'class' => 'form-control mx-auto',
                                 'id' => 'description',
-                                'label' => ['text' => '<h4 class="text-center" id="description-label">Description (<span id="character-count">0</span>/' . DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4 class="text-center" id="description-label">Description (<span id="desc-character-count">0</span>/' . DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
                                 'placeholder' => 'Enter a brief description...',
                                 'type' => 'textarea',
                                 'rows' => 4,
-                                'onkeyup' => 'limitInputLength(this, "character-count", ' . DESC_MAX_LENGTH . ')',
+                                'onkeyup' => 'limitInputLength(this, "desc-character-count", ' . DESC_MAX_LENGTH . ')',
+                                'oninput' => 'removeScriptTags(this)',
+                                'maxlength' => DESC_MAX_LENGTH, // Override maxlength
+                            ]) ?>
+                        </div>
+                        <div class="mb-4">
+                            <?= $this->Form->control('ingredients', [
+                                'class' => 'form-control mx-auto',
+                                'id' => 'ingredients',
+                                'label' => ['text' => '<h4 class="text-center" id="ingredients-label">Ingredients (<span id="ingr-character-count">0</span>/' . DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
+                                'placeholder' => 'List out the ingredients...',
+                                'type' => 'textarea',
+                                'pattern' => '^[A-Za-z0-9%.,() ]+$',
+                                'title' => 'Example: Wheat flour (60%), Coconut oil (30%), Himalayan salt.',
+                                'rows' => 4,
+                                'onkeyup' => 'limitInputLength(this, "ingr-character-count", ' . DESC_MAX_LENGTH . ')',
                                 'oninput' => 'removeScriptTags(this)',
                                 'maxlength' => DESC_MAX_LENGTH, // Override maxlength
                             ]) ?>
@@ -139,7 +154,14 @@ const DESC_MAX_LENGTH = '250';
     <!-- get the current number of character in description text area -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            initializeCharacterCount('description', 'character-count');
+            initializeCharacterCount('description', 'desc-character-count');
+        });
+    </script>
+
+    <!-- get the current number of character in ingredients text area -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeCharacterCount('ingredients', 'ingr-character-count');
         });
     </script>
 

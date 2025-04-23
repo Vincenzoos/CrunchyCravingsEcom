@@ -63,18 +63,16 @@ $html = new HtmlHelper(new View());
                     <?php foreach ($cartItems as $cartItem) : ?>
                         <tr>
                             <td data-title="Product" class="product-thumbnail">
-                                <h5><?= h($cartItem->product->name) ?></h5>
-                                <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'view', $cartItem->product->id]) ?>">
-                                    <?= $this->Html->image($cartItem->product->image_cache_busted_url, [
-                                        'alt' => $cartItem->product->name,
-                                        'class' => 'img-fluid rounded-top',
-                                        'style' => 'height: 100%; object-fit: cover; width: 80%;']) ?>
+                                <a style="color: #6E6E6E" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerView', $cartItem->product->id]) ?>">
+                                    <h5><?= h($cartItem->product->name) ?></h5>
                                 </a>
+                                <?= $this->Html->image($cartItem->product->image_cache_busted_url, [
+                                    'alt' => $cartItem->product->name,
+                                    'class' => 'img-fluid rounded-top',
+                                    'style' => 'height: 100%; object-fit: cover; width: 80%;']) ?>
                             </td>
                             <td data-title="Description" class="product-description">
-                                <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'view', $cartItem->product->id]) ?>">
-                                    <?= h($cartItem->product->description) ?>
-                                </a>
+                                <?= h($cartItem->product->description) ?>
                             </td>
                             <td data-title="Price" class="product-price">
                                 <span class="price-amount"><?= $this->Number->currency($cartItem->product->price, 'AUD') ?></span>
