@@ -48,7 +48,6 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 <body>
     <!-- Page Breadcrumb -->
-    <!-- container -->
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
@@ -56,8 +55,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
             </ol>
         </div>
-    </div><!-- container /- -->
-    <!-- Page Breadcrumb /- -->
+    </div>
 
     <!-- Shop container -->
     <div class="container" id="shop-container">
@@ -95,10 +93,10 @@ $html = new HtmlHelper(new \Cake\View\View());
 
                 <!-- Price Range Section -->
                 <div class="mb-4">
-                    <button class="btn w-100 mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#price-range-collapse" aria-expanded="false" aria-controls="price-range-collapse">
+                    <button class="btn w-100 mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#price-range-collapse" aria-expanded="true" aria-controls="price-range-collapse">
                         Price Range <i class="fa fa-chevron-down float-end"></i>
                     </button>
-                    <div class="collapse" id="price-range-collapse">
+                    <div class="show" id="price-range-collapse">
                         <!-- Predefined Price Range Checkboxes -->
                         <div class="form-check">
                             <input class="form-check-input price-checkbox" type="checkbox" name="price_range[]" value="under_20" id="price-under-20" <?= in_array('under_20', $this->request->getQuery('price_range') ?? []) ? 'checked' : '' ?>>
@@ -151,10 +149,10 @@ $html = new HtmlHelper(new \Cake\View\View());
 
                 <!-- Categories Section -->
                 <div class="mb-4">
-                    <button class="btn w-100 mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#categories-collapse" aria-expanded="false" aria-controls="categories-collapse">
+                    <button class="btn w-100 mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#categories-collapse" aria-expanded="true" aria-controls="categories-collapse">
                         Categories <i class="fa fa-chevron-down float-end"></i>
                     </button>
-                    <div class="collapse" id="categories-collapse">
+                    <div class="show" id="categories-collapse">
                         <?= $this->Form->control('categories._ids', [
                             'type' => 'select',
                             'options' => $categoriesList,
@@ -265,20 +263,27 @@ $html = new HtmlHelper(new \Cake\View\View());
         document.addEventListener('DOMContentLoaded', function () {
             const toggleFiltersButton = document.getElementById('filters-button');
             const filterSidebar = document.getElementById('filter-sidebar');
-            const featuredProducts = document.getElementById('featured-products');
 
+            // Check if there are any query parameters in the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.toString()) {
+                // Open the sidebar if there are filters in the URL
+                filterSidebar.classList.add('open');
+                filterSidebar.classList.remove('hidden');
+                toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
+            }
+
+            // Toggle the sidebar when the button is clicked
             toggleFiltersButton.addEventListener('click', function () {
                 if (!filterSidebar.classList.contains('open')) {
                     // Show the sidebar
                     filterSidebar.classList.add('open');
                     filterSidebar.classList.remove('hidden');
-                    // featuredProducts.style.width = '80%'; // Adjust featured-products width
                     toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
                 } else {
                     // Hide the sidebar
                     filterSidebar.classList.remove('open');
                     filterSidebar.classList.add('hidden');
-                    // featuredProducts.style.width = '100%'; // Expand featured-products to full width
                     toggleFiltersButton.innerHTML = 'Show Filters <i class="fa fa-sliders"></i>';
                 }
             });

@@ -29,7 +29,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         <section id="heading" class="text-center py-5">
             <div class="container">
                 <h1 class="display-4">Enquiries</h1>
-                <p class="lead">Manage all contacts below.</p>
+                <p class="lead">Manage all enquiries below.</p>
             </div>
         </section>
 
@@ -97,9 +97,6 @@ $html = new HtmlHelper(new \Cake\View\View());
             <div id="content">
                 <div class="container-fluid" id="table-content">
                     <?= $this->Flash->render() ?>
-                    <div class="text-center mt-4">
-                        <?= $this->Html->link('Add New Contact', ['action' => 'add'], ['class' => 'btn btn-success']) ?>
-                    </div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover shadow mb-4">
                                 <thead class="thead-dark">
@@ -138,6 +135,9 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 <?php endforeach; ?>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="text-center mt-4">
+                            <?= $this->Html->link('Add New Enquiry', ['action' => 'add'], ['class' => 'btn btn-success']) ?>
                         </div>
                     </div>
 
