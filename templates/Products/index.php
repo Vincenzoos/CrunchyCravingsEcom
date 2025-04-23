@@ -32,66 +32,73 @@ $html = new HtmlHelper(new \Cake\View\View());
             </div>
         </section>
 
+        <!-- Filter Toggle Button -->
+        <div class="text-center mb-3">
+            <button class="btn btn-outline-secondary" type="button" id="toggle-filters" data-bs-toggle="collapse" data-bs-target="#filter-form" aria-expanded="false" aria-controls="filter-form">
+                Show Filters <i class="fa fa-sliders"></i>
+            </button>
+        </div>
+
         <!-- Products Filter Form -->
-        <div class="col-md-6 mx-auto mb-4 p-3 rounded shadow-sm bg-light">
+        <div id="filter-form" class="collapse">
+            <div id="form-content" class="col-md-2 mx-auto mb-4 p-3">
             <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
 
-            <!-- Product Name Field -->
-            <div class="col-md-6">
-                <?= $this->Form->control('product_name', [
-                    'label' => 'Product Name',
-                    'placeholder' => 'Name contains...',
-                    'value' => $this->request->getQuery('product_name'),
-                    'class' => 'form-control',
-                ]) ?>
-            </div>
+                <!-- Product Name Field -->
+                <div class="col-12">
+                    <?= $this->Form->control('product_name', [
+                        'label' => 'Product Name',
+                        'placeholder' => 'Name contains...',
+                        'value' => $this->request->getQuery('product_name'),
+                        'class' => 'form-control',
+                    ]) ?>
+                </div>
 
-            <!-- Categories Field -->
-            <div class="col-md-6">
-                <?= $this->Form->control('categories._ids', [
-                    'type' => 'select',
-                    'label' => 'Categories',
-                    'options' => $categoriesList,
-                    'multiple' => true,
-                    'class' => 'form-select select2', // use select2
-                    'empty' => false, // Disable the empty option
-                    'value' => $this->request->getQuery('categories._ids'),
-                ]) ?>
-            </div>
+                <!-- Categories Field -->
+                <div class="col-12">
+                    <label for="categories-ids" class="form-label">Categories</label>
+                    <?= $this->Form->select('categories._ids', $categoriesList, [
+                        'id' => 'categories-ids',
+                        'multiple' => true,
+                        'class' => 'form-select select2', // use select2
+                        'value' => $this->request->getQuery('categories._ids'),
+                    ]) ?>
+                </div>
 
-            <!-- Min Price Field -->
-            <div class="col-md-6">
-                <?= $this->Form->control('min_price', [
-                    'label' => 'Min Price',
-                    'placeholder' => '0',
-                    'type' => 'number',
-                    'min' => '0',
-                    'max' => '500',
-                    'value' => $this->request->getQuery('min_price'),
-                    'class' => 'form-control',
-                ]) ?>
-            </div>
+                <!-- Min Price Field -->
+                <div class="col-12">
+                    <?= $this->Form->control('min_price', [
+                        'label' => 'Min Price',
+                        'placeholder' => '0',
+                        'type' => 'number',
+                        'min' => '0',
+                        'max' => '500',
+                        'value' => $this->request->getQuery('min_price'),
+                        'class' => 'form-control',
+                    ]) ?>
+                </div>
 
-            <!-- Max Price Field -->
-            <div class="col-md-6">
-                <?= $this->Form->control('max_price', [
-                    'label' => 'Max Price',
-                    'placeholder' => '500',
-                    'type' => 'number',
-                    'min' => '0',
-                    'max' => '500',
-                    'value' => $this->request->getQuery('max_price'),
-                    'class' => 'form-control',
-                ]) ?>
-            </div>
+                <!-- Max Price Field -->
+                <div class="col-12">
+                    <?= $this->Form->control('max_price', [
+                        'label' => 'Max Price',
+                        'placeholder' => '500',
+                        'type' => 'number',
+                        'min' => '0',
+                        'max' => '500',
+                        'value' => $this->request->getQuery('max_price'),
+                        'class' => 'form-control',
+                    ]) ?>
+                </div>
 
-            <!-- Filter Button -->
-            <div class="col-md-6 offset-md-6 text-end align-self-center">
-                <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-success']) ?>
-                <?= $this->Html->link('Clear', ['action' => 'index'], ['class' => 'btn btn-danger']) ?>
-            </div>
+                <!-- Filter Button -->
+                <div class="col-12 text-center">
+                    <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-success']) ?>
+                    <?= $this->Html->link('Clear', ['action' => 'index'], ['class' => 'btn btn-danger']) ?>
+                </div>
 
-            <?= $this->Form->end() ?>
+                <?= $this->Form->end() ?>
+            </div>
         </div>
 
         <!-- Content Wrapper -->
@@ -160,10 +167,34 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <?php endif; ?>
             </div>
         </div>
-    <!-- </div> -->
+    </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Filter form toggle script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const filterForm = document.getElementById('filter-form');
+            const toggleFiltersButton = document.getElementById('toggle-filters');
+
+            // Check if there are any query parameters in the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.toString()) {
+                // Open the filter form if there are filters in the URL
+                filterForm.classList.add('show');
+                toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
+            }
+
+            // Listen for Bootstrap collapse events
+            filterForm.addEventListener('shown.bs.collapse', function () {
+                console.log('Filters are now visible');
+                toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
+            });
+
+            filterForm.addEventListener('hidden.bs.collapse', function () {
+                console.log('Filters are now hidden');
+                toggleFiltersButton.innerHTML = 'Show Filters <i class="fa fa-sliders"></i>';
+            });
+        });
+    </script>
 
     <!-- Select2 Initialization -->
     <script>
@@ -171,6 +202,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             jQuery('.select2').select2({
                 placeholder: "Select categories",
                 allowClear: true,
+                width: '100%',
             });
         });
     </script>

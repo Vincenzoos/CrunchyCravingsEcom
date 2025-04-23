@@ -7,6 +7,12 @@
     /* margin-bottom: var(--border-size) !important; */
 }
 
+.page-container {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    /* border-bottom: var(--border-width) solid var(--border-color); */
+}
+
 #form-section {
     color: var(--text-color);
     /* font-size: 3rem; */
@@ -19,14 +25,19 @@
     padding: 2rem;
     border-radius: 0.5rem;
     border: 1px solid #ddd;
-    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
 }
 
-.page-container {
-    padding-top: 1rem !important;
-    padding-bottom: 1rem !important;
-    /* border-bottom: var(--border-width) solid var(--border-color); */
+#toggle-filters {
+    border: 1px solid #333;
+    color: var(--text-color);
 }
+
+#toggle-filters:hover {
+    background-color: var(--sidebar-hover-color);
+    color: var(--text-color);
+}
+
 
 #table-content {
     padding-top: 1rem !important;
