@@ -164,10 +164,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `role`) VALUES
-(1, 'test@example.com', '$2y$10$fAyHLsidzEmziQNmbxLEh.75.nyw7MAR4CUn1rrzDTb0nVWf29ik6', 'customer'),
-(2, 'asd@gmail.com', '$2y$10$9IYSSmJtwhq/ixYrolnXW.fqx0CzwaGsoVoWeFm/Xgh2J/OADDB8u', 'admin'),
-(3, 'customer@gmail.com', '$2y$10$zXUJ7nuZrzYHdZ5GJdVX3uBtJH8YNaYrK.0HObTF13dK.bIhr3Zbi', 'customer'), -- password is yes (bcrypt, cost 10)
-(4, 'admin@gmail.com', '$2y$10$zXUJ7nuZrzYHdZ5GJdVX3uBtJH8YNaYrK.0HObTF13dK.bIhr3Zbi', 'admin'); -- password is yes (bcrypt, cost 10)
+(1, 'test@example.com', '$2y$10$Nqe5/YAQ2vNLPcFeVrP8iefcu7SHwMWqtfLe0hkw0qvQsVcSej3tG', 'customer'),
+(2, 'asd@gmail.com', '$2y$10$7wxwv.poWhcCGgNefskCzeMzitBi3er7HEog7pA9h96U8enNDlUVq', 'admin'),
+(3, 'customer@gmail.com', '$2y$10$08QZ71hbWixjGsGTH2wZ.uZt8YO/4nXq1ZYvx/Ks2klg5VKGqzafu', 'customer'),
+(4, 'admin@gmail.com', '$2y$10$ScL2SU6TnMHcuntwsJ2meOaMSIq3zjlAicMQJxQWFfFvvLtgh5Wmq', 'admin');
 
 --
 -- Table structure for table `cart_items`

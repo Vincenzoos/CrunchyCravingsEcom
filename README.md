@@ -10,12 +10,12 @@ The framework source code can be found here: [cakephp/cakephp](https://github.co
 
 ## App Credentials
 - Customer Accounts
-  - email: test@example.com | password: 123
-  - email: customer@gmail.com | password: yes
+  - email: test@example.com | password: Fit3047@
+  - email: customer@gmail.com | password: Fit3047@
 
 - Admin Accounts
-    - email: asd@gmail.com | password: 123
-    - email: admin@gmail.com | password: yes
+    - email: asd@gmail.com | password: Fit3047@
+    - email: admin@gmail.com | password: Fit3047@
 
 ## Installation
 
