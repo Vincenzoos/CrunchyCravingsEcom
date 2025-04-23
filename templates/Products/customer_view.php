@@ -104,10 +104,10 @@ $html = new HtmlHelper(new View());
                                             </div>
                                         </div>
                                     </div>
-                                    <a title="<?= h($similarProduct->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $similarProduct->id]) ?>" class="product-title offset-3">
+                                    <a title="<?= h($similarProduct->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $similarProduct->id]) ?>" class="product-title">
                                         <?= h($similarProduct->name) ?>
                                     </a>
-                                    <div class="ratings offset-2">
+                                    <div class="ratings">
                                         <ul class="star">
                                             <li>
                                                 <?php for ($i = 1; $i <= 5; $i++) : ?>
@@ -116,7 +116,7 @@ $html = new HtmlHelper(new View());
                                             </li>
                                         </ul>
                                     </div>
-                                    <span class="amount coupon-amount offset-5">
+                                    <span class="amount coupon-amount">
                                             <?= $this->Number->currency($product->price, 'AUD') ?>
                                     </span>
                                 </div>
@@ -169,9 +169,9 @@ $html = new HtmlHelper(new View());
                                 <li class="nav-item" role="presentation"><a title="Pricing" id="pricingtab"
                                 class="nav-link active" data-bs-toggle="tab" role="tab" aria-controls="pricing"
                                     data-bs-target="#pricing" aria-selected="true">Pricing</a></li>
-                                <li class="nav-item" role="presentation"><a title="Reviews" id="reviewtab"
+                                <!-- <li class="nav-item" role="presentation"><a title="Reviews" id="reviewtab"
                                     class="nav-link" data-bs-toggle="tab" role="tab" aria-controls="reviews"
-                                    data-bs-target="#reviews" aria-selected="false">Reviews</a></li>
+                                    data-bs-target="#reviews" aria-selected="false">Reviews</a></li> -->
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="pricing" role="tabpanel" aria-labelledby="pricingtab">
@@ -226,7 +226,7 @@ $html = new HtmlHelper(new View());
                                         <?= $this->Form->end() ?>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviewtab">
+                                <!-- <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviewtab">
                                     <div class="shopping-cart-table">
                                         <div class="review-box">
                                             <div class="col-md-5 col-sm-5">
@@ -271,7 +271,7 @@ $html = new HtmlHelper(new View());
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </aside>

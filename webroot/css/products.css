@@ -4,12 +4,6 @@
     background-color: transparent !important;
 }
 
-/* Ensure product images are properly sized */
-.inner-product img {
-    width: 100%;
-    object-fit: cover;
-}
-
 /* Maintain consistent height for product titles */
 .product-title {
     display: block;

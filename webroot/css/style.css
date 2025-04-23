@@ -1059,7 +1059,7 @@ a {
     margin-bottom: 20px;
     background-color: #fff;
     height: auto;
-    width: calc(100% / 3 - 20px); /* Forces 3 items per row with spacing */
+    /* width: calc(100% / 3 - 20px); */
 }
 
 /* When filtering results to show only 1 product, make it cover 2/3 of the space */
