@@ -61,10 +61,10 @@ $html = new HtmlHelper(new View());
                                     <!-- Password Requirements-->
                                     <div id="requirements-content">
                                         <ul class="text-start mt-2">
-                                            <li>Must be at least 8 characters long</li>
-                                            <li>Must contain at least one uppercase letter</li>
-                                            <li>Must contain at least one number</li>
-                                            <li>Must contain at least one special character (e.g., @$!%*?&)</li>
+                                            <li><i class="fa fa-times text-danger" id="length-icon"></i> Must be at least 8 characters long</li>
+                                            <li><i class="fa fa-times text-danger" id="uppercase-icon"></i> Must contain at least one uppercase letter</li>
+                                            <li><i class="fa fa-times text-danger" id="number-icon"></i> Must contain at least one number</li>
+                                            <li><i class="fa fa-times text-danger" id="special-icon"></i> Must contain at least one special character (e.g., @$!%*?&)</li>
                                         </ul>
                                     </div>
                                     <?= $this->Form->control('password', [
@@ -98,8 +98,55 @@ $html = new HtmlHelper(new View());
         </section>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordInput = document.querySelector('input[type="password"]');
+            const lengthIcon = document.getElementById('length-icon');
+            const uppercaseIcon = document.getElementById('uppercase-icon');
+            const numberIcon = document.getElementById('number-icon');
+            const specialIcon = document.getElementById('special-icon');
+
+            passwordInput.addEventListener('input', () => {
+                const password = passwordInput.value;
+
+                // Check if the password is at least 8 characters long
+                if (password.length >= 8) {
+                    lengthIcon.classList.remove('fa-times', 'text-danger');
+                    lengthIcon.classList.add('fa-check', 'text-success');
+                } else {
+                    lengthIcon.classList.remove('fa-check', 'text-success');
+                    lengthIcon.classList.add('fa-times', 'text-danger');
+                }
+
+                // Check if the password contains at least one uppercase letter
+                if (/[A-Z]/.test(password)) {
+                    uppercaseIcon.classList.remove('fa-times', 'text-danger');
+                    uppercaseIcon.classList.add('fa-check', 'text-success');
+                } else {
+                    uppercaseIcon.classList.remove('fa-check', 'text-success');
+                    uppercaseIcon.classList.add('fa-times', 'text-danger');
+                }
+
+                // Check if the password contains at least one number
+                if (/\d/.test(password)) {
+                    numberIcon.classList.remove('fa-times', 'text-danger');
+                    numberIcon.classList.add('fa-check', 'text-success');
+                } else {
+                    numberIcon.classList.remove('fa-check', 'text-success');
+                    numberIcon.classList.add('fa-times', 'text-danger');
+                }
+
+                // Check if the password contains at least one special character
+                if (/[@$!%*?&]/.test(password)) {
+                    specialIcon.classList.remove('fa-times', 'text-danger');
+                    specialIcon.classList.add('fa-check', 'text-success');
+                } else {
+                    specialIcon.classList.remove('fa-check', 'text-success');
+                    specialIcon.classList.add('fa-times', 'text-danger');
+                }
+            });
+        });
+    </script>
 <body>
 
 </html>
