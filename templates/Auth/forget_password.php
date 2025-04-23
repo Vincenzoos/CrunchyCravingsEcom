@@ -50,7 +50,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <div id="form-content" class="users-form-content text-center">
+                        <div id="form-content" class="users-form-content">
                             <?= $this->Form->create() ?>
                             <fieldset>
                                 <?= $this->Flash->render() ?>
