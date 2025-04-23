@@ -24,13 +24,13 @@ Thank you for shopping with CrunchyCravings.
 Below is a summary of your order:
 
 <?php foreach ($cartItems as $item): ?>
-    <?php
-        Log::write('debug', json_encode([
-            'product_name' => $item->product->name,
-            'price' => $item->product->price,
-            'line_price' => $item->line_price,
-        ]));
-    ?>
+<!--    --><?php
+//        Log::write('debug', json_encode([
+//            'product_name' => $item->product->name,
+//            'price' => $item->product->price,
+//            'line_price' => $item->line_price,
+//        ]));
+//    ?>
     Product: <?= h($item->product->name ?? 'Unknown Product') ?>
     Quantity: <?= h($item->quantity ?? 0) ?>
     Unit Price: <?= $this->Number->currency($item->product->price ?? 0, 'AUD') ?>
