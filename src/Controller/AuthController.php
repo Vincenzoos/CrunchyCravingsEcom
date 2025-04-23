@@ -84,18 +84,27 @@ class AuthController extends AppController
     public function forgetPassword()
     {
         if ($this->request->is('post')) {
+            $recoverEmail = $this->request->getData('email');
+
+            // Server-side validation: Check if the email is empty or invalid
+            if (empty($recoverEmail) || !filter_var($recoverEmail, FILTER_VALIDATE_EMAIL)) {
+                $this->Flash->error(__('Please enter a valid email address for password recovery process.'));
+                // Redirect back to the cart view
+                return $this->redirect($this->referer());
+            }
             // Retrieve the user entity by provided email address
-            $user = $this->Users->findByEmail($this->request->getData('email'))->first();
+            $user = $this->Users->findByEmail($recoverEmail)->first();
+
             if ($user) {
                 // Set nonce and expiry date
                 $user->nonce = Security::randomString(128);
                 $user->nonce_expiry = new DateTime('7 days');
                 if ($this->Users->save($user)) {
+                    $recipient = $user->email;
                     // Override received email to cpanel email for testing
 //                    Configure::load('app_local');
 //                    $override_email = Configure::read('EmailTransport.default.username');
-//                    $recipient = $override_email ?? $user->email;
-                    $recipient = $user->email;
+//                    $override_email = $override_email ?? $recipient;
 
                     // Now let's send the password reset email
                     $mailer = new Mailer('default');
@@ -117,7 +126,7 @@ class AuthController extends AppController
                             'first_name' => $user->first_name,
                             'last_name' => $user->last_name,
                             'nonce' => $user->nonce,
-                            'email' => $user->email,
+                            'email' => $recipient,
                         ]);
 
                     //Send email
