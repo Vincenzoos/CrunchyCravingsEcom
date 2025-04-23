@@ -190,13 +190,27 @@ $html = new HtmlHelper(new View());
                                 </tr>
                             </tbody>
                         </table>
-                        <!-- Checkout for login user -->
-                        <?php if ($this->Identity->isLoggedIn()) : ?>
-                            <a title="Checkout" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'authenticatedCheckout']) ?>" class="btn btn-default">Checkout</a>
+
+                        <!-- For unauthenticated users: create a form with an email field -->
+                        <?php if (!$this->Identity->isLoggedIn()) : ?>
+                            <?= $this->Form->create(null, ['url' => ['controller' => 'CartItems', 'action' => 'unauthenticatedCheckout']]) ?>
+                            <div class="mb-2">
+                                <?= $this->Form->control('guest_email', [
+                                    'type' => 'email',
+                                    'class' => 'form-control',
+                                    'label' => false,
+                                    'placeholder' => 'Enter your email',
+                                    'title' => 'Enter a valid email for order confirmation (e.g test@example.com)',
+                                    'required' => true,
+                                ]); ?>
+                            </div>
+                            <?= $this->Form->button('Checkout', ['class' => 'btn btn-default']) ?>
+                            <?= $this->Form->end() ?>
                         <?php else : ?>
-                            <!-- Checkout for public (unauthenticated) user -->
-                        <a title="Checkout" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'unauthenticatedCheckout']) ?>" class="btn btn-default">Checkout</a>
+                            <!-- Authenticated user's checkout button -->
+                            <a title="Checkout" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'authenticatedCheckout']) ?>" class="btn btn-default">Checkout</a>
                         <?php endif; ?>
+
                     </div>
                 </div>
             </div>

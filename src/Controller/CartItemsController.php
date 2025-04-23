@@ -328,7 +328,7 @@ class CartItemsController extends AppController
         // Ensure the quantity is valid
         if ($newQuantity < 1) {
             $response = ['success' => false, 'message' => 'Quantity must be at least 1.'];
-            Log::write('debug', json_encode($response)); // Log the response
+//            Log::write('debug', json_encode($response)); // Log the response
             $this->set('response', $response);
             $this->viewBuilder()->setOption('serialize', ['response']);
             return;
@@ -558,23 +558,25 @@ class CartItemsController extends AppController
         }
 
         try {
+            $recipient = $user->get('email');
             // Override received email to cpanel email for testing
 //            Configure::load('app_local');
 //            $override_email = Configure::read('EmailTransport.default.username');
-//            $recipient = $override_email ?? $user->email;
-            $recipient = $user->get('email');
+//            $override_email = $override_email ?? $recipient;
 
             $mailer = new Mailer('default');
             $mailer
                 ->setEmailFormat('both') // sends both html and text versions
                 ->setTo($recipient)
+                // Override received email to cpanel email for testing
+//                ->setTo($override_email)
                 ->setSubject('Your Order Confirmation')
                 ->viewBuilder()
                 ->setTemplate('customer_checkout');
 
             // Pass required variables to your email template
             $mailer->setViewVars([
-                'email' => $user->get('email'),
+                'email' => $recipient,
                 'cartItems' => $cartItems,
                 'total' => $total,
             ]);
@@ -600,6 +602,16 @@ class CartItemsController extends AppController
 
     public function unauthenticatedCheckout()
     {
+        // Retrieve guest email from the posted form data
+        $recipient = $this->request->getData('guest_email');
+
+        // Server-side validation: Check if the email is empty or invalid
+        if (empty($recipient) || !filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
+            $this->Flash->error(__('Please enter a valid email address for order confirmation.'));
+            // Redirect back to the cart view
+            return $this->redirect($this->referer());
+        }
+
         // Retrieve cart items from the session for unauthenticated users
         $session = $this->request->getSession();
         $cart = $session->read('Cart') ?? [];
@@ -634,21 +646,20 @@ class CartItemsController extends AppController
         }
 
         // Log cart details for debugging
-        Log::write('debug', json_encode($cartItems));
-
-        // TODO: Use a default email for guests—you might later replace this by capturing an input email address
+//        Log::write('debug', json_encode($cartItems));
 
         // Override received email to cpanel email for testing
 //            Configure::load('app_local');
 //            $override_email = Configure::read('EmailTransport.default.username');
-//            $recipient = $override_email ?? $user->email;
-        $recipient = 'guest@example.com';
+//            $override_email = $override_email ?? $recipient;
 
         try {
             $mailer = new Mailer('default');
             $mailer
                 ->setEmailFormat('both')
                 ->setTo($recipient)
+                // Override received email to cpanel email for testing
+//                ->setTo($override_email)
                 ->setSubject('Your Order Confirmation')
                 ->viewBuilder()
                 ->setTemplate('customer_checkout');
