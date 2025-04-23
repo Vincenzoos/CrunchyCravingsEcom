@@ -284,7 +284,26 @@ $html = new HtmlHelper(new View());
         </div>
     </div>
 
-    <!-- Quality dropdown script -->
+    <!-- Change Line price on Quantity dropdown    -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get the necessary elements
+            const quantityDropdown = document.getElementById('quantity');
+            const totalPriceElement = document.getElementById('total-amount');
+            const productPrice = <?= json_encode($product->price) ?>; // Pass product price from PHP to JavaScript
+
+            // Add an event listener to the dropdown
+            quantityDropdown.addEventListener('change', () => {
+                const selectedQuantity = parseInt(quantityDropdown.value, 10); // Get selected quantity
+                const totalPrice = (selectedQuantity+1) * productPrice; // Calculate total price
+
+                // Update the total price element
+                totalPriceElement.textContent = `A$ ${totalPrice.toFixed(2)}`; // Format as currency
+            });
+        });
+    </script>
+
+    <!-- Restrict Quality dropdown script based on number of available stock-->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const quantityDropdown = document.getElementById('quantity');
