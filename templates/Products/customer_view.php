@@ -314,8 +314,8 @@ $html = new HtmlHelper(new View());
             Array.from(quantityDropdown.options).forEach(option => {
                 const optionValue = parseInt(option.value, 10); // Get the value of the option
 
-            // Check if the option exceeds the available stock
-            if (optionValue > stockCount - cartQuantity) {
+            // Check if the option exceeds the available stock (need to add one since dropdown value starts from 0 - 0-indexed)
+            if (optionValue+1 > stockCount - cartQuantity) {
                 option.style.color = "#e0e0e0";
                 option.disabled = true;
             } else {
