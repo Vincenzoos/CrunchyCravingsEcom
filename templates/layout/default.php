@@ -137,10 +137,10 @@ $html = new HtmlHelper(new View());
             </div>
             <div class="offcanvas-body">
                 <ul class="list-group">
-                    <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Contacts</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Manage Enquiries</a>
                     <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>" class="list-group-item">Manage Products</a>
                     <a href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index']) ?>" class="list-group-item">Manage Categories</a>
-                    <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?>" class="list-group-item">Users</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?>" class="list-group-item">Manage Users</a>
                 </ul>
             </div>
         </div>
