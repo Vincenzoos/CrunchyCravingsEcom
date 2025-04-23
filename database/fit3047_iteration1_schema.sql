@@ -49,7 +49,7 @@ CREATE TABLE `categories` (
 INSERT INTO categories (id, name, description) VALUES
 (1, 'Crackers', 'Indulge in the delicate crunch of our artisan lavosh crackers, crafted to perfection with the finest ingredients. With a variety of recipes from traditional to seasonal, these crackers are an ideal companion for gourmet cheeses, dips, and charcuterie boards.'),
 (2, 'Flatbread', 'Savor the authentic taste of our artisan lavosh flatbread, a versatile and delicious addition to any meal. Crafted with care, these flatbreads are perfect as a base for your favorite toppings.'),
-(3, 'Hampers', 'Discover the ultimate gourmet experience with our selectikon of hampers. These carefully curated selections includes a variety of our finest lavosh crackers, flatbread, and accompanying food and drinks. Enjoy the perfect pairing of flavors and textures in one delightful package.');
+(3, 'Hampers', 'Discover the ultimate gourmet experience with our selection of hampers. These carefully curated selections includes a variety of our finest lavosh crackers, flatbread, and accompanying food and drinks.');
 
 
 -- --------------------------------------------------------

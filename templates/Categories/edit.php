@@ -12,7 +12,7 @@ use Cake\View\View;
 
 <?php
 $html = new HtmlHelper(new View());
-const DESC_MAX_LENGTH = '150';
+const DESC_MAX_LENGTH = '250';
 ?>
 
 <head>
@@ -116,18 +116,18 @@ const DESC_MAX_LENGTH = '150';
     <?= $this->Html->script('form-validation') ?>
 
     <!-- Limit initial input length -->
-<!--    <script>-->
-<!--        function waitForElement(selector, callback) {-->
-<!--            const element = document.querySelector(selector);-->
-<!--            if (element) {-->
-<!--                callback(element);-->
-<!--            } else {-->
-<!--                setTimeout(() => waitForElement(selector, callback), 100); // Retry after 100ms-->
-<!--            }-->
-<!--        }-->
-<!---->
-<!--        waitForElement('input[name="description"]', function (descriptionInput) {-->
-<!--            limitInputLength(descriptionInput, 'description-label', 'Description', 150);-->
-<!--        });-->
-<!--    </script>-->
+    <script>
+        function waitForElement(selector, callback) {
+            const element = document.querySelector(selector);
+            if (element) {
+                callback(element);
+            } else {
+                setTimeout(() => waitForElement(selector, callback), 100); // Retry after 100ms-->
+            }
+        }
+
+        waitForElement('input[name="description"]', function (descriptionInput) {
+            limitInputLength(descriptionInput, 'description-label', 'Description', MSG_MAX_LENGTH);
+        });
+    </script>
 </body>

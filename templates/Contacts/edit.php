@@ -11,7 +11,7 @@ use Cake\View\View;
 
 <?php
 $html = new HtmlHelper(new View());
-const MSG_MAX_LENGTH = 150;
+const MSG_MAX_LENGTH = 250;
 ?>
 
 <head>
@@ -167,7 +167,7 @@ const MSG_MAX_LENGTH = 150;
         }
 
         waitForElement('input[name="message"]', function (messageInput) {
-            limitInputLength(messageInput, 'message-label', 'Message', 150);
+            limitInputLength(messageInput, 'message-label', 'Message', MSG_MAX_LENGTH);
         });
     </script>
 </body>

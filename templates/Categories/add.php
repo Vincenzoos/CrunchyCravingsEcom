@@ -12,7 +12,7 @@ use Cake\View\View;
 
 <?php
 $html = new HtmlHelper(new View());
-const DESC_MAX_LENGTH = 150;
+const DESC_MAX_LENGTH = 250;
 ?>
 
 <head>
