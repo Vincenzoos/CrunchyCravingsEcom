@@ -39,7 +39,7 @@
 		/*** set sticky menu ***/
 		if (scroll >= 300) {
 			// Use show() instead of fadeIn() for immediate visibility
-			$('.menu-block').addClass("navbar-fixed-top").show();
+			// $('.menu-block').addClass("navbar-fixed-top").show();
 			
 			// Delay the fading effect with setTimeout
 			setTimeout(function() {

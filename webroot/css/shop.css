@@ -21,3 +21,24 @@
     margin-bottom: 1rem;
     background: linear-gradient(145deg, #ffffff, #f3f0f0); /* Soft gradient background */
 }
+
+.page-header {
+    margin-top: 0;
+}
+
+.page-breadcrumb {
+    padding-left: 0;
+    --bs-gutter-x: 0rem; /* Remove gutter */
+    text-align: left;
+}
+
+.breadcrumb {
+    text-align: left;
+    padding-left: 0;
+}
+
+.breadcrumb li {
+    padding: 0;
+    margin: 0 !important;
+    display: inline-block; /* Ensure items are inline */
+}
