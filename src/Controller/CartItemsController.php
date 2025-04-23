@@ -344,7 +344,7 @@ class CartItemsController extends AppController
             if ($cartItem) {
                 $cartItem->quantity = $newQuantity;
                 $cartItem->line_price = $cartItem->quantity * $cartItem->product->price;
-                
+
                 if ($this->CartItems->save($cartItem)) {
                     $response = [
                         'success' => true,
@@ -491,7 +491,7 @@ class CartItemsController extends AppController
                 }
 
                 if ($this->CartItems->save($existingItem)) {
-                    $this->Flash->success(__('Cart updated with ' . $selected_quantity . ' unit(s) of "' . $product->name . '".'));
+                    $this->Flash->success(__('Cart updated with ' . $selected_quantity . 'more unit(s) of "' . $product->name . '".'));
                 } else {
                     $this->Flash->error(__('Unable to update your cart. Please try again.'));
                 }
@@ -503,7 +503,7 @@ class CartItemsController extends AppController
                 $cartItem->quantity = $selected_quantity;
 
                 if ($this->CartItems->save($cartItem)) {
-                    $this->Flash->success(__('"' . $product->name . '" has been added to your cart.'));
+                    $this->Flash->success(__($selected_quantity . ' unit(s) of "' . $product->name . '" has been added to your cart.'));
                 } else {
                     $this->Flash->error(__('"' . $product->name . '" could not be added. Please, try again.'));
                 }
@@ -526,7 +526,7 @@ class CartItemsController extends AppController
 
             // Save to session
             $session->write('Cart', $cart);
-            $this->Flash->success(__('"' . $product->name . '" has been added to your cart.'));
+            $this->Flash->success(__($selected_quantity . ' unit(s) of "' . $product->name . '" has been added to your cart.'));
         }
 
         // Redirect back to the referring page (or to a dedicated cart view)
@@ -664,7 +664,8 @@ class CartItemsController extends AppController
 
                 return $this->redirect(['action' => 'customerView']);
             }
-
+            // If checkout successful
+            $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
             // Clear the cart from the session after checkout
             $session->delete('Cart');
         } catch (Exception $e) {
@@ -710,6 +711,6 @@ class CartItemsController extends AppController
             $this->Authorization->skipAuthorization();
             $this->getEventManager()->off($this->FormProtection);
         }
- 
+
     }
 }
