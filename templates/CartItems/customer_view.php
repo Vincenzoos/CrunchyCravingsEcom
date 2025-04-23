@@ -63,37 +63,35 @@ $html = new HtmlHelper(new View());
                     <?php foreach ($cartItems as $cartItem) : ?>
                         <tr>
                             <td data-title="Product" class="product-thumbnail">
-                                <a style="color: #6E6E6E" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerView', $cartItem->product->id]) ?>">
-                                    <h5><?= h($cartItem->product->name) ?></h5>
+                                <h5><?= h($cartItem->product->name) ?></h5>
+                                <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'view', $cartItem->product->id]) ?>">
+                                    <?= $this->Html->image($cartItem->product->image_cache_busted_url, [
+                                        'alt' => $cartItem->product->name,
+                                        'class' => 'img-fluid rounded-top',
+                                        'style' => 'height: 100%; object-fit: cover; width: 80%;']) ?>
                                 </a>
-                                <?= $this->Html->image($cartItem->product->image_cache_busted_url, [
-                                    'alt' => $cartItem->product->name,
-                                    'class' => 'img-fluid rounded-top',
-                                    'style' => 'height: 100%; object-fit: cover; width: 80%;']) ?>
                             </td>
                             <td data-title="Description" class="product-description">
-                                <?= h($cartItem->product->description) ?>
+                                <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'view', $cartItem->product->id]) ?>">
+                                    <?= h($cartItem->product->description) ?>
+                                </a>
                             </td>
                             <td data-title="Price" class="product-price">
                                 <span class="price-amount"><?= $this->Number->currency($cartItem->product->price, 'AUD') ?></span>
                             </td>
                             <td data-title="Quantity" class="product-quantity">
-
-
-                                <td data-title="Quantity" class="product-quantity">
-                                    <!-- <input type="number" class="qty form-control text-center" value="<?= h($cartItem->quantity) ?>" data-cart-item-id="<?= $cartItem->id ?>" readonly style="width: 50px; display: inline-block; font-size: 0.9rem;"> -->
-                                    <div class="d-flex flex-column align-items-center">
-                                        <h class="quantity"><?= h($cartItem->quantity) ?></h>
-                                        <div class="d-flex justify-content-center mt-1">
-                                            <button class="qtyplus btn btn-outline-secondary btn-sm me-1" data-cart-item-id="<?= $cartItem->id ?>" data-action="increase">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                            <button class="qtyminus btn btn-outline-secondary btn-sm" data-cart-item-id="<?= $cartItem->id ?>" data-action="decrease">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
+                                <!-- <input type="number" class="qty form-control text-center" value="<?= h($cartItem->quantity) ?>" data-cart-item-id="<?= $cartItem->id ?>" readonly style="width: 50px; display: inline-block; font-size: 0.9rem;"> -->
+                                <div class="d-flex flex-column align-items-center">
+                                    <h class="quantity"><?= h($cartItem->quantity) ?></h>
+                                    <div class="d-flex justify-content-center mt-1">
+                                        <button class="qtyplus btn btn-outline-secondary btn-sm me-1" data-cart-item-id="<?= $cartItem->id ?>" data-action="increase">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                        <button class="qtyminus btn btn-outline-secondary btn-sm" data-cart-item-id="<?= $cartItem->id ?>" data-action="decrease">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
                                     </div>
-                                </td>
+                                </div>
                             </td>
                             <td data-title="Subtotal" class="product-subtotal">
                                 <span class="amount"><?= $this->Number->currency($cartItem->line_price, 'AUD') ?></span>
@@ -186,7 +184,7 @@ $html = new HtmlHelper(new View());
                             <tbody>
                                 <tr class="cart-subtotal">
                                     <th>Subtotal</th>
-                                    <td><span class="amount"><?= $this->Number->currency($total_price, 'AUD') ?></span></td>
+                                    <td><span class="sub-total-amount"><?= $this->Number->currency($total_price, 'AUD') ?></span></td>
                                 </tr>
                                 <tr class="order-total">
                                     <th>Grand Total</th>
@@ -250,7 +248,9 @@ $html = new HtmlHelper(new View());
                         document.querySelectorAll('.product-subtotal .amount').forEach(subtotalElement => {
                             updatedTotalPrice += parseFloat(subtotalElement.textContent.replace(/[^0-9.-]+/g, ""));
                         });
+                        const subTotalPriceElement = document.querySelector('.sub-total-amount');
                         const totalPriceElement = document.querySelector('.total-amount');
+                        subTotalPriceElement.textContent = formatCurrency(updatedTotalPrice);
                         totalPriceElement.textContent = formatCurrency(updatedTotalPrice);
                     })
                 });
