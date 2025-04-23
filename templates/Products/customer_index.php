@@ -134,13 +134,15 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <!-- Custom Price Range Inputs -->
                         <div id="custom-range-container" class="mt-3" style="display: <?= $this->request->getQuery('use_custom_range') ? 'block' : 'none' ?>;">
                             <div class="d-flex justify-content-between">
-                                <div class="input-group me-2">
-                                    <span class="input-group-text">$</span>
-                                    <input type="number" id="min-price" name="min_price" class="form-control custom-price-input" placeholder="Min" value="<?= h($this->request->getQuery('min_price') ?? '') ?>" min="0">
-                                </div>
-                                <div class="input-group ms-2">
-                                    <span class="input-group-text">$</span>
-                                    <input type="number" id="max-price" name="max_price" class="form-control custom-price-input" placeholder="Max" value="<?= h($this->request->getQuery('max_price') ?? '') ?>" min="0">
+                                <div class="d-flex flex-wrap">
+                                    <div class="input-group me-2 mb-2" style="flex: 1; min-width: 100px;">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number" id="min-price" name="min_price" class="form-control custom-price-input" placeholder="Min" value="<?= h($this->request->getQuery('min_price') ?? '') ?>" min="0">
+                                    </div>
+                                    <div class="input-group me-2 mb-2" style="flex: 1; min-width: 100px;">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number" id="max-price" name="max_price" class="form-control custom-price-input" placeholder="Max" value="<?= h($this->request->getQuery('max_price') ?? '') ?>" min="0">
+                                    </div>
                                 </div>
                             </div>
                         </div>
