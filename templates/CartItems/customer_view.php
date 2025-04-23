@@ -27,7 +27,6 @@ $html = new HtmlHelper(new View());
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities','shop']) ?>
 
-    <?= $html->script('/libraries/jquery.min.js') ?>
 </head>
 
 <body data-offset="200" data-spy="scroll" data-target=".primary-navigation">
@@ -202,27 +201,6 @@ $html = new HtmlHelper(new View());
             </div>
         </div> <!-- page /- -->
     </div> <!-- page container /- -->
-
-
-
-
-    <!-- jQuery Include -->
-    <script src="libraries/jquery.min.js"></script>
-    <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false'></script>
-    <script src="libraries/gmap/jquery.gmap.min.js"></script> <!-- Light Box -->
-    <script src="libraries/jquery.easing.min.js"></script><!-- Easing Animation Effect -->
-    <script src="libraries/bootstrap/bootstrap.bundle.min.js"></script> <!-- Core Bootstrap v3.3.4 -->
-    <script src="libraries/fuelux/jquery-ui.min.js"></script>
-    <script src="libraries/jquery.animateNumber.min.js"></script> <!-- Used for Animated Numbers -->
-    <script src="libraries/jquery.appear.js"></script> <!-- It Loads jQuery when element is appears -->
-    <script src="libraries/jquery.knob.js"></script> <!-- Used for Loading Circle -->
-    <script src="libraries/wow.min.js"></script> <!-- Use For Animation -->
-    <script src="libraries/owl-carousel/owl.carousel.min.js"></script> <!-- Core Owl Carousel CSS File  *   v1.3.3 -->
-    <script src="libraries/expanding-search/modernizr.custom.js"></script> <!-- Core Owl Carousel CSS File  *   v1.3.3 -->
-    <script src="libraries/flexslider/jquery.flexslider-min.js"></script> <!-- flexslider   -->
-    <script src="libraries/jquery.magnific-popup.min.js"></script> <!-- Light Box -->
-    <!-- Customized Scripts -->
-    <script src="js/functions.js"></script>
 
 </body>
 
