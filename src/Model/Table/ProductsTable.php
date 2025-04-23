@@ -131,13 +131,13 @@ class ProductsTable extends Table
 
         $validator
             ->scalar('ingredients')
-            ->maxLength('ingredients', 255, 'Ingredients must be 300 characters or less.')
+            ->maxLength('ingredients', 250, 'Ingredients must be 250 characters or less.')
             ->add('ingredients', 'allowedCharacters', [
                 'rule' => function ($value, $context) {
-                    // This regex allows only letters, numbers, spaces, and the "%" symbol.
-                    return (bool)preg_match('/^[A-Za-z0-9\s%]+$/', $value);
+                    // This regex allows only letters, numbers, spaces, (), comma, period and the "%" symbol.
+                    return (bool)preg_match('/^[A-Za-z0-9\s%.,()]+$/', $value);
                 },
-                'message' => 'Ingredients may only contain letters, numbers, spaces, and the "%" symbol.'
+                'message' => 'Ingredients may only contain letters, numbers, spaces, commas, parenthesis and percentage sign are allowed.',
             ])
             ->add('ingredients', 'noHtmlTags', [
                 'rule' => function ($value, $context) {
