@@ -1,12 +1,12 @@
 /*
 **********************************************************************************************************
-    Copyright (c) 2024  
+    Copyright (c) 2024
 **********************************************************************************************************
 	Project:		-- Luxury Shop Ecommerce HTML Template
 	Version:	    -- 1.0.0
-	Create Date:	-- 10/May/2024 
+	Create Date:	-- 10/May/2024
 	Last change:	-- 10/May/2024
-	Primary use:	-- Multi purpose HTML5 Template 
+	Primary use:	-- Multi purpose HTML5 Template
 
 
 [Table of contents]
@@ -24,7 +24,7 @@
 		-- ## Our Partner Section
 		-- ## News Letter
 		-- ## Footer Bottom
-	
+
 	## Contact Page
 	## Register User
 	## Wizard
@@ -140,8 +140,8 @@ ul {
 
 /* Font Family */
 h1,
-h2, 
-h3, 
+h2,
+h3,
 h4,
 h5,
 .amount,
@@ -1084,7 +1084,6 @@ a {
 .main-product .star {
 	color: #beb2a6;
 	margin: 5px 0 10px 0;
-	padding: 0 65px;
 }
 
 .main-product .star li {
@@ -2683,7 +2682,7 @@ input.qtyminus {
 
 /*
 .btn:hover,
-.shopping-cart-footer a.btn:hover { 
+.shopping-cart-footer a.btn:hover {
 }
 */
 /* shopping-cart-estimate */
