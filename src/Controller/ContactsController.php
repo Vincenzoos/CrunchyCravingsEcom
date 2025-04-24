@@ -202,9 +202,6 @@ class ContactsController extends AppController
                 // Patch sanitized data into the entity
                 $contact = $this->Contacts->patchEntity($contact, $data);
 
-                // Set date_sent to today's date
-                $contact->date_sent = date('d-m-Y');
-
                 // Check for validation errors
                 if ($contact->getErrors()) {
                     $this->Flash->error(__('Please correct the errors in the form.'));
