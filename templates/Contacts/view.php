@@ -61,7 +61,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 </tr>
                                 <tr>
                                     <th><?= __('Date Sent') ?></th>
-                                    <td><?= h($contact->date_sent) ?></td>
+                                    <td><?= h($contact->date_sent ? $contact->date_sent->format('d/m/Y') : 'N/A') ?></td>
                                 </tr>
                                 <tr>
                                     <th><?= __('Replied') ?></th>
