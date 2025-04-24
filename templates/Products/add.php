@@ -12,7 +12,6 @@ use Cake\View\View;
 
 <?php
     $html = new HtmlHelper(new View());
-    const DESC_MAX_LENGTH = 250;
 ?>
 
 <head>
@@ -50,6 +49,7 @@ use Cake\View\View;
                                 'label' => ['text' => '<h4><span style="color: red;">*</span>Product Name</h4>', 'escape' => false],
                                 'placeholder' => 'Enter the product name...',
                                 'pattern' => '^[a-zA-Z\s]+$',
+                                'maxlength' => PRODUCT_NAME_MAX_LENGTH,
                                 'title' => 'Please use only letters and spaces for your product name',
                                 'required' => true,
                             ]) ?>
@@ -60,28 +60,28 @@ use Cake\View\View;
                         <?= $this->Form->control('description', [
                                 'class' => 'form-control mx-auto',
                                 'id' => 'description',
-                                'label' => ['text' => '<h4 class="text-center" id="description-label">Description (<span id="desc-character-count">0</span>/' . DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4 class="text-center" id="description-label">Description (<span id="desc-character-count">0</span>/' . PRODUCT_DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
                                 'placeholder' => 'Enter a brief description...',
                                 'type' => 'textarea',
                                 'rows' => 4,
-                                'onkeyup' => 'limitInputLength(this, "desc-character-count", ' . DESC_MAX_LENGTH . ')',
+                                'onkeyup' => 'limitInputLength(this, "desc-character-count", ' . PRODUCT_DESC_MAX_LENGTH . ')',
                                 'oninput' => 'removeScriptTags(this)',
-                                'maxlength' => DESC_MAX_LENGTH, // Override maxlength
+                                'maxlength' => PRODUCT_DESC_MAX_LENGTH, // Override maxlength
                             ]) ?>
                         </div>
                         <div class="mb-4">
                             <?= $this->Form->control('ingredients', [
                                 'class' => 'form-control mx-auto',
                                 'id' => 'ingredients',
-                                'label' => ['text' => '<h4 class="text-center" id="ingredients-label">Ingredients (<span id="ingr-character-count">0</span>/' . DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4 class="text-center" id="ingredients-label">Ingredients (<span id="ingr-character-count">0</span>/' . PRODUCT_INGREDIENTS_MAX_LENGTH . ')</h4>', 'escape' => false],
                                 'placeholder' => 'List out the ingredients...',
                                 'type' => 'textarea',
                                 'pattern' => '^[A-Za-z0-9%.,() ]+$',
                                 'title' => 'Only letters, numbers, spaces, parenthesis and percentage sign are allowed.',
                                 'rows' => 4,
-                                'onkeyup' => 'limitInputLength(this, "ingr-character-count", ' . DESC_MAX_LENGTH . ')',
+                                'onkeyup' => 'limitInputLength(this, "ingr-character-count", ' . PRODUCT_INGREDIENTS_MAX_LENGTH . ')',
                                 'oninput' => 'removeScriptTags(this)',
-                                'maxlength' => DESC_MAX_LENGTH, // Override maxlength
+                                'maxlength' => PRODUCT_INGREDIENTS_MAX_LENGTH, // Override maxlength
                             ]) ?>
                         </div>
                         <div class="mb-4 has-validation">
@@ -90,11 +90,11 @@ use Cake\View\View;
                                 'label' => ['text' => '<h4><span style="color: red;">*</span>Price</h4>', 'escape' => false],
                                 'type' => 'number',
                                 'min' => '0',
-                                'max' => '500',
+                                'max' => PRODUCT_MAX_PRICE,
                                 'placeholder' => 'Please set your product price...',
                                 'required' => true,
                             ]) ?>
-                            <div class="invalid-feedback">Product price ranges from 0 to 500</div>
+                            <div class="invalid-feedback">Product price ranges from 0 to <?= PRODUCT_MAX_PRICE?></div>
                         </div>
                         <div class="mb-4">
                             <?= $this->Form->control('image', [
@@ -109,11 +109,11 @@ use Cake\View\View;
                                 'label' => ['text' => '<h4><span style="color: red;">*</span>Quantity</h4>', 'escape' => false],
                                 'type' => 'number',
                                 'min' => '0',
-                                'max' => '1000',
+                                'max' => PRODUCT_MAX_QUANTITY,
                                 'placeholder' => 'Enter the quantity...',
                                 'required' => true,
                             ]) ?>
-                            <div class="invalid-feedback">Product quantity ranges from 0 to 100</div>
+                            <div class="invalid-feedback">Product quantity ranges from 0 to <?= PRODUCT_MAX_QUANTITY?></div>
                         </div>
                         <div class="mb-4 has-validation">
                             <?= $this->Form->control('categories._ids', [

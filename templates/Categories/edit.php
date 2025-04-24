@@ -62,7 +62,7 @@ $html = new HtmlHelper(new View());
                                     'class' => 'form-control mx-auto',
                                     'label' => ['text' => '<h4 class="text-center" id="description-label">Description (<span id="character-count">0</span>/' . CATEGORY_DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
                                     'placeholder' => 'Enter a brief description...',
-                                    'type' => 'tel',
+                                    'type' => 'textarea',
                                     'rows' => 4,
                                     'onkeyup' => 'limitInputLength(this, "character-count", ' . CATEGORY_DESC_MAX_LENGTH . ')',
                                     'oninput' => 'removeScriptTags(this)',

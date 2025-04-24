@@ -115,6 +115,13 @@ date_default_timezone_set('Australia/Melbourne');
 const CATEGORY_DESC_MAX_LENGTH = 255;
 const CATEGORY_NAME_MAX_LENGTH = 30;
 
+// Product table
+const PRODUCT_NAME_MAX_LENGTH = 75;
+const PRODUCT_DESC_MAX_LENGTH = 255;
+const PRODUCT_INGREDIENTS_MAX_LENGTH = 255;
+const PRODUCT_MAX_PRICE = 1000;
+const PRODUCT_MAX_QUANTITY = 1000;
+
 /*
  * Configure the mbstring extension to use the correct encoding.
  */

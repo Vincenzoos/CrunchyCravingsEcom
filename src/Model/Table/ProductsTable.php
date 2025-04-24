@@ -71,7 +71,7 @@ class ProductsTable extends Table
     {
         $validator
             ->scalar('name')
-            ->maxLength('name', 75)
+            ->maxLength('name', PRODUCT_NAME_MAX_LENGTH)
             ->requirePresence('name', 'create')
             ->notEmptyString('name')
             ->add('name', 'validFormat', [
@@ -81,7 +81,7 @@ class ProductsTable extends Table
 
         $validator
             ->scalar('description')
-            ->maxLength('description', 150, 'Description must be 150 characters or less.')
+            ->maxLength('description', PRODUCT_DESC_MAX_LENGTH, 'Description must be' . PRODUCT_DESC_MAX_LENGTH . 'characters or less.')
             ->add('description', 'noHtmlTags', [
                 'rule' => function ($value, $context) {
                     // Validate by comparing the value with its stripped version.
@@ -89,7 +89,7 @@ class ProductsTable extends Table
                     // For example: strip_tags($value, '<p><br>')
                     return $value === strip_tags($value);
                 },
-                'message' => 'HTML tags are not allowed in the description.'
+                'message' => 'HTML tags are not allowed in the description.',
             ])
             ->allowEmptyString('description');
 
@@ -101,8 +101,8 @@ class ProductsTable extends Table
                 'message' => 'Price must be greater than or equal to 0.',
             ])
             ->add('price', 'max', [
-                'rule' => ['comparison', '<=', 500],
-                'message' => 'Price must be less than or equal to 500.',
+                'rule' => ['comparison', '<=', PRODUCT_MAX_PRICE],
+                'message' => 'Price must be less than or equal to' . PRODUCT_MAX_PRICE . '.',
             ])
             ->notEmptyString('price');
 
@@ -123,15 +123,13 @@ class ProductsTable extends Table
 
         $validator
             ->integer('quantity')
-            ->add('quantity', 'range', [
-                'rule' => ['range', -1, 101], // Allows 0 (since -1 < 0) and 100 (since 100 < 101)
-                'message' => 'Product quantity ranges from 0 to 100.',
-            ])
-        ->allowEmptyString('quantity');
+            ->greaterThanOrEqual('quantity', 0, 'Quantity must be at least 0.')
+            ->lessThanOrEqual('quantity', PRODUCT_MAX_QUANTITY, 'Quantity must not exceed' . PRODUCT_MAX_QUANTITY . '.')
+            ->allowEmptyString('quantity');
 
         $validator
             ->scalar('ingredients')
-            ->maxLength('ingredients', 250, 'Ingredients must be 250 characters or less.')
+            ->maxLength('ingredients', PRODUCT_INGREDIENTS_MAX_LENGTH, 'Ingredients must be ' . PRODUCT_INGREDIENTS_MAX_LENGTH . ' characters or less.')
             ->add('ingredients', 'allowedCharacters', [
                 'rule' => function ($value, $context) {
                     // This regex allows only letters, numbers, spaces, (), comma, period and the "%" symbol.
@@ -144,10 +142,9 @@ class ProductsTable extends Table
                     // This ensures no HTML tags are present.
                     return $value === strip_tags($value);
                 },
-                'message' => 'HTML tags are not allowed in the ingredients.'
+                'message' => 'HTML tags are not allowed in the ingredients.',
             ])
             ->allowEmptyString('ingredients');
-
 
         return $validator;
     }
