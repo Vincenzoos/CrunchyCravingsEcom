@@ -11,7 +11,6 @@ use Cake\View\View;
 
 <?php
 $html = new HtmlHelper(new View());
-const MSG_MAX_LENGTH = 250;
 ?>
 
 <head>
@@ -53,7 +52,7 @@ const MSG_MAX_LENGTH = 250;
                                         'class' => 'form-control mx-auto',
                                         'label' => ['text' => '<h4 class="text-center"><span style="color: red;">*</span>First Name</h4>', 'escape' => false],
                                         'placeholder' => 'Enter your first name...',
-                                        'maxlength' => 20,
+                                        'maxlength' => CONTACT_FIRST_NAME_MAX_LENGTH,
                                         'required' => true,
                                         'pattern' => '^[a-zA-Z\s]+$',
                                         'title' => 'Please use only letters and spaces for your first name',
@@ -65,7 +64,7 @@ const MSG_MAX_LENGTH = 250;
                                         'class' => 'form-control mx-auto',
                                         'label' => ['text' => '<h4 class="text-center"><span style="color: red;">*</span>Last Name</h4>', 'escape' => false],
                                         'placeholder' => 'Enter your last name...',
-                                        'maxlength' => 20,
+                                        'maxlength' => CONTACT_LAST_NAME_MAX_LENGTH,
                                         'required' => true,
                                         'pattern' => '^[a-zA-Z\s]+$',
                                         'title' => 'Please use only letters and spaces for your last name',
@@ -78,7 +77,7 @@ const MSG_MAX_LENGTH = 250;
                                         'label' => ['text' => '<h4 class="text-center"><span style="color: red;">*</span>Email</h4>', 'escape' => false],
                                         'placeholder' => 'Enter your email (e.g., abc@example.com)',
                                         'type' => 'email',
-                                        'maxlength' => 40,
+                                        'maxlength' => CONTACT_EMAIL_MAX_LENGTH,
                                         'required' => true,
                                     ]); ?>
                                     <div class="invalid-feedback">Please enter a valid email in the correct format (e.g., abc@example.com).</div>
@@ -99,12 +98,12 @@ const MSG_MAX_LENGTH = 250;
                                 <div class="mb-4 has-validation">
                                     <?= $this->Form->control('message', [
                                         'class' => 'form-control mx-auto',
-                                        'label' => ['text' => '<h4 class="text-center" id="message-label"><span style="color: red;">*</span>Message (<span id="character-count">0</span>/' . MSG_MAX_LENGTH . ')</h4>', 'escape' => false],
+                                        'label' => ['text' => '<h4 class="text-center" id="message-label"><span style="color: red;">*</span>Message (<span id="character-count">0</span>/' . CONTACT_MESSAGE_MAX_LENGTH . ')</h4>', 'escape' => false],
                                         'placeholder' => 'Enter your message',
                                         'type' => 'textarea',
                                         'rows' => 5,
-                                        'onkeyup' => 'limitInputLength(this, "character-count", ' . MSG_MAX_LENGTH . '); removeScriptTags(this);',
-                                        'maxlength' => MSG_MAX_LENGTH, // Override maxlength
+                                        'onkeyup' => 'limitInputLength(this, "character-count", ' . CONTACT_MESSAGE_MAX_LENGTH . '); removeScriptTags(this);',
+                                        'maxlength' => CONTACT_MESSAGE_MAX_LENGTH, // Override maxlength
                                         'required' => true,
                                     ]); ?>
                                     <div class="invalid-feedback">Please enter your message.</div>

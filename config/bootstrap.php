@@ -110,7 +110,7 @@ if (Configure::read('debug')) {
 date_default_timezone_set('Australia/Melbourne');
 
 // Global constants
-// Length Limits (MUST MATCH DATABASE SCHEMA)
+// Length Limits (MUST/SHOULD MATCH DATABASE SCHEMA)
 // Category table
 const CATEGORY_DESC_MAX_LENGTH = 255;
 const CATEGORY_NAME_MAX_LENGTH = 30;
@@ -121,6 +121,13 @@ const PRODUCT_DESC_MAX_LENGTH = 255;
 const PRODUCT_INGREDIENTS_MAX_LENGTH = 255;
 const PRODUCT_MAX_PRICE = 1000;
 const PRODUCT_MAX_QUANTITY = 1000;
+
+// Contact table
+const CONTACT_FIRST_NAME_MAX_LENGTH = 50;
+const CONTACT_LAST_NAME_MAX_LENGTH = 50;
+const CONTACT_EMAIL_MAX_LENGTH = 255;
+const CONTACT_PHONE_MAX_LENGTH = 12;
+const CONTACT_MESSAGE_MAX_LENGTH = 255;
 
 /*
  * Configure the mbstring extension to use the correct encoding.

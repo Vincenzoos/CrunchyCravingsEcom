@@ -50,9 +50,9 @@ class ContactsTable extends Table
     {
         $validator
             ->scalar('first_name')
-            ->maxLength('first_name', 50)
+            ->maxLength('first_name', CONTACT_FIRST_NAME_MAX_LENGTH)
             ->requirePresence('first_name', 'create')
-            ->add('name', 'validFormat', [
+            ->add('first_name', 'validFormat', [
                 'rule' => ['custom', '/^[a-zA-Z\s]+$/'],
                 'message' => 'Please use only letters and spaces for your first name.',
             ])
@@ -60,9 +60,9 @@ class ContactsTable extends Table
 
         $validator
             ->scalar('last_name')
-            ->maxLength('last_name', 50)
+            ->maxLength('last_name', CONTACT_LAST_NAME_MAX_LENGTH)
             ->requirePresence('last_name', 'create')
-            ->add('name', 'validFormat', [
+            ->add('last_name', 'validFormat', [
                 'rule' => ['custom', '/^[a-zA-Z\s]+$/'],
                 'message' => 'Please use only letters and spaces for your last name.',
             ])
@@ -70,12 +70,13 @@ class ContactsTable extends Table
 
         $validator
             ->email('email', true, 'Please enter a valid email address.')
+            ->maxLength('email', CONTACT_EMAIL_MAX_LENGTH)
             ->requirePresence('email', 'create')
             ->notEmptyString('email');
 
         $validator
             ->scalar('phone_number')
-            ->maxLength('phone_number', 12)
+            ->maxLength('phone_number', CONTACT_PHONE_MAX_LENGTH)
             ->requirePresence('phone_number', 'create')
             ->notEmptyString('phone_number')
             ->add('phone_number', 'validFormat', [
@@ -89,7 +90,7 @@ class ContactsTable extends Table
         $validator
             ->scalar('message')
             ->requirePresence('message', 'create')
-            ->maxLength('description', 150, 'Message must be 150 characters or less.')
+            ->maxLength('description', CONTACT_MESSAGE_MAX_LENGTH)
             ->add('message', 'noHtmlTags', [
                 'rule' => function ($value, $context) {
                     // Validate by comparing the value with its stripped version.
