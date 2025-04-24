@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Exception;
 use SebastianBergmann\Environment\Console;
 use Cake\Log\Log;
 
@@ -130,13 +131,13 @@ class ProductsController extends AppController
         $priceRanges = $this->request->getQuery('price_range') ?? [];
         $minPrice = $this->request->getQuery('min_price');
         $maxPrice = $this->request->getQuery('max_price');
-        
+
         if (!empty($minPrice) || !empty($maxPrice)) {
             // Apply custom price range filtering
             if (is_numeric($minPrice)) {
                 $query->where(['Products.price >=' => $minPrice]);
             }
-    
+
             if (is_numeric($maxPrice)) {
                 $query->where(['Products.price <=' => $maxPrice]);
             }
@@ -166,7 +167,7 @@ class ProductsController extends AppController
 
         // Default sorting
         $order = ['Products.id' => 'ASC'];
-    
+
         // Adjust sorting based on the 'sort' parameter
         if ($sort === 'price_asc') {
             $order = ['Products.price' => 'ASC'];
@@ -350,12 +351,16 @@ class ProductsController extends AppController
         if (empty($product->image) || $product->image == null) {
             $product->image = '/files/Products/image/default-product.jpg';
         }
-        if ($this->Products->delete($product)) {
-            $this->Flash->success(__('The product has been deleted.'));
-        } else {
-            $this->Flash->error(__('The product could not be deleted. Please try again.'));
+        try {
+            if ($this->Products->delete($product)) {
+                $this->Flash->success(__('The product has been deleted.'));
+            } else {
+                $this->Flash->error(__('The product could not be deleted. Please, try again.'));
+            }
+        } catch (Exception $e) {
+            // This exception is thrown when a foreign key constraint fails.
+            $this->Flash->error(__('The product is in use and cannot be deleted.'));
         }
-
         return $this->redirect(['action' => 'index']);
     }
 

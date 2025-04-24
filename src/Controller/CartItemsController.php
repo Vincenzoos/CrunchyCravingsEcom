@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 // Used for cpanel testing
+use Cake\Core\Configure;
 use Cake\Event\EventInterface;
 use Cake\Mailer\Mailer;
 use Exception;
