@@ -5,7 +5,6 @@ namespace App\Controller;
 
 // Used for cpanel testing
 use Cake\Event\EventInterface;
-use Cake\Log\Log;
 use Cake\Mailer\Mailer;
 use Exception;
 use stdClass;
@@ -320,8 +319,6 @@ class CartItemsController extends AppController
 
         $cartItemId = $this->request->getData('cart_item_id');
         $newQuantity = $this->request->getData('quantity');
-        // It is recommended to fetch the actual product entity to update stock even for session-managed carts.
-        $productEntity = $this->CartItems->Products->get($cartItemId);
 
         // Log the incoming request data
         // Log::write('debug', "Received cart_item_id: $cartItemId, quantity: $newQuantity");
