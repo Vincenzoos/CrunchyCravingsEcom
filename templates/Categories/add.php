@@ -12,7 +12,6 @@ use Cake\View\View;
 
 <?php
 $html = new HtmlHelper(new View());
-const DESC_MAX_LENGTH = 250;
 ?>
 
 <head>
@@ -53,6 +52,7 @@ const DESC_MAX_LENGTH = 250;
                                     'label' => ['text' => '<h4><span style="color: red;">*</span>Category Name</h4>', 'escape' => false],
                                     'placeholder' => 'Enter the category name...',
                                     'pattern' => '^[a-zA-Z\s]+$',
+                                    'maxlength' => CATEGORY_NAME_MAX_LENGTH,
                                     'title' => 'Please use only letters and spaces for your category name',
                                     'required' => true,
                                 ]) ?>
@@ -61,13 +61,13 @@ const DESC_MAX_LENGTH = 250;
                             <div class="mb-4">
                                 <?= $this->Form->control('description', [
                                     'class' => 'form-control mx-auto',
-                                    'label' => ['text' => '<h4 class="text-center" id="description-label">Description (<span id="character-count">0</span>/' . DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
+                                    'label' => ['text' => '<h4 class="text-center" id="description-label">Description (<span id="character-count">0</span>/' . CATEGORY_DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
                                     'placeholder' => 'Enter a brief description...',
                                     'type' => 'tel',
                                     'rows' => 4,
-                                    'onkeyup' => 'limitInputLength(this, "character-count", ' . DESC_MAX_LENGTH . ')',
+                                    'onkeyup' => 'limitInputLength(this, "character-count", ' . CATEGORY_DESC_MAX_LENGTH . ')',
                                     'oninput' => 'removeScriptTags(this)',
-                                    'maxlength' => DESC_MAX_LENGTH, // Override maxlength
+                                    'maxlength' => CATEGORY_DESC_MAX_LENGTH,
                                 ]) ?>
                             </div>
                             <div class="mb-4">

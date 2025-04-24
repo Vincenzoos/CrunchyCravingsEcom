@@ -109,6 +109,12 @@ if (Configure::read('debug')) {
 //date_default_timezone_set(Configure::read('App.defaultTimezone'));
 date_default_timezone_set('Australia/Melbourne');
 
+// Global constants
+// Length Limits (MUST MATCH DATABASE SCHEMA)
+// Category table
+const CATEGORY_DESC_MAX_LENGTH = 255;
+const CATEGORY_NAME_MAX_LENGTH = 30;
+
 /*
  * Configure the mbstring extension to use the correct encoding.
  */

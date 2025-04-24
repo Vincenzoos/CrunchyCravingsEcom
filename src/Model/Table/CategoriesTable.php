@@ -58,7 +58,7 @@ class CategoriesTable extends Table
     {
         $validator
             ->scalar('name')
-            ->maxLength('name', 30)
+            ->maxLength('name', CATEGORY_NAME_MAX_LENGTH)
             ->requirePresence('name', 'create')
             ->notEmptyString('name')
             ->add('name', 'validFormat', [
@@ -68,7 +68,7 @@ class CategoriesTable extends Table
 
         $validator
             ->scalar('description')
-            ->maxLength('description', 150)
+            ->maxLength('description', CATEGORY_DESC_MAX_LENGTH)
             ->add('description', 'noHtmlTags', [
                 'rule' => function ($value, $context) {
                     // Validate by comparing the value with its stripped version.
