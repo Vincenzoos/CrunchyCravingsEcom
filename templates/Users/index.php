@@ -73,7 +73,7 @@ $html = new HtmlHelper(new View());
                 <?= $this->Form->control('role', [
                     'type' => 'select',
                     'label' => 'Role',
-                    'options' => ['admin' => 'Admin', 'user' => 'User'],
+                    'options' => ['admin' => 'Admin', 'customer' => 'Customer'],
                     'empty' => 'Select a role',
                     'value' => $this->request->getQuery('role'),
                     'class' => 'form-select select2',
@@ -103,9 +103,9 @@ $html = new HtmlHelper(new View());
                             <tr>
                                 <th><?= $this->Paginator->sort('email', __('Email')) ?></th>
                                 <th><?= $this->Paginator->sort('role', __('Role')) ?></th>
-                                <th><?= $this->Paginator->sort('nonce_expiry', __('Nonce Expiry')) ?></th>
+<!--                                <th>--><?php //= $this->Paginator->sort('nonce_expiry', __('Nonce Expiry')) ?><!--</th>-->
                                 <th><?= $this->Paginator->sort('created', __('Created')) ?></th>
-                                <th><?= $this->Paginator->sort('modified', __('Modified')) ?></th>
+<!--                                <th>--><?php //= $this->Paginator->sort('modified', __('Modified')) ?><!--</th>-->
                                 <th class="text-center"><?= __('Actions') ?></th>
                             </tr>
                         </thead>
@@ -114,9 +114,9 @@ $html = new HtmlHelper(new View());
                                 <tr>
                                     <td><?= h($user->email) ?></td>
                                     <td><?= h($user->role) ?></td>
-                                    <td><?= h(empty($user->nonce_expiry) ? 'N/A' : $user->nonce_expiry->format('d/m/Y H:i: a')) ?></td>
+<!--                                    <td>--><?php //= h(empty($user->nonce_expiry) ? 'N/A' : $user->nonce_expiry->format('d/m/Y H:i: a')) ?><!--</td>-->
                                     <td><?= h($user->created->format('d/m/Y H:i a')) ?></td>
-                                    <td><?= h(empty($user->modified) ? 'N/A' : $user->modified->format('d/m/Y H:i a')) ?></td>
+<!--                                    <td>--><?php //= h(empty($user->modified) ? 'N/A' : $user->modified->format('d/m/Y H:i a')) ?><!--</td>-->
                                     <td class="text-center">
                                         <?= $this->Html->link(__('View'), ['action' => 'view', $user->id], ['class' => 'btn btn-info btn-sm']) ?>
                                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id], ['class' => 'btn btn-warning btn-sm']) ?>

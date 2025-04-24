@@ -47,21 +47,9 @@ $html = new HtmlHelper(new \Cake\View\View());
                                     <th><?= __('Role') ?></th>
                                     <td><?= h($user->role) ?></td>
                                 </tr>
-<!--                                <tr>-->
-<!--                                    <th>--><?php //= __('Nonce') ?><!--</th>-->
-<!--                                    <td>--><?php //= h($user->nonce) ?><!--</td>-->
-<!--                                </tr>-->
-                                <tr>
-                                    <th><?= __('Nonce Expiry') ?></th>
-                                    <td><?= h(empty($user->nonce_expiry) ? 'N/A' : $user->nonce_expiry->format('d/m/Y H:i a')) ?></td>
-                                </tr>
                                 <tr>
                                     <th><?= __('Created') ?></th>
                                     <td><?= h($user->created->format('d/m/Y H:i a')) ?></td>
-                                </tr>
-                                <tr>
-                                    <th><?= __('Modified') ?></th>
-                                    <td><?= h(empty($user->modified) ? 'N/A' : $user->modified->format('d/m/Y H:i a')) ?></td>
                                 </tr>
                             </table>
                         </div>
