@@ -52,14 +52,14 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <?php if (!empty($category->products) && !empty($category->products[0]->image)): ?>
                                 <?= $this->Html->image($category->products[0]->image_cache_busted_url, [
                                     'alt' => $category->name,
-                                    'class' => 'img-fluid rounded-top',
-                                    'style' => 'height: 200px; object-fit: cover; width: 100%;'
+                                    'class' => 'img-fluid rounded',
+                                    'style' => 'height: 100%; object-fit: cover; width: 100%;'
                                 ]) ?>
                             <?php else: ?>
                                 <?= $this->Html->image('default-category.jpg', [
                                     'alt' => $category->name,
-                                    'class' => 'img-fluid rounded-top',
-                                    'style' => 'height: 200px; object-fit: cover; width: 100%;'
+                                    'class' => 'img-fluid rounded',
+                                    'style' => 'height: 100%; object-fit: cover; width: 100%;'
                                 ]) ?>
                             <?php endif; ?>
                         </div>
