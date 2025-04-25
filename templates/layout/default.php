@@ -242,7 +242,7 @@ $html = new HtmlHelper(new View());
 	</header>
 	<!-- Header Section /- -->
 
-    <div id="page-content" class="d-flex flex-column min-vh-100">
+    <div id="page-content" class="d-flex flex-column"> <!--  min-vh-100 -->
         <!-- Main Content -->
         <!-- <div class="flex-grow-1"> -->
             <div id="main-content" class="container-fluid">
@@ -255,15 +255,13 @@ $html = new HtmlHelper(new View());
     <!-- Footer Section -->
 	<div id="footer-section" class="footer-section">
 
-		<!-- Add Banner -->
-		<div id="add-banner-section" class="add-banner-section bottom-shadow">
-			<!-- container -->
+		<!-- <div id="add-banner-section" class="add-banner-section bottom-shadow">
 			<div class="container" style="display: flex; justify-content: center; align-items: center; height: 100%; text-align: center;">
                 <a title="Logo" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">
-                    <?= $html->image('cc_logo.png', ['alt' => 'add-banner', 'style' => 'width: 50%; height: auto; margin-top: 15px; margin-bottom: 0px;']) ?>
+                    <?= $html->image('cc_logo.png', ['alt' => 'add-banner', 'style' => 'width: 25%; height: auto; margin-top: 15px; margin-bottom: 0px;']) ?>
                 </a>
-			</div><!-- container /- -->
-		</div><!-- Add Banner /- -->
+			</div>
+		</div> -->
 
 		<!-- widget section -->
         <!--        TODO: Need to recenter footer since unusable links commented out -->
@@ -501,6 +499,34 @@ $html = new HtmlHelper(new View());
             document.head.appendChild(favicon);
         });
     </script>
+
+    <!-- Script to show/hide bottom logo based on top logo visibility -->
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const bottomLogo = document.querySelector('#add-banner-section');
+            const topLogo = document.querySelector('.logo-block');
+
+            function toggleBottomLogo() {
+                const topLogoBottom = topLogo.getBoundingClientRect().bottom;
+                const viewportHeight = window.innerHeight;
+
+                // Show the bottom logo only if the top logo is not visible in the viewport
+                if (topLogoBottom < 0) {
+                    if (bottomLogo.style.display === 'none') {
+                        bottomLogo.style.display = 'block';
+                    }
+                } else {
+                    if (bottomLogo.style.display === 'block') {
+                        bottomLogo.style.display = 'none';
+                    }
+                }
+            }
+
+            // Run the function on page load and on scroll
+            toggleBottomLogo();
+            window.addEventListener('scroll', toggleBottomLogo);
+        });
+    </script> -->
 
     <!-- jQuery -->
     <?= $this->Html->script('https://code.jquery.com/jquery-3.6.0.min.js') ?>
