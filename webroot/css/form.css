@@ -22,8 +22,15 @@
     /* margin-bottom: var(--border-size) !important; */
 }
 
+.flex-container {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    justify-content: space-between; /* Add space between the containers */
+    gap: 1rem; /* Add spacing between the containers */
+}
+
 #form-content {
-    padding: 2rem;
+    padding: 2rem !important;
     border-radius: 0.5rem;
     border: 1px solid #ddd;
     text-align: left;
