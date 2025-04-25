@@ -78,7 +78,9 @@ $html = new HtmlHelper(new View());
                             <h3><?= __('Ingredients') ?></h3>
                             <table class="table table-bordered">
                                 <tr>
-                                    <td><?= $this->Text->autoParagraph(h($product->ingredients)); ?></td>
+                                    <td style="word-break: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%;">
+                                        <?= $this->Text->autoParagraph(h($product->ingredients)); ?>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -88,7 +90,9 @@ $html = new HtmlHelper(new View());
                             <h3><?= __('Description') ?></h3>
                             <table class="table table-bordered">
                                 <tr>
-                                    <td><?= $this->Text->autoParagraph(h($product->description)); ?></td>
+                                    <td style="word-break: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%;">
+                                        <?= $this->Text->autoParagraph(h($product->description)); ?>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
