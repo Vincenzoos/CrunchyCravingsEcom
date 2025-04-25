@@ -66,7 +66,7 @@ $html = new HtmlHelper(new View());
                                 <a style="color: #6E6E6E; display: block;" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerView', $cartItem->product->id]) ?>">
                                     <?= $this->Html->image($cartItem->product->image_cache_busted_url, [
                                         'alt' => $cartItem->product->name,
-                                        'class' => 'img-fluid rounded-top',
+                                        'class' => 'img-fluid rounded',
                                         'style' => 'height: 70px; object-fit: cover; width: 70px; display: block; margin: 0 auto;']) ?>
                                     <h5 style="font-size: 0.9rem; margin-top: 0.5rem;"><?= h($cartItem->product->name) ?></h5>
                                 </a>

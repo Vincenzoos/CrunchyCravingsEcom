@@ -199,7 +199,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                     <div class="row">
                         <?php foreach ($products as $product) : ?>
                             <div class="col-lg-4 col-md-6 col-sm-12 main-product">
-                                <div class="category-box product-box">
+                                <div class="category-box product-box" style="border: 0;">
                                     <?php if ($product->on_sale) : ?>
                                         <span class="sale">sales</span>
                                     <?php endif; ?>
@@ -207,7 +207,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                         <!-- Link the product image to the view page -->
                                         <?= $this->Html->image($product->image_cache_busted_url, [
                                             'alt' => $product->name,
-                                            'class' => 'img-fluid rounded-top',
+                                            'class' => 'img-fluid',
                                         ]) ?>
                                         <div class="product-box-inner">
                                             <ul>

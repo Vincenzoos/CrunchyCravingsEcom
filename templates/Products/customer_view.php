@@ -60,11 +60,11 @@ $html = new HtmlHelper(new View());
                             <h3><?= h($product->name) ?></h3>
                         </div>
                         <div class="row" style="display: flex; justify-content: center; align-items: center;">
-                            <div id="about-slider" class="col-12 col-md-12 col-lg-9 flexslider product-slider">
+                            <div id="about-slider" class="col-12 col-md-12 col-lg-9 flexslider product-slider" style="border: 0;">
                                 <ul class="slides">
                                     <?= $this->Html->image($product->image_cache_busted_url, [
                                         'alt' => $product->name,
-                                        'class' => 'img-fluid rounded-top',
+                                        'class' => 'img-fluid ',
                                         'style' => 'height: fit-content; object-fit: cover; width: fit-content;']) ?>
                                 </ul>
                             </div>
@@ -79,16 +79,16 @@ $html = new HtmlHelper(new View());
                         <div class="row">
                             <?php foreach ($similarProducts as $similarProduct) : ?>
                                 <div class="col-lg-6 col-md-6 col-sm-6 main-product">
-                                    <div class="category-box product-box">
+                                    <div class="category-box product-box" style="border: 0;">
                                         <?php if ($similarProduct->on_sale) : ?>
                                             <span class="sale">sales</span>
                                         <?php endif; ?>
-                                        <div class="inner-product">
+                                        <div class="inner-product" >
                                             <!-- Link the product image to the view page -->
                                             <a href="<?= $this->Url->build(['action' => 'customerView', $similarProduct->id]) ?>">
                                                 <?= $this->Html->image($similarProduct->image_cache_busted_url, [
                                                     'alt' => $similarProduct->name,
-                                                    'class' => 'img-fluid rounded-top'
+                                                    'class' => 'img-fluid'
                                                 ]) ?>
                                             </a>
                                             <div class="product-box-inner">
