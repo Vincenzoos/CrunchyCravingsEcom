@@ -67,7 +67,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                     <!-- Left Carousels Section -->
                     <div class="products-carousels col-md-8">
                         <!-- Carousel 1 -->
-                        <div id="carousel1" class="carousel slide mb-5" data-bs-ride="carousel">
+                        <div id="carousel1" class="carousel slide mb-5">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
                                     <?= $this->Html->image('Classic.jpg', ['class' => 'd-block w-100', 'alt' => 'Classic 1']) ?>
@@ -86,7 +86,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                             </button>
                         </div>
                         <!-- Carousel 2 -->
-                        <div id="carousel2" class="carousel slide mb-5" data-bs-ride="carousel">
+                        <div id="carousel2" class="carousel slide mb-5">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
                                     <?= $this->Html->image('Seasonal.jpg', ['class' => 'd-block w-100', 'alt' => 'Seasonal 1']) ?>
@@ -105,7 +105,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                             </button>
                         </div>
                         <!-- Carousel 3 -->
-                        <div id="carousel3" class="carousel slide" data-bs-ride="carousel">
+                        <div id="carousel3" class="carousel slide">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
                                     <?= $this->Html->image('Hamper.webp', ['class' => 'd-block w-100', 'alt' => 'Hamper 1']) ?>
@@ -154,26 +154,10 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Custom JavaScript for staggered carousels -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Set the same interval for all carousels
-            const interval = 6000; // 6 seconds
-
             // Initialize all carousels but pause them immediately
-            const carousel1 = new bootstrap.Carousel('#carousel1', { interval, ride: false });
-            const carousel2 = new bootstrap.Carousel('#carousel2', { interval, ride: false });
-            const carousel3 = new bootstrap.Carousel('#carousel3', { interval, ride: false });
-
-            // Start the first carousel immediately
-            carousel1.cycle();
-
-            // Start the second carousel after a delay
-            setTimeout(() => {
-                carousel2.cycle();
-            }, 2000);
-
-            // Start the third carousel after a delay
-            setTimeout(() => {
-                carousel3.cycle();
-            }, 4000);
+            const carousel1 = new bootstrap.Carousel('#carousel1', { interval: false, ride: false });
+            const carousel2 = new bootstrap.Carousel('#carousel2', { interval: false, ride: false });
+            const carousel3 = new bootstrap.Carousel('#carousel3', { interval: false, ride: false });
 
             // Add event listeners to buttons for manual control
             document.querySelectorAll('.carousel-control-prev, .carousel-control-next').forEach(button => {
@@ -184,10 +168,8 @@ $html = new HtmlHelper(new \Cake\View\View());
                     const carouselInstance = bootstrap.Carousel.getInstance(`#${targetCarousel.id}`);
                     if (button.classList.contains('carousel-control-prev')) {
                         carouselInstance.prev(); // Go to the previous slide
-                        console.log(`Previous button clicked for ${targetCarousel.id}`);
                     } else if (button.classList.contains('carousel-control-next')) {
                         carouselInstance.next(); // Go to the next slide
-                        console.log(`Next button clicked for ${targetCarousel.id}`);
                     }
                 });
             });
