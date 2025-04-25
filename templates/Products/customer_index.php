@@ -57,6 +57,15 @@ $html = new HtmlHelper(new \Cake\View\View());
         </div>
     </div>
 
+    <!-- Admin Manage products button -->
+    <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin') : ?>
+        <div class="text-center mb-3">
+            <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>" class="btn btn-danger">
+                Manage Products
+            </a>
+        </div>
+    <?php endif; ?>
+
     <!-- Shop container -->
     <div class="container" id="shop-container">
         <!-- Top Bar -->

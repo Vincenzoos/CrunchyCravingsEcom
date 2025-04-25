@@ -31,7 +31,6 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 <body data-offset="200" data-spy="scroll" data-target=".primary-navigation">
     <!-- Page Breadcrumb -->
-    <!-- container -->
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
@@ -39,8 +38,16 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <li><a title="Categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'customerIndex']) ?>">Categories</a></li>
             </ol>
         </div>
-    </div><!-- container /- -->
-    <!-- Page Breadcrumb /- -->
+    </div>
+
+    <!-- Admin Manage Categories button -->
+    <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin') : ?>
+        <div class="text-center mb-3">
+            <a href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index']) ?>" class="btn btn-danger">
+                Manage Categories
+            </a>
+        </div>
+    <?php endif; ?>
 
     <div id="shop-container" class="container my-5">
         <div class="row">

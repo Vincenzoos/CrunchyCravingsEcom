@@ -22,10 +22,12 @@ $html = new HtmlHelper(new \Cake\View\View());
     <div class="page-container mx-auto my-5">
 
         <!-- Heading Section -->
-        <div class="container">
-            <h1 class="display-6 text-center">Users</h1>
-            <p class="lead text-center">Manage all users below.</p>
-        </div>
+        <section id="heading" class="text-center py-5">
+            <div class="container">
+                <h1 class="display-6 text-center">Users</h1>
+                <p class="lead text-center">Manage all users below.</p>
+            </div>
+        </section>
 
         <!-- Shop container -->
         <div class="container" id="shop-container">
