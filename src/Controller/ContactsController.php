@@ -47,41 +47,53 @@ class ContactsController extends AppController
      */
     public function index()
     {
-        // Order contacts by date sent from latest to earliest by default
-        $query = $this->Contacts->find()->orderBy([
-            'Contacts.date_sent DESC',
-            'Contacts.id' => 'DESC',
-        ]);
-
-        // Retrieve data from filter form
+        // Default query
+        $query = $this->Contacts->find();
+    
+        // Retrieve sorting parameter
+        $sort = $this->request->getQuery('sort');
+    
+        // Default sorting: Date Sent (Descending)
+        $order = ['Contacts.date_sent' => 'DESC'];
+    
+        // Apply sorting based on the 'sort' parameter
+        if ($sort === 'first_name_asc') {
+            $order = ['Contacts.first_name' => 'ASC'];
+        } elseif ($sort === 'first_name_desc') {
+            $order = ['Contacts.first_name' => 'DESC'];
+        } elseif ($sort === 'email_asc') {
+            $order = ['Contacts.email' => 'ASC'];
+        } elseif ($sort === 'email_desc') {
+            $order = ['Contacts.email' => 'DESC'];
+        } elseif ($sort === 'sent_asc') {
+            $order = ['Contacts.date_sent' => 'ASC'];
+        } elseif ($sort === 'sent_desc') {
+            $order = ['Contacts.date_sent' => 'DESC'];
+        }
+    
+        // Apply the order to the query
+        $query->order($order);
+    
+        // Apply filters (if any)
         $first_name = $this->request->getQuery('first_name');
         $last_name = $this->request->getQuery('last_name');
         $date_sent = $this->request->getQuery('date_sent');
         $replyStatus = $this->request->getQuery('reply_status');
-
-        // Build on default query to get filter result
-        // Filter Contacts by firstname (partial match)
+    
         if (!empty($first_name)) {
             $query->where(['Contacts.first_name LIKE' => '%' . $first_name . '%']);
         }
-
-        // Filter Contacts by lastname (partial match)
         if (!empty($last_name)) {
             $query->where(['Contacts.last_name LIKE' => '%' . $last_name . '%']);
         }
-
-        // Filter contacts from date_sent and earlier
         if (!empty($date_sent)) {
             $query->where(['Contacts.date_sent <=' => $date_sent]);
         }
-
-        // Filter Contacts by reply status (exact match)
         if ($replyStatus !== null && $replyStatus !== '') {
             $query->where(['Contacts.replied' => $replyStatus]);
         }
-
+    
         $contacts = $this->paginate($query);
-
         $this->set(compact('contacts'));
     }
 

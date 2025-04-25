@@ -1,6 +1,6 @@
 /* Table Styling */
 .table {
-    width: 60%;
+    /* width: 60%; */
     margin: 1rem auto; /* Center the table with some margin */
     border-collapse: collapse; /* Remove gaps between table cells */
     background-color: var(--background-color) !important; /* Match the page background */
@@ -24,6 +24,10 @@
 
 #wrapper {
     background-color: var(--background-color); /* Match the page background */
+}
+
+.table {
+    margin: 0 auto; /* Center the table */
 }
 
 /* Table Cells */
