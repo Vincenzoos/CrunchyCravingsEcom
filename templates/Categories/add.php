@@ -93,7 +93,7 @@ $html = new HtmlHelper(new View());
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
         jQuery(document).ready(function() {
             jQuery('.select2').select2({
