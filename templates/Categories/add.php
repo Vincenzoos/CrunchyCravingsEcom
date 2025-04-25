@@ -24,13 +24,12 @@ $html = new HtmlHelper(new View());
 </head>
 
 <body>
-
     <!-- Page Container -->
     <div class="page-container mx-auto my-5">
         <!-- Heading Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">Add Category</h1>
+                <h1 class="display-6">Add Category</h1>
                 <p class="lead">Fill out the form below to add a new category.</p>
             </div>
         </section>
@@ -40,7 +39,7 @@ $html = new HtmlHelper(new View());
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <div id="form-content" class="bg-light p-4 rounded">
+                        <div id="form-content">
                             <!-- Allow customized form validation styling -->
                             <?php $this->Form->setTemplates([
                                 'inputContainer' => '{{content}}']); ?>

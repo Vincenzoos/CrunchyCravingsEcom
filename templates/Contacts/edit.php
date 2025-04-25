@@ -30,7 +30,7 @@ $html = new HtmlHelper(new View());
         <!-- Edit Contact Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">Edit Contact</h1>
+                <h1 class="display-6">Edit Contact</h1>
                 <p class="lead">Update the contact details below.</p>
             </div>
         </section>

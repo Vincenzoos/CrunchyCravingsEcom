@@ -45,7 +45,7 @@ $html = new HtmlHelper(new View());
     <!-- Heading section -->
     <section id="heading" class="text-center py-5">
         <div class="container">
-            <h3 class="display-4">Contact Us</h3>
+            <h3 class="display-6">Contact Us</h3>
             <p class="lead">We'd love to hear from you! Fill out the form below to get in touch with us.</p>
         </div>
     </section>

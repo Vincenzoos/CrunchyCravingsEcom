@@ -244,12 +244,12 @@ $html = new HtmlHelper(new View());
 
     <div id="page-content" class="d-flex flex-column min-vh-100">
         <!-- Main Content -->
-        <div class="flex-grow-1">
+        <!-- <div class="flex-grow-1"> -->
             <div id="main-content" class="container-fluid">
                 <?= $this->Flash->render() ?>
                 <?= $this->fetch('content') ?>
             </div>
-        </div>
+        <!-- </div> -->
     </div>
 
     <!-- Footer Section -->

@@ -31,7 +31,7 @@ $html = new HtmlHelper(new View());
         <!-- Add Contact Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">Add Contact</h1>
+                <h1 class="display-6">Add Contact</h1>
                 <p class="lead">Create a new contact below.</p>
             </div>
         </section>

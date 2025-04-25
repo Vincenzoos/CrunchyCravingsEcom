@@ -32,7 +32,7 @@ $html = new HtmlHelper(new View());
         <!-- Heading Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">View Product</h1>
+                <h1 class="display-6">View Product</h1>
                 <p class="lead">Details of the selected product are shown below.</p>
             </div>
         </section>

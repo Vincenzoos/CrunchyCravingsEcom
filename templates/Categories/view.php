@@ -29,7 +29,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         <!-- Heading Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">View Category</h1>
+                <h1 class="display-6">View Category</h1>
                 <p class="lead">Details of the selected category are shown below.</p>
             </div>
         </section>

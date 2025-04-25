@@ -26,7 +26,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         <!-- Heading Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">View User</h1>
+                <h1 class="display-6">View User</h1>
                 <p class="lead">Details of the selected user are shown below.</p>
             </div>
         </section>

@@ -35,7 +35,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         <!-- Register Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">Register</h1>
+                <h1 class="display-6">Register</h1>
                 <p class="lead">Create a new account below.</p>
             </div>
         </section>

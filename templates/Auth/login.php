@@ -34,7 +34,7 @@ $html = new HtmlHelper(new View());
         <!-- Contact Us Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">Welcome back</h1>
+                <h1 class="display-6">Welcome back</h1>
                 <p class="lead">Enter your details below to log in securely.</p>
             </div>
         </section>

@@ -41,7 +41,7 @@ $html = new HtmlHelper(new View());
         <!-- Heading Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">Users Table</h1>
+                <h1 class="display-6">Users Table</h1>
                 <p class="lead">Manage all users below.</p>
             </div>
         </section>

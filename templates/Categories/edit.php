@@ -29,7 +29,7 @@ $html = new HtmlHelper(new View());
         <!-- Heading Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">Edit Category</h1>
+                <h1 class="display-6">Edit Category</h1>
                 <p class="lead">Modify the details of the selected category below.</p>
             </div>
         </section>
@@ -39,7 +39,7 @@ $html = new HtmlHelper(new View());
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <div id="form-content" class="bg-light p-4 rounded">
+                        <div id="form-content">
                             <!-- Allow customized form validation styling -->
                             <?php $this->Form->setTemplates([
                                 'inputContainer' => '{{content}}']); ?>

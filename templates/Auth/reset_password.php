@@ -35,7 +35,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         <!-- Reset Password Section -->
         <section id="reset-password" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">Reset Password</h1>
+                <h1 class="display-6">Reset Password</h1>
                 <p class="lead">Enter your new password below.</p>
             </div>
         </section>
