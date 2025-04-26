@@ -99,6 +99,7 @@ $html = new HtmlHelper(new View());
             jQuery('.select2').select2({
                 placeholder: "Select products",
                 allowClear: true,
+                width: '100%'
             });
         });
     </script>

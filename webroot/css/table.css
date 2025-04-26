@@ -7,6 +7,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
     border-radius: 0.5rem; /* Rounded corners */
     overflow: hidden; /* Ensure rounded corners apply to the entire table */
+    border-collapse: collapse;
 }
 
 /* Table Header */
@@ -53,7 +54,8 @@
 .table-responsive {
     overflow-x: auto; /* Enable horizontal scrolling for small screens */
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile devices */
-    padding-bottom: 1rem; /* Add padding to the bottom */
+    width: 100%;
+    /* padding-bottom: 1rem; */
 }
 
 /* Paginator Styling */

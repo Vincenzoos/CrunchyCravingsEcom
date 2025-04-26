@@ -65,8 +65,8 @@ $html = new HtmlHelper(new \Cake\View\View());
             </div>
 
             <!-- Sidebar -->
-            <div class="d-flex" id="shop-container">
-                <div id="filter-sidebar" class="hidden">
+            <div class="d-flex" id="filter-container">
+                <div id="filter-sidebar" class="closed">  <!-- class="hidden"> -->
                     <h5>Filters</h5>
                     <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
 
@@ -129,10 +129,11 @@ $html = new HtmlHelper(new \Cake\View\View());
                 </div>
 
                 <!-- Main Content -->
-                <div id="filter-content" class="flex-grow-1">    
+                <!--  class="flex-grow-1" -->
+                <div id="filter-content">    
                     <?= $this->Flash->render() ?>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover shadow mb-4">
+                            <table class="table table-bordered table-hover">
                                 <thead class="thead-dark">
                                 <tr>
                                     <th><?= $this->Paginator->sort('first_name', __('First Name')) ?></th>
@@ -221,33 +222,51 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Filter sidebar toggle script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const toggleFiltersButton = document.getElementById('filters-button');
-            const filterSidebar = document.getElementById('filter-sidebar');
+        const toggleFiltersButton = document.getElementById('filters-button');
+        const filterSidebar = document.getElementById('filter-sidebar');
+        const filterForm = filterSidebar.querySelector('form');
+        const body = document.body;
 
-            // Check if there are any query parameters in the URL
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.toString()) {
-                // Open the sidebar if there are filters in the URL
+        // Function to check if the mode is mobile
+        function isMobile() {
+            return window.matchMedia('(max-width: 768px)').matches;
+        }
+
+        // Check if there are any query parameters in the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.toString() && !isMobile()) {
+            // Open the sidebar if there are filters in the URL and it's not mobile
+            filterSidebar.classList.add('open');
+            filterSidebar.classList.remove('closed');
+            body.classList.add('sidebar-open');
+            toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
+        }
+
+        // Toggle the sidebar when the button is clicked
+        toggleFiltersButton.addEventListener('click', function () {
+            if (!filterSidebar.classList.contains('open')) {
+                // Show the sidebar
                 filterSidebar.classList.add('open');
-                filterSidebar.classList.remove('hidden');
+                filterSidebar.classList.remove('closed');
+                body.classList.add('sidebar-open');
                 toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
+            } else {
+                // Hide the sidebar
+                filterSidebar.classList.remove('open');
+                filterSidebar.classList.add('closed');
+                body.classList.remove('sidebar-open');
+                toggleFiltersButton.innerHTML = 'Show Filters <i class="fa fa-sliders"></i>';
             }
-
-            // Toggle the sidebar when the button is clicked
-            toggleFiltersButton.addEventListener('click', function () {
-                if (!filterSidebar.classList.contains('open')) {
-                    // Show the sidebar
-                    filterSidebar.classList.add('open');
-                    filterSidebar.classList.remove('hidden');
-                    toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
-                } else {
-                    // Hide the sidebar
-                    filterSidebar.classList.remove('open');
-                    filterSidebar.classList.add('hidden');
-                    toggleFiltersButton.innerHTML = 'Show Filters <i class="fa fa-sliders"></i>';
-                }
-            });
         });
+
+        // Hide the sidebar when the filter form is submitted
+        filterForm.addEventListener('submit', function () {
+            filterSidebar.classList.remove('open');
+            filterSidebar.classList.add('closed');
+            body.classList.remove('sidebar-open');
+            toggleFiltersButton.innerHTML = 'Show Filters <i class="fa fa-sliders"></i>';
+        });
+    });
     </script>
 </body>
 

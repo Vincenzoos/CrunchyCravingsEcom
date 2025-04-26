@@ -1,4 +1,6 @@
-/* Dropdown Menu for Sorting -------------------------------- */
+/* Sort styling ------------------------------------------ */
+
+/* Sort dropdown */
 .sort-dropdown {
     background-color: #fff;
     border: 1px solid #ddd;
@@ -28,18 +30,6 @@
 
 .sort-dropdown.open .sort-options {
     display: block;
-}
-
-#filters-button {
-    margin-left: 1rem;
-    border: 1px solid #333;
-    color: var(--text-color); /* Match text color */
-    font-family: var(--main-font); /* Use main font */
-}
-
-#filters-button:hover {
-    background-color: var(--sidebar-hover-color);
-    color: var(--text-color);
 }
 
 /* Sort button */
@@ -79,36 +69,113 @@
 
 /* Filter sidebar and products ------------------------------- */
 
-#filter-sidebar {
-    color: var(--text-color);
-    font-family: var(--main-font);
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ddd;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-    margin-right: 0.8rem; 
-    top: 0;
-    left: 0;
-    width: 20%; /* Sidebar width */
-    height: 100%; /* Full height */
-    background-color: #fff; /* Sidebar background */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Optional shadow */
-    z-index: 1000; /* Ensure it appears above other elements */
+#filters-button {
+    margin-left: 1rem;
+    border: 1px solid #333;
+    color: var(--text-color); /* Match text color */
+    font-family: var(--main-font); /* Use main font */
 }
 
-#filter-sidebar.hidden {
-    display: none; /* Completely remove it from the layout */
-    transform: none; /* Reset transform to avoid conflicts */
+#filters-button:hover {
+    background-color: var(--sidebar-hover-color);
+    color: var(--text-color);
+}
+
+#filter-container {
+    color: var(--text-color);
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+    padding-bottom: 1rem;
+    overflow-x:auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile devices */
+    
+    flex-wrap: nowrap; /* Prevent wrapping */
+    width: 100%; /* Full width */
+    transition: all 0.3s ease; /* Smooth transition for resizing */
+}
+
+/* Default filter sidebar styles */
+#filter-sidebar {
+    color: var(--text-color);
+    background-color: #fff; /* Sidebar background */
+    font-family: var(--main-font);
+    border: 1px solid #ddd;
+    
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-right: 0.8rem; 
+
+    /* flex: 0 0 250px; */
+    transition: all 0.3s ease; /* Smooth transition for sliding effect */
+    z-index: 1000; /* Ensure it appears above other elements */
+    
+    /* Initially hidden off-screen */
+    transform: translateX(-100%);
+    opacity: 0;
+    position: absolute;
+}
+
+#filter-sidebar.open {
+    transform: translateX(0); /* Slide in when open */
+    opacity: 1;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    flex-basis: 250px; /* Set the width when open */
+    position: relative;
+}
+
+#filter-sidebar.closed ~ #filter-content {
+    padding-left: 0; /* Remove padding when hidden */
 }
 
 #filter-content {
-    /* Manually apply styles from shop-box */
+    background-color: transparent !important;
+    
+    flex: 1;
     padding: 0rem;
     padding-left: 0.5rem;
     border-radius: 0.5rem;
     /* border: 1px solid #ddd; */
     /* box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
     background: linear-gradient(145deg, #ffffff, #f3f0f0); */
-    background-color: transparent !important;
-    flex: 1; /* Automatically take up the remaining space */
+
+    transition: margin-left 0.3s ease, width 0.3s ease; /* Smooth transition for resizing */
+    margin-left: 0; /* Default margin when the sidebar is closed */
+}
+
+
+
+/* Mobile specific Full-screen popup mode */
+@media (max-width: 768px) {
+    #filter-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        z-index: 1050; /* Ensure it appears above other elements */
+        transform: translateY(100%); /* Initially hidden off-screen */
+        overflow-y: auto; /* Allow scrolling for long content */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease; /* Smooth transition for sliding effect */
+    }
+
+    #filter-sidebar.open {
+        position: fixed;
+        transform: translateY(0); /* Slide in when open */
+    }
+
+    /* When the sidebar is open, center the "Hide Filters" button */
+    body.sidebar-open #filters-button {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        z-index: 1100; /* Ensure it appears above the sidebar */
+    }
+
+    /* Remove vertical scrolling when the filter sidebar is open */
+    body.no-scroll {
+        overflow: hidden; /* Disable scrolling */
+    }
+    
 }
