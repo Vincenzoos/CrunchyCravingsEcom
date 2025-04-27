@@ -108,9 +108,7 @@ class ContactsController extends AppController
         $contact = $this->Contacts->newEmptyEntity();
         if ($this->request->is('post')) {
             $contact = $this->Contacts->patchEntity($contact, $this->request->getData());
-            if (empty($contact->date_sent)) {
-                $contact->date_sent = date('d-m-Y');
-            }
+
             if ($this->Contacts->save($contact)) {
                 $this->Flash->success(__('The contact has been saved.'));
 
