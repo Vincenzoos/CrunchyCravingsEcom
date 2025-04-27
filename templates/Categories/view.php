@@ -37,7 +37,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         <!-- Category Details Section -->
         <section id="form-section" class="">
             <div class="container">
-                <div class="flex-container justify-content-center text-center">
+                <div class="row justify-content-center text-center">
                     <!-- Left column -->
                     <div id="form-content" class="col-md-6" style="height: 100%;">
                         <h3 class="text-center">Name</h3>
@@ -123,5 +123,5 @@ $html = new HtmlHelper(new \Cake\View\View());
     </div>
 
     <!-- Bootstrap JS -->
-    
+
 </body>
