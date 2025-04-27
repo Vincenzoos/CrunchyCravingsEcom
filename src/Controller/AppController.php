@@ -61,9 +61,9 @@ class AppController extends Controller
          */
 //        disable form protection to prevent Missing field "field_name" in POST data
             // since error handling implemented in server-side and client-side
-//        $this->loadComponent('FormProtection', [
-//            'unlockedFields' => [],
-//        ]);
+        $this->loadComponent('FormProtection', [
+            'unlockedFields' => [],
+        ]);
         #TODO: Add field validation, sanitization, restriction for all website forms
     }
 

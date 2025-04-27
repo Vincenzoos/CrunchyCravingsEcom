@@ -215,6 +215,7 @@ $html = new HtmlHelper(new View());
                                                         'data-stock' => $product->quantity,
                                                         'data-cart' => $cartQuantity,
                                                     ]) ?>
+                                                    <?= $this->Form->hidden('quantity', ['value' => $this->request->getData('quantity')?:1]) ?>
                                                 </td>
                                             </tr>
                                             <tr class="order-total">
