@@ -112,8 +112,8 @@ class AuthController extends AppController
                     // email basic config
                     $mailer
                         ->setEmailFormat('both')
-                        ->setTo($recipient)
                         // Override received email to cpanel email for testing
+                        ->setTo($recipient)
 //                        ->setTo($override_email)
                         ->setSubject('Reset your account password');
 

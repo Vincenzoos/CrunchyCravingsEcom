@@ -689,8 +689,8 @@ class CartItemsController extends AppController
             $mailer = new Mailer('default');
             $mailer
                 ->setEmailFormat('both') // sends both html and text versions
-                ->setTo($recipient)
                 // Override received email to cpanel email for testing
+                ->setTo($recipient)
 //                ->setTo($override_email)
                 ->setSubject('Your Order Confirmation')
                 ->viewBuilder()
@@ -779,8 +779,8 @@ class CartItemsController extends AppController
             $mailer = new Mailer('default');
             $mailer
                 ->setEmailFormat('both')
-                ->setTo($recipient)
                 // Override received email to cpanel email for testing
+                ->setTo($recipient)
 //                ->setTo($override_email)
                 ->setSubject('Your Order Confirmation')
                 ->viewBuilder()
