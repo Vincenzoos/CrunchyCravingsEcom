@@ -37,7 +37,7 @@ class UsersController extends AppController
         }
 
         // Apply the order to the query
-        $query->order($order);
+        $query->orderBy($order);
 
         // Apply email filter
         $email = $this->request->getQuery('email');

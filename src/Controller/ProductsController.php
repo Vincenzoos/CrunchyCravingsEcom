@@ -29,7 +29,7 @@ class ProductsController extends AppController
 
         // Fetch products
         $query = $this->Products->find();
-        
+
         // Retrieve sorting parameter
         $sort = $this->request->getQuery('sort');
 
@@ -48,8 +48,8 @@ class ProductsController extends AppController
         }
 
         // Apply the order to the query
-        $query->order($order);
-        
+        $query->orderBy($order);
+
 
         // get input from filter forms for filter functionalities
         $product_name = $this->request->getQuery('product_name');
