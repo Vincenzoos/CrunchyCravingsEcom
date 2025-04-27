@@ -558,8 +558,7 @@ class CartItemsController extends AppController
         // Get the ID of current user
         $identity = $this->Authentication->getIdentity();
         $userId = $identity ? $identity->get('id') : null;
-
-        $selected_quantity = $this->request->getData('quantity') + 1 ?? 1;
+        $selected_quantity = $this->request->getData('quantity') ?? 0;
 
         // Check if the user is logged in
         if ($userId) {
@@ -584,12 +583,6 @@ class CartItemsController extends AppController
                 // Update the quantity and recalculate the line price
                 $existingItem->quantity += $selected_quantity;
 
-                // Check stock availability
-                if ($existingItem->quantity > $product->quantity) {
-                    $this->Flash->error(__('"' . $product->name . '" does not have enough stock. Please try with a smaller quantity.'));
-
-                    return $this->redirect($this->referer());
-                }
                 if ($this->CartItems->save($existingItem)) {
                     // Update the net stock amount of product when user successfully add to cart
                     $product->quantity -= $selected_quantity;

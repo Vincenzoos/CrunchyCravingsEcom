@@ -208,7 +208,7 @@ $html = new HtmlHelper(new View());
                                             <tr class="cart-subtotal">
                                                 <th>Product Quantity</th>
                                                 <td>
-                                                    <?= $this->Form->select('quantity', range(1, 10), [
+                                                    <?= $this->Form->select('quantity', array_combine(range(1, 10), range(1, 10)), [
                                                         'class' => 'minimal',
                                                         'id' => 'quantity',
                                                         'value' => $this->request->getData('quantity'),
@@ -217,20 +217,6 @@ $html = new HtmlHelper(new View());
                                                     ]) ?>
                                                 </td>
                                             </tr>
-                                            <script>
-                                                document.addEventListener('DOMContentLoaded', () => {
-                                                    const quantityDropdown = document.getElementById('quantity');
-                                                    const stockCount = parseInt(quantityDropdown.dataset.stock, 10);
-                                                    const cartQuantity = parseInt(quantityDropdown.dataset.cart, 10);
-
-                                                    Array.from(quantityDropdown.options).forEach(option => {
-                                                        const optionValue = parseInt(option.value, 10);
-                                                        if (optionValue > stockCount + cartQuantity) {
-                                                            option.style.color = 'red';
-                                                        }
-                                                    });
-                                                });
-                                            </script>
                                             <tr class="order-total">
                                                 <th>Total Price</th>
                                                 <td><strong><span id="total-amount" class="total-amount"><?= $this->Number->currency($product->price, 'AUD') ?></span></strong></td>
@@ -309,7 +295,7 @@ $html = new HtmlHelper(new View());
             // Add an event listener to the dropdown
             quantityDropdown.addEventListener('change', () => {
                 const selectedQuantity = parseInt(quantityDropdown.value, 10); // Get selected quantity
-                const totalPrice = (selectedQuantity+1) * productPrice; // Calculate total price
+                const totalPrice = (selectedQuantity) * productPrice; // Calculate total price
 
                 // Update the total price element
                 totalPriceElement.textContent = `A$ ${totalPrice.toFixed(2)}`; // Format as currency
@@ -322,20 +308,20 @@ $html = new HtmlHelper(new View());
         document.addEventListener('DOMContentLoaded', () => {
             const quantityDropdown = document.getElementById('quantity');
             const stockCount = parseInt(quantityDropdown.dataset.stock, 10); // Total stock for the product
-            const cartQuantity = parseInt(quantityDropdown.dataset.cart, 10); // Quantity already in the cart
+            // const cartQuantity = parseInt(quantityDropdown.dataset.cart, 10); // Quantity already in the cart
 
             // Iterate through each option in the dropdown
             Array.from(quantityDropdown.options).forEach(option => {
                 const optionValue = parseInt(option.value, 10); // Get the value of the option
 
-            // Check if the option exceeds the available stock (need to add one since dropdown value starts from 0 - 0-indexed)
-            if (optionValue+1 > stockCount - cartQuantity) {
-                option.style.color = "#e0e0e0";
-                option.disabled = true;
-            } else {
-                option.style.color = '';
-                option.disabled = false;
-            }
+                // Check if the quantity option exceeds the number of available stock
+                if (optionValue > stockCount) {
+                    option.style.color = "#e0e0e0";
+                    option.disabled = true;
+                } else {
+                    option.style.color = '';
+                    option.disabled = false;
+                }
             });
         });
     </script>
