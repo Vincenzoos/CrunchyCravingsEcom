@@ -59,9 +59,11 @@ class AppController extends Controller
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/5/en/controllers/components/form-protection.html
          */
-        $this->loadComponent('FormProtection', [
-            'unlockedFields' => [],
-        ]);
+//        disable form protection to prevent Missing field "field_name" in POST data
+            // since error handling implemented in server-side and client-side
+//        $this->loadComponent('FormProtection', [
+//            'unlockedFields' => [],
+//        ]);
         #TODO: Add field validation, sanitization, restriction for all website forms
     }
 
