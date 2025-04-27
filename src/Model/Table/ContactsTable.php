@@ -90,7 +90,7 @@ class ContactsTable extends Table
         $validator
             ->scalar('message')
             ->requirePresence('message', 'create')
-            ->maxLength('description', CONTACT_MESSAGE_MAX_LENGTH)
+            ->maxLength('message', CONTACT_MESSAGE_MAX_LENGTH)
             ->add('message', 'noHtmlTags', [
                 'rule' => function ($value, $context) {
                     // Validate by comparing the value with its stripped version.

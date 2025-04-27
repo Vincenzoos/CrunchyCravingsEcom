@@ -127,7 +127,7 @@ const CONTACT_FIRST_NAME_MAX_LENGTH = 50;
 const CONTACT_LAST_NAME_MAX_LENGTH = 50;
 const CONTACT_EMAIL_MAX_LENGTH = 255;
 const CONTACT_PHONE_MAX_LENGTH = 12;
-const CONTACT_MESSAGE_MAX_LENGTH = 255;
+const CONTACT_MESSAGE_MAX_LENGTH = 500;
 
 /*
  * Configure the mbstring extension to use the correct encoding.

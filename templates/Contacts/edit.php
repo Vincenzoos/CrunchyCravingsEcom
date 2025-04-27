@@ -37,7 +37,7 @@ $html = new HtmlHelper(new View());
         <section id="form-section" class="py-5">
             <div class="container">
                 <div id="form-content" class="row justify-content-center">
-                    
+
                     <!-- Left Column -->
                     <div class="col-md-6">
                         <?= $this->Form->create($contact, ['class' => 'form needs-validation', 'novalidate' => true]) ?>
@@ -98,12 +98,12 @@ $html = new HtmlHelper(new View());
                             <?= $this->Form->control('message', [
                                 'class' => 'form-control mx-auto',
                                 'id' => 'message',
-                                'label' => ['text' => '<h4 class="text-center" id="message-label">Message (<span id="character-count">0</span>/500)</h4>', 'escape' => false],
+                                'label' => ['text' => '<h4 class="text-center" id="message-label"><span style="color: red;">*</span>Message (<span id="character-count">0</span>/' . CONTACT_MESSAGE_MAX_LENGTH . ')</h4>', 'escape' => false],
                                 'placeholder' => 'Enter the message...',
                                 'type' => 'textarea',
                                 'rows' => 6,
-                                'maxlength' => 500,
-                                'onkeyup' => 'limitInputLength(this, "character-count", 500)',
+                                'maxlength' => CONTACT_MESSAGE_MAX_LENGTH,
+                                'onkeyup' => 'limitInputLength(this, "character-count",  ' . CONTACT_MESSAGE_MAX_LENGTH . ')',
                                 'oninput' => 'removeScriptTags(this)',
                                 'required' => true,
                             ]) ?>
@@ -143,6 +143,13 @@ $html = new HtmlHelper(new View());
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- get the current number of character in message text area -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeCharacterCount('message', 'character-count');
+        });
+    </script>
 
     <!-- Custom JS -->
     <?= $this->Html->script('form-utils') ?>
