@@ -558,7 +558,7 @@ class CartItemsController extends AppController
         // Get the ID of current user
         $identity = $this->Authentication->getIdentity();
         $userId = $identity ? $identity->get('id') : null;
-        $selected_quantity = $this->request->getData('quantity') ?? 0;
+        $selected_quantity = $this->request->getData('quantity') ?? 1;
 
         // Check if the user is logged in
         if ($userId) {

@@ -214,8 +214,9 @@ $html = new HtmlHelper(new View());
                                                         'value' => $this->request->getData('quantity'),
                                                         'data-stock' => $product->quantity,
                                                         'data-cart' => $cartQuantity,
+                                                        'empty' => false,
                                                     ]) ?>
-                                                    <?= $this->Form->hidden('quantity', ['value' => $this->request->getData('quantity')?:1]) ?>
+                                                    <?= $this->Form->hidden('quantity', ['value' => $this->request->getData('quantity')??1]) ?>
                                                 </td>
                                             </tr>
                                             <tr class="order-total">
@@ -311,6 +312,8 @@ $html = new HtmlHelper(new View());
             const stockCount = parseInt(quantityDropdown.dataset.stock, 10); // Total stock for the product
             // const cartQuantity = parseInt(quantityDropdown.dataset.cart, 10); // Quantity already in the cart
 
+            const hiddenQuantity = document.querySelector('input[type="hidden"][name="quantity"]');
+
             // Iterate through each option in the dropdown
             Array.from(quantityDropdown.options).forEach(option => {
                 const optionValue = parseInt(option.value, 10); // Get the value of the option
@@ -324,6 +327,11 @@ $html = new HtmlHelper(new View());
                     option.disabled = false;
                 }
             });
+
+            quantityDropdown.addEventListener('change', () => {
+                hiddenQuantity.value = quantityDropdown.value || 1;
+            });
+
         });
     </script>
 
