@@ -49,13 +49,13 @@ class ContactsController extends AppController
     {
         // Default query
         $query = $this->Contacts->find();
-    
+
         // Retrieve sorting parameter
         $sort = $this->request->getQuery('sort');
-    
+
         // Default sorting: Date Sent (Descending)
         $order = ['Contacts.date_sent' => 'DESC'];
-    
+
         // Apply sorting based on the 'sort' parameter
         if ($sort === 'first_name_asc') {
             $order = ['Contacts.first_name' => 'ASC'];
@@ -70,16 +70,16 @@ class ContactsController extends AppController
         } elseif ($sort === 'sent_desc') {
             $order = ['Contacts.date_sent' => 'DESC'];
         }
-    
+
         // Apply the order to the query
-        $query->order($order);
-    
+        $query->orderBy($order);
+
         // Apply filters (if any)
         $first_name = $this->request->getQuery('first_name');
         $last_name = $this->request->getQuery('last_name');
         $date_sent = $this->request->getQuery('date_sent');
         $replyStatus = $this->request->getQuery('reply_status');
-    
+
         if (!empty($first_name)) {
             $query->where(['Contacts.first_name LIKE' => '%' . $first_name . '%']);
         }
@@ -92,7 +92,7 @@ class ContactsController extends AppController
         if ($replyStatus !== null && $replyStatus !== '') {
             $query->where(['Contacts.replied' => $replyStatus]);
         }
-    
+
         $contacts = $this->paginate($query);
         $this->set(compact('contacts'));
     }
