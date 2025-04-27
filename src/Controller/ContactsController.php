@@ -54,7 +54,7 @@ class ContactsController extends AppController
         $sort = $this->request->getQuery('sort');
 
         // Default sorting: Date Sent (Descending)
-        $order = ['Contacts.date_sent' => 'DESC'];
+        $order = ['Contacts.date_sent' => 'DESC', 'Contacts.id' => 'DESC'];
 
         // Apply sorting based on the 'sort' parameter
         if ($sort === 'first_name_asc') {
