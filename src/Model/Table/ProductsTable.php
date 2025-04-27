@@ -74,10 +74,7 @@ class ProductsTable extends Table
             ->maxLength('name', PRODUCT_NAME_MAX_LENGTH)
             ->requirePresence('name', 'create')
             ->notEmptyString('name')
-            ->add('name', 'validFormat', [
-                'rule' => ['custom', '/^[a-zA-Z\s]+$/'],
-                'message' => 'Please use only letters and spaces for your product name.',
-            ]);
+            ->regex('name', '/^[a-zA-Z\s-]+$/', 'Please use only letters, spaces, and hyphens.');
 
         $validator
             ->scalar('description')

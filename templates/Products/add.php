@@ -53,9 +53,9 @@ use Cake\View\View;
                                             'class' => 'form-control mx-auto',
                                             'label' => ['text' => '<h4><span style="color: red;">*</span>Product Name</h4>', 'escape' => false],
                                             'placeholder' => 'Enter the product name...',
-                                            'pattern' => '^[a-zA-Z\s]+$',
+                                            'pattern' => '^[a-zA-Z\s-]+$',
                                             'maxlength' => PRODUCT_NAME_MAX_LENGTH,
-                                            'title' => 'Please use only letters and spaces for your product name',
+                                            'title' => 'Please use only letters, spaces , and hyphens for your product name',
                                             'required' => true,
                                         ]) ?>
                                         <div class="invalid-feedback">Please use only letters and spaces for your product name</div>
@@ -157,7 +157,7 @@ use Cake\View\View;
     </div>
 
     <!-- Bootstrap JS -->
-    
+
 
     <!-- Select2 Initialization -->
     <script>

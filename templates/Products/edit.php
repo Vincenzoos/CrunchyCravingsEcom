@@ -50,9 +50,9 @@ $html = new HtmlHelper(new View());
                                 'class' => 'form-control mx-auto',
                                 'label' => ['text' => '<h4><span style="color: red;">*</span>Product Name</h4>', 'escape' => false],
                                 'placeholder' => 'Enter the product name...',
-                                'pattern' => '^[a-zA-Z\s]+$',
+                                'pattern' => '^[a-zA-Z\s-]+$',
                                 'maxlength' => PRODUCT_NAME_MAX_LENGTH,
-                                'title' => 'Please use only letters and spaces for your product name',
+                                'title' => 'Please use only letters, spaces , and hyphens for your product name',
                                 'required' => true,
                             ]) ?>
                             <div class="invalid-feedback">Please use only letters and spaces for your product name</div>
@@ -151,7 +151,7 @@ $html = new HtmlHelper(new View());
     </div>
 
     <!-- Bootstrap JS -->
-    
+
 
     <!-- Select2 Initialization -->
     <script>
@@ -160,6 +160,20 @@ $html = new HtmlHelper(new View());
                 placeholder: "Select categories",
                 allowClear: true,
             });
+        });
+    </script>
+
+    <!-- get the current number of character in description text area -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeCharacterCount('description', 'desc-character-count');
+        });
+    </script>
+
+    <!-- get the current number of character in ingredients text area -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeCharacterCount('ingredients', 'ingr-character-count');
         });
     </script>
 
