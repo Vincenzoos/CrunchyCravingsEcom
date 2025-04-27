@@ -70,6 +70,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <div class="mb-3">
                             <?= $this->Form->control('email', [
                                 'label' => 'Email',
+                                'type' => 'text',
                                 'placeholder' => 'Email contains...',
                                 'value' => $this->request->getQuery('email'),
                                 'class' => 'form-control',
