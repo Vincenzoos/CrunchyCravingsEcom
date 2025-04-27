@@ -19,6 +19,26 @@ class UsersController extends AppController
     {
         $query = $this->Users->find();
 
+        // Retrieve sorting parameter
+        $sort = $this->request->getQuery('sort');
+
+        // Default sorting: Created (Ascending)
+        $order = ['Users.created' => 'ASC'];
+
+        // Apply sorting based on the 'sort' parameter
+        if ($sort === 'email_asc') {
+            $order = ['Users.email' => 'ASC'];
+        } elseif ($sort === 'email_desc') {
+            $order = ['Users.email' => 'DESC'];
+        } elseif ($sort === 'created_asc') {
+            $order = ['Users.created' => 'ASC'];
+        } elseif ($sort === 'created_desc') {
+            $order = ['Users.created' => 'DESC'];
+        }
+
+        // Apply the order to the query
+        $query->order($order);
+
         // Apply email filter
         $email = $this->request->getQuery('email');
         if (!empty($email)) {

@@ -29,6 +29,27 @@ class ProductsController extends AppController
 
         // Fetch products
         $query = $this->Products->find();
+        
+        // Retrieve sorting parameter
+        $sort = $this->request->getQuery('sort');
+
+        // Default sorting: Name (Ascending)
+        $order = ['Products.name' => 'ASC'];
+
+        // Apply sorting based on the 'sort' parameter
+        if ($sort === 'name_asc') {
+            $order = ['Products.name' => 'ASC'];
+        } elseif ($sort === 'name_desc') {
+            $order = ['Products.name' => 'DESC'];
+        } elseif ($sort === 'price_asc') {
+            $order = ['Products.price' => 'ASC'];
+        } elseif ($sort === 'price_desc') {
+            $order = ['Products.price' => 'DESC'];
+        }
+
+        // Apply the order to the query
+        $query->order($order);
+        
 
         // get input from filter forms for filter functionalities
         $product_name = $this->request->getQuery('product_name');

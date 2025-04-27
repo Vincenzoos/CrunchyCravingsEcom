@@ -31,7 +31,6 @@ $html = new HtmlHelper(new View());
 
 <data-offset="200" data-spy="scroll" data-target=".primary-navigation">
     <!-- Page Breadcrumb -->
-    <!-- container -->
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
@@ -39,8 +38,7 @@ $html = new HtmlHelper(new View());
                 <li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
             </ol>
         </div>
-    </div><!-- container /- -->
-    <!-- Page Breadcrumb /- -->
+    </div>
 
 
     <!-- shop container -->
@@ -62,14 +60,14 @@ $html = new HtmlHelper(new View());
                 <tbody>
                     <?php foreach ($cartItems as $cartItem) : ?>
                         <tr>
-                            <td data-title="Product" class="product-thumbnail">
-                                <a style="color: #6E6E6E" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerView', $cartItem->product->id]) ?>">
-                                    <h5><?= h($cartItem->product->name) ?></h5>
+                            <td data-title="Product" class="product-thumbnail text-center">
+                                <a style="color: #6E6E6E; display: block;" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerView', $cartItem->product->id]) ?>">
+                                    <?= $this->Html->image($cartItem->product->image_cache_busted_url, [
+                                        'alt' => $cartItem->product->name,
+                                        'class' => 'img-fluid rounded',
+                                        'style' => 'height: 70px; object-fit: cover; width: 70px; display: block; margin: 0 auto;']) ?>
+                                    <h5 style="font-size: 0.9rem; margin-top: 0.5rem;"><?= h($cartItem->product->name) ?></h5>
                                 </a>
-                                <?= $this->Html->image($cartItem->product->image_cache_busted_url, [
-                                    'alt' => $cartItem->product->name,
-                                    'class' => 'img-fluid rounded-top',
-                                    'style' => 'height: 100%; object-fit: cover; width: 80%;']) ?>
                             </td>
                             <td data-title="Description" class="product-description">
                                 <?= h($cartItem->product->description) ?>

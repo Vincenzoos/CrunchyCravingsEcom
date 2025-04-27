@@ -32,7 +32,6 @@ $html = new HtmlHelper(new View());
 
 <body>
     <!-- Page Breadcrumb -->
-    <!-- container -->
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
@@ -46,8 +45,8 @@ $html = new HtmlHelper(new View());
 
             </ol>
         </div>
-    </div><!-- container /- -->
-    <!-- Page Breadcrumb /- -->
+    </div>
+
 
     <!-- Page -->
     <div id="shop-container" class="single-product">
@@ -59,12 +58,27 @@ $html = new HtmlHelper(new View());
                         <div class="page-header" style="padding: 20px;">
                             <h3><?= h($product->name) ?></h3>
                         </div>
+                        <!-- Admin manage this product buttons -->
+                        <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin') : ?>
+                            <div class="text-center mb-3">
+                                <a href="<?= $this->Url->build(['action' => 'view', $product->id]) ?>" class="btn btn-info me-2">View</a>
+                                <a href="<?= $this->Url->build(['action' => 'edit', $product->id]) ?>" class="btn btn-warning me-2">Edit</a>
+                                <?= $this->Form->postLink(
+                                    'Delete',
+                                    ['action' => 'delete', $product->id],
+                                    [
+                                        'class' => 'btn btn-danger',
+                                        'confirm' => __('Are you sure you want to delete {0}?', $product->name),
+                                    ]
+                                ) ?>
+                            </div>
+                        <?php endif; ?>
                         <div class="row" style="display: flex; justify-content: center; align-items: center;">
-                            <div id="about-slider" class="col-12 col-md-12 col-lg-9 flexslider product-slider">
+                            <div id="about-slider" class="col-12 col-md-12 col-lg-9 flexslider product-slider" style="border: 0;">
                                 <ul class="slides">
                                     <?= $this->Html->image($product->image_cache_busted_url, [
                                         'alt' => $product->name,
-                                        'class' => 'img-fluid rounded-top',
+                                        'class' => 'img-fluid ',
                                         'style' => 'height: fit-content; object-fit: cover; width: fit-content;']) ?>
                                 </ul>
                             </div>
@@ -79,16 +93,16 @@ $html = new HtmlHelper(new View());
                         <div class="row">
                             <?php foreach ($similarProducts as $similarProduct) : ?>
                                 <div class="col-lg-6 col-md-6 col-sm-6 main-product">
-                                    <div class="category-box product-box">
+                                    <div class="category-box product-box" style="border: 0;">
                                         <?php if ($similarProduct->on_sale) : ?>
                                             <span class="sale">sales</span>
                                         <?php endif; ?>
-                                        <div class="inner-product">
+                                        <div class="inner-product" >
                                             <!-- Link the product image to the view page -->
                                             <a href="<?= $this->Url->build(['action' => 'customerView', $similarProduct->id]) ?>">
                                                 <?= $this->Html->image($similarProduct->image_cache_busted_url, [
                                                     'alt' => $similarProduct->name,
-                                                    'class' => 'img-fluid rounded-top'
+                                                    'class' => 'img-fluid'
                                                 ]) ?>
                                             </a>
                                             <div class="product-box-inner">

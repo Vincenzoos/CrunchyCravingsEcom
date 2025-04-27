@@ -42,16 +42,26 @@ $html = new HtmlHelper(new View());
     </div><!-- container /- -->
     <!-- Page Breadcrumb /- -->
 
+    
     <!-- Heading section -->
     <section id="heading" class="text-center py-5">
         <div class="container">
-            <h3 class="display-4">Contact Us</h3>
+            <h3 class="display-6">Contact Us</h3>
             <p class="lead">We'd love to hear from you! Fill out the form below to get in touch with us.</p>
         </div>
     </section>
+    
+    <!-- Admin Manage Enquiries button -->
+    <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin'): ?>
+        <div class="text-center my-3">
+            <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index']) ?>" class="btn btn-danger">
+                Manage Enquiries
+            </a>
+        </div>
+    <?php endif; ?>
 
     <!-- Page Container -->
-    <div class="page-container mx-auto my-5">
+    <div class="page-container">
 
         <!-- Contact Form Section -->
         <section id="form-section" class="py-5">
@@ -150,7 +160,7 @@ $html = new HtmlHelper(new View());
     </script>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <!-- Custom JS -->
     <?= $this->Html->script('form-utils') ?>
     <?= $this->Html->script('form-validation') ?>

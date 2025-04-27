@@ -32,7 +32,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 <head>
     <!-- Custom CSS -->
-    <?= $this->Html->css(['utilities','shop','products']) ?>
+    <?= $this->Html->css(['utilities','shop','products','filter']) ?>
 
     <!-- jQuery -->
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -57,12 +57,21 @@ $html = new HtmlHelper(new \Cake\View\View());
         </div>
     </div>
 
+    <!-- Admin Manage products button -->
+    <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin') : ?>
+        <div class="text-center mb-3">
+            <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>" class="btn btn-danger">
+                Manage Products
+            </a>
+        </div>
+    <?php endif; ?>
+
     <!-- Shop container -->
     <div class="container" id="shop-container">
         <!-- Top Bar -->
         <div class="row align-items-center mb-3">
             <div class="col">
-                <h4 class="mb-0">Products</h4>
+                <h4 class="mb-0">Products (<?= count($products) ?>)</h4>
             </div>
             <div class="col-auto d-flex align-items-center">
                 <!-- Show/Hide Filters Button -->
@@ -90,6 +99,22 @@ $html = new HtmlHelper(new \Cake\View\View());
             <!-- Sidebar for Filters -->
             <div id="filter-sidebar" class="hidden">
                 <?= $this->Form->create(null, ['type' => 'get', 'url' => ['action' => 'customerIndex']]) ?>
+
+                <!-- Product Name Field -->
+                <div class="mb-4">
+                    <button class="btn w-100 mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#name-collapse" aria-expanded="true" aria-controls="name-collapse">
+                        Name <i class="fa fa-chevron-down float-end"></i>
+                    </button>
+                    <div class="show" id="name-collapse">
+                        <?= $this->Form->control('product_name', [
+                            'label' => false,
+                            // 'label' => 'Product Name',
+                            'placeholder' => 'Name contains...',
+                            'value' => $this->request->getQuery('product_name'),
+                            'class' => 'form-control',
+                        ]) ?>
+                    </div>
+                </div>
 
                 <!-- Price Range Section -->
                 <div class="mb-4">
@@ -178,12 +203,12 @@ $html = new HtmlHelper(new \Cake\View\View());
             <!-- Sidebar for Filters /- -->
 
             <!-- Feature Products -->
-            <div id="featured-products" class="featured-products">
+            <div id="filter-content" class="filter-content">
                 <div class="category-box-main product-box-main">
                     <div class="row">
                         <?php foreach ($products as $product) : ?>
                             <div class="col-lg-4 col-md-6 col-sm-12 main-product">
-                                <div class="category-box product-box">
+                                <div class="category-box product-box" style="border: 0;">
                                     <?php if ($product->on_sale) : ?>
                                         <span class="sale">sales</span>
                                     <?php endif; ?>
@@ -191,7 +216,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                         <!-- Link the product image to the view page -->
                                         <?= $this->Html->image($product->image_cache_busted_url, [
                                             'alt' => $product->name,
-                                            'class' => 'img-fluid rounded-top',
+                                            'class' => 'img-fluid',
                                         ]) ?>
                                         <div class="product-box-inner">
                                             <ul>
@@ -260,7 +285,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         });
     </script>
 
-    <!-- Filter sidebar toggle script and resuze featured products -->
+    <!-- Filter sidebar toggle script and resize featured products -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const toggleFiltersButton = document.getElementById('filters-button');

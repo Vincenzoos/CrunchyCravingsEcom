@@ -31,7 +31,6 @@ $html = new HtmlHelper(new \Cake\View\View());
 
 <body data-offset="200" data-spy="scroll" data-target=".primary-navigation">
     <!-- Page Breadcrumb -->
-    <!-- container -->
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
@@ -39,8 +38,16 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <li><a title="Categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'customerIndex']) ?>">Categories</a></li>
             </ol>
         </div>
-    </div><!-- container /- -->
-    <!-- Page Breadcrumb /- -->
+    </div>
+
+    <!-- Admin Manage Categories button -->
+    <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin') : ?>
+        <div class="text-center mb-3">
+            <a href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index']) ?>" class="btn btn-danger">
+                Manage Categories
+            </a>
+        </div>
+    <?php endif; ?>
 
     <div id="shop-container" class="container my-5">
         <div class="row">
@@ -52,14 +59,14 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <?php if (!empty($category->products) && !empty($category->products[0]->image)): ?>
                                 <?= $this->Html->image($category->products[0]->image_cache_busted_url, [
                                     'alt' => $category->name,
-                                    'class' => 'img-fluid rounded-top',
-                                    'style' => 'height: 200px; object-fit: cover; width: 100%;'
+                                    'class' => 'img-fluid rounded',
+                                    'style' => 'height: 100%; object-fit: cover; width: 100%;'
                                 ]) ?>
                             <?php else: ?>
                                 <?= $this->Html->image('default-category.jpg', [
                                     'alt' => $category->name,
-                                    'class' => 'img-fluid rounded-top',
-                                    'style' => 'height: 200px; object-fit: cover; width: 100%;'
+                                    'class' => 'img-fluid rounded',
+                                    'style' => 'height: 100%; object-fit: cover; width: 100%;'
                                 ]) ?>
                             <?php endif; ?>
                         </div>

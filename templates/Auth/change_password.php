@@ -41,7 +41,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Change Password Section -->
     <section id="heading" class="text-center py-5">
         <div class="container">
-            <h1 class="display-4">Change Password</h1>
+            <h1 class="display-6">Change Password</h1>
             <p class="lead">Update your password below.</p>
         </div>
     </section>

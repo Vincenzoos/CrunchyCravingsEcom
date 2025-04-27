@@ -28,7 +28,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         <!-- Heading Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">Categories Table</h1>
+                <h1 class="display-6">Categories Table</h1>
                 <p class="lead">Manage all categories below.</p>
             </div>
         </section>
@@ -40,10 +40,11 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <div class="container-fluid" id="table-content">
                     <?= $this->Flash->render() ?>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover shadow mb-4" style="width: 20%;">
+                        <table class="table table-bordered table-hover">
                             <thead class="thead-dark">
                                 <tr>
                                     <th><?= $this->Paginator->sort('name', __('Name')) ?></th>
+                                    <th><?= $this->Paginator->sort('description', __('Description')) ?></th>
                                     <th class="text-center"><?= __('Actions') ?></th>
                                 </tr>
                             </thead>
@@ -51,6 +52,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 <?php foreach ($categories as $category): ?>
                                     <tr>
                                         <td><?= h($category->name) ?></td>
+                                        <td><?= h($category->description) ?></td>
                                         <td class="text-center">
                                             <?= $this->Html->link(__('View'), ['action' => 'view', $category->id], ['class' => 'btn btn-info btn-sm']) ?>
                                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $category->id], ['class' => 'btn btn-warning btn-sm']) ?>
@@ -92,5 +94,5 @@ $html = new HtmlHelper(new \Cake\View\View());
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
 </body>

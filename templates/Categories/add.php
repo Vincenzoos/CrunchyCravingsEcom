@@ -24,13 +24,12 @@ $html = new HtmlHelper(new View());
 </head>
 
 <body>
-
     <!-- Page Container -->
     <div class="page-container mx-auto my-5">
         <!-- Heading Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-4">Add Category</h1>
+                <h1 class="display-6">Add Category</h1>
                 <p class="lead">Fill out the form below to add a new category.</p>
             </div>
         </section>
@@ -40,7 +39,7 @@ $html = new HtmlHelper(new View());
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <div id="form-content" class="bg-light p-4 rounded">
+                        <div id="form-content">
                             <!-- Allow customized form validation styling -->
                             <?php $this->Form->setTemplates([
                                 'inputContainer' => '{{content}}']); ?>
@@ -63,8 +62,8 @@ $html = new HtmlHelper(new View());
                                     'class' => 'form-control mx-auto',
                                     'label' => ['text' => '<h4 class="text-center" id="description-label">Description (<span id="character-count">0</span>/' . CATEGORY_DESC_MAX_LENGTH . ')</h4>', 'escape' => false],
                                     'placeholder' => 'Enter a brief description...',
-                                    'type' => 'tel',
-                                    'rows' => 4,
+                                    'type' => 'textarea',
+                                    'rows' => 5,
                                     'onkeyup' => 'limitInputLength(this, "character-count", ' . CATEGORY_DESC_MAX_LENGTH . ')',
                                     'oninput' => 'removeScriptTags(this)',
                                     'maxlength' => CATEGORY_DESC_MAX_LENGTH,
@@ -94,12 +93,13 @@ $html = new HtmlHelper(new View());
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
         jQuery(document).ready(function() {
             jQuery('.select2').select2({
                 placeholder: "Select products",
                 allowClear: true,
+                width: '100%'
             });
         });
     </script>
