@@ -33,3 +33,9 @@
     display: table;
     clear: both;
 }
+
+#filter-container {
+    /* Revert to no scrolling (Overrides filter.css) */
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: auto !important;
+}

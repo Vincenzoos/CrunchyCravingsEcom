@@ -60,8 +60,8 @@ $html = new HtmlHelper(new \Cake\View\View());
             </div>
 
             <!-- Sidebar -->
-            <div class="d-flex" id="shop-container">
-                <div id="filter-sidebar" class="hidden">
+            <div class="d-flex" id="filter-container">
+                <div id="filter-sidebar" class="closed">
                     <h5>Filters</h5>
                     <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
 
@@ -100,7 +100,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 </div>
 
                 <!-- Main Content -->
-                <div id="filter-content" class="flex-grow-1">
+                <div id="filter-content">
                     <?= $this->Flash->render() ?>
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover shadow mb-4">
@@ -158,56 +158,25 @@ $html = new HtmlHelper(new \Cake\View\View());
         </div>
     </div>
 
-    <!-- Sort Toggle Script -->
+    <!-- Select2 Initialization -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const sortButton = document.getElementById('sort-button');
-            const sortOptions = document.getElementById('sort-options');
-
-            // Toggle the visibility of the dropdown menu
-            sortButton.addEventListener('click', function (event) {
-                event.stopPropagation(); // Prevent the click from propagating to the document
-                sortOptions.classList.toggle('show');
-            });
-
-            // Close the dropdown if clicked outside
-            document.addEventListener('click', function (event) {
-                if (!sortButton.contains(event.target) && !sortOptions.contains(event.target)) {
-                    sortOptions.classList.remove('show');
-                }
+        jQuery(document).ready(function() {
+            jQuery('.select2').select2({
+                placeholder: "Select categories",
+                allowClear: true
             });
         });
     </script>
 
-    <!-- Filter sidebar toggle script -->
+    <?= $this->Html->script('filter_utils.js') ?>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggleFiltersButton = document.getElementById('filters-button');
-            const filterSidebar = document.getElementById('filter-sidebar');
+        // Initialize the sort dropdown
+        initializeSortDropdown('sort-button', 'sort-options');
 
-            // Check if there are any query parameters in the URL
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.toString()) {
-                // Open the sidebar if there are filters in the URL
-                filterSidebar.classList.add('open');
-                filterSidebar.classList.remove('hidden');
-                toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
-            }
+        // Initialize the filter fields
+        const filterFields = ['email', 'role'];
 
-            // Toggle the sidebar when the button is clicked
-            toggleFiltersButton.addEventListener('click', function () {
-                if (!filterSidebar.classList.contains('open')) {
-                    // Show the sidebar
-                    filterSidebar.classList.add('open');
-                    filterSidebar.classList.remove('hidden');
-                    toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
-                } else {
-                    // Hide the sidebar
-                    filterSidebar.classList.remove('open');
-                    filterSidebar.classList.add('hidden');
-                    toggleFiltersButton.innerHTML = 'Show Filters <i class="fa fa-sliders"></i>';
-                }
-            });
-        });
+        // Initialize the filter sidebar
+        initializeFilterSidebar('filters-button', 'filter-sidebar', 'form', filterFields);
     </script>
 </body>

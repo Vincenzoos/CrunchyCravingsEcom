@@ -66,7 +66,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 
             <!-- Sidebar -->
             <div class="d-flex" id="filter-container">
-                <div id="filter-sidebar" class="closed">  <!-- class="hidden"> -->
+                <div id="filter-sidebar" class="closed">
                     <h5>Filters</h5>
                     <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
 
@@ -129,7 +129,6 @@ $html = new HtmlHelper(new \Cake\View\View());
                 </div>
 
                 <!-- Main Content -->
-                <!--  class="flex-grow-1" -->
                 <div id="filter-content">    
                     <?= $this->Flash->render() ?>
                         <div class="table-responsive">
@@ -198,76 +197,19 @@ $html = new HtmlHelper(new \Cake\View\View());
         </div>
     </div>
 
-    <!-- Sort Toggle Script -->
+    <?= $this->Html->script('filter_utils.js') ?>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const sortButton = document.getElementById('sort-button');
-            const sortOptions = document.getElementById('sort-options');
+        // Initialize the sort dropdown
+        initializeSortDropdown('sort-button', 'sort-options');
 
-            // Toggle the visibility of the dropdown menu
-            sortButton.addEventListener('click', function (event) {
-                event.stopPropagation(); // Prevent the click from propagating to the document
-                sortOptions.classList.toggle('show');
-            });
+        // Initialize the filter fields
+        const filterFields = ['first_name', 'last_name', 'date_sent', 'reply_status'];
 
-            // Close the dropdown if clicked outside
-            document.addEventListener('click', function (event) {
-                if (!sortButton.contains(event.target) && !sortOptions.contains(event.target)) {
-                    sortOptions.classList.remove('show');
-                }
-            });
-        });
+        // Initialize the filter sidebar
+        initializeFilterSidebar('filters-button', 'filter-sidebar', 'form', filterFields);
     </script>
 
-    <!-- Filter sidebar toggle script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-        const toggleFiltersButton = document.getElementById('filters-button');
-        const filterSidebar = document.getElementById('filter-sidebar');
-        const filterForm = filterSidebar.querySelector('form');
-        const body = document.body;
 
-        // Function to check if the mode is mobile
-        function isMobile() {
-            return window.matchMedia('(max-width: 768px)').matches;
-        }
-
-        // Check if there are any query parameters in the URL
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.toString() && !isMobile()) {
-            // Open the sidebar if there are filters in the URL and it's not mobile
-            filterSidebar.classList.add('open');
-            filterSidebar.classList.remove('closed');
-            body.classList.add('sidebar-open');
-            toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
-        }
-
-        // Toggle the sidebar when the button is clicked
-        toggleFiltersButton.addEventListener('click', function () {
-            if (!filterSidebar.classList.contains('open')) {
-                // Show the sidebar
-                filterSidebar.classList.add('open');
-                filterSidebar.classList.remove('closed');
-                body.classList.add('sidebar-open');
-                toggleFiltersButton.innerHTML = 'Hide Filters <i class="fa fa-sliders"></i>';
-            } else {
-                // Hide the sidebar
-                filterSidebar.classList.remove('open');
-                filterSidebar.classList.add('closed');
-                body.classList.remove('sidebar-open');
-                toggleFiltersButton.innerHTML = 'Show Filters <i class="fa fa-sliders"></i>';
-            }
-        });
-
-        // Hide the sidebar when the filter form is submitted
-        filterForm.addEventListener('submit', function () {
-            filterSidebar.classList.remove('open');
-            filterSidebar.classList.add('closed');
-            body.classList.remove('sidebar-open');
-            toggleFiltersButton.innerHTML = 'Show Filters <i class="fa fa-sliders"></i>';
-        });
-    });
-    </script>
 </body>
 
 </html>
