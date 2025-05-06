@@ -34,10 +34,10 @@ $html = new HtmlHelper(new \Cake\View\View());
         </section>
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div class="container" id="shop-container">
             <!-- Main Content -->
             <div id="content">
-                <div class="container-fluid" id="table-content">
+                <div class="container-fluid" id="table-content" style="max-width: 800px;">
                     <?= $this->Flash->render() ?>
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover">
@@ -52,7 +52,10 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 <?php foreach ($categories as $category): ?>
                                     <tr>
                                         <td><?= h($category->name) ?></td>
-                                        <td><?= h($category->description) ?></td>
+                                        <!-- Description Section -->
+                                        <td style="word-break: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%;">
+                                            <?= $this->Text->autoParagraph(h($category->description)); ?>
+                                        </td>
                                         <td class="text-center">
                                             <?= $this->Html->link(__('View'), ['action' => 'view', $category->id], ['class' => 'btn btn-info btn-sm']) ?>
                                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $category->id], ['class' => 'btn btn-warning btn-sm']) ?>
