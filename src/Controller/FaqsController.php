@@ -31,9 +31,33 @@ class FaqsController extends AppController
     public function index()
     {
         $query = $this->Faqs->find();
-        // $query = $this->Authorization->applyScope($query);
+    
+        // Apply filters based on query parameters
+        $filters = $this->request->getQuery();
+        if (!empty($filters['title'])) {
+            $query->where(['Faqs.title LIKE' => '%' . $filters['title'] . '%']);
+        }
+        if (!empty($filters['answer'])) {
+            $query->where(['Faqs.answer LIKE' => '%' . $filters['answer'] . '%']);
+        }
+    
+        // Apply sorting based on the 'sort' parameter
+        $sort = $this->request->getQuery('sort');
+        $order = ['Faqs.created' => 'DESC']; // Default sorting: Created (Descending)
+        if ($sort === 'title_asc') {
+            $order = ['Faqs.title' => 'ASC'];
+        } elseif ($sort === 'title_desc') {
+            $order = ['Faqs.title' => 'DESC'];
+        } elseif ($sort === 'created_asc') {
+            $order = ['Faqs.created' => 'ASC'];
+        } elseif ($sort === 'created_desc') {
+            $order = ['Faqs.created' => 'DESC'];
+        }
+        $query->order($order);
+    
+        // Paginate the filtered and sorted query
         $faqs = $this->paginate($query);
-
+    
         $this->set(compact('faqs'));
     }
 
@@ -45,7 +69,6 @@ class FaqsController extends AppController
     public function customerIndex()
     {
         $query = $this->Faqs->find();
-        // $query = $this->Authorization->applyScope($query);
         $faqs = $this->paginate($query);
 
         $this->set(compact('faqs'));
