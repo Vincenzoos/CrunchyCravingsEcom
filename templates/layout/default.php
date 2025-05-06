@@ -141,6 +141,7 @@ $html = new HtmlHelper(new View());
                     <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>" class="list-group-item">Manage Products</a>
                     <a href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index']) ?>" class="list-group-item">Manage Categories</a>
                     <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?>" class="list-group-item">Manage Users</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Faqs', 'action' => 'index']) ?>" class="list-group-item">Manage FAQs</a>
                 </ul>
             </div>
         </div>
@@ -234,6 +235,7 @@ $html = new HtmlHelper(new View());
 							<li class="nav-item"><a class="nav-link" title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
 							<li class="nav-item"><a title="categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'customerIndex']) ?>" class="nav-link">categories</a></li>
                             <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
+                            <li class="nav-item"><a class="nav-link" title="FAQs" href="<?= $this->Url->Build(['controller' => 'Faqs', 'action' => 'customerIndex']) ?>">FAQs</a></li>
 						</ul>
 					</div><!--/.nav-collapse -->
 				</nav>

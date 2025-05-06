@@ -50,3 +50,15 @@
 #requirements-content ul {
     padding-left: 0 !important;
 }
+
+#clear-search {
+    border: none;
+    background: transparent;
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: #6c757d;
+}
+
+#clear-search:hover {
+    color: #000;
+}

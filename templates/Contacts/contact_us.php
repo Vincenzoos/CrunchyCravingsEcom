@@ -31,7 +31,6 @@ $html = new HtmlHelper(new View());
 
 <body>
     <!-- Page Breadcrumb -->
-    <!-- container -->
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
@@ -39,7 +38,7 @@ $html = new HtmlHelper(new View());
                 <li><a title="Contact Us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'ContactUs']) ?>">Contact Us</a></li>
             </ol>
         </div>
-    </div><!-- container /- -->
+    </div>
     <!-- Page Breadcrumb /- -->
 
     
