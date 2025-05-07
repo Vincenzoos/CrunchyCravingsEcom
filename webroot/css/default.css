@@ -50,7 +50,7 @@
 /* Sidebar Toggle Button */
 .sidebar-toggle {
     position: fixed; /* Fix the button's position */
-    top: 20px; /* Distance from the top of the page */
+    top: 35px; /* Distance from the top of the page */
     right: 20px; /* Distance from the right of the page */
     z-index: 1051; /* Ensure it stays above other elements */
 }
@@ -112,29 +112,46 @@
     color: var(--sidebar-text-color) !important;
 }
 
-/* Options dropdown ----------------------------------- */
+/* Profile dropdown ------------------------------------ */
 
 /* Dropdown Menu Styling */
-div.dropdown .dropdown-menu {
-    background-color: var(--sidebar-bg-color); /* Match sidebar background */
-    color: var(--sidebar-text-color); /* Match sidebar text color */
-    border-radius: 0.25rem; /* Slightly rounded corners */
-    padding: 0.5rem; /* Add padding */
+#userDropdown {
+    background-color: var(--background-color); /* Match the sidebar background */
+    color: var(--text-color); /* Set text color */
+    border-radius: 0.5rem; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    padding: 0.5rem; /* Padding around the dropdown */
+    text-transform: uppercase;
+
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 0;
+}
+
+#userDropdown:hover {
+    border-color: var(--default-icon-hover-color) !important; /* Change border color on hover */
+}
+
+#userDropdown .dropdown-menu li {
+    color: var(--text-color);
+    font-family: var(--main-font);
+    list-style: none; /* Remove bullet points */
+    padding: 0.0rem 1rem;
 }
 
 /* Dropdown Item Styling */
 div.dropdown .dropdown-item {
-    color: var(--sidebar-text-color); /* Match sidebar text color */
-    padding: 0.5rem 1rem; /* Add padding */
+    background-color: var(--background-color);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.5rem;
     font-size: 1rem; /* Adjust font size */
-    white-space: normal; /* Allow text to wrap */
 }
 
-/* Hover Effect for Dropdown Items */
-#sidebar div.dropdown .dropdown-item:hover {
-    background-color: var(--sidebar-hover-color); /* Match sidebar hover color */
-    color: var(--text-color) !important; /* Adjust text color on hover */
-}
 
 
 /* Footer */

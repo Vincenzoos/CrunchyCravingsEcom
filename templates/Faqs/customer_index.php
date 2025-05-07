@@ -6,7 +6,7 @@
 use Cake\View\Helper\HtmlHelper;
 use Cake\View\View;
 
-$this->assign('title', 'FAQs');
+$this->assign('title', 'FAQ');
 
 ?>
 
@@ -35,7 +35,7 @@ $html = new HtmlHelper(new View());
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
                 <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-                <li><a title="FAQs" href="<?= $this->Url->build(['controller' => 'Faqs', 'action' => 'customer_index']) ?>">FAQs</a></li>
+                <li><a title="FAQ" href="<?= $this->Url->build(['controller' => 'Faqs', 'action' => 'customer_index']) ?>">FAQ</a></li>
             </ol>
         </div>
     </div>

@@ -104,7 +104,6 @@ $html = new HtmlHelper(new View());
 	</div>
 	<!-- Loader /- -->
 
-
     <!-- Accessibility Mode Toggle -->
     <div id="accessibility-toggle" class="accessibility-toggle">
         <button id="accessibility-button" class="btn btn-secondary">
@@ -154,65 +153,74 @@ $html = new HtmlHelper(new View());
 			<!-- container -->
 			<div class="container">
 				<div class="row" style="display: flex; justify-content: center; align-items: center;">
-					<div class="col-12 col-md-12 col-lg-3 ow-left-padding  d-flex align-items-center" style="margin-top: 15px; margin-bottom: 15px;">
-                        <!-- Determine whether to show login or logout, and save the current page in URL redirect to be used as a fallback -->
-                        <?php if ($this->Identity->isLoggedIn()) : ?>
-                            <a title="Logout"
-                            id="top_link"
-                            style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                            href="<?= $this->Url->build([
-                                'controller' => 'Auth',
-                                'action' => 'logout',
-                                '?' => ['redirect' => $this->request->getRequestTarget()]
-                            ]) ?>"
-                            class="list-group-item">LOGOUT</a>
+                    <!-- Spacing -->
+                    <div class="col-0 col-md-0 col-lg-3"></div>
 
-                            <a title="Change Password"
-                            id="top_link"
-                            style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                            href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>"
-                            class="list-group-item">CHANGE PASSWORD</a>
-                        <?php else : ?>
-                            <a title="Login"
-                            id="top_link"
-                            style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                            href="<?= $this->Url->build([
-                                'controller' => 'Auth',
-                                'action' => 'login',
-                                '?' => ['redirect' => $this->request->getRequestTarget()]
-                            ]) ?>"
-                            class="list-group-item">LOGIN</a>
-
-                            <a title="Register"
-                            id="top_link"
-                            style="margin-right: 10px; margin-top: 15px; margin-bottom: 15px;"
-                            href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">REGISTER
-                            </a>
-                        <?php endif; ?>
-					</div>
-					<div class="col-12 col-md-12 col-lg-6 logo-block">
+                    <!-- Logo -->
+					<div class="col-6 col-md-6 col-lg-6 logo-block">
 						<a title="Logo" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">
 							<?= $html->image('cc_logo.png', ['alt' => 'add-banner', 'style' => 'width: 80%; height: auto; margin-top: 15px; margin-bottom: 15px;']) ?>
 						</a>
 					</div>
-					<div class="col-12 col-md-12 col-lg-3 ow-right-padding ">
-						<div class="row" style="display: flex; justify-content: space-between; align-items: center;">
-							<!-- Cart -->
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 cart-link ow-right-padding d-flex justify-content-end" style="margin-top: 15px; margin-bottom: 15px;">
-                                <svg width="16px" height="15px" viewBox="0 0 533.334 533.335">
-                                    <g>
-                                        <path
-                                            d="M441.26,300.001c18.333,0,37.454-14.423,42.49-32.052l48.353-169.231c5.036-17.627-5.844-32.05-24.177-32.05H166.667   c0-36.819-29.848-66.667-66.667-66.667H0v66.667h100v283.333c0,27.614,22.386,50,50,50h316.667   c18.409,0,33.334-14.924,33.334-33.333s-14.925-33.334-33.334-33.334h-300v-33.333H441.26z M166.667,133.334h301.461l-28.573,100   H166.667V133.334z M200,491.668c0,22.916-18.75,41.666-41.667,41.666h-16.667c-22.917,0-41.667-18.75-41.667-41.666v-16.667   c0-22.917,18.75-41.667,41.667-41.667h16.667c22.917,0,41.667,18.75,41.667,41.667V491.668z M500,491.668   c0,22.916-18.75,41.666-41.667,41.666h-16.667c-22.916,0-41.666-18.75-41.666-41.666v-16.667c0-22.917,18.75-41.667,41.666-41.667   h16.667c22.917,0,41.667,18.75,41.667,41.667V491.668z" />
-                                    </g>
-                                </svg>
+                    <div class="col-3 col-md-3 col-lg-2 d-flex justify-content-lg-end">
+						<div class="row cart-link" style="display: flex; justify-content: space-between; align-items: center;">
                                 <!-- Cart Link with Count -->
                                 <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?>">
-                                    Cart (<span id="cart-count"><?= h($cartCount) ?></span>)
+                                    <svg width="26px" height="25px" viewBox="0 0 533.334 533.335" style="width: 26px; height: 25px;">
+                                        <g>
+                                            <path
+                                                d="M441.26,300.001c18.333,0,37.454-14.423,42.49-32.052l48.353-169.231c5.036-17.627-5.844-32.05-24.177-32.05H166.667   c0-36.819-29.848-66.667-66.667-66.667H0v66.667h100v283.333c0,27.614,22.386,50,50,50h316.667   c18.409,0,33.334-14.924,33.334-33.333s-14.925-33.334-33.334-33.334h-300v-33.333H441.26z M166.667,133.334h301.461l-28.573,100   H166.667V133.334z M200,491.668c0,22.916-18.75,41.666-41.667,41.666h-16.667c-22.917,0-41.667-18.75-41.667-41.666v-16.667   c0-22.917,18.75-41.667,41.667-41.667h16.667c22.917,0,41.667,18.75,41.667,41.667V491.668z M500,491.668   c0,22.916-18.75,41.666-41.667,41.666h-16.667c-22.916,0-41.666-18.75-41.666-41.666v-16.667c0-22.917,18.75-41.667,41.666-41.667   h16.667c22.917,0,41.667,18.75,41.667,41.667V491.668z" />
+                                        </g>
+                                    </svg>
+                                    (<span id="cart-count"><?= h($cartCount) ?></span>)
                                 </a>
-                            </div>
+                            <!-- </div> -->
 						</div>
-
 					</div>
+                    <!-- Determine whether to show login or logout, and save the current page in URL redirect to be used as a fallback -->
+                    <?php if ($this->Identity->isLoggedIn()) : ?>
+                        <div class="col-1 col-md-1 col-lg-1 d-flex justify-content-end">
+                            <?php
+                                // Get the user's email and extract the first two letters
+                                $userEmail = $this->Identity->get('email');
+                                $initials = strtoupper(substr($userEmail, 0, 1));
+                                ?>
+                            <div class="dropdown" style="display: inline-block;">
+                                <!-- Circular Icon -->
+                                <button class="btn btn-secondary rounded-circle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <?= $initials ?>
+                                </button>
+                                
+                                <!-- Dropdown Menu -->
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <!-- <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profile']) ?>">My Profile</a></li> -->
+                                    <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Orders', 'action' => 'myOrders']) ?>">Orders</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>">Logout</a></li>
+                                    <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>">Change Password</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php else : ?>
+                        <div class="col-1 col-md-1 col-lg-1 align-items-center" style="margin-top: 15px; margin-bottom: 15px;">
+                            <a title="Login"
+                                id="top_link"
+                                
+                                href="<?= $this->Url->build(['controller' => 'Auth','action' => 'login','?' => ['redirect' => $this->request->getRequestTarget()]]) ?>" class="list-group-item">
+                                LOGIN
+                            </a>
+
+                            <a title="Register"
+                                id="top_link"
+                                
+                                href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">
+                                REGISTER
+                            </a>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Spacing for mobile only -->
+                    <div class="col-2 col-md-2 col-lg-0"></div>
 				</div>
 			</div><!-- container /- -->
 		</div><!-- logo-add-block /- -->
@@ -235,7 +243,7 @@ $html = new HtmlHelper(new View());
 							<li class="nav-item"><a class="nav-link" title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
 							<li class="nav-item"><a title="categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'customerIndex']) ?>" class="nav-link">categories</a></li>
                             <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
-                            <li class="nav-item"><a class="nav-link" title="FAQs" href="<?= $this->Url->Build(['controller' => 'Faqs', 'action' => 'customerIndex']) ?>">FAQs</a></li>
+                            <li class="nav-item"><a class="nav-link" title="FAQ" href="<?= $this->Url->Build(['controller' => 'Faqs', 'action' => 'customerIndex']) ?>">FAQ</a></li>
 						</ul>
 					</div><!--/.nav-collapse -->
 				</nav>
@@ -530,8 +538,6 @@ $html = new HtmlHelper(new View());
         });
     </script> -->
 
-    <!-- jQuery -->
-    <?= $this->Html->script('https://code.jquery.com/jquery-3.6.0.min.js') ?>
 
     <!-- Select2 JS -->
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js') ?>
