@@ -141,15 +141,15 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 $controller = $request->getAttribute('controller');
                 $action = $request->getAttribute('action');
 
-                // Skip authorization for CartItemsController::updateQuantityAjax
-                return $controller === 'CartItems' && $action === 'updateQuantityAjax';
+                // Skip authorization for custom AJAX actions
+                return ($controller === 'CartItems' && $action === 'updateQuantityAjax') || ($controller === 'faqs' && $action === 'updateClickCount');
             },
             'authorizeAll' => function (ServerRequestInterface $request) {
                 $controller = $request->getAttribute('controller');
                 $action = $request->getAttribute('action');
 
-                // Allow all authorization checks to pass for updateQuantityAjax
-                return $controller === 'CartItems' && $action === 'updateQuantityAjax';
+                // Allow all authorization checks to pass for AJAX requests
+                return ($controller === 'CartItems' && $action === 'updateQuantityAjax') || ($controller === 'faqs' && $action === 'updateClickCount');
             },
             ]))
 

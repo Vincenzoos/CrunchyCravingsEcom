@@ -53,6 +53,16 @@ return [
                  ],
              'bypassAuth' => true,
          ],
+        // Public access to the Faqs functionalities
+        [
+            'role' => '*',
+            'controller' => 'Faqs',
+            'action' => [
+                'customerIndex',
+                'updateClickCount',
+            ],
+            'bypassAuth' => true,
+        ],
 
         // // Public access to the Orders functionalities
         // [

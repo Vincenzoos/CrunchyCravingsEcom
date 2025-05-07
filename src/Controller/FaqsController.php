@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Log\Log;
+use Cake\Event\EventInterface;
+
 /**
  * Faqs Controller
  *
@@ -19,8 +22,6 @@ class FaqsController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-
-        $this->Authentication->addUnauthenticatedActions(['customerIndex']);
     }
 
     /**
@@ -43,7 +44,7 @@ class FaqsController extends AppController
     
         // Apply sorting based on the 'sort' parameter
         $sort = $this->request->getQuery('sort');
-        $order = ['Faqs.created' => 'DESC']; // Default sorting: Created (Descending)
+        $order = ['Faqs.clicks' => 'DESC']; // Default sorting: Created (Descending)
         if ($sort === 'title_asc') {
             $order = ['Faqs.title' => 'ASC'];
         } elseif ($sort === 'title_desc') {
@@ -52,7 +53,12 @@ class FaqsController extends AppController
             $order = ['Faqs.created' => 'ASC'];
         } elseif ($sort === 'created_desc') {
             $order = ['Faqs.created' => 'DESC'];
+        } elseif ($sort === 'clicks_asc') {
+            $order = ['Faqs.clicks' => 'ASC'];
+        } elseif ($sort === 'clicks_desc') {
+            $order = ['Faqs.clicks' => 'DESC'];
         }
+        // Apply the sorting to the query
         $query->order($order);
     
         // Paginate the filtered and sorted query
@@ -69,8 +75,11 @@ class FaqsController extends AppController
     public function customerIndex()
     {
         $query = $this->Faqs->find();
+        $query->order(['Faqs.clicks' => 'DESC']);
+        
+        // Paginate the sorted query
         $faqs = $this->paginate($query);
-
+        
         $this->set(compact('faqs'));
     }
 
@@ -83,8 +92,14 @@ class FaqsController extends AppController
      */
     public function view($id = null)
     {
-        $faq = $this->Faqs->get($id, contain: []);
-        // $this->Authorization->authorize($faq);
+        $faq = $this->Faqs->get($id);
+
+        // Increment clicks only for non-admin users
+        if ($this->Identity->get('role') !== 'admin') {
+            $faq->clicks += 1;
+            $this->Faqs->save($faq);
+        }
+
         $this->set(compact('faq'));
     }
 
@@ -151,5 +166,54 @@ class FaqsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Update Click Count method
+     *
+     * Handles AJAX requests to increment the click count for a specific FAQ.
+     *
+     * @return \Cake\Http\Response|null
+     */
+    public function updateClickCount()
+    {
+        // $this->request->allowMethod(['post']); // Only allow POST requests
+        $this->request->allowMethod(['post', 'ajax']); // Allow only POST and AJAX requests
+
+        $data = $this->request->getData();
+        $response = ['success' => false, 'message' => 'Unable to update click count'];
+        if (!empty($data['id'])) {
+            $faq = $this->Faqs->get($data['id']);
+            $faq->clicks += 1;
+
+            if ($this->Faqs->save($faq)) {
+                $response = ['success' => true, 'message' => 'Click count updated successfully'];           
+            }
+        }
+
+        return $this->response->withType('application/json')->withStringBody(json_encode($response));
+
+        // // Set the response data and serialize it to JSON
+        // $this->set(compact('response'));
+        // $this->viewBuilder()->setOption('serialize', ['response']);
+        // $this->viewBuilder()->disableAutoLayout(); // Disable the layout rendering
+        // $this->render(null, null); // Render the response without a view
+    }
+
+    /**
+     * Before Filter method
+     *
+     * @param \Cake\Event\EventInterface $event Event instance.
+     * @return void
+     */
+    public function beforeFilter(EventInterface $event)
+    {
+        parent::beforeFilter($event);
+
+        $this->Authentication->allowUnauthenticated(['customerIndex', 'updateClickCount']);
+        if ($this->request->getParam('action') === 'updateClickCount') {
+            $this->Authorization->skipAuthorization();
+            $this->getEventManager()->off($this->FormProtection);
+        }
     }
 }

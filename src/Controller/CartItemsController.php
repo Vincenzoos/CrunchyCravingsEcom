@@ -321,8 +321,6 @@ class CartItemsController extends AppController
         $cartItemId = $this->request->getData('cart_item_id');
         $newQuantity = $this->request->getData('quantity');
 
-        // Log the incoming request data
-        // Log::write('debug', "Received cart_item_id: $cartItemId, quantity: $newQuantity");
         // Ensure the quantity is valid
         if ($newQuantity < 1) {
             $response = ['success' => false, 'message' => 'Quantity must be at least 1.'];

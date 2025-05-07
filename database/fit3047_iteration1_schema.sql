@@ -29,6 +29,7 @@ DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS contacts;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS cart_items;
+DROP TABLE IF EXISTS faqs;
 
 
 -- --------------------------------------------------------
@@ -193,6 +194,7 @@ CREATE TABLE `faqs` (
   `id` INT(11) NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `answer` TEXT NULL,
+  `clicks` INT(11) NOT NULL DEFAULT 0, -- New column to track clicks
   `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `modified` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -213,6 +215,9 @@ INSERT INTO `faqs` (`id`, `title`, `answer`, `created`, `modified`) VALUES
   (8, 'Do you offer gift hampers?', 'Yes, we offer a variety of gift hampers that include our finest lavosh crackers, flatbreads, and gourmet accompaniments. Perfect for any occasion!', NOW(), NOW()),
   (9, 'How can I contact customer support?', 'You can reach our customer support team via the "Contact Us" page on our website or email us at support@crunchycravings.com. We aim to respond within 24 hours.', NOW(), NOW()),
   (10, 'Do you have a loyalty program?', 'Yes, we offer a loyalty program where you can earn points for every purchase. Points can be redeemed for discounts on future orders. Sign up for an account to start earning points today!', NOW(), NOW());
+
+-- Update existing records to initialize clicks to 0
+UPDATE `faqs` SET `clicks` = 0;
 
 --
 -- Indexes for dumped tables

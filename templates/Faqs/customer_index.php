@@ -75,21 +75,21 @@ $html = new HtmlHelper(new View());
                 </div>
             </div>
             <div class="accordion" id="faqAccordion">
-            <?php foreach ($faqs as $index => $faq): ?>
-                <div class="accordion-item" data-title="<?= h($faq->title) ?>" data-answer="<?= strip_tags($faq->answer) ?>">
-                    <h2 class="accordion-header" id="heading<?= $index ?>">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $index ?>" aria-expanded="true" aria-controls="collapse<?= $index ?>">
-                            <?= h($faq->title) ?>
-                        </button>
-                    </h2>
-                    <div id="collapse<?= $index ?>" class="accordion-collapse collapse" aria-labelledby="heading<?= $index ?>" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            <?= $faq->answer ?>
+                <?php foreach ($faqs as $index => $faq): ?>
+                    <div class="accordion-item" data-title="<?= h($faq->title) ?>" data-answer="<?= strip_tags($faq->answer) ?>" data-id="<?= h($faq->id) ?>">
+                        <h2 class="accordion-header" id="heading<?= $index ?>">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $index ?>" aria-expanded="true" aria-controls="collapse<?= $index ?>">
+                                <?= h($faq->title) ?>
+                            </button>
+                        </h2>
+                        <div id="collapse<?= $index ?>" class="accordion-collapse collapse" aria-labelledby="heading<?= $index ?>" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <?= $faq->answer ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 
@@ -156,6 +156,30 @@ $html = new HtmlHelper(new View());
                     // Show all items
                     item.style.display = '';
                 });
+            });
+
+            // Update FAQ click count when opened
+            const faqAccordion = document.getElementById('faqAccordion');
+            faqAccordion.addEventListener('click', function (event) {
+                const button = event.target.closest('.accordion-button');
+                if (button && !button.classList.contains('collapsed')) {
+                    const faqItem = button.closest('.accordion-item');
+                    const faqId = faqItem.getAttribute('data-id');
+
+                    if (faqId) {
+                        fetch('<?= $this->Url->build(['controller' => 'Faqs', 'action' => 'updateClickCount']) ?>', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-Token': '<?= $this->request->getAttribute("csrfToken") ?>'
+                            },
+                            body: JSON.stringify({ id: faqId })
+                        })
+                        .then(response => response.json())
+                        .then(data => console.log('FAQ click count updated:', data))
+                        .catch(error => console.error('Error updating FAQ click count:', error));
+                    }
+                }
             });
         });
     </script>

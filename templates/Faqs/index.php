@@ -53,6 +53,8 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'title_desc'])]) ?>">Title (Z-A)</a></li>
                                 <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'created_asc'])]) ?>">Created (Oldest First)</a></li>
                                 <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'created_desc'])]) ?>">Created (Newest First)</a></li>
+                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'clicks_asc'])]) ?>">Clicks (Lowest First)</a></li>
+                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'clicks_desc'])]) ?>">Clicks (Highest First)</a></li>
                             </ul>
                         </div>
                     </div>
@@ -106,6 +108,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <thead class="thead-dark">
                                 <tr>
                                     <th><?= $this->Paginator->sort('title', __('Title')) ?></th>
+                                    <th><?= $this->Paginator->sort('clicks', __('Clicks')) ?></th>
                                     <th><?= $this->Paginator->sort('created', __('Created')) ?></th>
                                     <th><?= $this->Paginator->sort('modified', __('Modified')) ?></th>
                                     <th class="text-center"><?= __('Actions') ?></th>
@@ -115,6 +118,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 <?php foreach ($faqs as $faq) : ?>
                                     <tr>
                                         <td><?= h($faq->title) ?></td>
+                                        <td><?= h($faq->clicks) ?></td> <!-- Display clicks -->
                                         <td><?= h($faq->created->format('d/m/Y H:i a')) ?></td>
                                         <td><?= h($faq->modified->format('d/m/Y H:i a')) ?></td>
                                         <td class="text-center">
