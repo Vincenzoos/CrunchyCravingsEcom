@@ -1,12 +1,12 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Contact $contact
+* @var iterable<\App\Model\Entity\Faq> $faqs
  */
 use Cake\View\Helper\HtmlHelper;
 use Cake\View\View;
 
-$this->assign('title', 'Contact Us');
+$this->assign('title', 'FAQs');
 
 ?>
 
@@ -35,7 +35,7 @@ $html = new HtmlHelper(new View());
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
                 <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-                <li><a title="Contact Us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'ContactUs']) ?>">Contact Us</a></li>
+                <li><a title="FAQs" href="<?= $this->Url->build(['controller' => 'Faqs', 'action' => 'customer_index']) ?>">FAQs</a></li>
             </ol>
         </div>
     </div>
@@ -166,7 +166,9 @@ $html = new HtmlHelper(new View());
                     const faqItem = button.closest('.accordion-item');
                     const faqId = faqItem.getAttribute('data-id');
 
-                    if (faqId) {
+                    // Check if the user is not an admin before updating the click count
+                    const isAdmin = <?= json_encode($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin') ?>;
+                    if (!isAdmin && faqId) {
                         fetch('<?= $this->Url->build(['controller' => 'Faqs', 'action' => 'updateClickCount']) ?>', {
                             method: 'POST',
                             headers: {
