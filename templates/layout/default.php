@@ -164,19 +164,19 @@ $html = new HtmlHelper(new View());
 					</div>
                     <div class="col-3 col-md-3 col-lg-2 d-flex justify-content-lg-end">
 						<div class="row cart-link" style="display: flex; justify-content: space-between; align-items: center;">
-                                <!-- Cart Link with Count -->
-                                <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?>">
-                                    <svg width="26px" height="25px" viewBox="0 0 533.334 533.335" style="width: 26px; height: 25px;">
-                                        <g>
-                                            <path
-                                                d="M441.26,300.001c18.333,0,37.454-14.423,42.49-32.052l48.353-169.231c5.036-17.627-5.844-32.05-24.177-32.05H166.667   c0-36.819-29.848-66.667-66.667-66.667H0v66.667h100v283.333c0,27.614,22.386,50,50,50h316.667   c18.409,0,33.334-14.924,33.334-33.333s-14.925-33.334-33.334-33.334h-300v-33.333H441.26z M166.667,133.334h301.461l-28.573,100   H166.667V133.334z M200,491.668c0,22.916-18.75,41.666-41.667,41.666h-16.667c-22.917,0-41.667-18.75-41.667-41.666v-16.667   c0-22.917,18.75-41.667,41.667-41.667h16.667c22.917,0,41.667,18.75,41.667,41.667V491.668z M500,491.668   c0,22.916-18.75,41.666-41.667,41.666h-16.667c-22.916,0-41.666-18.75-41.666-41.666v-16.667c0-22.917,18.75-41.667,41.666-41.667   h16.667c22.917,0,41.667,18.75,41.667,41.667V491.668z" />
-                                        </g>
-                                    </svg>
-                                    (<span id="cart-count"><?= h($cartCount) ?></span>)
-                                </a>
-                            <!-- </div> -->
+                            <!-- Cart Link with Count -->
+                            <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?>">
+                                <svg width="26px" height="25px" viewBox="0 0 533.334 533.335" style="width: 26px; height: 25px;">
+                                    <g>
+                                        <path
+                                            d="M441.26,300.001c18.333,0,37.454-14.423,42.49-32.052l48.353-169.231c5.036-17.627-5.844-32.05-24.177-32.05H166.667   c0-36.819-29.848-66.667-66.667-66.667H0v66.667h100v283.333c0,27.614,22.386,50,50,50h316.667   c18.409,0,33.334-14.924,33.334-33.333s-14.925-33.334-33.334-33.334h-300v-33.333H441.26z M166.667,133.334h301.461l-28.573,100   H166.667V133.334z M200,491.668c0,22.916-18.75,41.666-41.667,41.666h-16.667c-22.917,0-41.667-18.75-41.667-41.666v-16.667   c0-22.917,18.75-41.667,41.667-41.667h16.667c22.917,0,41.667,18.75,41.667,41.667V491.668z M500,491.668   c0,22.916-18.75,41.666-41.667,41.666h-16.667c-22.916,0-41.666-18.75-41.666-41.666v-16.667c0-22.917,18.75-41.667,41.666-41.667   h16.667c22.917,0,41.667,18.75,41.667,41.667V491.668z" />
+                                    </g>
+                                </svg>
+                                (<span id="cart-count"><?= h($cartCount) ?></span>)
+                            </a>
 						</div>
 					</div>
+                    
                     <!-- Determine whether to show login or logout, and save the current page in URL redirect to be used as a fallback -->
                     <?php if ($this->Identity->isLoggedIn()) : ?>
                         <div class="col-1 col-md-1 col-lg-1 d-flex justify-content-end">
@@ -194,7 +194,7 @@ $html = new HtmlHelper(new View());
                                 <!-- Dropdown Menu -->
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                     <!-- <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profile']) ?>">My Profile</a></li> -->
-                                    <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Orders', 'action' => 'myOrders']) ?>">Orders</a></li>
+                                    <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Orders', 'action' => 'customerIndex']) ?>">Orders</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>">Logout</a></li>
                                     <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>">Change Password</a></li>
@@ -227,7 +227,6 @@ $html = new HtmlHelper(new View());
 
 		<!-- menu-block -->
 		<div class="menu-block">
-			<!-- container -->
 			<div class="container">
 				<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-static-top">
 					<div class="navbar-header">
@@ -245,10 +244,10 @@ $html = new HtmlHelper(new View());
                             <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
                             <li class="nav-item"><a class="nav-link" title="FAQ" href="<?= $this->Url->Build(['controller' => 'Faqs', 'action' => 'customerIndex']) ?>">FAQ</a></li>
 						</ul>
-					</div><!--/.nav-collapse -->
+					</div>
 				</nav>
-			</div><!-- container /- -->
-		</div><!-- menu-block /- -->
+			</div>
+		</div>
 	</header>
 	<!-- Header Section /- -->
 

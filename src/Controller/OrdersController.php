@@ -37,6 +37,24 @@ class OrdersController extends AppController
 
         $this->set(compact('orders'));
     }
+    
+    /**
+     * Customer Index method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function customerIndex()
+    {
+        $userId = $this->request->getAttribute('identity')->id;
+
+        $orders = $this->Orders->find('all', [
+            'conditions' => ['Orders.user_id' => $userId],
+            'contain' => ['OrderItems.Products'], // Include related order items and products
+            'order' => ['Orders.created' => 'DESC'],
+        ])->toArray();
+
+        $this->set(compact('orders'));
+    }
 
     /**
      * View method

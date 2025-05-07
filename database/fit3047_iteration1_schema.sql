@@ -170,7 +170,8 @@ INSERT INTO `users` (`id`, `email`, `password`, `role`) VALUES
 (1, 'test@example.com', '$2y$10$Nqe5/YAQ2vNLPcFeVrP8iefcu7SHwMWqtfLe0hkw0qvQsVcSej3tG', 'customer'),
 (2, 'asd@gmail.com', '$2y$10$7wxwv.poWhcCGgNefskCzeMzitBi3er7HEog7pA9h96U8enNDlUVq', 'admin'),
 (3, 'customer@gmail.com', '$2y$10$08QZ71hbWixjGsGTH2wZ.uZt8YO/4nXq1ZYvx/Ks2klg5VKGqzafu', 'customer'),
-(4, 'admin@gmail.com', '$2y$10$ScL2SU6TnMHcuntwsJ2meOaMSIq3zjlAicMQJxQWFfFvvLtgh5Wmq', 'admin');
+(4, 'admin@gmail.com', '$2y$10$ScL2SU6TnMHcuntwsJ2meOaMSIq3zjlAicMQJxQWFfFvvLtgh5Wmq', 'admin'),
+(5, 'admin2@gmail.com', '$2y$10$bRiyYWnTCIJGEn3ZhamHHe5pkTiUxdU3A6GGHVBbKqMYttyE1lcgC', 'admin'); -- Password 1234$You
 
 --
 -- Table structure for table `cart_items`
@@ -238,10 +239,10 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 INSERT INTO `orders` (`id`, `user_id`, `total_price`, `status`, `created`, `modified`) VALUES
-(1, 1, 19.98, 'completed', NOW(), NOW()),
+(1, 5, 19.98, 'completed', NOW(), NOW()),
 (2, 3, 49.99, 'pending', NOW(), NOW()),
 (3, 2, 79.99, 'completed', NOW(), NOW()),
-(4, 1, 29.97, 'cancelled', NOW(), NOW()),
+(4, 5, 29.97, 'cancelled', NOW(), NOW()),
 (5, 4, 59.99, 'pending', NOW(), NOW());
 
 --

@@ -48,12 +48,16 @@ class OrdersTable extends Table
 
         $this->addBehavior('Timestamp');
 
+
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
-        $this->hasMany('OrderProducts', [
+    
+        $this->hasMany('OrderItems', [
             'foreignKey' => 'order_id',
+            'dependent' => true, // Deletes related OrderItems when an Order is deleted
+            'cascadeCallbacks' => true, // Ensures cascading delete callbacks
         ]);
     }
 
