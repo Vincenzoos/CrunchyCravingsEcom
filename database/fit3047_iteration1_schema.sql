@@ -30,6 +30,8 @@ DROP TABLE IF EXISTS contacts;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS cart_items;
 DROP TABLE IF EXISTS faqs;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS order_items;
 
 
 -- --------------------------------------------------------
@@ -173,6 +175,7 @@ INSERT INTO `users` (`id`, `email`, `password`, `role`) VALUES
 --
 -- Table structure for table `cart_items`
 --
+
 CREATE TABLE `cart_items` (
   `id` INT(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
@@ -185,25 +188,27 @@ CREATE TABLE `cart_items` (
 --
 -- Dumping data for table `cart_items`
 --
+
 INSERT INTO `cart_items` (id, user_id, product_id, quantity) VALUES
     (1, 1, 2, 2);
 
-
+--
 -- Table structure for table `faqs`
+--
+
 CREATE TABLE `faqs` (
   `id` INT(11) NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `answer` TEXT NULL,
   `clicks` INT(11) NOT NULL DEFAULT 0, -- New column to track clicks
   `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `modified` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  `modified` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 
 --
 -- Dumping data for table `faqs`
 --
+
 INSERT INTO `faqs` (`id`, `title`, `answer`, `created`, `modified`) VALUES
   (1, 'What is CrunchyCravings?', 'CrunchyCravings is an online store specializing in artisan lavosh crackers, flatbreads, and gourmet hampers. We offer high-quality, handcrafted products perfect for snacks, meals, or gifts.', NOW(), NOW()),
   (2, 'How can I place an order?', 'To place an order, browse our product catalog, add items to your cart, and proceed to checkout. You can create an account or check out as a guest.', NOW(), NOW()),
@@ -216,8 +221,54 @@ INSERT INTO `faqs` (`id`, `title`, `answer`, `created`, `modified`) VALUES
   (9, 'How can I contact customer support?', 'You can reach our customer support team via the "Contact Us" page on our website or email us at support@crunchycravings.com. We aim to respond within 24 hours.', NOW(), NOW()),
   (10, 'Do you have a loyalty program?', 'Yes, we offer a loyalty program where you can earn points for every purchase. Points can be redeemed for discounts on future orders. Sign up for an account to start earning points today!', NOW(), NOW());
 
--- Update existing records to initialize clicks to 0
-UPDATE `faqs` SET `clicks` = 0;
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  `total_price` DECIMAL(10,2) NOT NULL,
+  `status` ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
+  `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `modified` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+INSERT INTO `orders` (`id`, `user_id`, `total_price`, `status`, `created`, `modified`) VALUES
+(1, 1, 19.98, 'completed', NOW(), NOW()),
+(2, 3, 49.99, 'pending', NOW(), NOW()),
+(3, 2, 79.99, 'completed', NOW(), NOW()),
+(4, 1, 29.97, 'cancelled', NOW(), NOW()),
+(5, 4, 59.99, 'pending', NOW(), NOW());
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` INT(11) NOT NULL,
+  `order_id` INT(11) NOT NULL,
+  `product_id` INT(11) NOT NULL,
+  `quantity` INT(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`) VALUES
+(1, 1, 2, 2),
+(2, 1, 1, 1),
+(3, 2, 3, 1),
+(4, 3, 9, 1),
+(5, 3, 7, 2),
+(6, 4, 4, 3),
+(7, 5, 6, 1),
+(8, 5, 8, 2),
+(9, 5, 10, 1);
 
 --
 -- Indexes for dumped tables
@@ -286,6 +337,36 @@ ALTER TABLE `cart_items`
     ADD CONSTRAINT `fk_cart_items_product`
         FOREIGN KEY (`product_id`) REFERENCES `products`(`id`);
 
+ALTER TABLE `faqs`
+    ADD PRIMARY KEY (`id`);
+
+-- Indexes for table `orders`
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_orders_user` (`user_id`);
+
+-- Foreign key constraints for table `orders`
+ALTER TABLE `orders`
+  ADD CONSTRAINT `fk_orders_user`
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+    ON DELETE CASCADE;
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_order_items_order` (`order_id`),
+  ADD KEY `fk_order_items_product` (`product_id`);
+
+-- Foreign key constraints for table `order_items`
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `fk_order_items_order`
+    FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`)
+    ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_order_items_product`
+    FOREIGN KEY (`product_id`) REFERENCES `products`(`id`)
+    ON DELETE CASCADE;
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -327,12 +408,23 @@ ALTER TABLE `users`
 ALTER TABLE `cart_items`
     MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT;
 
-
 --
 -- AUTO_INCREMENT for table `faqs`
 --
 ALTER TABLE `faqs`
     MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT;
 
 COMMIT;
 
