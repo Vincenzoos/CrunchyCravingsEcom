@@ -107,11 +107,26 @@ CREATE TABLE `contacts` (
 --
 
 INSERT INTO `contacts` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `message`, `replied`, `date_sent`) VALUES
-(3, 'Lynn', 'Miller', 'xxxxx@example.com', '0411 222 333', 'Well do!', 0, '2025-03-24'),
-(4, 'Kane', 'Tran', 'asd@gmail.com', '0222 123 231', 'avc', 0, '2025-03-24'),
-(5, 'Kane', 'Tran', 'asd@gmail.com', '0222 123 231', 'avc', 0, '2025-03-24'),
-(6, 'Kane', 'wake', 'edvs@gmai.com', '0222 123 231', 'asd', 0, '2025-03-24'),
-(7, 'alan', 'asd', 'asd@gmail.com', '0322 322 332', 'asd', 0, '2025-03-26');
+    (1, 'Sophia', 'Lee', 'sophia.lee@example.com', '0412 345 678', 'Interested in bulk orders for Lavosh crackers.', 0, '2025-04-30'),
+    (2, 'Liam', 'Anderson', 'liam.anderson@example.com', '0421 567 890', 'Looking to distribute your premium flatbread.', 0, '2025-04-25'),
+    (3, 'Emma', 'Brown', 'emma.brown@example.com', '0433 890 123', 'Could I get a sample of your Lavosh crackers for a review?', 0, '2025-04-20'),
+    (4, 'Noah', 'Taylor', 'noah.taylor@example.com', '0455 234 567', 'Interested in stocking your gift hampers.', 0, '2025-04-15'),
+    (5, 'Isabella', 'Wilson', 'isabella.wilson@example.com', '0400 567 890', 'Do you offer gluten-free Lavosh crackers?', 0, '2025-04-10'),
+    (6, 'James', 'Martin', 'james.martin@example.com', '0422 789 012', 'Looking for a luxury hamper for corporate gifts.', 0, '2025-04-05'),
+    (7, 'Ava', 'White', 'ava.white@example.com', '0444 678 901', 'What are the best pairings for your flatbread?', 0, '2025-03-31'),
+    (8, 'William', 'Harris', 'william.harris@example.com', '0415 234 678', 'Can I get details on your Lavosh crackers packaging?', 0, '2025-03-27'),
+    (9, 'Olivia', 'Moore', 'olivia.moore@example.com', '0439 123 567', 'Are your gift hampers customizable?', 0, '2025-03-22'),
+    (10, 'Benjamin', 'Clark', 'benjamin.clark@example.com', '0450 567 234', 'Do you ship your Lavosh crackers internationally?', 0, '2025-03-18'),
+    (11, 'Charlotte', 'Evans', 'charlotte.evans@example.com', '0412 987 654', 'I’d love to order your Lavosh crackers for a wine-tasting event.', 0, '2025-03-15'),
+    (12, 'Jack', 'Robinson', 'jack.robinson@example.com', '0421 678 432', 'Are your flatbreads available in bulk for catering?', 0, '2025-03-10'),
+    (13, 'Mia', 'Hall', 'mia.hall@example.com', '0433 765 321', 'Could I get a Lavosh hamper shipped for a birthday gift?', 0, '2025-03-05'),
+    (14, 'Ethan', 'Walker', 'ethan.walker@example.com', '0455 876 210', 'I am a retailer interested in selling your crackers. Can we discuss wholesale pricing?', 0, '2025-02-28'),
+    (15, 'Amelia', 'Scott', 'amelia.scott@example.com', '0400 321 678', 'Do you offer sample packs of your flatbreads?', 0, '2025-02-22'),
+    (16, 'Lucas', 'King', 'lucas.king@example.com', '0422 543 219', 'Would love to feature your Lavosh in a seasonal menu at my restaurant.', 0, '2025-02-15'),
+    (17, 'Harper', 'Lewis', 'harper.lewis@example.com', '0444 765 890', 'Are your hampers available for corporate gifting?', 0, '2025-02-10'),
+    (18, 'Henry', 'Baker', 'henry.baker@example.com', '0415 678 432', 'Can I preorder the next batch of Lavosh crackers?', 0, '2025-02-05'),
+    (19, 'Grace', 'Wright', 'grace.wright@example.com', '0439 210 654', 'What’s the best way to store your flatbread for freshness?', 0, '2025-01-30'),
+    (20, 'Daniel', 'Adams', 'daniel.adams@example.com', '0450 123 678', 'Can I arrange a tasting session for your product line?', 0, '2025-01-25');
 
 -- --------------------------------------------------------
 
