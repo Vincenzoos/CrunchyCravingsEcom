@@ -37,7 +37,7 @@ class OrdersController extends AppController
 
         $this->set(compact('orders'));
     }
-    
+
     /**
      * Customer Index method
      *
@@ -52,6 +52,13 @@ class OrdersController extends AppController
             'contain' => ['OrderItems.Products'], // Include related order items and products
             'order' => ['Orders.created' => 'DESC'],
         ])->toArray();
+
+        // Calculate total_price dynamically for each order
+        foreach ($orders as $order) {
+            $order->total_price = array_reduce($order->order_items, function ($sum, $item) {
+                return $sum + $item->line_price;
+            }, 0);
+        }
 
         $this->set(compact('orders'));
     }

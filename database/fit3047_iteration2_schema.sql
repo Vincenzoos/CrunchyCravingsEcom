@@ -242,23 +242,22 @@ INSERT INTO `faqs` (`id`, `title`, `answer`, `created`, `modified`) VALUES
 --
 
 CREATE TABLE `orders` (
-                          `id` INT(11) NOT NULL,
-                          `user_id` INT(11) NOT NULL,
-                          `total_price` DECIMAL(10,2) NOT NULL,
-                          `status` ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
-                          `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
-                          `modified` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `id` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  `status` ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
+  `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `modified` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
-INSERT INTO `orders` (`id`, `user_id`, `total_price`, `status`, `created`, `modified`) VALUES
-                                                                                           (1, 5, 19.98, 'completed', NOW(), NOW()),
-                                                                                           (2, 3, 49.99, 'pending', NOW(), NOW()),
-                                                                                           (3, 2, 79.99, 'completed', NOW(), NOW()),
-                                                                                           (4, 5, 29.97, 'cancelled', NOW(), NOW()),
-                                                                                           (5, 4, 59.99, 'pending', NOW(), NOW());
+INSERT INTO `orders` (`id`, `user_id`, `status`, `created`, `modified`) VALUES
+    (1, 5,  'completed', NOW(), NOW()),
+    (2, 3,  'pending', NOW(), NOW()),
+    (3, 2,  'completed', NOW(), NOW()),
+    (4, 5,  'cancelled', NOW(), NOW()),
+    (5, 4,  'pending', NOW(), NOW());
 
 --
 -- Table structure for table `order_items`

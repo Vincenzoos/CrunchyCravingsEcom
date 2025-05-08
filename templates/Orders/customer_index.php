@@ -42,7 +42,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $total_price = 0?>
                             <?php foreach ($order->order_items as $item) : ?>
                                 <tr>
                                     <td data-title="Product" class="product-thumbnail text-center">
@@ -68,12 +67,7 @@
                                         <span class="amount"><?= $this->Number->currency($item->line_price, 'AUD') ?></span>
                                     </td>
                                 </tr>
-                                <?php $total_price += $item->line_price ?>
                             <?php endforeach; ?>
-                                <tr class="order-total">
-                                    <th>Grand Total</th>
-                                    <td><strong><span class="total-amount"><?= $this->Number->currency($total_price, 'AUD') ?></span></strong></td>
-                                </tr>
                         </tbody>
                     </table>
                 </div>
