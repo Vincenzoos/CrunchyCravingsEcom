@@ -35,10 +35,10 @@ $html = new HtmlHelper(new \Cake\View\View());
         <div class="col">
             <h4 class="mb-0">Orders (<?= count($orders) ?>)</h4>
         </div>
-        <div class="col-auto d-flex align-items-center">
+<!--        <div class="col-auto d-flex align-items-center">-->
             <!-- Add New Order Button -->
-            <?= $this->Html->link(__('Add New Order'), ['action' => 'add'], ['class' => 'btn btn-success']) ?>
-        </div>
+<!--            --><?php //= $this->Html->link(__('Add New Order'), ['action' => 'add'], ['class' => 'btn btn-success']) ?>
+<!--        </div>-->
     </div>
 
     <!-- Main Content -->
