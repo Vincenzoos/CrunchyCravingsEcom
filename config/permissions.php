@@ -74,6 +74,13 @@ return [
             'bypassAuth' => true,
         ],
 
+        // Restrict access to Orders index for admin only
+        [
+            'role' => 'admin',
+            'controller' => 'Orders',
+            'action' => 'index',
+        ],
+
         // Public access to Pages controller (e.g. homepage/landing page)
         [
             'role' => '*',

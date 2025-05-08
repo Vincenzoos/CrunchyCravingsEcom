@@ -32,7 +32,6 @@ class OrdersController extends AppController
     {
         $query = $this->Orders->find()
             ->contain(['Users']);
-        $query = $this->Authorization->applyScope($query);
         $orders = $this->paginate($query);
 
         $this->set(compact('orders'));

@@ -64,7 +64,6 @@ class AppController extends Controller
         $this->loadComponent('FormProtection', [
             'unlockedFields' => [],
         ]);
-        #TODO: Add field validation, sanitization, restriction for all website forms
     }
 
     public function beforeRender(EventInterface $event)
