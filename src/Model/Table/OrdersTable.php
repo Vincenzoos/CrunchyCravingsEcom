@@ -74,13 +74,26 @@ class OrdersTable extends Table
             ->notEmptyString('user_id');
 
         $validator
-            ->decimal('total_price')
-            ->requirePresence('total_price', 'create')
-            ->notEmptyString('total_price');
-
-        $validator
             ->scalar('status')
             ->allowEmptyString('status');
+
+        $validator
+            ->scalar('origin_address')
+            ->maxLength('origin_address', 255)
+            ->allowEmptyString('origin_address');
+    
+        $validator
+            ->scalar('destination_address')
+            ->maxLength('destination_address', 255)
+            ->notEmptyString('destination_address', 'Destination address is required.');
+    
+        $validator
+            ->dateTime('shipped_date')
+            ->allowEmptyDateTime('shipped_date');
+    
+        $validator
+            ->dateTime('estimated_delivery_date')
+            ->allowEmptyDateTime('estimated_delivery_date');
 
         return $validator;
     }

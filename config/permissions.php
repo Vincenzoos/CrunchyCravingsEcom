@@ -64,13 +64,15 @@ return [
             'bypassAuth' => true,
         ],
 
-        // // Public access to the Orders functionalities
-        // [
-        //     'role' => '*',
-        //     'controller' => 'Orders',
-        //     'action' => '*',
-        //     'bypassAuth' => true,
-        // ],
+        // Public access to the Orders functionalities
+        [
+            'role' => '*',
+            'controller' => 'Orders',
+            'action' => [
+                'customerIndex',
+            ],
+            'bypassAuth' => true,
+        ],
 
         // Public access to Pages controller (e.g. homepage/landing page)
         [

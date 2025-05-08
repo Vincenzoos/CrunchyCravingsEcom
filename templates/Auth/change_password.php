@@ -1,4 +1,3 @@
-<!-- filepath: c:\xampp\htdocs\team068-onboarding-project\templates\Auth\change_password.php -->
 <?php
 /**
  * @var \App\View\AppView $this

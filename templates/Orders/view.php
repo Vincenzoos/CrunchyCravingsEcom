@@ -27,12 +27,24 @@
                     <td><?= h($order->status) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Origin Address') ?></th>
+                    <td><?= h($order->origin_address) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Destination Address') ?></th>
+                    <td><?= h($order->destination_address) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Id') ?></th>
                     <td><?= $this->Number->format($order->id) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Total Price') ?></th>
-                    <td><?= $this->Number->format($order->total_price) ?></td>
+                    <th><?= __('Shipped Date') ?></th>
+                    <td><?= h($order->shipped_date) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Estimated Delivery Date') ?></th>
+                    <td><?= h($order->estimated_delivery_date) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Created') ?></th>
@@ -44,8 +56,8 @@
                 </tr>
             </table>
             <div class="related">
-                <h4><?= __('Related Order Products') ?></h4>
-                <?php if (!empty($order->order_products)) : ?>
+                <h4><?= __('Related Order Items') ?></h4>
+                <?php if (!empty($order->order_items)) : ?>
                 <div class="table-responsive">
                     <table>
                         <tr>
@@ -55,21 +67,21 @@
                             <th><?= __('Quantity') ?></th>
                             <th class="actions"><?= __('Actions') ?></th>
                         </tr>
-                        <?php foreach ($order->order_products as $orderProduct) : ?>
+                        <?php foreach ($order->order_items as $orderItem) : ?>
                         <tr>
-                            <td><?= h($orderProduct->id) ?></td>
-                            <td><?= h($orderProduct->order_id) ?></td>
-                            <td><?= h($orderProduct->product_id) ?></td>
-                            <td><?= h($orderProduct->quantity) ?></td>
+                            <td><?= h($orderItem->id) ?></td>
+                            <td><?= h($orderItem->order_id) ?></td>
+                            <td><?= h($orderItem->product_id) ?></td>
+                            <td><?= h($orderItem->quantity) ?></td>
                             <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'OrderProducts', 'action' => 'view', $orderProduct->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'OrderProducts', 'action' => 'edit', $orderProduct->id]) ?>
+                                <?= $this->Html->link(__('View'), ['controller' => 'OrderItems', 'action' => 'view', $orderItem->id]) ?>
+                                <?= $this->Html->link(__('Edit'), ['controller' => 'OrderItems', 'action' => 'edit', $orderItem->id]) ?>
                                 <?= $this->Form->postLink(
                                     __('Delete'),
-                                    ['controller' => 'OrderProducts', 'action' => 'delete', $orderProduct->id],
+                                    ['controller' => 'OrderItems', 'action' => 'delete', $orderItem->id],
                                     [
                                         'method' => 'delete',
-                                        'confirm' => __('Are you sure you want to delete # {0}?', $orderProduct->id),
+                                        'confirm' => __('Are you sure you want to delete # {0}?', $orderItem->id),
                                     ]
                                 ) ?>
                             </td>

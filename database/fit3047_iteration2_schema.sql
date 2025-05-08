@@ -186,7 +186,7 @@ INSERT INTO `users` (`id`, `email`, `password`, `role`) VALUES
                                                             (2, 'asd@gmail.com', '$2y$10$7wxwv.poWhcCGgNefskCzeMzitBi3er7HEog7pA9h96U8enNDlUVq', 'admin'),
                                                             (3, 'customer@gmail.com', '$2y$10$08QZ71hbWixjGsGTH2wZ.uZt8YO/4nXq1ZYvx/Ks2klg5VKGqzafu', 'customer'),
                                                             (4, 'admin@gmail.com', '$2y$10$ScL2SU6TnMHcuntwsJ2meOaMSIq3zjlAicMQJxQWFfFvvLtgh5Wmq', 'admin'),
-                                                            (5, 'admin2@gmail.com', '$2y$10$bRiyYWnTCIJGEn3ZhamHHe5pkTiUxdU3A6GGHVBbKqMYttyE1lcgC', 'admin'); -- Password 1234$You
+                                                            (5, 'vtod0001@student.monash.edu', '$2y$10$bRiyYWnTCIJGEn3ZhamHHe5pkTiUxdU3A6GGHVBbKqMYttyE1lcgC', 'admin'); -- Password 1234$You
 
 --
 -- Table structure for table `cart_items`
@@ -242,22 +242,26 @@ INSERT INTO `faqs` (`id`, `title`, `answer`, `created`, `modified`) VALUES
 --
 
 CREATE TABLE `orders` (
-  `id` INT(11) NOT NULL,
-  `user_id` INT(11) NOT NULL,
-  `status` ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
-  `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `modified` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    `id` INT(11) NOT NULL,
+    `user_id` INT(11) NOT NULL,
+    `status` ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
+    `origin_address` VARCHAR(255) DEFAULT NULL,
+    `destination_address` VARCHAR(255) DEFAULT NULL,
+    `shipped_date` DATETIME DEFAULT NULL,
+    `estimated_delivery_date` DATETIME DEFAULT NULL,
+    `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `modified` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
-INSERT INTO `orders` (`id`, `user_id`, `status`, `created`, `modified`) VALUES
-    (1, 5,  'completed', NOW(), NOW()),
-    (2, 3,  'pending', NOW(), NOW()),
-    (3, 2,  'completed', NOW(), NOW()),
-    (4, 5,  'cancelled', NOW(), NOW()),
-    (5, 4,  'pending', NOW(), NOW());
+INSERT INTO `orders` (`id`, `user_id`, `status`, `origin_address`, `destination_address`, `shipped_date`, `estimated_delivery_date`, `created`, `modified`) VALUES
+    (1, 5, 'completed', '380 Collins St, Melbourne VIC 3000', 'Wellington Rd, Clayton VIC 3800', '2025-04-01 10:00:00', '2025-04-05 18:00:00', NOW(), NOW()),
+    (2, 3, 'pending', '380 Collins St, Melbourne VIC 3000', '900 Dandenong Rd, Caulfield East VIC 3145', NULL, '2025-04-10 18:00:00', NOW(), NOW()),
+    (3, 2, 'completed', '380 Collins St, Melbourne VIC 3000', '381 Royal Parade, Parkville VIC 3052', '2025-03-25 09:00:00', '2025-03-30 17:00:00', NOW(), NOW()),
+    (4, 5, 'cancelled', '380 Collins St, Melbourne VIC 3000', 'Moorooduc Hwy, Frankston VIC 3199', NULL, NULL, NOW(), NOW()),
+    (5, 4, 'pending', '380 Collins St, Melbourne VIC 3000', 'Wellington Rd, Clayton VIC 3800', NULL, '2025-04-15 18:00:00', NOW(), NOW());
 
 --
 -- Table structure for table `order_items`

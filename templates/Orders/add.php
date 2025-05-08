@@ -19,8 +19,11 @@
                 <legend><?= __('Add Order') ?></legend>
                 <?php
                     echo $this->Form->control('user_id', ['options' => $users]);
-                    echo $this->Form->control('total_price');
                     echo $this->Form->control('status');
+                    echo $this->Form->control('origin_address');
+                    echo $this->Form->control('destination_address');
+                    echo $this->Form->control('shipped_date', ['empty' => true]);
+                    echo $this->Form->control('estimated_delivery_date', ['empty' => true]);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

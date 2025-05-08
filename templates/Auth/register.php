@@ -1,4 +1,3 @@
-<!-- filepath: c:\xampp\htdocs\team068-onboarding-project\templates\Auth\register.php -->
 <?php
 /**
  * @var \App\View\AppView $this

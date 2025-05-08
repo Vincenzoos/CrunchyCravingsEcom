@@ -13,8 +13,11 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('user_id') ?></th>
-                    <th><?= $this->Paginator->sort('total_price') ?></th>
                     <th><?= $this->Paginator->sort('status') ?></th>
+                    <th><?= $this->Paginator->sort('origin_address') ?></th>
+                    <th><?= $this->Paginator->sort('destination_address') ?></th>
+                    <th><?= $this->Paginator->sort('shipped_date') ?></th>
+                    <th><?= $this->Paginator->sort('estimated_delivery_date') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
@@ -25,8 +28,11 @@
                 <tr>
                     <td><?= $this->Number->format($order->id) ?></td>
                     <td><?= $order->hasValue('user') ? $this->Html->link($order->user->email, ['controller' => 'Users', 'action' => 'view', $order->user->id]) : '' ?></td>
-                    <td><?= $this->Number->format($order->total_price) ?></td>
                     <td><?= h($order->status) ?></td>
+                    <td><?= h($order->origin_address) ?></td>
+                    <td><?= h($order->destination_address) ?></td>
+                    <td><?= h($order->shipped_date) ?></td>
+                    <td><?= h($order->estimated_delivery_date) ?></td>
                     <td><?= h($order->created) ?></td>
                     <td><?= h($order->modified) ?></td>
                     <td class="actions">

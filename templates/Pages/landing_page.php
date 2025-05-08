@@ -1,4 +1,3 @@
-<!-- filepath: c:\xampp\htdocs\team068-onboarding-project\templates\Pages\landing_page.php -->
 <?php
 /**
  * Landing Page for CrunchyCravings
