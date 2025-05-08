@@ -141,6 +141,7 @@ $html = new HtmlHelper(new View());
                     <a href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index']) ?>" class="list-group-item">Manage Categories</a>
                     <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?>" class="list-group-item">Manage Users</a>
                     <a href="<?= $this->Url->build(['controller' => 'Faqs', 'action' => 'index']) ?>" class="list-group-item">Manage FAQs</a>
+                    <a href="<?= $this->Url->build(['controller' => 'Orders', 'action' => 'index']) ?>" class="list-group-item">Manage Orders</a>
                 </ul>
             </div>
         </div>
@@ -176,7 +177,7 @@ $html = new HtmlHelper(new View());
                             </a>
 						</div>
 					</div>
-                    
+
                     <!-- Determine whether to show login or logout, and save the current page in URL redirect to be used as a fallback -->
                     <?php if ($this->Identity->isLoggedIn()) : ?>
                         <div class="col-1 col-md-1 col-lg-1 d-flex justify-content-end">
@@ -190,7 +191,7 @@ $html = new HtmlHelper(new View());
                                 <button class="btn btn-secondary rounded-circle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <?= $initials ?>
                                 </button>
-                                
+
                                 <!-- Dropdown Menu -->
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                     <!-- <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profile']) ?>">My Profile</a></li> -->
@@ -205,14 +206,14 @@ $html = new HtmlHelper(new View());
                         <div class="col-1 col-md-1 col-lg-1 align-items-center" style="margin-top: 15px; margin-bottom: 15px;">
                             <a title="Login"
                                 id="top_link"
-                                
+
                                 href="<?= $this->Url->build(['controller' => 'Auth','action' => 'login','?' => ['redirect' => $this->request->getRequestTarget()]]) ?>" class="list-group-item">
                                 LOGIN
                             </a>
 
                             <a title="Register"
                                 id="top_link"
-                                
+
                                 href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">
                                 REGISTER
                             </a>

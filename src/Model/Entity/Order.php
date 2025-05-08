@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $user_id
+ * @property string $total_price
  * @property string|null $status
  * @property string|null $origin_address
  * @property string|null $destination_address
@@ -34,6 +35,7 @@ class Order extends Entity
      */
     protected array $_accessible = [
         'user_id' => true,
+        'total_price' => false,
         'status' => true,
         'origin_address' => true,
         'destination_address' => true,

@@ -31,8 +31,15 @@ class OrdersController extends AppController
     public function index()
     {
         $query = $this->Orders->find()
-            ->contain(['Users']);
+            ->contain(['Users', 'OrderItems.Products']);
         $orders = $this->paginate($query);
+
+        // Calculate total_price dynamically for each order
+        foreach ($orders as $order) {
+            $order->total_price = array_reduce($order->order_items, function ($sum, $item) {
+                return $sum + $item->line_price;
+            }, 0);
+        }
 
         $this->set(compact('orders'));
     }
@@ -71,8 +78,7 @@ class OrdersController extends AppController
      */
     public function view($id = null)
     {
-        $order = $this->Orders->get($id, contain: ['Users', 'OrderProducts']);
-        $this->Authorization->authorize($order);
+        $order = $this->Orders->get($id, contain: ['Users', 'OrderItems.Products']);
         $this->set(compact('order'));
     }
 
@@ -84,7 +90,6 @@ class OrdersController extends AppController
     public function add()
     {
         $order = $this->Orders->newEmptyEntity();
-        $this->Authorization->authorize($order);
         if ($this->request->is('post')) {
             $order = $this->Orders->patchEntity($order, $this->request->getData());
             if ($this->Orders->save($order)) {
@@ -108,7 +113,6 @@ class OrdersController extends AppController
     public function edit($id = null)
     {
         $order = $this->Orders->get($id, contain: []);
-        $this->Authorization->authorize($order);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $order = $this->Orders->patchEntity($order, $this->request->getData());
             if ($this->Orders->save($order)) {
@@ -133,7 +137,6 @@ class OrdersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $order = $this->Orders->get($id);
-        $this->Authorization->authorize($order);
         if ($this->Orders->delete($order)) {
             $this->Flash->success(__('The order has been deleted.'));
         } else {
