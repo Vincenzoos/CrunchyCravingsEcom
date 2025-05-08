@@ -27,6 +27,7 @@
                 <div class="order-box mb-4 p-3 border rounded">
                     <h4>Order #<?= h($order->id) ?> - <?= h($order->status) ?></h4>
                     <p><strong>Order Date:</strong> <?= h($order->created->format('d M Y, H:i A')) ?></p>
+<!--                 TODO: Should remove total price attribute from Order table-->
                     <p><strong>Total Price:</strong> <?= $this->Number->currency($order->total_price, 'AUD') ?></p>
 
                     <!-- Order Items Table -->
@@ -41,6 +42,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php $total_price = 0?>
                             <?php foreach ($order->order_items as $item) : ?>
                                 <tr>
                                     <td data-title="Product" class="product-thumbnail text-center">
@@ -66,7 +68,12 @@
                                         <span class="amount"><?= $this->Number->currency($item->line_price, 'AUD') ?></span>
                                     </td>
                                 </tr>
+                                <?php $total_price += $item->line_price ?>
                             <?php endforeach; ?>
+                                <tr class="order-total">
+                                    <th>Grand Total</th>
+                                    <td><strong><span class="total-amount"><?= $this->Number->currency($total_price, 'AUD') ?></span></strong></td>
+                                </tr>
                         </tbody>
                     </table>
                 </div>
