@@ -1,96 +1,168 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Order $order
- */
+<!doctype html>
+<!--
+**********************************************************************************************************
+    Copyright (c) 2024 Webstrot Technology
+********************************************************************************************************** -->
+<!--
+Template Name: Luxury Shop Ecommerce HTML Template
+Version: 1.0.0
+Author: webstrot
+Website: http://webstrot.com/
+Purchase: http://themeforest.net/user/webstrot  -->
+
+<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class=""> <!--<![endif]-->
+
+<sc?php
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\View;
+$html = new HtmlHelper(new View());
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('Edit Order'), ['action' => 'edit', $order->id], ['class' => 'side-nav-item']) ?>
-            <?= $this->Form->postLink(__('Delete Order'), ['action' => 'delete', $order->id], ['confirm' => __('Are you sure you want to delete # {0}?', $order->id), 'class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('List Orders'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('New Order'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column column-80">
-        <div class="orders view content">
-            <h3><?= h($order->id) ?></h3>
-            <table>
-                <tr>
-                    <th><?= __('User') ?></th>
-                    <td><?= $order->hasValue('user') ? $this->Html->link($order->user->email, ['controller' => 'Users', 'action' => 'view', $order->user->id]) : '' ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Status') ?></th>
-                    <td><?= h($order->status) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Origin Address') ?></th>
-                    <td><?= h($order->origin_address) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Destination Address') ?></th>
-                    <td><?= h($order->destination_address) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Id') ?></th>
-                    <td><?= $this->Number->format($order->id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Shipped Date') ?></th>
-                    <td><?= h($order->shipped_date) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Estimated Delivery Date') ?></th>
-                    <td><?= h($order->estimated_delivery_date) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Created') ?></th>
-                    <td><?= h($order->created) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Modified') ?></th>
-                    <td><?= h($order->modified) ?></td>
-                </tr>
-            </table>
-            <div class="related">
-                <h4><?= __('Related Order Items') ?></h4>
-                <?php if (!empty($order->order_items)) : ?>
-                <div class="table-responsive">
-                    <table>
+
+<head>
+    <title>Order Tracking</title>
+    <?= $this->Html->css(['utilities', 'shop', 'orders']) ?>
+    <!-- Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet.js JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+
+<!-- shop Container -->
+<div id="shop-container" class="container">
+    <h1 class="text-center" style="padding: 1rem 0;">View Order</h1>
+        <div id="shop-box" class="mb-4 p-3">
+            <h4 class="text-center" style="padding: 1rem 0;">Order #<?= h($order->id) ?> - <?= h($order->status) ?></h4>
+            <p><strong>Order Date:</strong> <?= h($order->created->format('d M Y, H:i A')) ?></p>
+            <p><strong>Origin Address:</strong> <?= h($order->origin_address) ?></p>
+            <p><strong>Destination Address:</strong> <?= h($order->destination_address) ?></p>
+
+            <!-- Shipping Tracking -->
+            <?php if ($order->shipped_date && $order->estimated_delivery_date) : ?>
+                <?php
+                $now = new \DateTime();
+                $deliveryDate = $order->estimated_delivery_date;
+                $interval = $now->diff($deliveryDate);
+
+                if ($now > $deliveryDate) {
+                    $shippingStatus = 'Delivered';
+                } elseif ($interval->days > 0) {
+                    $shippingStatus = $interval->days . ' days remaining';
+                } else {
+                    $shippingStatus = 'Less than a day remaining';
+                }
+                ?>
+                <p><strong>Shipping Status:</strong> <?= h($shippingStatus) ?></p>
+            <?php else : ?>
+                <p><strong>Shipping Status:</strong> Not shipped yet</p>
+            <?php endif; ?>
+
+            <!-- Map Section -->
+            <div id="map-<?= h($order->id) ?>" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+
+            <!-- Leaflet.js Map Script -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const map = L.map('map-<?= h($order->id) ?>');
+
+                    // Add OpenStreetMap tiles
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
+
+                    // Add markers for origin and destination
+                    const origin = "<?= h($order->origin_address) ?>";
+                    const destination = "<?= h($order->destination_address) ?>";
+
+                    let originLatLng, destinationLatLng;
+
+                    // Use Leaflet's geocoding plugin or a third-party geocoding service to convert addresses to coordinates
+                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(origin)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.length > 0) {
+                                originLatLng = [data[0].lat, data[0].lon];
+                                L.marker(originLatLng).addTo(map).bindPopup("Origin: <?= h($order->origin_address) ?>").openPopup();
+                                if (originLatLng && destinationLatLng) {
+                                    map.fitBounds([originLatLng, destinationLatLng], { padding: [50, 50] });
+                                }
+                            }
+                        });
+
+                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(destination)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.length > 0) {
+                                destinationLatLng = [data[0].lat, data[0].lon];
+                                L.marker(destinationLatLng).addTo(map).bindPopup("Destination: <?= h($order->destination_address) ?>");
+                                if (originLatLng && destinationLatLng) {
+                                    map.fitBounds([originLatLng, destinationLatLng], { padding: [50, 50] });
+                                }
+                            }
+                        });
+                });
+            </script>
+            </script>
+
+            <!-- Order Items Table -->
+            <div class="shopping-cart-table">
+                <table class="shop_table">
+                    <thead>
+                    <tr>
+                        <th class="product-name text-center">Product</th>
+                        <th class="product-description text-center">Description</th>
+                        <th class="product-price text-center">Price</th>
+                        <th class="product-quantity text-center">Quantity</th>
+                        <th class="product-subtotal text-center">Subtotal</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($order->order_items as $item) : ?>
                         <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Order Id') ?></th>
-                            <th><?= __('Product Id') ?></th>
-                            <th><?= __('Quantity') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($order->order_items as $orderItem) : ?>
-                        <tr>
-                            <td><?= h($orderItem->id) ?></td>
-                            <td><?= h($orderItem->order_id) ?></td>
-                            <td><?= h($orderItem->product_id) ?></td>
-                            <td><?= h($orderItem->quantity) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'OrderItems', 'action' => 'view', $orderItem->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'OrderItems', 'action' => 'edit', $orderItem->id]) ?>
-                                <?= $this->Form->postLink(
-                                    __('Delete'),
-                                    ['controller' => 'OrderItems', 'action' => 'delete', $orderItem->id],
-                                    [
-                                        'method' => 'delete',
-                                        'confirm' => __('Are you sure you want to delete # {0}?', $orderItem->id),
-                                    ]
-                                ) ?>
+                            <td data-title="Product" class="product-thumbnail text-center">
+                                <a style="color: #6E6E6E; display: block;" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'view', $item->product->id]) ?>">
+                                    <?= $this->Html->image($item->product->image_cache_busted_url, [
+                                        'alt' => $item->product->name,
+                                        'class' => 'img-fluid rounded',
+                                        'style' => 'height: 70px; object-fit: cover; width: 70px; display: block; margin: 0 auto;'
+                                    ]) ?>
+                                    <h5 style="font-size: 0.9rem; margin-top: 0.5rem;"><?= h($item->product->name) ?></h5>
+                                </a>
+                            </td>
+                            <td data-title="Description" class="product-description text-center">
+                                <?= h($item->product->description) ?>
+                            </td>
+                            <td data-title="Price" class="product-price text-center">
+                                <span class="price-amount"><?= $this->Number->currency($item->product->price, 'AUD') ?></span>
+                            </td>
+                            <td data-title="Quantity" class="product-quantity text-center">
+                                <?= h($item->quantity) ?>
+                            </td>
+                            <td data-title="Subtotal" class="product-subtotal text-center">
+                                <span class="amount"><?= $this->Number->currency($item->line_price, 'AUD') ?></span>
                             </td>
                         </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
-                <?php endif; ?>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Grand Total Section -->
+            <div class="text-end pe-1">
+                <h4 class="d-inline">Grand Total: </h4>
+                <span class="total-amount"><?= $this->Number->currency($order->total_price, 'AUD') ?></span>
             </div>
         </div>
-    </div>
+        <div class="text-center mt-4">
+            <?= $this->Html->link('Back to Orders List', ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+        </div>
 </div>
+</body>
+
+</html>

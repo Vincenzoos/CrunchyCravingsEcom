@@ -79,6 +79,12 @@ class OrdersController extends AppController
     public function view($id = null)
     {
         $order = $this->Orders->get($id, contain: ['Users', 'OrderItems.Products']);
+        // Calculate total_price dynamically for each order
+
+        $order->total_price = array_reduce($order->order_items, function ($sum, $item) {
+            return $sum + $item->line_price;
+        }, 0);
+
         $this->set(compact('order'));
     }
 
