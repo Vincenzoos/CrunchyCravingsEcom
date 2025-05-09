@@ -36,7 +36,8 @@ $html = new HtmlHelper(new \Cake\View\View());
             <h4 class="mb-0">Orders (<?= count($orders) ?>)</h4>
         </div>
         <div class="col-auto d-flex align-items-center">
-            <?= $this->Html->link(__('Weekly Sales Report'), ['action' => 'weeklyReport'], ['class' => 'btn btn-success']) ?>
+            <?= $this->Html->link(__('Weekly Sales Report'), ['action' => 'weeklyReport'], ['class' => 'btn btn-danger mx-1']) ?>
+            <?= $this->Html->link(__('Monthly Sales Report'), ['action' => 'monthlyReport'], ['class' => 'btn btn-danger mx-1']) ?>
         </div>
     </div>
 

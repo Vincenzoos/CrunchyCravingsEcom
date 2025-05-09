@@ -1,5 +1,6 @@
 // Function to download the report as a PDF
-function downloadReportAsPdf(buttonId, containerSelector, filename) {
+function downloadReportAsPdf(buttonId, containerSelector, filename)
+{
     document.getElementById(buttonId).addEventListener('click', function () {
         const element = document.querySelector(containerSelector);
 
@@ -29,7 +30,8 @@ function downloadReportAsPdf(buttonId, containerSelector, filename) {
 }
 
 // Function to create a bar chart
-function createBarChart(canvasId, labels, data, label, backgroundColor, borderColor) {
+function createBarChart(canvasId, labels, data, label, backgroundColor, borderColor)
+{
     const ctx = document.getElementById(canvasId).getContext('2d');
     new Chart(ctx, {
         type: 'bar',
@@ -55,7 +57,8 @@ function createBarChart(canvasId, labels, data, label, backgroundColor, borderCo
 }
 
 
-function initializeReportPage(config) {
+function initializeReportPage(config)
+{
     const { downloadButtonId, containerSelector, filename, chartConfig } = config;
 
     // Initialize the download button

@@ -135,7 +135,12 @@ class OrdersController extends AppController
     }
 
     /**
-     * @throws \DateMalformedStringException
+     * Generates a weekly sales report, including total revenue, product performance,
+     * and data for a revenue chart. The report is based on a selected week or defaults
+     * to the current week if no date is provided.
+     *
+     * @return void
+     * @throws \DateMalformedStringException If the provided date string is invalid.
      */
     public function weeklyReport()
     {
@@ -145,7 +150,7 @@ class OrdersController extends AppController
 
         // Calculate the start and end of the selected week
         $weekStart = (clone $selectedDateTime)->modify('this week')->format('Y-m-d 00:00:00');
-        $weekEnd = (clone $selectedDateTime)->modify('this week +6 days')->format('Y-m-d 23:59:59');
+        $weekEnd = (clone $selectedDateTime)->modify('sunday this week')->format('Y-m-d 23:59:59');
 
         // Weekly sales query
         $weeklySales = $this->Orders->find()
@@ -224,5 +229,116 @@ class OrdersController extends AppController
 
         // Pass data to the view
         $this->set(compact('chartData', 'weekStart', 'weekEnd', 'weeklyProducts', 'weeklyRevenue'));
+    }
+
+    /**
+     * Generates a monthly sales report, including total revenue, product performance,
+     * and data for a revenue chart. The report is based on a selected week or defaults
+     * to the current week if no date is provided.
+     *
+     * @return void
+     * @throws \DateMalformedStringException If the provided date string is invalid.
+     */
+    public function monthlyReport()
+    {
+        // Get the selected date from the query or default to today
+        $selectedMonth = $this->request->getQuery('month') ?? (new DateTime('first day of this month'))->format('Y-m-d');
+        $selectedDateTime = new DateTime($selectedMonth);
+
+        // Calculate the start and end of the selected month
+        $monthStart = (clone $selectedDateTime)->modify('first day of this month')->format('Y-m-d 00:00:00');
+        $monthEnd = (clone $selectedDateTime)->modify('last day of this month')->format('Y-m-d 23:59:59');
+
+        // Monthly sales query
+        $monthlySales = $this->Orders->find()
+            ->matching('OrderItems.Products') // INNER JOIN both tables
+            ->where([
+                'Orders.created >=' => $monthStart,
+                'Orders.created <=' => $monthEnd,
+            ])
+            ->select([
+                'date' => 'DATE(Orders.created)',
+                'revenue' => $this->Orders->find()->func()->sum('OrderItems.quantity * Products.price'),
+            ])
+            ->groupBy('DATE(Orders.created)')
+            ->orderBy(['date' => 'ASC'])
+            ->enableAutoFields(false)
+            ->toArray();
+
+        // Calculate total revenue for the month
+        $monthlyRevenue = array_reduce($monthlySales, function ($sum, $sale) {
+            return $sum + $sale->revenue;
+        }, 0);
+
+        // Monthly product performance query
+        // Step 1: Get product sales data
+        $monthlyProductStats = $this->Orders->find()
+            ->join([
+                'OrderItems' => [
+                    'table' => 'order_items',
+                    'type' => 'INNER',
+                    'conditions' => 'OrderItems.order_id = Orders.id',
+                ],
+            ])
+            ->where(['Orders.created >=' => $monthStart, 'Orders.created <=' => $monthEnd])
+            ->select([
+                'product_id' => 'OrderItems.product_id',
+                'total_sales' => $this->Orders->find()->func()->sum('OrderItems.quantity'),
+            ])
+            ->groupBy('OrderItems.product_id')
+            ->orderBy(['total_sales' => 'DESC'])
+            ->enableAutoFields(false)
+            ->toArray();
+
+        // Step 2: Extract product IDs
+        $productIds = array_column($monthlyProductStats, 'product_id');
+        $monthlyProducts = [];
+
+        // Step 3: Fetch full Product entities
+        if (!empty($productIds)) {
+            $products = (new Collection(
+                $this->Orders->OrderItems->Products->find()
+                    ->where(['id IN' => $productIds])
+                    ->all(),
+            ))->indexBy('id')->toArray();
+
+            // Step 4: Merge stats with full product entities
+            foreach ($monthlyProductStats as $stat) {
+                $product = $products[$stat->product_id] ?? null;
+                if ($product) {
+                    // Dynamically attach stat that not exist in product as virtual field
+                    $product->total_sales = $stat->total_sales;
+                    // Append product to weeklyProducts array
+                    $monthlyProducts[] = $product;
+                }
+            }
+        }
+
+        // Calculate weeks in the month
+        $weeks = [];
+        $currentWeekStart = (clone $selectedDateTime)->modify('first day of this month');
+        while ($currentWeekStart->format('Y-m-d') <= (new DateTime($monthEnd))->format('Y-m-d')) {
+            $weekStart = $currentWeekStart->format('d/m/Y');
+            $weekEnd = (clone $currentWeekStart)->modify('sunday this week')->format('d/m/Y');
+            if ($weekEnd > (new DateTime($monthEnd))->format('d/m/Y')) {
+                $weekEnd = (new DateTime($monthEnd))->format('d/m/Y');
+            }
+            $weeks[] = "$weekStart to $weekEnd";
+            $currentWeekStart->modify('next monday');
+        }
+
+        // Prepare data for the chart
+        $chartData = [
+            'labels' => $weeks,
+//            'labels' => array_map(fn($sale) => (new DateTime($sale->date))->format('d/m/Y'), $monthlySales),
+            'revenues' => array_map(fn($sale) => $sale->revenue, $monthlySales),
+        ];
+
+        // reformat dates for display in view
+        $monthStart = (new DateTime($monthStart))->format('d/m/Y');
+        $monthEnd = (new DateTime($monthEnd))->format('d/m/Y');
+
+        // Pass data to the view
+        $this->set(compact('chartData', 'monthStart', 'monthEnd', 'monthlyProducts', 'monthlyRevenue'));
     }
 }

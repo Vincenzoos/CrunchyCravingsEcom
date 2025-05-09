@@ -1,0 +1,117 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+
+    <!-- Custom CSS -->
+    <?= $this->Html->css(['utilities', 'table', 'form']) ?>
+</head>
+<body>
+    <div class="page-container mx-auto p-5">
+        <!-- Heading Section -->
+        <section id="heading" class="text-center py-5">
+            <div class="container">
+                <h1 class="display-6 text-center">Monthly Sales Report</h1>
+                <p class="lead text-center">View sales and product performance for the selected month.</p>
+            </div>
+        </section>
+
+        <!-- Date Picker Form -->
+        <div class="d-flex flex-end justify-content-end mb-4">
+            <div class="">
+                <?= $this->Form->create(null, ['type' => 'get', 'class' => 'd-flex align-items-center ignore-for-pdf']) ?>
+                <?= $this->Form->control('month', [
+                    'type' => 'month',
+                    'placeholder' => 'Select a month you would like to see report...',
+                    'label' => false,
+                    'class' => 'form-control me-2 ignore-for-pdf',
+                ]) ?>
+                <button type="submit" class="btn btn-danger ignore-for-pdf">View Report</button>
+                <?= $this->Form->end() ?>
+            </div>
+        </div>
+
+        <!-- Monthly Sales Section -->
+        <section id="monthly-sales" class="mb-5">
+            <h2 class="mb-3">Sales (<?= $monthStart ?> - <?= $monthEnd ?>)</h2>
+
+            <!-- Grand Total -->
+            <div class="text-end pe-1">
+                <h4 class="d-inline">Grand Total: </h4>
+                <span class="total-amount"><?= $this->Number->currency($monthlyRevenue, 'AUD') ?></span>
+            </div>
+
+            <!-- Bar Chart -->
+            <canvas id="salesChart" width="400" height="200"></canvas>
+        </section>
+
+        <!-- Product Performance Section -->
+        <section id="product-performance">
+            <h2 class="mb-3">Product Performance</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Product</th>
+                        <th>Total Sales</th>
+                        <th>Popularity</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($monthlyProducts as $product) : ?>
+                        <tr>
+                            <td data-title="Product" class="product-thumbnail text-center">
+                                <a style="color: #6E6E6E; display: block;" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'view', $product->id]) ?>">
+                                    <?= $this->Html->image($product->image_cache_busted_url, [
+                                        'alt' => $product->name,
+                                        'class' => 'img-fluid rounded',
+                                        'style' => 'height: 70px; object-fit: cover; width: 70px; display: block; margin: 0 auto;',
+                                    ]) ?>
+                                    <h5 style="font-size: 0.9rem; margin-top: 0.5rem;"><?= h($product->name) ?></h5>
+                                </a>
+                            </td>
+                            <td><?= h($product->total_sales) ?></td>
+                            <!-- TODO: Should use declare total_sales benchmark as constant to avoid mismatch                            -->
+                            <td>
+                                <?= $product->total_sales > 20 ? 'High' : ($product->total_sales > 10 ? 'Medium' : 'Low') ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <div class="text-center mt-4">
+            <?= $this->Form->button('Download', [
+                'type' => 'button',
+                'class' => 'btn btn-primary ignore-for-pdf',
+                'id' => 'downloadPdf',
+            ]) ?>
+            <?= $this->Html->link('Back to Orders', ['action' => 'index'], ['class' => 'btn btn-link ignore-for-pdf']) ?>
+        </div>
+    </div>
+
+    <!-- Custom JS    -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <?= $this->Html->script('report_utils') ?>
+
+    <!-- Config report page    -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeReportPage({
+                downloadButtonId: 'downloadPdf',
+                containerSelector: '.page-container',
+                filename: 'CC_Monthly_Report_<?=$monthStart?>_to_<?=$monthEnd?>.pdf',
+                chartConfig: {
+                    canvasId: 'salesChart',
+                    labels: <?= json_encode($chartData['labels']) ?>,
+                    data: <?= json_encode($chartData['revenues']) ?>,
+                    label: 'Revenue (AUD)',
+                    backgroundColor: 'rgb(201, 168, 117, 0.7)',
+                    borderColor: '#000000'
+                }
+            });
+        });
+    </script>
+</body>
