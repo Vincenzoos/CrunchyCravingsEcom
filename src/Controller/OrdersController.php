@@ -34,7 +34,8 @@ class OrdersController extends AppController
     public function index()
     {
         $query = $this->Orders->find()
-            ->contain(['Users', 'OrderItems.Products']);
+            ->contain(['Users', 'OrderItems.Products'])
+            ->orderBy(['Orders.created' => 'DESC']);
         $orders = $this->paginate($query);
         $this->set(compact('orders'));
     }
@@ -133,6 +134,9 @@ class OrdersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * @throws \DateMalformedStringException
+     */
     public function weeklyReport()
     {
         // Get the selected date from the query or default to today
@@ -186,22 +190,24 @@ class OrdersController extends AppController
 
         // Step 2: Extract product IDs
         $productIds = array_column($weeklyProductStats, 'product_id');
+        $weeklyProducts = [];
 
         // Step 3: Fetch full Product entities
-        $products = (new Collection(
-            $this->Orders->OrderItems->Products->find()
-                ->where(['id IN' => $productIds])
-                ->all(),
-        ))->indexBy('id')->toArray();
+        if (!empty($productIds)) {
+            $products = (new Collection(
+                $this->Orders->OrderItems->Products->find()
+                    ->where(['id IN' => $productIds])
+                    ->all(),
+            ))->indexBy('id')->toArray();
 
-        // Step 4: Merge stats with full product entities
-        $weeklyProducts = [];
-        foreach ($weeklyProductStats as $stat) {
-            $product = $products[$stat->product_id] ?? null;
-            if ($product) {
-                // dynamically attach stat
-                $product->total_sales = $stat->total_sales;
-                $weeklyProducts[] = $product;
+            // Step 4: Merge stats with full product entities
+            foreach ($weeklyProductStats as $stat) {
+                $product = $products[$stat->product_id] ?? null;
+                if ($product) {
+                    // dynamically attach stat
+                    $product->total_sales = $stat->total_sales;
+                    $weeklyProducts[] = $product;
+                }
             }
         }
 
