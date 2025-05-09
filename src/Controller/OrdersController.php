@@ -35,14 +35,6 @@ class OrdersController extends AppController
         $query = $this->Orders->find()
             ->contain(['Users', 'OrderItems.Products']);
         $orders = $this->paginate($query);
-
-//        // Calculate total_price dynamically for each order
-//        foreach ($orders as $order) {
-//            $order->total_price = array_reduce($order->order_items, function ($sum, $item) {
-//                return $sum + $item->line_price;
-//            }, 0);
-//        }
-
         $this->set(compact('orders'));
     }
 
@@ -60,14 +52,6 @@ class OrdersController extends AppController
             'contain' => ['OrderItems.Products'], // Include related order items and products
             'order' => ['Orders.created' => 'DESC'],
         ])->toArray();
-
-//        // Calculate total_price dynamically for each order
-//        foreach ($orders as $order) {
-//            $order->total_price = array_reduce($order->order_items, function ($sum, $item) {
-//                return $sum + $item->line_price;
-//            }, 0);
-//        }
-
         $this->set(compact('orders'));
     }
 
@@ -81,12 +65,6 @@ class OrdersController extends AppController
     public function view(?string $id = null)
     {
         $order = $this->Orders->get($id, contain: ['Users', 'OrderItems.Products']);
-        // Calculate total_price dynamically for each order
-
-//        $order->total_price = array_reduce($order->order_items, function ($sum, $item) {
-//            return $sum + $item->line_price;
-//        }, 0);
-
         $this->set(compact('order'));
     }
 
@@ -187,6 +165,11 @@ class OrdersController extends AppController
             ->orderBy(['date' => 'ASC'])
             ->toArray();
 
+        // Calculate total revenue for the week
+        $weeklyRevenue = array_reduce($weeklySales, function ($sum, $sale) {
+            return $sum + $sale->revenue;
+        }, 0);
+
         // Weekly product performance query
         $weeklyProducts = $this->Orders->find()
             ->join([
@@ -212,6 +195,6 @@ class OrdersController extends AppController
             ->toArray();
 
         // Pass data to the view
-        $this->set(compact('weekStart', 'weekEnd', 'weeklySales', 'weeklyProducts', 'selectedWeek'));
+        $this->set(compact('weekStart', 'weekEnd', 'weeklySales', 'weeklyProducts','weeklyRevenue'));
     }
 }
