@@ -4,7 +4,6 @@
     <title>Orders</title>
 
     <!-- Custom CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <?= $this->Html->css(['utilities', 'table', 'form']) ?>
 </head>
 <body>
@@ -20,21 +19,21 @@
         <!-- Date Picker Form -->
         <div class="d-flex flex-end justify-content-end mb-4">
             <div class="">
-                <?= $this->Form->create(null, ['type' => 'get', 'class' => 'd-flex align-items-center']) ?>
+                <?= $this->Form->create(null, ['type' => 'get', 'class' => 'd-flex align-items-center ignore-for-pdf']) ?>
                 <?= $this->Form->control('week', [
                     'type' => 'week',
                     'placeholder' => 'Select a week you would like to see report...',
                     'label' => false,
-                    'class' => 'form-control me-2',
+                    'class' => 'form-control me-2 ignore-for-pdf',
                 ]) ?>
-                <button type="submit" class="btn btn-primary">View Report</button>
+                <button type="submit" class="btn btn-danger ignore-for-pdf">View Report</button>
                 <?= $this->Form->end() ?>
             </div>
         </div>
 
         <!-- Weekly Sales Section -->
         <section id="weekly-sales" class="mb-5">
-            <h2 class="mb-3">Sales (<?= h((new DateTime($weekStart))->format('D d/m/Y')) ?> - <?= h((new DateTime($weekEnd))->format('D d/m/Y')) ?>)</h2>
+            <h2 class="mb-3">Sales (<?= $weekStart ?> - <?= $weekEnd ?>)</h2>
 
             <!-- Grand Total -->
             <div class="text-end pe-1">
@@ -44,8 +43,6 @@
 
             <!-- Bar Chart -->
             <canvas id="salesChart" width="400" height="200"></canvas>
-
-
         </section>
 
         <!-- Product Performance Section -->
@@ -61,21 +58,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($weeklyProducts as $product): ?>
+                    <?php foreach ($weeklyProducts as $product) : ?>
                         <tr>
                             <td data-title="Product" class="product-thumbnail text-center">
                                 <a style="color: #6E6E6E; display: block;" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'view', $product->id]) ?>">
                                     <?= $this->Html->image($product->image_cache_busted_url, [
                                         'alt' => $product->name,
                                         'class' => 'img-fluid rounded',
-                                        'style' => 'height: 70px; object-fit: cover; width: 70px; display: block; margin: 0 auto;'
+                                        'style' => 'height: 70px; object-fit: cover; width: 70px; display: block; margin: 0 auto;',
                                     ]) ?>
                                     <h5 style="font-size: 0.9rem; margin-top: 0.5rem;"><?= h($product->name) ?></h5>
                                 </a>
                             </td>
                             <td><?= h($product->total_sales) ?></td>
+                            <!-- TODO: Should use declare total_sales benchmark as constant to avoid mismatch                            -->
                             <td>
-                                <?= $product->total_sales > 50 ? 'High' : ($product->total_sales > 20 ? 'Medium' : 'Low') ?>
+                                <?= $product->total_sales > 6 ? 'High' : ($product->total_sales > 3 ? 'Medium' : 'Low') ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -84,36 +82,34 @@
             </div>
         </section>
         <div class="text-center mt-4">
-            <?= $this->Html->link('Download', ['action' => ''], ['class' => 'btn btn-info']) ?>
-            <?= $this->Html->link('Back to Orders', ['action' => 'index'], ['class' => 'btn btn-danger']) ?>
+            <?= $this->Form->button('Download', [
+                'type' => 'button',
+                'class' => 'btn btn-primary ignore-for-pdf',
+                'id' => 'downloadPdf',
+            ]) ?>
+            <?= $this->Html->link('Back to Orders', ['action' => 'index'], ['class' => 'btn btn-link ignore-for-pdf']) ?>
         </div>
     </div>
 
-    <!-- Chart.js Script -->
+    <!-- Custom JS    -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <?= $this->Html->script('report_utils') ?>
+
+    <!-- Config report page    -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const ctx = document.getElementById('salesChart').getContext('2d');
-            const salesChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    // Dates
+            initializeReportPage({
+                downloadButtonId: 'downloadPdf',
+                containerSelector: '.page-container',
+                filename: 'CC_Weekly_Report_<?=$weekStart?>_to_<?=$weekEnd?>.pdf',
+                chartConfig: {
+                    canvasId: 'salesChart',
                     labels: <?= json_encode($chartData['labels']) ?>,
-                    datasets: [{
-                        label: 'Revenue (AUD)',
-                        // Revenues
-                        data: <?= json_encode($chartData['revenues']) ?>,
-                        backgroundColor: 'rgb(201, 168, 117, 0.7)',
-                        borderColor: '#000000',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
+                    data: <?= json_encode($chartData['revenues']) ?>,
+                    label: 'Revenue (AUD)',
+                    backgroundColor: 'rgb(201, 168, 117, 0.7)',
+                    borderColor: '#000000'
                 }
             });
         });

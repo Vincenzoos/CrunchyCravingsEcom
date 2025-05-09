@@ -204,8 +204,9 @@ class OrdersController extends AppController
             foreach ($weeklyProductStats as $stat) {
                 $product = $products[$stat->product_id] ?? null;
                 if ($product) {
-                    // dynamically attach stat
+                    // Dynamically attach stat that not exist in product as virtual field
                     $product->total_sales = $stat->total_sales;
+                    // Append product to weeklyProducts array
                     $weeklyProducts[] = $product;
                 }
             }
@@ -216,6 +217,10 @@ class OrdersController extends AppController
             'labels' => array_map(fn($sale) => (new DateTime($sale->date))->format('d/m/Y'), $weeklySales),
             'revenues' => array_map(fn($sale) => $sale->revenue, $weeklySales),
         ];
+
+        // reformat dates for display in view
+        $weekStart = (new DateTime($weekStart))->format('D d/m/Y');
+        $weekEnd = (new DateTime($weekEnd))->format('D d/m/Y');
 
         // Pass data to the view
         $this->set(compact('chartData', 'weekStart', 'weekEnd', 'weeklyProducts', 'weeklyRevenue'));
