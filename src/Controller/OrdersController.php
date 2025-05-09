@@ -320,7 +320,9 @@ class OrdersController extends AppController
         while ($currentWeekStart->format('Y-m-d') <= (new DateTime($monthEnd))->format('Y-m-d')) {
             $weekStart = $currentWeekStart->format('d/m/Y');
             $weekEnd = (clone $currentWeekStart)->modify('sunday this week')->format('d/m/Y');
-            if ($weekEnd > (new DateTime($monthEnd))->format('d/m/Y')) {
+
+            // Ensure weekEnd does not exceed the month's end
+            if ($weekEnd < $monthEnd) {
                 $weekEnd = (new DateTime($monthEnd))->format('d/m/Y');
             }
             $weeks[] = "$weekStart to $weekEnd";
