@@ -1,7 +1,10 @@
+<!-- Set page title    -->
+<?php
+$this->assign('title', 'Yearly Report');
+?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders</title>
 
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities', 'table', 'form']) ?>

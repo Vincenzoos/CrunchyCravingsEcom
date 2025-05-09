@@ -1,10 +1,14 @@
+<!-- Set page title    -->
+<?php
+$this->assign('title', 'Weekly Report');
+?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders</title>
-
     <!-- Custom CSS -->
-    <?= $this->Html->css(['utilities', 'table', 'form']) ?>
+    <?=
+    $this->Html->css(['utilities', 'table', 'form'])
+    ?>
 </head>
 <body>
     <div class="page-container mx-auto p-5">
