@@ -12,7 +12,7 @@
         <section id="heading" class="text-center py-5">
             <div class="container">
                 <h1 class="display-6 text-center">Monthly Sales Report</h1>
-                <p class="lead text-center">View sales and product performance for the selected month.</p>
+                <p class="lead text-center">Report for the period: <?= h($monthStart) ?> to <?= h($monthEnd) ?></p>
             </div>
         </section>
 
@@ -33,7 +33,7 @@
 
         <!-- Monthly Sales Section -->
         <section id="monthly-sales" class="mb-5">
-            <h2 class="mb-3">Sales (<?= $monthStart ?> - <?= $monthEnd ?>)</h2>
+            <h2 class="mb-3">Sales</h2>
 
             <!-- Grand Total -->
             <div class="text-end pe-1">

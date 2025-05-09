@@ -11,19 +11,21 @@
         <!-- Heading Section -->
         <section id="heading" class="text-center py-5">
             <div class="container">
-                <h1 class="display-6 text-center">Weekly Sales Report</h1>
-                <p class="lead text-center">Report for the period: <?= h($weekStart) ?> to <?= h($weekEnd) ?></p>
+                <h1 class="display-6 text-center">Yearly Sales Report</h1>
+                <p class="lead text-center">Report for the period: <?= h($yearStart) ?> to <?= h($yearEnd) ?></p>
             </div>
         </section>
 
-        <!-- Date Picker Form -->
+        <!-- Year Picker Form -->
         <div class="d-flex flex-end justify-content-end mb-4">
             <div class="">
                 <?= $this->Form->create(null, ['type' => 'get', 'class' => 'd-flex align-items-center ignore-for-pdf']) ?>
-                <?= $this->Form->control('week', [
-                    'type' => 'week',
-                    'placeholder' => 'Select a week you would like to see report...',
+                <?= $this->Form->control('year', [
+                    'type' => 'year',
+                    'placeholder' => 'Select a year you would like to see report...',
+                    'empty' => false,
                     'label' => false,
+                    'value' => (new \DateTime($yearStart))->format('Y'),
                     'class' => 'form-control me-2 ignore-for-pdf',
                 ]) ?>
                 <button type="submit" class="btn btn-danger ignore-for-pdf">View Report</button>
@@ -31,14 +33,14 @@
             </div>
         </div>
 
-        <!-- Weekly Sales Section -->
-        <section id="weekly-sales" class="mb-5">
+        <!-- yearly Sales Section -->
+        <section id="yearly-sales" class="mb-5">
             <h2 class="mb-3">Sales</h2>
 
             <!-- Grand Total -->
             <div class="text-end pe-1">
                 <h4 class="d-inline">Grand Total: </h4>
-                <span class="total-amount"><?= $this->Number->currency($weeklyRevenue, 'AUD') ?></span>
+                <span class="total-amount"><?= $this->Number->currency($yearlyRevenue, 'AUD') ?></span>
             </div>
 
             <!-- Bar Chart -->
@@ -58,7 +60,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($weeklyProducts as $product) : ?>
+                    <?php foreach ($yearlyProducts as $product) : ?>
                         <tr>
                             <td data-title="Product" class="product-thumbnail text-center">
                                 <a style="color: #6E6E6E; display: block;" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'view', $product->id]) ?>">
@@ -73,7 +75,7 @@
                             <td><?= h($product->total_sales) ?></td>
                             <!-- TODO: Should use declare total_sales benchmark as constant to avoid mismatch                            -->
                             <td>
-                                <?= $product->total_sales > 6 ? 'High' : ($product->total_sales > 3 ? 'Medium' : 'Low') ?>
+                                <?= $product->total_sales > 50 ? 'High' : ($product->total_sales > 25 ? 'Medium' : 'Low') ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -102,7 +104,7 @@
             initializeReportPage({
                 downloadButtonId: 'downloadPdf',
                 containerSelector: '.page-container',
-                filename: 'CC_Weekly_Report_<?=$weekStart?>_to_<?=$weekEnd?>.pdf',
+                filename: 'CC_Yearly_Report_<?=$yearStart?>_to_<?=$yearEnd?>.pdf',
                 chartConfig: {
                     canvasId: 'salesChart',
                     labels: <?= json_encode($chartData['labels']) ?>,

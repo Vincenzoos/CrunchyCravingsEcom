@@ -65,6 +65,7 @@ return function (RouteBuilder $routes): void {
 
         $builder->connect('/orders/weekly-report', ['controller' => 'Orders', 'action' => 'weeklyReport']);
         $builder->connect('/orders/monthly-report', ['controller' => 'Orders', 'action' => 'monthlyReport']);
+        $builder->connect('/orders/yearly-report', ['controller' => 'Orders', 'action' => 'yearlyReport']);
 
         /*
          * Connect catchall routes for all controllers.

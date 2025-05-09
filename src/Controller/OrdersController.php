@@ -233,8 +233,8 @@ class OrdersController extends AppController
 
     /**
      * Generates a monthly sales report, including total revenue, product performance,
-     * and data for a revenue chart. The report is based on a selected week or defaults
-     * to the current week if no date is provided.
+     * and data for a revenue chart. The report is based on a selected month or defaults
+     * to the current month if no date is provided.
      *
      * @return void
      * @throws \DateMalformedStringException If the provided date string is invalid.
@@ -316,7 +316,7 @@ class OrdersController extends AppController
 
         // Calculate weeks in the month
         $weeks = [];
-        $currentWeekStart = (clone $selectedDateTime)->modify('first day of this month');
+        $currentWeekStart = new DateTime($monthStart);
         while ($currentWeekStart->format('Y-m-d') <= (new DateTime($monthEnd))->format('Y-m-d')) {
             $weekStart = $currentWeekStart->format('d/m/Y');
             $weekEnd = (clone $currentWeekStart)->modify('sunday this week')->format('d/m/Y');
@@ -330,7 +330,6 @@ class OrdersController extends AppController
         // Prepare data for the chart
         $chartData = [
             'labels' => $weeks,
-//            'labels' => array_map(fn($sale) => (new DateTime($sale->date))->format('d/m/Y'), $monthlySales),
             'revenues' => array_map(fn($sale) => $sale->revenue, $monthlySales),
         ];
 
@@ -340,5 +339,103 @@ class OrdersController extends AppController
 
         // Pass data to the view
         $this->set(compact('chartData', 'monthStart', 'monthEnd', 'monthlyProducts', 'monthlyRevenue'));
+    }
+
+    /**
+     * Generates a yearly sales report, including total revenue, product performance,
+     * and data for a revenue chart. The report is based on a selected year or defaults
+     * to the current year if no date is provided.
+     *
+     * @return void
+     * @throws \DateMalformedStringException If the provided date string is invalid.
+     */
+    public function yearlyReport()
+    {
+        // Get the selected date from the query or default to today
+        $selectedYear = $this->request->getQuery('year') ?? (new DateTime('first day of this year'))->format('Y');
+        $selectedYear = $selectedYear . '-01-01';
+        $selectedDateTime = new DateTime($selectedYear);
+
+        // Calculate the start and end of the selected year
+        $yearStart = (clone $selectedDateTime)->modify('first day of January')->format('Y-m-d 00:00:00');
+        $yearEnd = (clone $selectedDateTime)->modify('last day of December')->format('Y-m-d 23:59:59');
+
+        // Yearly sales query
+        $yearlySales = $this->Orders->find()
+            ->matching('OrderItems.Products') // INNER JOIN both tables
+            ->where([
+                'Orders.created >=' => $yearStart,
+                'Orders.created <=' => $yearEnd,
+            ])
+            ->select([
+                'month' => 'MONTH(Orders.created)',
+                'revenue' => $this->Orders->find()->func()->sum('OrderItems.quantity * Products.price'),
+            ])
+            ->groupBy('MONTH(Orders.created)')
+            ->orderBy(['month' => 'ASC'])
+            ->enableAutoFields(false)
+            ->toArray();
+
+        // Calculate total revenue for the year
+        $yearlyRevenue = array_reduce($yearlySales, function ($sum, $sale) {
+            return $sum + $sale->revenue;
+        }, 0);
+
+        // Yearly product performance query
+        // Step 1: Get product sales data
+        $yearlyProductStats = $this->Orders->find()
+            ->join([
+                'OrderItems' => [
+                    'table' => 'order_items',
+                    'type' => 'INNER',
+                    'conditions' => 'OrderItems.order_id = Orders.id',
+                ],
+            ])
+            ->where(['Orders.created >=' => $yearStart, 'Orders.created <=' => $yearEnd])
+            ->select([
+                'product_id' => 'OrderItems.product_id',
+                'total_sales' => $this->Orders->find()->func()->sum('OrderItems.quantity'),
+            ])
+            ->groupBy('OrderItems.product_id')
+            ->orderBy(['total_sales' => 'DESC'])
+            ->enableAutoFields(false)
+            ->toArray();
+
+        // Step 2: Extract product IDs
+        $productIds = array_column($yearlyProductStats, 'product_id');
+        $yearlyProducts = [];
+
+        // Step 3: Fetch full Product entities
+        if (!empty($productIds)) {
+            $products = (new Collection(
+                $this->Orders->OrderItems->Products->find()
+                    ->where(['id IN' => $productIds])
+                    ->all(),
+            ))->indexBy('id')->toArray();
+
+            // Step 4: Merge stats with full product entities
+            foreach ($yearlyProductStats as $stat) {
+                $product = $products[$stat->product_id] ?? null;
+                if ($product) {
+                    // Dynamically attach stat that not exist in product as virtual field
+                    $product->total_sales = $stat->total_sales;
+                    // Append product to weeklyProducts array
+                    $yearlyProducts[] = $product;
+                }
+            }
+        }
+
+        // Prepare data for the chart
+        $chartData = [
+            'labels' => array_map(fn($sale) => DateTime::createFromFormat('!m', (string)$sale->month)->format('F'), $yearlySales),
+            'revenues' => array_map(fn($sale) => $sale->revenue, $yearlySales),
+        ];
+
+        // reformat dates for display in view
+        $yearStart = (new DateTime($yearStart))->format('d/m/Y');
+        $yearEnd = (new DateTime($yearEnd))->format('d/m/Y');
+
+        // Pass data to the view
+        $this->set(compact('chartData', 'yearStart', 'yearEnd', 'yearlyProducts', 'yearlyRevenue'));
     }
 }

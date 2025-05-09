@@ -38,6 +38,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         <div class="col-auto d-flex align-items-center">
             <?= $this->Html->link(__('Weekly Sales Report'), ['action' => 'weeklyReport'], ['class' => 'btn btn-danger mx-1']) ?>
             <?= $this->Html->link(__('Monthly Sales Report'), ['action' => 'monthlyReport'], ['class' => 'btn btn-danger mx-1']) ?>
+            <?= $this->Html->link(__('Yearly Sales Report'), ['action' => 'yearlyReport'], ['class' => 'btn btn-danger mx-1']) ?>
         </div>
     </div>
 
