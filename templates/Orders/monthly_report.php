@@ -26,7 +26,7 @@
                     'label' => false,
                     'class' => 'form-control me-2 ignore-for-pdf',
                 ]) ?>
-                <button type="submit" class="btn btn-danger ignore-for-pdf">View Report</button>
+                <button type="submit" class="btn btn-danger mx-1 ignore-for-pdf">View Report</button>
                 <?= $this->Form->end() ?>
             </div>
         </div>

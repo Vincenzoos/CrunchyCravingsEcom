@@ -26,9 +26,9 @@
                     'empty' => false,
                     'label' => false,
                     'value' => (new \DateTime($yearStart))->format('Y'),
-                    'class' => 'form-control me-2 ignore-for-pdf',
+                    'class' => 'form-control ignore-for-pdf',
                 ]) ?>
-                <button type="submit" class="btn btn-danger ignore-for-pdf">View Report</button>
+                <button type="submit" class="btn btn-danger mx-1 ignore-for-pdf">View Report</button>
                 <?= $this->Form->end() ?>
             </div>
         </div>
