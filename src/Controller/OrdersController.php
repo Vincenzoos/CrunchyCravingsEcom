@@ -154,20 +154,17 @@ class OrdersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function salesReport()
+    public function weeklyReport()
     {
-        $this->OrderItems = $this->fetchTable('OrderItems');
-        $this->Products = $this->fetchTable('Products');
+        // Get the selected date from the query or default to today
+        $selectedWeek = $this->request->getQuery('week') ?? (new DateTime())->format('Y-m-d');
+        $selectedDateTime = new DateTime($selectedWeek);
 
-        // Get the current date
-        $now = new DateTime();
+        // Calculate the start and end of the selected week
+        $weekStart = (clone $selectedDateTime)->modify('this week')->format('Y-m-d 00:00:00');
+        $weekEnd = (clone $selectedDateTime)->modify('this week +6 days')->format('Y-m-d 23:59:59');
 
-        // Filter data for week, month, and year
-        $weekStart = $now->modify('-1 week')->format('Y-m-d H:i:s');
-        $monthStart = $now->modify('-1 month')->format('Y-m-d H:i:s');
-        $yearStart = $now->modify('-1 year')->format('Y-m-d H:i:s');
-
-        // Weekly sales
+        // Weekly sales query
         $weeklySales = $this->Orders->find()
             ->join([
                 'OrderItems' => [
@@ -181,18 +178,17 @@ class OrdersController extends AppController
                     'conditions' => 'Products.id = OrderItems.product_id',
                 ],
             ])
-            ->where(['Orders.created >=' => $weekStart])
+            ->where(['Orders.created >=' => $weekStart, 'Orders.created <=' => $weekEnd])
             ->select([
-                'product_id' => 'OrderItems.product_id',
-                'product_name' => 'Products.name',
-                'total_sales' => 'SUM(OrderItems.quantity)',
+                'date' => 'DATE(Orders.created)',
+                'revenue' => 'SUM(OrderItems.quantity * Products.price)',
             ])
-            ->groupBy('OrderItems.product_id')
-            ->orderBy(['total_sales' => 'DESC'])
+            ->groupBy('DATE(Orders.created)')
+            ->orderBy(['date' => 'ASC'])
             ->toArray();
 
-        // Monthly sales
-        $monthlySales = $this->Orders->find()
+        // Weekly product performance query
+        $weeklyProducts = $this->Orders->find()
             ->join([
                 'OrderItems' => [
                     'table' => 'order_items',
@@ -205,31 +201,7 @@ class OrdersController extends AppController
                     'conditions' => 'Products.id = OrderItems.product_id',
                 ],
             ])
-            ->where(['Orders.created >=' => $monthStart])
-            ->select([
-                'product_id' => 'OrderItems.product_id',
-                'product_name' => 'Products.name',
-                'total_sales' => 'SUM(OrderItems.quantity)',
-            ])
-            ->groupBy('OrderItems.product_id')
-            ->orderBy(['total_sales' => 'DESC'])
-            ->toArray();
-
-        // Yearly sales
-        $yearlySales = $this->Orders->find()
-            ->join([
-                'OrderItems' => [
-                    'table' => 'order_items',
-                    'type' => 'INNER',
-                    'conditions' => 'OrderItems.order_id = Orders.id',
-                ],
-                'Products' => [
-                    'table' => 'products',
-                    'type' => 'INNER',
-                    'conditions' => 'Products.id = OrderItems.product_id',
-                ],
-            ])
-            ->where(['Orders.created >=' => $yearStart])
+            ->where(['Orders.created >=' => $weekStart, 'Orders.created <=' => $weekEnd])
             ->select([
                 'product_id' => 'OrderItems.product_id',
                 'product_name' => 'Products.name',
@@ -240,6 +212,6 @@ class OrdersController extends AppController
             ->toArray();
 
         // Pass data to the view
-        $this->set(compact('weeklySales', 'monthlySales', 'yearlySales'));
+        $this->set(compact('weekStart', 'weekEnd', 'weeklySales', 'weeklyProducts', 'selectedWeek'));
     }
 }

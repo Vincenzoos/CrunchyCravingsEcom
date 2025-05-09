@@ -16,7 +16,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <title>Orders</title>
 
     <!-- Custom CSS -->
-    <?= $this->Html->css(['utilities', 'table', 'form', 'filter']) ?>
+    <?= $this->Html->css(['utilities', 'table', 'form']) ?>
 </head>
 
 <body>
@@ -36,7 +36,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             <h4 class="mb-0">Orders (<?= count($orders) ?>)</h4>
         </div>
         <div class="col-auto d-flex align-items-center">
-            <?= $this->Html->link(__('Sales Report'), ['action' => 'salesReport'], ['class' => 'btn btn-success']) ?>
+            <?= $this->Html->link(__('Weekly Sales Report'), ['action' => 'weeklyReport'], ['class' => 'btn btn-success']) ?>
         </div>
     </div>
 
@@ -97,6 +97,4 @@ $html = new HtmlHelper(new \Cake\View\View());
         <?php endif; ?>
     </div>
 </div>
-
-<?= $this->Html->script('filter_utils.js') ?>
 </body>

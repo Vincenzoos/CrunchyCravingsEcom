@@ -51,6 +51,10 @@ class ProductsTable extends Table
             'foreignKey' => 'product_id',
         ]);
 
+        $this->hasMany('OrderItems', [
+            'foreignKey' => 'product_id',
+        ]);
+
         $this->addBehavior('Josegonzalez/Upload.Upload', [
             'image' => [
                 'nameCallback' => function ($table, $entity, $data, $field, $settings) {

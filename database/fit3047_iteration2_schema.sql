@@ -261,7 +261,12 @@ INSERT INTO `orders` (`id`, `user_id`, `status`, `origin_address`, `destination_
     (2, 3, 'pending', '380 Collins St, Melbourne VIC 3000', '900 Dandenong Rd, Caulfield East VIC 3145', NULL, '2025-04-10 18:00:00', NOW(), NOW()),
     (3, 2, 'completed', '380 Collins St, Melbourne VIC 3000', '381 Royal Parade, Parkville VIC 3052', '2025-03-25 09:00:00', '2025-03-30 17:00:00', NOW(), NOW()),
     (4, 5, 'cancelled', '380 Collins St, Melbourne VIC 3000', 'Moorooduc Hwy, Frankston VIC 3199', NULL, NULL, NOW(), NOW()),
-    (5, 4, 'pending', '380 Collins St, Melbourne VIC 3000', 'Wellington Rd, Clayton VIC 3800', NULL, '2025-04-15 18:00:00', NOW(), NOW());
+    (5, 4, 'pending', '380 Collins St, Melbourne VIC 3000', 'Wellington Rd, Clayton VIC 3800', NULL, '2025-04-15 18:00:00', NOW(), NOW()),
+    (6, 1, 'completed', '123 Main St', '456 Elm St', '2025-05-01 10:00:00', '2025-05-05 18:00:00', '2025-05-01 09:00:00', '2025-05-01 09:00:00'),
+    (7, 2, 'completed', '789 Oak St', '101 Pine St', '2025-05-02 12:00:00', '2025-05-06 18:00:00', '2025-05-02 11:00:00', '2025-05-02 11:00:00'),
+    (8, 3, 'completed', '111 Maple St', '222 Birch St', '2025-05-03 14:00:00', '2025-05-07 18:00:00', '2025-05-03 13:00:00', '2025-05-03 13:00:00'),
+    (9, 4, 'completed', '333 Cedar St', '444 Walnut St', '2025-05-04 16:00:00', '2025-05-08 18:00:00', '2025-05-04 15:00:00', '2025-05-04 15:00:00'),
+    (10, 5, 'completed', '555 Spruce St', '666 Fir St', '2025-05-05 18:00:00', '2025-05-09 18:00:00', '2025-05-05 17:00:00', '2025-05-05 17:00:00');
 
 --
 -- Table structure for table `order_items`
@@ -279,15 +284,25 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`) VALUES
-                                                                           (1, 1, 2, 2),
-                                                                           (2, 1, 1, 1),
-                                                                           (3, 2, 3, 1),
-                                                                           (4, 3, 9, 1),
-                                                                           (5, 3, 7, 2),
-                                                                           (6, 4, 4, 3),
-                                                                           (7, 5, 6, 1),
-                                                                           (8, 5, 8, 2),
-                                                                           (9, 5, 10, 1);
+   (1, 1, 2, 2),
+   (2, 1, 1, 1),
+   (3, 2, 3, 1),
+   (4, 3, 9, 1),
+   (5, 3, 7, 2),
+   (6, 4, 4, 3),
+   (7, 5, 6, 1),
+   (8, 5, 8, 2),
+   (9, 5, 10, 1),
+   (10, 6, 1, 2),
+   (11, 6, 2, 1),
+   (12, 7, 3, 3),
+   (13, 7, 4, 2),
+   (14, 8, 5, 1),
+   (15, 8, 6, 4),
+   (16, 9, 7, 2),
+   (17, 9, 8, 3),
+   (18, 10, 9, 5),
+   (19, 10, 10, 1);
 
 --
 -- Indexes for dumped tables

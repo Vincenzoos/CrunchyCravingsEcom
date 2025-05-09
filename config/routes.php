@@ -63,7 +63,7 @@ return function (RouteBuilder $routes): void {
          */
         $builder->connect('/pages/*', 'Pages::display');
 
-        $builder->connect('/orders/sales-report', ['controller' => 'Orders', 'action' => 'salesReport']);
+        $builder->connect('/orders/weekly-report', ['controller' => 'Orders', 'action' => 'weeklyReport']);
 
         /*
          * Connect catchall routes for all controllers.
