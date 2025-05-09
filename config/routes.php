@@ -57,12 +57,13 @@ return function (RouteBuilder $routes): void {
          */
         $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'landing_page']);
 
-        
-        
+
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
          */
         $builder->connect('/pages/*', 'Pages::display');
+
+        $builder->connect('/orders/sales-report', ['controller' => 'Orders', 'action' => 'salesReport']);
 
         /*
          * Connect catchall routes for all controllers.

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use DateTime;
+
 /**
  * Orders Controller
  *
@@ -34,12 +36,12 @@ class OrdersController extends AppController
             ->contain(['Users', 'OrderItems.Products']);
         $orders = $this->paginate($query);
 
-        // Calculate total_price dynamically for each order
-        foreach ($orders as $order) {
-            $order->total_price = array_reduce($order->order_items, function ($sum, $item) {
-                return $sum + $item->line_price;
-            }, 0);
-        }
+//        // Calculate total_price dynamically for each order
+//        foreach ($orders as $order) {
+//            $order->total_price = array_reduce($order->order_items, function ($sum, $item) {
+//                return $sum + $item->line_price;
+//            }, 0);
+//        }
 
         $this->set(compact('orders'));
     }
@@ -59,12 +61,12 @@ class OrdersController extends AppController
             'order' => ['Orders.created' => 'DESC'],
         ])->toArray();
 
-        // Calculate total_price dynamically for each order
-        foreach ($orders as $order) {
-            $order->total_price = array_reduce($order->order_items, function ($sum, $item) {
-                return $sum + $item->line_price;
-            }, 0);
-        }
+//        // Calculate total_price dynamically for each order
+//        foreach ($orders as $order) {
+//            $order->total_price = array_reduce($order->order_items, function ($sum, $item) {
+//                return $sum + $item->line_price;
+//            }, 0);
+//        }
 
         $this->set(compact('orders'));
     }
@@ -76,14 +78,14 @@ class OrdersController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
         $order = $this->Orders->get($id, contain: ['Users', 'OrderItems.Products']);
         // Calculate total_price dynamically for each order
 
-        $order->total_price = array_reduce($order->order_items, function ($sum, $item) {
-            return $sum + $item->line_price;
-        }, 0);
+//        $order->total_price = array_reduce($order->order_items, function ($sum, $item) {
+//            return $sum + $item->line_price;
+//        }, 0);
 
         $this->set(compact('order'));
     }
@@ -116,7 +118,7 @@ class OrdersController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
         $order = $this->Orders->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -139,7 +141,7 @@ class OrdersController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $order = $this->Orders->get($id);
@@ -150,5 +152,94 @@ class OrdersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function salesReport()
+    {
+        $this->OrderItems = $this->fetchTable('OrderItems');
+        $this->Products = $this->fetchTable('Products');
+
+        // Get the current date
+        $now = new DateTime();
+
+        // Filter data for week, month, and year
+        $weekStart = $now->modify('-1 week')->format('Y-m-d H:i:s');
+        $monthStart = $now->modify('-1 month')->format('Y-m-d H:i:s');
+        $yearStart = $now->modify('-1 year')->format('Y-m-d H:i:s');
+
+        // Weekly sales
+        $weeklySales = $this->Orders->find()
+            ->join([
+                'OrderItems' => [
+                    'table' => 'order_items',
+                    'type' => 'INNER',
+                    'conditions' => 'OrderItems.order_id = Orders.id',
+                ],
+                'Products' => [
+                    'table' => 'products',
+                    'type' => 'INNER',
+                    'conditions' => 'Products.id = OrderItems.product_id',
+                ],
+            ])
+            ->where(['Orders.created >=' => $weekStart])
+            ->select([
+                'product_id' => 'OrderItems.product_id',
+                'product_name' => 'Products.name',
+                'total_sales' => 'SUM(OrderItems.quantity)',
+            ])
+            ->groupBy('OrderItems.product_id')
+            ->orderBy(['total_sales' => 'DESC'])
+            ->toArray();
+
+        // Monthly sales
+        $monthlySales = $this->Orders->find()
+            ->join([
+                'OrderItems' => [
+                    'table' => 'order_items',
+                    'type' => 'INNER',
+                    'conditions' => 'OrderItems.order_id = Orders.id',
+                ],
+                'Products' => [
+                    'table' => 'products',
+                    'type' => 'INNER',
+                    'conditions' => 'Products.id = OrderItems.product_id',
+                ],
+            ])
+            ->where(['Orders.created >=' => $monthStart])
+            ->select([
+                'product_id' => 'OrderItems.product_id',
+                'product_name' => 'Products.name',
+                'total_sales' => 'SUM(OrderItems.quantity)',
+            ])
+            ->groupBy('OrderItems.product_id')
+            ->orderBy(['total_sales' => 'DESC'])
+            ->toArray();
+
+        // Yearly sales
+        $yearlySales = $this->Orders->find()
+            ->join([
+                'OrderItems' => [
+                    'table' => 'order_items',
+                    'type' => 'INNER',
+                    'conditions' => 'OrderItems.order_id = Orders.id',
+                ],
+                'Products' => [
+                    'table' => 'products',
+                    'type' => 'INNER',
+                    'conditions' => 'Products.id = OrderItems.product_id',
+                ],
+            ])
+            ->where(['Orders.created >=' => $yearStart])
+            ->select([
+                'product_id' => 'OrderItems.product_id',
+                'product_name' => 'Products.name',
+                'total_sales' => 'SUM(OrderItems.quantity)',
+            ])
+            ->groupBy('OrderItems.product_id')
+            ->orderBy(['total_sales' => 'DESC'])
+            ->toArray();
+
+        // Pass data to the view
+        $this->set(compact('weeklySales', 'monthlySales', 'yearlySales'));
     }
 }

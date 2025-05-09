@@ -46,4 +46,23 @@ class Order extends Entity
         'user' => true,
         'order_products' => true,
     ];
+
+    // Declare total_price as a virtual field.
+    protected array $_virtual = ['total_price'];
+
+    /**
+     * Calculate the total price of the order based on its order items.
+     *
+     * @return float
+     */
+    protected function _getTotalPrice(): float
+    {
+        if (!empty($this->order_items)) {
+            return array_reduce($this->order_items, function ($sum, $item) {
+                return $sum + $item->line_price;
+            }, 0);
+        }
+
+        return 0.0;
+    }
 }
