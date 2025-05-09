@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Collection\Collection;
 use DateTime;
 
 /**
@@ -144,25 +145,18 @@ class OrdersController extends AppController
 
         // Weekly sales query
         $weeklySales = $this->Orders->find()
-            ->join([
-                'OrderItems' => [
-                    'table' => 'order_items',
-                    'type' => 'INNER',
-                    'conditions' => 'OrderItems.order_id = Orders.id',
-                ],
-                'Products' => [
-                    'table' => 'products',
-                    'type' => 'INNER',
-                    'conditions' => 'Products.id = OrderItems.product_id',
-                ],
+            ->matching('OrderItems.Products') // INNER JOIN both tables
+            ->where([
+                'Orders.created >=' => $weekStart,
+                'Orders.created <=' => $weekEnd,
             ])
-            ->where(['Orders.created >=' => $weekStart, 'Orders.created <=' => $weekEnd])
             ->select([
                 'date' => 'DATE(Orders.created)',
-                'revenue' => 'SUM(OrderItems.quantity * Products.price)',
+                'revenue' => $this->Orders->find()->func()->sum('OrderItems.quantity * Products.price'),
             ])
             ->groupBy('DATE(Orders.created)')
             ->orderBy(['date' => 'ASC'])
+            ->enableAutoFields(false)
             ->toArray();
 
         // Calculate total revenue for the week
@@ -171,30 +165,53 @@ class OrdersController extends AppController
         }, 0);
 
         // Weekly product performance query
-        $weeklyProducts = $this->Orders->find()
+        // Step 1: Get product sales data
+        $weeklyProductStats = $this->Orders->find()
             ->join([
                 'OrderItems' => [
                     'table' => 'order_items',
                     'type' => 'INNER',
                     'conditions' => 'OrderItems.order_id = Orders.id',
                 ],
-                'Products' => [
-                    'table' => 'products',
-                    'type' => 'INNER',
-                    'conditions' => 'Products.id = OrderItems.product_id',
-                ],
             ])
             ->where(['Orders.created >=' => $weekStart, 'Orders.created <=' => $weekEnd])
             ->select([
                 'product_id' => 'OrderItems.product_id',
-                'product_name' => 'Products.name',
-                'total_sales' => 'SUM(OrderItems.quantity)',
+                'total_sales' => $this->Orders->find()->func()->sum('OrderItems.quantity'),
             ])
             ->groupBy('OrderItems.product_id')
             ->orderBy(['total_sales' => 'DESC'])
+            ->enableAutoFields(false)
             ->toArray();
 
+        // Step 2: Extract product IDs
+        $productIds = array_column($weeklyProductStats, 'product_id');
+
+        // Step 3: Fetch full Product entities
+        $products = (new Collection(
+            $this->Orders->OrderItems->Products->find()
+                ->where(['id IN' => $productIds])
+                ->all(),
+        ))->indexBy('id')->toArray();
+
+        // Step 4: Merge stats with full product entities
+        $weeklyProducts = [];
+        foreach ($weeklyProductStats as $stat) {
+            $product = $products[$stat->product_id] ?? null;
+            if ($product) {
+                // dynamically attach stat
+                $product->total_sales = $stat->total_sales;
+                $weeklyProducts[] = $product;
+            }
+        }
+
+        // Prepare data for the chart
+        $chartData = [
+            'labels' => array_map(fn($sale) => (new DateTime($sale->date))->format('d/m/Y'), $weeklySales),
+            'revenues' => array_map(fn($sale) => $sale->revenue, $weeklySales),
+        ];
+
         // Pass data to the view
-        $this->set(compact('weekStart', 'weekEnd', 'weeklySales', 'weeklyProducts','weeklyRevenue'));
+        $this->set(compact('chartData', 'weekStart', 'weekEnd', 'weeklyProducts', 'weeklyRevenue'));
     }
 }
