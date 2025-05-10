@@ -50,7 +50,8 @@ class OrdersTable extends Table
 
 
         $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
+            'foreignKey' => 'user_email',
+            'bindingKey' => 'email',
             'joinType' => 'INNER',
         ]);
     
@@ -70,8 +71,13 @@ class OrdersTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->integer('user_id')
-            ->notEmptyString('user_id');
+            ->scalar('tracking_number')
+            ->maxLength('tracking_number', 36)
+            ->notEmptyString('tracking_number', 'Tracking number is required.');
+
+        $validator
+            ->email('user_email')
+            ->notEmptyString('user_email', 'Email is required.');
 
         $validator
             ->scalar('status')
@@ -107,7 +113,7 @@ class OrdersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['user_id'], 'Users'), ['errorField' => 'user_id']);
+        $rules->add($rules->existsIn(['user_email'], 'Users'), ['errorField' => 'user_email']);
 
         return $rules;
     }

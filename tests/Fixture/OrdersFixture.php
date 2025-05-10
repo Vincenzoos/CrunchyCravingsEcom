@@ -20,7 +20,7 @@ class OrdersFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'user_id' => 1,
+                'user_email' => 'vtod0001@student.monash.edu',
                 'status' => 'pending',
                 'origin_address' => '123 Warehouse St, Melbourne, VIC',
                 'destination_address' => '456 Customer Rd, Sydney, NSW',
@@ -31,7 +31,7 @@ class OrdersFixture extends TestFixture
             ],
             [
                 'id' => 2,
-                'user_id' => 2,
+                'user_email' => 'test@example.com',
                 'status' => 'shipped',
                 'origin_address' => '789 Supplier Ln, Brisbane, QLD',
                 'destination_address' => '123 Customer Ave, Perth, WA',

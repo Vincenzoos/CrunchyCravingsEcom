@@ -121,7 +121,6 @@ $html = new HtmlHelper(new View());
                                 });
                         });
                     </script>
-                    </script>
 
                     <!-- Order Items Table -->
                     <div class="shopping-cart-table">

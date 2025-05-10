@@ -49,7 +49,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <thead class="thead-dark">
                 <tr>
                     <th><?= $this->Paginator->sort('id', __('ID')) ?></th>
-                    <th><?= $this->Paginator->sort('user_id', __('Customer')) ?></th>
+                    <th><?= $this->Paginator->sort('user_email', __('Customer Email')) ?></th>
                     <th><?= $this->Paginator->sort('status', __('Status')) ?></th>
                     <th><?= $this->Paginator->sort('created', __('Created')) ?></th>
                     <th><?= $this->Paginator->sort('Total', __('Total Amount')) ?></th>
@@ -60,7 +60,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <?php foreach ($orders as $order): ?>
                     <tr>
                         <td><?= $this->Number->format($order->id) ?></td>
-                        <td><?= $order->hasValue('user') ? $this->Html->link($order->user->email, ['controller' => 'Users', 'action' => 'view', $order->user->id]) : '' ?></td>
+                        <td><?= h($order->user_email) ?></td>
                         <td><?= h($order->status) ?></td>
                         <td><?= h($order->created ? $order->created->format('d/m/Y H:m A') : 'N/A') ?></td>
                         <td> <?= $this->Number->currency(h($order->total_price), 'AUD') ?></td>

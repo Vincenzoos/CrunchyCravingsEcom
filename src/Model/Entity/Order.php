@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * Order Entity
  *
  * @property int $id
- * @property int $user_id
+ * @property int $user_email
  * @property string $total_price
  * @property string|null $status
  * @property string|null $origin_address
@@ -34,7 +34,7 @@ class Order extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
-        'user_id' => true,
+        'user_email' => true,
         'total_price' => false,
         'status' => true,
         'origin_address' => true,
