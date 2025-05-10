@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Log\Log;
 use Cake\Event\EventInterface;
 
 /**
@@ -32,7 +31,7 @@ class FaqsController extends AppController
     public function index()
     {
         $query = $this->Faqs->find();
-    
+
         // Apply filters based on query parameters
         $filters = $this->request->getQuery();
         if (!empty($filters['title'])) {
@@ -41,7 +40,7 @@ class FaqsController extends AppController
         if (!empty($filters['answer'])) {
             $query->where(['Faqs.answer LIKE' => '%' . $filters['answer'] . '%']);
         }
-    
+
         // Apply sorting based on the 'sort' parameter
         $sort = $this->request->getQuery('sort');
         $order = ['Faqs.clicks' => 'DESC']; // Default sorting: Created (Descending)
@@ -59,11 +58,11 @@ class FaqsController extends AppController
             $order = ['Faqs.clicks' => 'DESC'];
         }
         // Apply the sorting to the query
-        $query->order($order);
-    
+        $query->orderBy($order);
+
         // Paginate the filtered and sorted query
         $faqs = $this->paginate($query);
-    
+
         $this->set(compact('faqs'));
     }
 
@@ -75,11 +74,11 @@ class FaqsController extends AppController
     public function customerIndex()
     {
         $query = $this->Faqs->find();
-        $query->order(['Faqs.clicks' => 'DESC']);
-        
+        $query->orderBy(['Faqs.clicks' => 'DESC']);
+
         // Paginate the sorted query
         $faqs = $this->paginate($query);
-        
+
         $this->set(compact('faqs'));
     }
 
@@ -90,16 +89,9 @@ class FaqsController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
         $faq = $this->Faqs->get($id);
-
-        // Increment clicks only for non-admin users
-        if ($this->Identity->get('role') !== 'admin') {
-            $faq->clicks += 1;
-            $this->Faqs->save($faq);
-        }
-
         $this->set(compact('faq'));
     }
 
@@ -131,7 +123,7 @@ class FaqsController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
         $faq = $this->Faqs->get($id, contain: []);
         // $this->Authorization->authorize($faq);
@@ -154,7 +146,7 @@ class FaqsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $faq = $this->Faqs->get($id);
@@ -187,7 +179,7 @@ class FaqsController extends AppController
             $faq->clicks += 1;
 
             if ($this->Faqs->save($faq)) {
-                $response = ['success' => true, 'message' => 'Click count updated successfully'];           
+                $response = ['success' => true, 'message' => 'Click count updated successfully'];
             }
         }
 
