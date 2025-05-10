@@ -10,7 +10,6 @@ use DateTime;
  * Orders Controller
  *
  * @property \App\Model\Table\OrdersTable $Orders
- * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  */
 class OrdersController extends AppController
 {
@@ -22,8 +21,6 @@ class OrdersController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-
-        $this->loadComponent('Authorization.Authorization');
     }
 
     /**
@@ -44,16 +41,24 @@ class OrdersController extends AppController
      * Customer Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
-     */
+     */    
     public function customerIndex()
     {
         $userId = $this->request->getAttribute('identity')->id;
+        $user = $this->Orders->Users->get($userId);
+        $userEmail = $user->email ?? null;
+
+        if (empty($userEmail)) {
+            $this->Flash->error(__('You must be logged in to view your orders.'));
+            return $this->redirect(['controller' => 'Auth', 'action' => 'login']);
+        }
 
         $orders = $this->Orders->find('all', [
-            'conditions' => ['Orders.user_id' => $userId],
+            'conditions' => ['Orders.user_email' => $userEmail],
             'contain' => ['OrderItems.Products'], // Include related order items and products
             'order' => ['Orders.created' => 'DESC'],
         ])->toArray();
+
         $this->set(compact('orders'));
     }
 
@@ -132,6 +137,30 @@ class OrdersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Order Lookup method
+     * This method allows users to look up their orders using a tracking number.
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function orderLookup()
+    {
+        if ($this->request->is('post')) {
+            $trackingNumber = $this->request->getData('tracking_number');
+    
+            // Fetch the order by tracking number
+            $order = $this->Orders->find('all', [
+                'conditions' => ['Orders.tracking_number' => $trackingNumber],
+            ])->first();
+    
+            if ($order) {
+                $this->set(compact('order'));
+            } else {
+                $this->set('error', __('Order not found. Please check your tracking number.'));
+            }
+        }
     }
 
     /**
@@ -439,5 +468,13 @@ class OrdersController extends AppController
 
         // Pass data to the view
         $this->set(compact('chartData', 'yearStart', 'yearEnd', 'yearlyProducts', 'yearlyRevenue'));
+    }
+
+    // Override the beforeFilter method to allow unauthenticated access to these pages
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeFilter($event);
+
+        $this->Authentication->allowUnauthenticated(['orderLookup']);
     }
 }

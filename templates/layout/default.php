@@ -244,6 +244,7 @@ $html = new HtmlHelper(new View());
 							<li class="nav-item"><a title="categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'customerIndex']) ?>" class="nav-link">categories</a></li>
                             <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
                             <li class="nav-item"><a class="nav-link" title="FAQ" href="<?= $this->Url->Build(['controller' => 'Faqs', 'action' => 'customerIndex']) ?>">FAQ</a></li>
+                            <li class="nav-item"><a class="nav-link" title="Order Lookup" href="<?= $this->Url->Build(['controller' => 'Orders', 'action' => 'orderLookup']) ?>">Order Lookup</a></li>
 						</ul>
 					</div>
 				</nav>

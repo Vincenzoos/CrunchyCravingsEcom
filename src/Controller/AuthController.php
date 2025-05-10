@@ -37,7 +37,8 @@ class AuthController extends AppController
             'login', 'register', 'forgetPassword', 'resetPassword',
             'customerIndex', 'customerView',
             'updateQuantityAjax',
-            'updateClickCount'
+            'updateClickCount',
+            'orderLookup',
         ]);
 
         // CakePHP loads the model with the same name as the controller by default.
