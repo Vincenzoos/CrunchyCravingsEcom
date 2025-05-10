@@ -502,7 +502,7 @@ $html = new HtmlHelper(new View());
             const existingIcons = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
             existingIcons.forEach(icon => icon.remove());
 
-            // Add your custom favicon
+            // Add custom favicon
             const favicon = document.createElement('link');
             favicon.rel = 'icon';
             favicon.type = 'image/png';

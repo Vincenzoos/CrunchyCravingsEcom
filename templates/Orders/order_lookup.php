@@ -28,7 +28,7 @@ $html = new HtmlHelper(new View());
             <?= $this->Form->create(null) ?>
             <fieldset>
                 <?= $this->Form->control('tracking_number', [
-                    'label' => ['text' => 'Tracking Number', 'class' => 'text-center h4'],
+                    'label' => ['text' => '<h4 class="text-center" style="margin-top: 1rem;">Tracking Number</h4>', 'escape' => false],
                     'required' => true,
                     'class' => 'form-control',
                     'placeholder' => 'Enter your tracking number',

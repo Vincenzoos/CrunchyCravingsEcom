@@ -648,19 +648,27 @@ class CartItemsController extends AppController
 
     public function authenticatedCheckout()
     {
-        // Ensure the user is logged in
+        // Get the current user identity
         $user = $this->Authentication->getIdentity();
-
         $userId = $user->get('id');
+        $recipient = $user->get('email');
+
         // Retrieve cart items for the current user including associated product info
         $cartItems = $this->CartItems->find('all')
             ->contain(['Products'])
             ->where(['CartItems.user_id' => $userId])
             ->toArray();
 
+        // Check if the cart is empty
         if (empty($cartItems)) {
             $this->Flash->error(__('Your cart is empty.'));
+            return $this->redirect(['action' => 'customerView']);
+        }
 
+        // Get the destination address from the form
+        $destinationAddress = $this->request->getData('destination_address');
+        if (empty($destinationAddress)) {
+            $this->Flash->error(__('Please provide a valid destination address.'));
             return $this->redirect(['action' => 'customerView']);
         }
 
@@ -671,23 +679,22 @@ class CartItemsController extends AppController
         }
 
         try {
-            $recipient = $user->get('email');
             // Override received email to cpanel email for testing
-//            Configure::load('app_local');
-//            $override_email = Configure::read('EmailTransport.default.username');
-//            $override_email = $override_email ?? $recipient;
+            // Configure::load('app_local');
+            // $override_email = Configure::read('EmailTransport.default.username');
+            // $override_email = $override_email ?? $recipient;
 
             $mailer = new Mailer('default');
             $mailer
                 ->setEmailFormat('both') // sends both html and text versions
                 // Override received email to cpanel email for testing
                 ->setTo($recipient)
-//                ->setTo($override_email)
+            //    ->setTo($override_email)
                 ->setSubject('Your Order Confirmation')
                 ->viewBuilder()
                 ->setTemplate('customer_checkout');
 
-            // Pass required variables to your email template
+            // Pass required variables to email template
             $mailer->setViewVars([
                 'email' => $recipient,
                 'cartItems' => $cartItems,
@@ -696,17 +703,15 @@ class CartItemsController extends AppController
 
             if (!$mailer->deliver()) {
                 $this->Flash->error(__('We encountered an issue sending your order confirmation email. Please try again.'));
-
                 return $this->redirect(['action' => 'customerView']);
             }
 
             $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
 
-            // Optionally clear the cart here if the order is complete
+            // Clear the cart here if the order is complete
             $this->CartItems->deleteAll(['user_id' => $userId]);
         } catch (Exception $e) {
             $this->Flash->error(__('Error sending email to ' . $user->get('email') . '. The provided email address may not exist, please check the email address and try again.'));
-
             return $this->redirect(['action' => 'customerView']);
         }
 
@@ -723,6 +728,13 @@ class CartItemsController extends AppController
             $this->Flash->error(__('Please enter a valid email address for order confirmation.'));
             // Redirect back to the cart view
             return $this->redirect($this->referer());
+        }
+
+        // Get the destination address from the form
+        $destinationAddress = $this->request->getData('destination_address');
+        if (empty($destinationAddress)) {
+            $this->Flash->error(__('Please provide a valid destination address.'));
+            return $this->redirect(['action' => 'customerView']);
         }
 
         // Retrieve cart items from the session for unauthenticated users
@@ -829,6 +841,8 @@ class CartItemsController extends AppController
     public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
+
+        
 
         $this->Authentication->allowUnauthenticated(['customerView', 'customerAdd', 'updateQuantityAjax', 'delete', 'clearCart', 'update', 'unauthenticatedCheckout']);
         if ($this->request->getParam('action') === 'updateQuantityAjax') {

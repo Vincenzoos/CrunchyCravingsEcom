@@ -113,65 +113,34 @@ $html = new HtmlHelper(new View());
         <!-- Shopping Cart Estimate Section -->
         <div id="shop-box" class="shopping-cart-estimate d-flex flex-column align-items-center justify-content-center">
             <h1>Shipping & Checkout</h1>
+            <?= $this->Form->create(null, ['url' => ['controller' => 'CartItems', 'action' => 'checkout']]) ?>
             <div class="row">
-                <!-- col-md-4 -->
-<!--                <div class="col-12 col-md-12 col-lg-4">-->
-<!--                    <div class="section-header">-->
-<!--                        <h3>estimate shipping and tax</h3>-->
-<!--                    </div>-->
-<!--                    <div class="estimate-details shopping-cart-table">-->
-<!--                        <h4>Enter your destination to get a shipping estimate</h4>-->
-<!--                        <form>-->
-<!--                            <div class="form-group">-->
-<!--                                <select class="form-control minimal">-->
-<!--                                    <option selected="selected" value="">Select a country...</option>-->
-<!--                                    <option value="Australia">Australia</option>-->
-<!--                                    <option value="Canada">Canada</option>-->
-<!--                                    <option value="United Kingdom">United Kingdom</option>-->
-<!--                                    <option value="United States">United States</option>-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                            <div class="form-group">-->
-<!--                                <select class="form-control minimal">-->
-<!--                                    <option selected="selected" value="">Select a state...</option>-->
-<!--                                    <option value="Alabama">Alabama</option>-->
-<!--                                    <option value="Alaska">Alaska</option>-->
-<!--                                    <option value="Arizona">Arizona</option>-->
-<!--                                    <option value="Arkansas">Arkansas</option>-->
-<!--                                    <option value="Brisbane">Brisbane</option>-->
-<!--                                    <option value="California">California</option>-->
-<!--                                    <option value="Colorado">Colorado</option>-->
-<!--                                    <option value="Connecticut">Connecticut</option>-->
-<!--                                    <option value="Delaware">Delaware</option>-->
-<!--                                    <option value="Florida">Florida</option>-->
-<!--                                    <option value="Georgia">Georgia</option>-->
-<!--                                    <option value="Melbourne">Melbourne</option>-->
-<!--                                    <option value="Perth">Perth</option>-->
-<!--                                    <option value="Sydney">Sydney</option>-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                            <div class="form-group">-->
-<!--                                <input type="text" name="zip" class="form-control" placeholder="zip/postal-code">-->
-<!--                            </div>-->
-<!--                            <input type="submit" value="get a quote" class="btn btn-default">-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-12 col-md-12 col-lg-4">-->
-<!--                    <div class="section-header">-->
-<!--                        <h3>Promo code</h3>-->
-<!--                    </div>-->
-<!--                    <div class="estimate-details shopping-cart-table coupon">-->
-<!--                        <h4>Enter a coupon code</h4>-->
-<!--                        <form>-->
-<!--                            <div class="form-group">-->
-<!--                                <input type="text" name="" class="form-control" placeholder="">-->
-<!--                                <input type="submit" value="apply" class="btn">-->
-<!--                            </div>-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                </div>-->
-                <div class="col-12 col-md-12 col-lg-12">
+                <!-- Email Input (for unauthenticated users) -->
+                <?php if (!$this->Identity->isLoggedIn()) : ?>
+                    <div class="col-12 mb-3">
+                        <?= $this->Form->control('guest_email', [
+                            'type' => 'email',
+                            'class' => 'form-control',
+                            'label' => ['text' => '<h4 class="text-center" style="margin-top: 1rem;">Email Address</h4>', 'escape' => false],
+                            'placeholder' => 'Enter your email',
+                            'required' => true,
+                        ]) ?>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Destination Address Input -->
+                <div class="col-12 mb-3">
+                    <?= $this->Form->control('destination_address', [
+                        'type' => 'text',
+                        'class' => 'form-control',
+                        'label' => ['text' => '<h4 class="text-center" style="margin-top: 1rem;">Destination Address</h4>', 'escape' => false],
+                        'placeholder' => 'e.g., 123 Main St, Sydney, NSW 2000',
+                        'required' => true,
+                    ]) ?>
+                </div>
+
+                <!-- Totals and Checkout Button -->
+                <div class="col-12 mb-3">
                     <div class="section-header">
                         <h3>Payment</h3>
                     </div>
@@ -189,26 +158,14 @@ $html = new HtmlHelper(new View());
                             </tbody>
                         </table>
 
-                        <!-- For unauthenticated users: create a form with an email field -->
-                        <?php if (!$this->Identity->isLoggedIn()) : ?>
-                            <?= $this->Form->create(null, ['url' => ['controller' => 'CartItems', 'action' => 'unauthenticatedCheckout']]) ?>
-                            <div class="mb-2">
-                                <?= $this->Form->control('guest_email', [
-                                    'type' => 'email',
-                                    'class' => 'form-control',
-                                    'label' => false,
-                                    'placeholder' => 'Enter your email',
-                                    'title' => 'Enter a valid email for order confirmation (e.g test@example.com)',
-                                    'required' => true,
-                                ]); ?>
-                            </div>
-                            <?= $this->Form->button('Checkout', ['class' => 'btn btn-default']) ?>
-                            <?= $this->Form->end() ?>
-                        <?php else : ?>
-                            <!-- Authenticated user's checkout button -->
-                            <a title="Checkout" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'authenticatedCheckout']) ?>" class="btn btn-default">Checkout</a>
-                        <?php endif; ?>
-
+                        <!-- Checkout Form -->
+                        <?= $this->Form->create(null, [
+                            'url' => $this->Identity->isLoggedIn() 
+                                ? ['controller' => 'CartItems', 'action' => 'authenticatedCheckout'] 
+                                : ['controller' => 'CartItems', 'action' => 'unauthenticatedCheckout']
+                        ]) ?>
+                        <?= $this->Form->button('Checkout', ['class' => 'btn btn-default']) ?>
+                        <?= $this->Form->end() ?>
                     </div>
                 </div>
             </div>
