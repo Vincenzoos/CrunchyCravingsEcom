@@ -40,8 +40,8 @@ $html = new HtmlHelper(new View());
             <?= $this->Form->end() ?>
         </div>
     </div>
-    <div id="shop-box" class="mb-4 p-3">
-        <?php if (isset($order)): ?>
+    <?php if (isset($order)): ?>
+        <div id="shop-box" class="mb-4 p-3">
             <h4 class="text-center" style="padding: 1rem 0;">Order #<?= h($order->id) ?> - <?= h($order->status) ?></h4>
             <p><strong>Order Date:</strong> <?= h($order->created->format('d M Y, H:i A')) ?></p>
             <p><strong>Origin Address:</strong> <?= h($order->origin_address) ?></p>
@@ -119,11 +119,11 @@ $html = new HtmlHelper(new View());
                 <h4 class="d-inline">Grand Total: </h4>
                 <span class="total-amount"><?= $this->Number->currency($order->total_price, 'AUD') ?></span>
             </div>
-        <?php elseif (isset($error)): ?>
-            <div class="alert alert-danger text-center mt-4">
-                <?= h($error) ?>
-            </div>
-        <?php endif; ?>
-    </div>
+        </div>
+    <?php elseif (isset($error)): ?>
+        <div class="alert alert-danger text-center mt-4">
+            <?= h($error) ?>
+        </div>
+    <?php endif; ?>
 </div>
 </body>
