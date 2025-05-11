@@ -8,6 +8,7 @@ use Cake\Core\Configure;
 use Cake\Event\EventInterface;
 use Cake\Mailer\Mailer;
 use Cake\Routing\Router;
+use Cake\Utility\Text;
 use Exception;
 use stdClass;
 use Stripe\Checkout\Session;
@@ -733,6 +734,17 @@ class CartItemsController extends AppController
         // Calculate the total price of the checkout
         $total = array_sum(array_map(fn($item) => $item->line_price, $cartItems));
 
+        // generate temp token
+        $tempToken = Text::uuid();
+
+        // Save order data temporarily
+        $this->request->getSession()->write("PendingOrders.{$tempToken}", [
+            'recipient' => $recipient,
+            'cartItems' => $cartItems,
+            'total' => $total,
+            'is_guest' => false,
+        ]);
+
         Stripe::setApiKey(Configure::read('Stripe.secret_key'));
 
         try {
@@ -740,24 +752,15 @@ class CartItemsController extends AppController
                 'payment_method_types' => ['card'],
                 'line_items' => $lineItems,
                 'mode' => 'payment',
-                'success_url' => Router::url(['controller' => 'CartItems', 'action' => 'success'], true),
+                'client_reference_id' => $tempToken, // save token for webhook too
+                'success_url' => Router::url([
+                    'controller' => 'CartItems',
+                    'action' => 'success',
+                    '?' => ['session_id' => '{CHECKOUT_SESSION_ID}', 'token' => $tempToken],
+                ], true),
                 'cancel_url' => Router::url(['controller' => 'CartItems', 'action' => 'customerView'], true),
             ]);
 
-
-
-            // Send the email directly after creating the session
-//            $this->processCheckout($recipient, $cartItems, $total, function () use ($userId) {
-//                $this->CartItems->deleteAll(['user_id' => $userId]);
-//            });
-
-            // Save order data temporarily
-            $this->request->getSession()->write('PendingOrder', [
-                'recipient' => $recipient,
-                'cartItems' => $cartItems,
-                'total' => $total,
-                'is_guest' => false,
-            ]);
 
             return $this->redirect($session->url);
         } catch (Exception $e) {
@@ -821,7 +824,9 @@ class CartItemsController extends AppController
                     'product_data' => [
                         'name' => $item['name'],
                     ],
-                    'unit_amount' => $item['price'] * 100, // Convert to cents
+                    // Convert to cents since Stripe's API requires the unit_amount field
+                    // to be specified in the smallest currency unit.
+                    'unit_amount' => $item['price'] * 100,
                 ],
                 'quantity' => $item['quantity'],
             ];
@@ -829,28 +834,30 @@ class CartItemsController extends AppController
 
         Stripe::setApiKey(Configure::read('Stripe.secret_key'));
 
+        // generate temp token
+        $tempToken = Text::uuid();
+
+        // Save order data temporarily
+        $this->request->getSession()->write("PendingOrders.{$tempToken}", [
+            'recipient' => $recipient,
+            'cartItems' => $cartItems,
+            'total' => $total,
+            'is_guest' => true,
+        ]);
+
         try {
             $stripeSession = Session::create([
                 'payment_method_types' => ['card'],
                 'line_items' => $lineItems,
                 'mode' => 'payment',
-                'success_url' => Router::url(['controller' => 'CartItems', 'action' => 'success'], true),
+                'client_reference_id' => $tempToken, // save token for webhook too
+                'success_url' => Router::url([
+                    'controller' => 'CartItems',
+                    'action' => 'success',
+                    '?' => ['session_id' => '{CHECKOUT_SESSION_ID}', 'token' => $tempToken],
+                ], true),
                 'cancel_url' => Router::url(['controller' => 'CartItems', 'action' => 'customerView'], true),
             ]);
-
-            // Send the email and clear the cart
-//            $this->processCheckout($recipient, $cartItems, $total, function () use ($cartSession) {
-//                $cartSession->delete('Cart');
-//            });
-
-            // Save order data temporarily
-            $this->request->getSession()->write('PendingOrder', [
-                'recipient' => $recipient,
-                'cartItems' => $cartItems,
-                'total' => $total,
-                'is_guest' => true,
-            ]);
-
 
             return $this->redirect($stripeSession->url);
         } catch (Exception $e) {
@@ -877,10 +884,17 @@ class CartItemsController extends AppController
         $this->Authorization->skipAuthorization();
         $this->Authentication->addUnauthenticatedActions(['success']);
         $session = $this->request->getSession();
-        $orderData = $session->read('PendingOrder');
+        $token = $this->request->getQuery('token');
 
+        if (!$token) {
+            $this->Flash->error(__('Invalid access.'));
+            return $this->redirect(['action' => 'customerView']);
+        }
+
+        $orderData = $this->request->getSession()->read("PendingOrders.{$token}");
         if (!$orderData) {
             $this->Flash->error(__('No pending order found or session expired.'));
+
             return $this->redirect(['action' => 'customerView']);
         }
 
@@ -897,16 +911,18 @@ class CartItemsController extends AppController
                 } else {
                     $session->delete('Cart');
                 }
-            }
+            },
         );
 
-        $session->delete('PendingOrder');
+        $this->request->getSession()->delete("PendingOrders.{$token}");
 
         return $this->redirect(['action' => 'customerView']);
     }
 
     public function cancel()
     {
+        $session = $this->request->getSession();
+        $session->delete('PendingOrder');
         $this->Flash->error(__('Payment was canceled. You can try again.'));
 
         return $this->redirect(['action' => 'customerView']);
