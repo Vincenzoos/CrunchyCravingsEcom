@@ -40,6 +40,7 @@ return [
                  'delete',
                  'authenticatedCheckout',
                  'unauthenticatedCheckout',
+                 'success',
              ],
              'bypassAuth' => true,
          ],

@@ -747,9 +747,17 @@ class CartItemsController extends AppController
 
 
             // Send the email directly after creating the session
-            $this->processCheckout($recipient, $cartItems, $total, function () use ($userId) {
-                $this->CartItems->deleteAll(['user_id' => $userId]);
-            });
+//            $this->processCheckout($recipient, $cartItems, $total, function () use ($userId) {
+//                $this->CartItems->deleteAll(['user_id' => $userId]);
+//            });
+
+            // Save order data temporarily
+            $this->request->getSession()->write('PendingOrder', [
+                'recipient' => $recipient,
+                'cartItems' => $cartItems,
+                'total' => $total,
+                'is_guest' => false,
+            ]);
 
             return $this->redirect($session->url);
         } catch (Exception $e) {
@@ -831,9 +839,18 @@ class CartItemsController extends AppController
             ]);
 
             // Send the email and clear the cart
-            $this->processCheckout($recipient, $cartItems, $total, function () use ($cartSession) {
-                $cartSession->delete('Cart');
-            });
+//            $this->processCheckout($recipient, $cartItems, $total, function () use ($cartSession) {
+//                $cartSession->delete('Cart');
+//            });
+
+            // Save order data temporarily
+            $this->request->getSession()->write('PendingOrder', [
+                'recipient' => $recipient,
+                'cartItems' => $cartItems,
+                'total' => $total,
+                'is_guest' => true,
+            ]);
+
 
             return $this->redirect($stripeSession->url);
         } catch (Exception $e) {
@@ -857,17 +874,33 @@ class CartItemsController extends AppController
 
     public function success()
     {
-        $identity = $this->Authentication->getIdentity();
-        $userId = $identity ? $identity->get('id') : null;
+        $this->Authorization->skipAuthorization();
+        $this->Authentication->addUnauthenticatedActions(['success']);
+        $session = $this->request->getSession();
+        $orderData = $session->read('PendingOrder');
 
-        if ($userId) {
-            $this->CartItems->deleteAll(['user_id' => $userId]);
-        } else {
-            $session = $this->request->getSession();
-            $session->delete('Cart');
+        if (!$orderData) {
+            $this->Flash->error(__('No pending order found or session expired.'));
+            return $this->redirect(['action' => 'customerView']);
         }
 
-        $this->Flash->success(__('Payment successful! Your cart has been cleared.'));
+        $identity = $this->request->getAttribute('identity');
+        $isGuest = $orderData['is_guest'];
+
+        $this->processCheckout(
+            $orderData['recipient'],
+            $orderData['cartItems'],
+            $orderData['total'],
+            function () use ($identity, $session, $isGuest) {
+                if (!$isGuest && $identity) {
+                    $this->CartItems->deleteAll(['user_id' => $identity->get('id')]);
+                } else {
+                    $session->delete('Cart');
+                }
+            }
+        );
+
+        $session->delete('PendingOrder');
 
         return $this->redirect(['action' => 'customerView']);
     }
@@ -908,7 +941,17 @@ class CartItemsController extends AppController
     {
         parent::beforeFilter($event);
 
-        $this->Authentication->allowUnauthenticated(['customerView', 'customerAdd', 'updateQuantityAjax', 'delete', 'clearCart', 'update', 'unauthenticatedCheckout']);
+        $this->Authentication->allowUnauthenticated([
+            'customerView',
+            'customerAdd',
+            'updateQuantityAjax',
+            'delete',
+            'clearCart',
+            'update',
+            'unauthenticatedCheckout',
+            'success',
+            'processCheckout',
+            ]);
         if ($this->request->getParam('action') === 'updateQuantityAjax') {
             $this->Authorization->skipAuthorization();
             $this->getEventManager()->off($this->FormProtection);
