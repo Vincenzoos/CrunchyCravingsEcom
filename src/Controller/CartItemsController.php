@@ -708,6 +708,13 @@ class CartItemsController extends AppController
 
             return $this->redirect(['action' => 'customerView']);
         }
+        // Get the destination address from the request
+        $destinationAddress = $this->request->getData('destination_address');
+        if (empty($destinationAddress)) {
+            $this->Flash->error(__('Please provide a valid destination address.'));
+
+            return $this->redirect(['action' => 'customerView']);
+        }
 
         $lineItems = [];
         foreach ($cartItems as $item) {
@@ -723,6 +730,9 @@ class CartItemsController extends AppController
             ];
         }
 
+        // Calculate the total price of the checkout
+        $total = array_sum(array_map(fn($item) => $item->line_price, $cartItems));
+
         Stripe::setApiKey(Configure::read('Stripe.secret_key'));
 
         try {
@@ -734,7 +744,7 @@ class CartItemsController extends AppController
                 'cancel_url' => Router::url(['controller' => 'CartItems', 'action' => 'customerView'], true),
             ]);
 
-            $total = array_sum(array_map(fn($item) => $item->line_price, $cartItems));
+
 
             // Send the email directly after creating the session
             $this->processCheckout($recipient, $cartItems, $total, function () use ($userId) {
@@ -767,8 +777,8 @@ class CartItemsController extends AppController
             return $this->redirect(['action' => 'customerView']);
         }
 
-        $session = $this->request->getSession();
-        $cart = $session->read('Cart') ?? [];
+        $cartSession = $this->request->getSession();
+        $cart = $cartSession->read('Cart') ?? [];
 
         if (empty($cart)) {
             $this->Flash->error(__('Your cart is empty.'));
@@ -777,7 +787,26 @@ class CartItemsController extends AppController
         }
 
         $lineItems = [];
-        foreach ($cart as $item) {
+        $cartItems = [];
+        $total = 0;
+
+        foreach ($cart as $productId => $item) {
+            // Populate cart items with product details in session
+            $linePrice = $item['price'] * $item['quantity'];
+
+            $productObj = new stdClass();
+            $productObj->name = $item['name'];
+            $productObj->price = $item['price'];
+
+            $cartItem = new stdClass();
+            $cartItem->product = $productObj;
+            $cartItem->quantity = $item['quantity'];
+            $cartItem->line_price = $linePrice;
+
+            $cartItems[] = $cartItem;
+            $total += $linePrice;
+
+            # Populate line items for Stripe
             $lineItems[] = [
                 'price_data' => [
                     'currency' => 'aud',
@@ -793,7 +822,7 @@ class CartItemsController extends AppController
         Stripe::setApiKey(Configure::read('Stripe.secret_key'));
 
         try {
-            $session = Session::create([
+            $stripeSession = Session::create([
                 'payment_method_types' => ['card'],
                 'line_items' => $lineItems,
                 'mode' => 'payment',
@@ -801,14 +830,12 @@ class CartItemsController extends AppController
                 'cancel_url' => Router::url(['controller' => 'CartItems', 'action' => 'customerView'], true),
             ]);
 
-            $total = array_sum(array_map(fn($item) => $item->line_price, $cartItems));
-
-            // Send the email directly after creating the session
-            $this->processCheckout($recipient, $cartItems, $total, function () use ($userId) {
-                $this->CartItems->deleteAll(['user_id' => $userId]);
+            // Send the email and clear the cart
+            $this->processCheckout($recipient, $cartItems, $total, function () use ($cartSession) {
+                $cartSession->delete('Cart');
             });
 
-            return $this->redirect($session->url);
+            return $this->redirect($stripeSession->url);
         } catch (Exception $e) {
             $this->Flash->error(__('Error: ' . $e->getMessage()));
 
