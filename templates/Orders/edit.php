@@ -31,26 +31,21 @@
             <div id="form-content" class="row justify-content-center">
                 <div class="col-md-6">
                     <?= $this->Form->create($order, ['class' => 'form needs-validation', 'novalidate' => true]) ?>
+
+                    <!-- Tracking Number -->
                     <div class="mb-4 has-validation">
-                        <?= $this->Form->control('user_email', [
+                        <?= $this->Form->control('tracking_number', [
                             'class' => 'form-control mx-auto',
-                            'label' => ['text' => '<h4><span style="color: red;">*</span>User</h4>', 'escape' => false],
-                            'disabled' => true,
+                            'label' => ['text' => '<h4><span style="color: red;">*</span>Tracking Number</h4>', 'escape' => false],
+                            'placeholder' => 'Enter the tracking number...',
+                            'maxlength' => 255,
                             'required' => true,
                         ]) ?>
                     </div>
 
-<!--                    <div class="mb-4 has-validation">-->
-<!--                        --><?php //= $this->Form->control('status', [
-//                            'type' => 'select',
-//                            'empty' => false,
-//                            'options' => ['pending' => 'Pending', 'completed' => 'Completed', 'cancelled' => 'Cancelled'],
-//                            'class' => 'form-control mx-auto',
-//                            'label' => ['text' => '<h4><span style="color: red;">*</span>Status</h4>', 'escape' => false],
-//                            'required' => true,
-//                        ]) ?>
-<!--                    </div>-->
-<!--                TODO: Add validation for address later in OrderTable, also declared maxlength as constant in bootstrap to avoid mismatch -->
+                    <!--TODO: Add validation for address later in OrderTable, also declared maxlength as constant in bootstrap to avoid mismatch -->
+
+                    <!-- Origin Address -->
                     <div class="mb-4 has-validation">
                         <?= $this->Form->control('origin_address', [
                             'class' => 'form-control mx-auto',
@@ -61,6 +56,7 @@
                         ]) ?>
                     </div>
 
+                    <!-- Destination Address -->
                     <div class="mb-4 has-validation">
                         <?= $this->Form->control('destination_address', [
                             'class' => 'form-control mx-auto',
@@ -73,6 +69,7 @@
                 </div>
 
                 <div class="col-md-6">
+                    <!-- Shipped Date -->
                     <div class="mb-4 has-validation">
                         <?= $this->Form->control('shipped_date', [
                             'class' => 'form-control mx-auto',
@@ -81,7 +78,7 @@
                             'value' => $order->shipped_date ? $order->shipped_date->format('d M Y, H:i A') : date('Y-m-d'),
                         ]) ?>
                     </div>
-
+                    <!-- Estimated Delivery Date -->
                     <div class="mb-4 has-validation">
                         <?= $this->Form->control('estimated_delivery_date', [
                             'class' => 'form-control mx-auto',
