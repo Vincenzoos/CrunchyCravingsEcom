@@ -5,6 +5,7 @@
  * @var \App\View\AppView $this
  * @var string $first_name Recipient's first name
  * @var string $last_name Recipient's last name
+ * @var string $trackingNumber Order tracking number
  * @var string $email Recipient's email address
  * @var array $cartItems Array of cart items (each with product, quantity, line_price, etc.)
  * @var float $total Total order amount
@@ -24,6 +25,11 @@
                             <p>Hi <?= h($email) ?>,</p>
                             <p>
                                 Thank you for shopping with <b>CrunchyCravings</b>.
+                                <br><br>
+                                Your tracking number is: <b><?= h($trackingNumber) ?></b>
+                                <br>
+                                You can use this tracking number to track your order's delivery status on our website or the courier's tracking page.
+                                <br><br>
                                 Below is a summary of your order:
                             </p>
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="width:100%; border: 1px solid #ddd;">

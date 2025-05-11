@@ -65,7 +65,6 @@ class OrdersTable extends Table
     {
         $validator
             ->scalar('tracking_number')
-            ->maxLength('tracking_number', 36)
             ->notEmptyString('tracking_number', 'Tracking number is required.');
 
         $validator

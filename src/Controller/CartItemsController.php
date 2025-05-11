@@ -14,6 +14,7 @@ use stdClass;
  * CartItems Controller
  *
  * @property \App\Model\Table\CartItemsTable $CartItems
+ * @property \App\Model\Table\OrdersTable $Orders
  */
 class CartItemsController extends AppController
 {
@@ -645,6 +646,24 @@ class CartItemsController extends AppController
         // Redirect back to the referring page (or to a dedicated cart view)
         return $this->redirect($this->referer());
     }
+    
+    /**
+     * Generate a random tracking number
+     *
+     * @return string Random tracking number
+     */
+    private function generateTrackingNumber(): string
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        $length = 20; // Length of the tracking code
+        $trackingNumber = 'TRK';
+
+        for ($i = 0; $i < $length; $i++) {
+            $trackingNumber .= $characters[random_int(0, strlen($characters) - 1)];
+        }
+
+        return $trackingNumber;
+    }
 
     public function authenticatedCheckout()
     {
@@ -652,6 +671,8 @@ class CartItemsController extends AppController
         $user = $this->Authentication->getIdentity();
         $userId = $user->get('id');
         $recipient = $user->get('email');
+
+        $this->Flash->success(__('Order confirmation will be sent to: ' . $recipient));
 
         // Retrieve cart items for the current user including associated product info
         $cartItems = $this->CartItems->find('all')
@@ -678,6 +699,9 @@ class CartItemsController extends AppController
             $total += $item->line_price;
         }
 
+        // Generate a tracking number
+        $trackingNumber = $this->generateTrackingNumber();
+
         try {
             // Override received email to cpanel email for testing
             // Configure::load('app_local');
@@ -696,6 +720,7 @@ class CartItemsController extends AppController
 
             // Pass required variables to email template
             $mailer->setViewVars([
+                'trackingNumber' => $trackingNumber,
                 'email' => $recipient,
                 'cartItems' => $cartItems,
                 'total' => $total,
@@ -706,10 +731,39 @@ class CartItemsController extends AppController
                 return $this->redirect(['action' => 'customerView']);
             }
 
-            $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
+            // Process the order --------------------------------
+            
+            // Create the order entity
+            $order = $this->CartItems->Orders->newEmptyEntity();
+            $order = $this->CartItems->Orders->patchEntity($order, [
+                'tracking_number' => $trackingNumber,
+                'user_email' => $recipient,
+                'status' => 'pending',
+                'origin_address' => 'Origin Address', // Placeholder for now, will need to make a global config for this
+                'destination_address' => $destinationAddress,
+                'estimated_delivery_date' => date('Y-m-d H:i:s', strtotime('+7 days')), // 7 days from now
+                'total' => $total,
+            ]);
 
-            // Clear the cart here if the order is complete
-            $this->CartItems->deleteAll(['user_id' => $userId]);
+            // Save the order
+            if ($this->CartItems->Orders->save($order)) {
+                // Convert cart items to order items
+                foreach ($cartItems as $cartItem) {
+                    $orderItem = $this->CartItems->Orders->OrderItems->newEmptyEntity();
+                    $orderItem = $this->CartItems->Orders->OrderItems->patchEntity($orderItem, [
+                        'order_id' => $order->id,
+                        'product_id' => $cartItem->product_id,
+                        'quantity' => $cartItem->quantity,
+                    ]);
+                    $this->CartItems->Orders->OrderItems->save($orderItem);
+                }
+                
+                // Clear the cart items for this user
+                $this->CartItems->deleteAll(['user_id' => $userId]);
+                $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
+            } else {
+                $this->Flash->error(__('Unable to place your order. Please try again.'));
+            }
         } catch (Exception $e) {
             $this->Flash->error(__('Error sending email to ' . $user->get('email') . '. The provided email address may not exist, please check the email address and try again.'));
             return $this->redirect(['action' => 'customerView']);
@@ -770,26 +824,27 @@ class CartItemsController extends AppController
                 $total += $linePrice;
         }
 
-        // Log cart details for debugging
-//        Log::write('debug', json_encode($cartItems));
-
-        // Override received email to cpanel email for testing
-//            Configure::load('app_local');
-//            $override_email = Configure::read('EmailTransport.default.username');
-//            $override_email = $override_email ?? $recipient;
-
+        // Generate a tracking number
+        $trackingNumber = $this->generateTrackingNumber();
+        
         try {
+            // Override received email to cpanel email for testing
+            // Configure::load('app_local');
+            // $override_email = Configure::read('EmailTransport.default.username');
+            // $override_email = $override_email ?? $recipient;
+            
             $mailer = new Mailer('default');
             $mailer
                 ->setEmailFormat('both')
-                // Override received email to cpanel email for testing
                 ->setTo($recipient)
-//                ->setTo($override_email)
+                // Override received email to cpanel email for testing
+                // ->setTo($override_email)
                 ->setSubject('Your Order Confirmation')
                 ->viewBuilder()
                 ->setTemplate('customer_checkout');
 
             $mailer->setViewVars([
+                'trackingNumber' => $trackingNumber,
                 'email' => $recipient,
                 'cartItems' => $cartItems,
                 'total' => $total,
@@ -797,13 +852,40 @@ class CartItemsController extends AppController
 
             if (!$mailer->deliver()) {
                 $this->Flash->error(__('We encountered an issue sending your order confirmation email. Please try again.'));
-
                 return $this->redirect(['action' => 'customerView']);
             }
-            // If checkout successful
-            $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
-            // Clear the cart from the session after checkout
-            $session->delete('Cart');
+
+            // Create the order entity
+            $order = $this->CartItems->Orders->newEmptyEntity();
+            $order = $this->CartItems->Orders->patchEntity($order, [
+                'tracking_number' => $trackingNumber,
+                'user_email' => $recipient,
+                'status' => 'pending',
+                'origin_address' => 'Origin Address', // Placeholder for now, will need to make a global config for this
+                'destination_address' => $destinationAddress,
+                'estimated_delivery_date' => date('Y-m-d H:i:s', strtotime('+7 days')), // 7 days from now
+                'total' => $total,
+            ]);
+
+            // Save the order
+            if ($this->CartItems->Orders->save($order)) {
+                // Convert session cart items to order items
+                foreach ($cart as $productId => $item) {
+                    $orderItem = $this->CartItems->Orders->OrderItems->newEmptyEntity();
+                    $orderItem = $this->CartItems->Orders->OrderItems->patchEntity($orderItem, [
+                        'order_id' => $order->id,
+                        'product_id' => $productId,
+                        'quantity' => $item['quantity'],
+                    ]);
+                    $this->CartItems->Orders->OrderItems->save($orderItem);
+                }
+                
+                // Clear the session cart
+                $session->delete('Cart');
+                $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
+            } else {
+                $this->Flash->error(__('Unable to place your order. Please try again.'));
+            }
         } catch (Exception $e) {
             $this->Flash->error(__('Error sending email to ' . $recipient . '. The provided email address may not exist, please check the email address and try again.'));
 
