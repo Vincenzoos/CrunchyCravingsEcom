@@ -25,7 +25,7 @@ $html = new HtmlHelper(new View());
 <div id="shop-container" class="container">
     <h1 class="text-center" style="padding: 1rem 0;">View Order</h1>
         <div id="shop-box" class="mb-4 p-3">
-            <h4 class="text-center" style="padding: 1rem 0;">Order #<?= h($order->id) ?> - <?= h($order->status) ?></h4>
+            <h4 class="text-center" style="padding: 1rem 0;">Order #<?= h($order->tracking_number) ?> - <?= h($order->status) ?></h4>
             <p><strong>Order Date:</strong> <?= h($order->created->format('d M Y, H:i A')) ?></p>
             <p><strong>Origin Address:</strong> <?= h($order->origin_address) ?></p>
             <p><strong>Destination Address:</strong> <?= h($order->destination_address) ?></p>
@@ -51,12 +51,12 @@ $html = new HtmlHelper(new View());
             <?php endif; ?>
 
             <!-- Map Section -->
-            <div id="map-<?= h($order->id) ?>" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+            <div id="map-<?= h($order->tracking_number) ?>" style="width: 100%; height: 400px; margin-top: 20px;"></div>
 
             <!-- Leaflet.js Map Script -->
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
-                    const map = L.map('map-<?= h($order->id) ?>');
+                    const map = L.map('map-<?= h($order->tracking_number) ?>');
 
                     // Add OpenStreetMap tiles
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

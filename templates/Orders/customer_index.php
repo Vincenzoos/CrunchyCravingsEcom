@@ -50,7 +50,7 @@ $html = new HtmlHelper(new View());
         <?php if (!empty($orders)) : ?>
             <?php foreach ($orders as $order) : ?>
                 <div id="shop-box" class="mb-4 p-3">
-                    <h4 class="text-center" style="padding: 1rem 0;">Order #<?= h($order->id) ?> - <?= h($order->status) ?></h4>
+                    <h4 class="text-center" style="padding: 1rem 0;">Order #<?= h($order->tracking_number) ?> - <?= h($order->status) ?></h4>
                     <p><strong>Order Date:</strong> <?= h($order->created->format('d M Y, H:i A')) ?></p>
                     <p><strong>Origin Address:</strong> <?= h($order->origin_address) ?></p>
                     <p><strong>Destination Address:</strong> <?= h($order->destination_address) ?></p>
@@ -172,7 +172,7 @@ $html = new HtmlHelper(new View());
                                         __('Cancel Order'),
                                         ['controller' => 'Orders', 'action' => 'cancel', $order->id],
                                         [
-                                            'confirm' => __('Are you sure you want to cancel this order? #{0}', $order->id),
+                                            'confirm' => __('Are you sure you want to cancel this order? #{0}', $order->tracking_number),
                                             'class' => 'btn btn-danger btn-sm px-4'
                                         ]
                                     ) ?>

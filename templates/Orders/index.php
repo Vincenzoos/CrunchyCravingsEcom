@@ -48,7 +48,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             <table class="table table-bordered table-hover">
                 <thead class="thead-dark">
                 <tr>
-                    <th><?= $this->Paginator->sort('id', __('ID')) ?></th>
+                    <th><?= $this->Paginator->sort('tracking_number', __('Tracking Number')) ?></th>
                     <th><?= $this->Paginator->sort('user_email', __('Customer Email')) ?></th>
                     <th><?= $this->Paginator->sort('status', __('Status')) ?></th>
                     <th><?= $this->Paginator->sort('created', __('Created')) ?></th>
@@ -59,7 +59,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <tbody>
                 <?php foreach ($orders as $order): ?>
                     <tr>
-                        <td><?= $this->Number->format($order->id) ?></td>
+                        <td><?= h($order->tracking_number)?></td>
                         <td><?= h($order->user_email) ?></td>
                         <td><?= h($order->status) ?></td>
                         <td><?= h($order->created ? $order->created->format('d/m/Y H:m A') : 'N/A') ?></td>
@@ -72,7 +72,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 ['action' => 'delete', $order->id],
                                 [
                                     'class' => 'btn btn-danger btn-sm',
-                                    'confirm' => __('Are you sure you want to delete this order: #{0}?', $order->id),
+                                    'confirm' => __('Are you sure you want to delete this order: #{0}?', $order->tracking_number),
                                 ]
                             ) ?>
                         </td>
