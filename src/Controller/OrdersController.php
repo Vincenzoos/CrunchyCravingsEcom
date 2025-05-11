@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Collection\Collection;
+use Cake\Event\EventInterface;
 use DateTime;
 
 /**
@@ -41,7 +42,7 @@ class OrdersController extends AppController
      * Customer Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
-     */    
+     */
     public function customerIndex()
     {
         $userId = $this->request->getAttribute('identity')->id;
@@ -50,6 +51,7 @@ class OrdersController extends AppController
 
         if (empty($userEmail)) {
             $this->Flash->error(__('You must be logged in to view your orders.'));
+
             return $this->redirect(['controller' => 'Auth', 'action' => 'login']);
         }
 
@@ -149,12 +151,12 @@ class OrdersController extends AppController
     {
         if ($this->request->is('post')) {
             $trackingNumber = $this->request->getData('tracking_number');
-    
+
             // Fetch the order by tracking number
             $order = $this->Orders->find('all', [
                 'conditions' => ['Orders.tracking_number' => $trackingNumber],
             ])->first();
-    
+
             if ($order) {
                 $this->set(compact('order'));
             } else {
@@ -187,6 +189,7 @@ class OrdersController extends AppController
             ->where([
                 'Orders.created >=' => $weekStart,
                 'Orders.created <=' => $weekEnd,
+                'Orders.status !=' => 'cancelled',
             ])
             ->select([
                 'date' => 'DATE(Orders.created)',
@@ -212,7 +215,11 @@ class OrdersController extends AppController
                     'conditions' => 'OrderItems.order_id = Orders.id',
                 ],
             ])
-            ->where(['Orders.created >=' => $weekStart, 'Orders.created <=' => $weekEnd])
+            ->where([
+                'Orders.created >=' => $weekStart,
+                'Orders.created <=' => $weekEnd,
+                'Orders.status !=' => 'cancelled',
+            ])
             ->select([
                 'product_id' => 'OrderItems.product_id',
                 'total_sales' => $this->Orders->find()->func()->sum('OrderItems.quantity'),
@@ -284,6 +291,7 @@ class OrdersController extends AppController
             ->where([
                 'Orders.created >=' => $monthStart,
                 'Orders.created <=' => $monthEnd,
+                'Orders.status !=' => 'cancelled',
             ])
             ->select([
                 'date' => 'DATE(Orders.created)',
@@ -309,7 +317,11 @@ class OrdersController extends AppController
                     'conditions' => 'OrderItems.order_id = Orders.id',
                 ],
             ])
-            ->where(['Orders.created >=' => $monthStart, 'Orders.created <=' => $monthEnd])
+            ->where([
+                'Orders.created >=' => $monthStart,
+                'Orders.created <=' => $monthEnd,
+                'Orders.status !=' => 'cancelled',
+            ])
             ->select([
                 'product_id' => 'OrderItems.product_id',
                 'total_sales' => $this->Orders->find()->func()->sum('OrderItems.quantity'),
@@ -397,6 +409,7 @@ class OrdersController extends AppController
             ->where([
                 'Orders.created >=' => $yearStart,
                 'Orders.created <=' => $yearEnd,
+                'Orders.status !=' => 'cancelled',
             ])
             ->select([
                 'month' => 'MONTH(Orders.created)',
@@ -422,7 +435,11 @@ class OrdersController extends AppController
                     'conditions' => 'OrderItems.order_id = Orders.id',
                 ],
             ])
-            ->where(['Orders.created >=' => $yearStart, 'Orders.created <=' => $yearEnd])
+            ->where([
+                'Orders.created >=' => $yearStart,
+                'Orders.created <=' => $yearEnd,
+                'Orders.status !=' => 'cancelled',
+            ])
             ->select([
                 'product_id' => 'OrderItems.product_id',
                 'total_sales' => $this->Orders->find()->func()->sum('OrderItems.quantity'),
@@ -471,7 +488,7 @@ class OrdersController extends AppController
     }
 
     // Override the beforeFilter method to allow unauthenticated access to these pages
-    public function beforeFilter(\Cake\Event\EventInterface $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
 
