@@ -47,13 +47,6 @@ class OrdersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-
-
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_email',
-            'bindingKey' => 'email',
-            'joinType' => 'INNER',
-        ]);
     
         $this->hasMany('OrderItems', [
             'foreignKey' => 'order_id',
@@ -113,8 +106,6 @@ class OrdersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['user_email'], 'Users'), ['errorField' => 'user_email']);
-
         return $rules;
     }
 }

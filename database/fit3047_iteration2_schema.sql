@@ -497,12 +497,6 @@ ALTER TABLE `orders`
     ADD PRIMARY KEY (`id`),
   ADD KEY `fk_orders_user` (`user_email`);
 
--- Foreign key constraints for table `orders`
-ALTER TABLE `orders`
-    ADD CONSTRAINT `fk_orders_user`
-        FOREIGN KEY (`user_email`) REFERENCES `users`(`email`)
-            ON DELETE CASCADE;
-
 --
 -- Indexes for table `order_items`
 --
