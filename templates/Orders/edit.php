@@ -42,16 +42,16 @@
                         ]) ?>
                     </div>
 
-                    <div class="mb-4 has-validation">
-                        <?= $this->Form->control('status', [
-                            'type' => 'select',
-                            'empty' => false,
-                            'options' => ['pending' => 'Pending', 'completed' => 'Completed', 'cancelled' => 'Cancelled'],
-                            'class' => 'form-control mx-auto',
-                            'label' => ['text' => '<h4><span style="color: red;">*</span>Status</h4>', 'escape' => false],
-                            'required' => true,
-                        ]) ?>
-                    </div>
+<!--                    <div class="mb-4 has-validation">-->
+<!--                        --><?php //= $this->Form->control('status', [
+//                            'type' => 'select',
+//                            'empty' => false,
+//                            'options' => ['pending' => 'Pending', 'completed' => 'Completed', 'cancelled' => 'Cancelled'],
+//                            'class' => 'form-control mx-auto',
+//                            'label' => ['text' => '<h4><span style="color: red;">*</span>Status</h4>', 'escape' => false],
+//                            'required' => true,
+//                        ]) ?>
+<!--                    </div>-->
 <!--                TODO: Add validation for address later in OrderTable, also declared maxlength as constant in bootstrap to avoid mismatch -->
                     <div class="mb-4 has-validation">
                         <?= $this->Form->control('origin_address', [

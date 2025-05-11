@@ -108,6 +108,14 @@ class OrdersController extends AppController
     public function edit(?string $id = null)
     {
         $order = $this->Orders->get($id, contain: []);
+
+        // Restrict editing to orders with "pending" status
+        if ($order->status !== 'pending') {
+            $this->Flash->error(__('Only orders with pending status can be edited.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $order = $this->Orders->patchEntity($order, $this->request->getData());
             if ($this->Orders->save($order)) {
@@ -139,6 +147,25 @@ class OrdersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function cancel(?string $id = null)
+    {
+        $this->request->allowMethod(['post']);
+        $order = $this->Orders->get($id);
+
+        if ($order->status === 'pending') {
+            $order->status = 'cancelled';
+            if ($this->Orders->save($order)) {
+                $this->Flash->success(__('The order has been cancelled.'));
+            } else {
+                $this->Flash->error(__('The order could not be cancelled. Please, try again.'));
+            }
+        } else {
+            $this->Flash->error(__('Only pending orders can be cancelled.'));
+        }
+
+        return $this->redirect(['action' => 'customerIndex']);
     }
 
     /**

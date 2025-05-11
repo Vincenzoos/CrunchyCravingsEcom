@@ -164,6 +164,25 @@ $html = new HtmlHelper(new View());
                             </tbody>
                         </table>
                     </div>
+                    <!-- Grand Total Section -->
+                    <div class="grand-total-section d-flex justify-content-between align-items-center pe-1 py-3 border-top">
+                        <div>
+                            <?php if ($order->status === 'pending') : ?>
+                                    <?= $this->Form->postLink(
+                                        __('Cancel Order'),
+                                        ['controller' => 'Orders', 'action' => 'cancel', $order->id],
+                                        [
+                                            'confirm' => __('Are you sure you want to cancel this order? #{0}', $order->id),
+                                            'class' => 'btn btn-danger btn-sm px-4'
+                                        ]
+                                    ) ?>
+                            <?php endif; ?>
+                        </div>
+                        <div>
+                            <h4 class="d-inline me-2">Grand Total:</h4>
+                            <span class="total-amount fw-bold fs-5"><?= $this->Number->currency($order->total_price, 'AUD') ?></span>
+                        </div>
+                    </div>
                 </div>
             <?php endforeach; ?>
         <?php else : ?>
