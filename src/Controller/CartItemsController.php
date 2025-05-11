@@ -7,8 +7,11 @@ namespace App\Controller;
 use Cake\Core\Configure;
 use Cake\Event\EventInterface;
 use Cake\Mailer\Mailer;
+use Cake\Routing\Router;
 use Exception;
 use stdClass;
+use Stripe\Checkout\Session;
+use Stripe\Stripe;
 
 /**
  * CartItems Controller
@@ -672,6 +675,7 @@ class CartItemsController extends AppController
 
             if (!$mailer->deliver()) {
                 $this->Flash->error(__('We encountered an issue sending your order confirmation email. Please try again.'));
+
                 return false;
             }
 
@@ -683,6 +687,7 @@ class CartItemsController extends AppController
             return true;
         } catch (Exception $e) {
             $this->Flash->error(__('Error sending email to ' . $recipient . '. The provided email address may not exist, please check the email address and try again.'));
+
             return false;
         }
     }
@@ -704,25 +709,44 @@ class CartItemsController extends AppController
             return $this->redirect(['action' => 'customerView']);
         }
 
-        // Get the destination address from the request
-        $destinationAddress = $this->request->getData('destination_address');
-        if (empty($destinationAddress)) {
-            $this->Flash->error(__('Please provide a valid destination address.'));
+        $lineItems = [];
+        foreach ($cartItems as $item) {
+            $lineItems[] = [
+                'price_data' => [
+                    'currency' => 'aud',
+                    'product_data' => [
+                        'name' => $item->product->name,
+                    ],
+                    'unit_amount' => $item->product->price * 100,
+                ],
+                'quantity' => $item->quantity,
+            ];
+        }
+
+        Stripe::setApiKey(Configure::read('Stripe.secret_key'));
+
+        try {
+            $session = Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => $lineItems,
+                'mode' => 'payment',
+                'success_url' => Router::url(['controller' => 'CartItems', 'action' => 'success'], true),
+                'cancel_url' => Router::url(['controller' => 'CartItems', 'action' => 'customerView'], true),
+            ]);
+
+            $total = array_sum(array_map(fn($item) => $item->line_price, $cartItems));
+
+            // Send the email directly after creating the session
+            $this->processCheckout($recipient, $cartItems, $total, function () use ($userId) {
+                $this->CartItems->deleteAll(['user_id' => $userId]);
+            });
+
+            return $this->redirect($session->url);
+        } catch (Exception $e) {
+            $this->Flash->error(__('Error: ' . $e->getMessage()));
 
             return $this->redirect(['action' => 'customerView']);
         }
-
-        $total = array_sum(array_map(fn($item) => $item->line_price, $cartItems));
-
-        $clearCartCallback = function () use ($userId) {
-            $this->CartItems->deleteAll(['user_id' => $userId]);
-        };
-
-        if ($this->processCheckout($recipient, $cartItems, $total, $clearCartCallback)) {
-            return $this->redirect(['controller' => 'Products', 'action' => 'customerIndex']);
-        }
-
-        return $this->redirect(['action' => 'customerView']);
     }
 
     public function unauthenticatedCheckout()
@@ -752,32 +776,78 @@ class CartItemsController extends AppController
             return $this->redirect(['action' => 'customerView']);
         }
 
-        $cartItems = [];
-        $total = 0;
-
-        foreach ($cart as $productId => $item) {
-            $linePrice = $item['price'] * $item['quantity'];
-
-            $productObj = new stdClass();
-            $productObj->name = $item['name'];
-            $productObj->price = $item['price'];
-
-            $cartItem = new stdClass();
-            $cartItem->product = $productObj;
-            $cartItem->quantity = $item['quantity'];
-            $cartItem->line_price = $linePrice;
-
-            $cartItems[] = $cartItem;
-            $total += $linePrice;
+        $lineItems = [];
+        foreach ($cart as $item) {
+            $lineItems[] = [
+                'price_data' => [
+                    'currency' => 'aud',
+                    'product_data' => [
+                        'name' => $item['name'],
+                    ],
+                    'unit_amount' => $item['price'] * 100, // Convert to cents
+                ],
+                'quantity' => $item['quantity'],
+            ];
         }
 
-        $clearCartCallback = function () use ($session) {
+        Stripe::setApiKey(Configure::read('Stripe.secret_key'));
+
+        try {
+            $session = Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => $lineItems,
+                'mode' => 'payment',
+                'success_url' => Router::url(['controller' => 'CartItems', 'action' => 'success'], true),
+                'cancel_url' => Router::url(['controller' => 'CartItems', 'action' => 'customerView'], true),
+            ]);
+
+            $total = array_sum(array_map(fn($item) => $item->line_price, $cartItems));
+
+            // Send the email directly after creating the session
+            $this->processCheckout($recipient, $cartItems, $total, function () use ($userId) {
+                $this->CartItems->deleteAll(['user_id' => $userId]);
+            });
+
+            return $this->redirect($session->url);
+        } catch (Exception $e) {
+            $this->Flash->error(__('Error: ' . $e->getMessage()));
+
+            return $this->redirect(['action' => 'customerView']);
+        }
+    }
+
+    public function stripeWebhook()
+    {
+        $this->request->allowMethod(['post']);
+        try {
+            $this->response = $this->response->withStatus(200);
+        } catch (Exception $e) {
+            $this->response = $this->response->withStatus(400);
+        }
+
+        return $this->response;
+    }
+
+    public function success()
+    {
+        $identity = $this->Authentication->getIdentity();
+        $userId = $identity ? $identity->get('id') : null;
+
+        if ($userId) {
+            $this->CartItems->deleteAll(['user_id' => $userId]);
+        } else {
+            $session = $this->request->getSession();
             $session->delete('Cart');
-        };
-
-        if ($this->processCheckout($recipient, $cartItems, $total, $clearCartCallback)) {
-            return $this->redirect(['controller' => 'Products', 'action' => 'customerIndex']);
         }
+
+        $this->Flash->success(__('Payment successful! Your cart has been cleared.'));
+
+        return $this->redirect(['action' => 'customerView']);
+    }
+
+    public function cancel()
+    {
+        $this->Flash->error(__('Payment was canceled. You can try again.'));
 
         return $this->redirect(['action' => 'customerView']);
     }
