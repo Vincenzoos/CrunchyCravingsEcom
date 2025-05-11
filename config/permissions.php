@@ -82,6 +82,13 @@ return [
             'action' => 'index',
         ],
 
+        [
+            'role' => '*',
+            'controller' => 'Orders',
+            'action' => 'add',
+            'allowed' => false,
+        ],
+
         // Public access to Pages controller (e.g. homepage/landing page)
         [
             'role' => '*',

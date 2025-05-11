@@ -32,7 +32,7 @@ class OrdersController extends AppController
     public function index()
     {
         $query = $this->Orders->find()
-            ->contain(['Users', 'OrderItems.Products'])
+            ->contain(['OrderItems.Products'])
             ->orderBy(['Orders.created' => 'DESC']);
         $orders = $this->paginate($query);
         $this->set(compact('orders'));
@@ -45,9 +45,7 @@ class OrdersController extends AppController
      */
     public function customerIndex()
     {
-        $userId = $this->request->getAttribute('identity')->id;
-        $user = $this->Orders->Users->get($userId);
-        $userEmail = $user->email ?? null;
+        $userEmail = $this->request->getAttribute('identity')->email;
 
         if (empty($userEmail)) {
             $this->Flash->error(__('You must be logged in to view your orders.'));
@@ -73,7 +71,7 @@ class OrdersController extends AppController
      */
     public function view(?string $id = null)
     {
-        $order = $this->Orders->get($id, contain: ['Users', 'OrderItems.Products']);
+        $order = $this->Orders->get($id, contain: ['OrderItems.Products']);
         $this->set(compact('order'));
     }
 
@@ -94,8 +92,7 @@ class OrdersController extends AppController
             }
             $this->Flash->error(__('The order could not be saved. Please, try again.'));
         }
-        $users = $this->Orders->Users->find('list', limit: 200)->all();
-        $this->set(compact('order', 'users'));
+        $this->set(compact('order'));
     }
 
     /**
@@ -125,8 +122,7 @@ class OrdersController extends AppController
             }
             $this->Flash->error(__('The order could not be saved. Please, try again.'));
         }
-        $users = $this->Orders->Users->find('list', limit: 200)->all();
-        $this->set(compact('order', 'users'));
+        $this->set(compact('order'));
     }
 
     /**

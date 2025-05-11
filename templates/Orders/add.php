@@ -18,7 +18,6 @@
             <fieldset>
                 <legend><?= __('Add Order') ?></legend>
                 <?php
-                    echo $this->Form->control('user_email', ['options' => is_array($users) ? $users : $users->toArray()]);
                     echo $this->Form->control('status');
                     echo $this->Form->control('origin_address');
                     echo $this->Form->control('destination_address');

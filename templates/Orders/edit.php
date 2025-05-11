@@ -2,7 +2,6 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Order $order
- * @var string[]|\Cake\Collection\CollectionInterface $users
  */
 ?>
 
@@ -34,7 +33,6 @@
                     <?= $this->Form->create($order, ['class' => 'form needs-validation', 'novalidate' => true]) ?>
                     <div class="mb-4 has-validation">
                         <?= $this->Form->control('user_email', [
-                            'options' => $users,
                             'class' => 'form-control mx-auto',
                             'label' => ['text' => '<h4><span style="color: red;">*</span>User</h4>', 'escape' => false],
                             'disabled' => true,
