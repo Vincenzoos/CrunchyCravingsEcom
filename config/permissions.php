@@ -69,7 +69,7 @@ return [
             'role' => '*',
             'controller' => 'Orders',
             'action' => [
-                // 'customerIndex',
+                 'customerIndex',
                 'orderLookup',
             ],
             'bypassAuth' => true,

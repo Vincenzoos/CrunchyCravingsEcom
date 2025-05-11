@@ -113,7 +113,12 @@ $html = new HtmlHelper(new View());
         <!-- Shopping Cart Estimate Section -->
         <div id="shop-box" class="shopping-cart-estimate d-flex flex-column align-items-center justify-content-center">
             <h1>Shipping & Checkout</h1>
-            <?= $this->Form->create(null, ['url' => ['controller' => 'CartItems', 'action' => 'checkout']]) ?>
+            <!-- Checkout Form -->
+            <?= $this->Form->create(null, [
+                'url' => $this->Identity->isLoggedIn()
+                    ? ['controller' => 'CartItems', 'action' => 'authenticatedCheckout']
+                    : ['controller' => 'CartItems', 'action' => 'unauthenticatedCheckout'],
+            ]) ?>
             <div class="row">
                 <!-- Email Input (for unauthenticated users) -->
                 <?php if (!$this->Identity->isLoggedIn()) : ?>
@@ -157,13 +162,6 @@ $html = new HtmlHelper(new View());
                                 </tr>
                             </tbody>
                         </table>
-
-                        <!-- Checkout Form -->
-                        <?= $this->Form->create(null, [
-                            'url' => $this->Identity->isLoggedIn() 
-                                ? ['controller' => 'CartItems', 'action' => 'authenticatedCheckout'] 
-                                : ['controller' => 'CartItems', 'action' => 'unauthenticatedCheckout']
-                        ]) ?>
                         <?= $this->Form->button('Checkout', ['class' => 'btn btn-default']) ?>
                         <?= $this->Form->end() ?>
                     </div>
