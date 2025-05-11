@@ -140,10 +140,14 @@ class OrdersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $order = $this->Orders->get($id);
-        if ($this->Orders->delete($order)) {
-            $this->Flash->success(__('The order has been deleted.'));
+        if ($order->status === 'cancelled') {
+            if ($this->Orders->delete($order)) {
+                $this->Flash->success(__('The order has been deleted.'));
+            } else {
+                $this->Flash->error(__('The order could not be deleted. Please, try again.'));
+            }
         } else {
-            $this->Flash->error(__('The order could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Only cancelled orders can be deleted.'));
         }
 
         return $this->redirect(['action' => 'index']);
