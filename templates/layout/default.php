@@ -127,7 +127,6 @@ $html = new HtmlHelper(new View());
             <i class="fas fa-bars"></i>
         </button>
 
-
         <!-- Sidebar -->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
             <div class="offcanvas-header">
@@ -185,17 +184,18 @@ $html = new HtmlHelper(new View());
                                 // Get the user's email and extract the first two letters
                                 $userEmail = $this->Identity->get('email');
                                 $initials = strtoupper(substr($userEmail, 0, 1));
-                                ?>
-                            <div class="dropdown" style="display: inline-block;">
-                                <!-- Circular Icon -->
-                                <button class="btn btn-secondary rounded-circle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            ?>
+                            <!-- Dropdown Menu -->
+                            <div id="profile-dropdown" class="profile-dropdown text-center" style="display: relative;">
+                                <!-- Button -->
+                                <button id="profile-toggle" class="btn btn-secondary rounded-circle">
                                     <?= $initials ?>
                                 </button>
 
-                                <!-- Dropdown Menu -->
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item"><?= h($this->Identity->get('email')) ?></a></li>
-                                    <li><hr class="dropdown-divider"></li>
+                                <!-- Content -->
+                                <ul id="profile-content">
+                                    <li><a id="profile-email"><?= h($this->Identity->get('email')) ?></a></li>
+                                    <li><hr class="dropdown-divider" style="margin-top: 1.0rem; margin-bottom: 0.5rem;"></li>
                                     <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Orders', 'action' => 'customerIndex']) ?>">Orders</a></li>
                                     <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>">Logout</a></li>
                                     <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>">Change Password</a></li>
@@ -477,6 +477,28 @@ $html = new HtmlHelper(new View());
         });
     </script>
 
+    <!-- Profile Dropdown Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownMenu = document.getElementById('profile-dropdown');
+            const toggleButton = document.getElementById('profile-toggle');
+            const content = document.getElementById('profile-content');
+
+            // Toggle the visibility of the accessibility options
+            toggleButton.addEventListener('click', function (event) {
+                event.stopPropagation(); // Prevent the click from propagating to the document
+                content.classList.toggle('show'); // Toggle the 'show' class
+            });
+
+            // Close the dropdown if clicked outside
+            document.addEventListener('click', function (event) {
+                if (!toggleButton.contains(event.target) && !content.contains(event.target)) {
+                    content.classList.remove('show');
+                }
+            });
+        });
+    </script>
+
     <!-- Fix navbar collapse issue -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -510,35 +532,6 @@ $html = new HtmlHelper(new View());
             document.head.appendChild(favicon);
         });
     </script>
-
-    <!-- Script to show/hide bottom logo based on top logo visibility -->
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const bottomLogo = document.querySelector('#add-banner-section');
-            const topLogo = document.querySelector('.logo-block');
-
-            function toggleBottomLogo() {
-                const topLogoBottom = topLogo.getBoundingClientRect().bottom;
-                const viewportHeight = window.innerHeight;
-
-                // Show the bottom logo only if the top logo is not visible in the viewport
-                if (topLogoBottom < 0) {
-                    if (bottomLogo.style.display === 'none') {
-                        bottomLogo.style.display = 'block';
-                    }
-                } else {
-                    if (bottomLogo.style.display === 'block') {
-                        bottomLogo.style.display = 'none';
-                    }
-                }
-            }
-
-            // Run the function on page load and on scroll
-            toggleBottomLogo();
-            window.addEventListener('scroll', toggleBottomLogo);
-        });
-    </script> -->
-
 
     <!-- Select2 JS -->
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js') ?>

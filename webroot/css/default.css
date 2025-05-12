@@ -112,48 +112,6 @@
     color: var(--sidebar-text-color) !important;
 }
 
-/* Profile dropdown ------------------------------------ */
-
-/* Dropdown Menu Styling */
-#userDropdown {
-    background-color: var(--background-color); /* Match the sidebar background */
-    color: var(--text-color); /* Set text color */
-    border-radius: 0.5rem; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    padding: 0.5rem; /* Padding around the dropdown */
-    text-transform: uppercase;
-
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 0;
-}
-
-#userDropdown:hover {
-    border-color: var(--default-icon-hover-color) !important; /* Change border color on hover */
-}
-
-#userDropdown .dropdown-menu li {
-    color: var(--text-color);
-    font-family: var(--main-font);
-    list-style: none; /* Remove bullet points */
-    padding: 0.0rem 1rem;
-}
-
-/* Dropdown Item Styling */
-div.dropdown .dropdown-item {
-    background-color: var(--background-color);
-    border-radius: 0.5rem;
-    padding: 0.5rem 0.5rem;
-    font-size: 1rem; /* Adjust font size */
-}
-
-
-
 /* Footer */
 #footer {
     background-color: var(--empty-color); /* Set the background color */
@@ -199,4 +157,83 @@ div.dropdown .dropdown-item {
 /* Disable scrolling when the sidebar is active */
 .no-scroll {
     overflow: hidden; /* Disable scrolling */
+}
+
+/* Profile dropdown ------------------------------------ */
+/* Hide the dropdown menu by default */
+/* #profile-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    width: 200px;
+} */
+
+#profile-content {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 0.5rem;
+    z-index: 1000;
+    width: 300px;
+    top: 100%;
+    right: 0;
+    display: none;
+    position: absolute;
+    list-style: none;
+}
+
+/* Show the dropdown menu when the 'show' class is added */
+#profile-content.show {
+    display: block;
+}
+
+#profile-toggle,
+#profile-toggle:focus,
+#profile-toggle:hover {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--text-color) !important;
+}
+
+/* Style the dropdown items */
+#profile-content .dropdown-item {
+    padding: 10px 20px;
+    color: var(--text-col);
+    text-decoration: none;
+    display: block;
+    
+    /* Add transition for hover effect */
+    transform: translateY(0);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+#profile-email {
+    color: var(--text-col) !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.0rem !important;
+}
+
+/* Add shadow and slight upward movement on hover */
+#profile-content .dropdown-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+    transform: translateY(-3px); /* Move upward slightly */
+}
+
+/* Style the divider */
+#profile-content .dropdown-divider {
+    height: 1px;
+    margin: 5px 0;
+    background-color: #e9ecef;
+    border: none;
 }
