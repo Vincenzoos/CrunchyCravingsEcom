@@ -22,16 +22,19 @@ use Stripe\Checkout\Session;
 class CartItemsController extends AppController
 {
     /**
-     * Index method
+     * Index method (not implemented)
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index()
     {
-        $query = $this->CartItems->find()->contain(['Users', 'Products']);
-        $cartItems = $this->paginate($query);
+        $this->Flash->error(__('Page not found.'));
 
-        $this->set(compact('cartItems'));
+        return $this->redirect(['action' => 'customerView']);
+//        $query = $this->CartItems->find()->contain(['Users', 'Products']);
+//        $cartItems = $this->paginate($query);
+//
+//        $this->set(compact('cartItems'));
     }
 
     /**
@@ -97,7 +100,7 @@ class CartItemsController extends AppController
     }
 
     /**
-     * View method
+     * View method (not implemented)
      *
      * @param string|null $id Cart Item id.
      * @return \Cake\Http\Response|null|void Renders view
@@ -105,8 +108,11 @@ class CartItemsController extends AppController
      */
     public function view(?string $id = null)
     {
-        $cartItem = $this->CartItems->get($id, contain: ['Users', 'Products']);
-        $this->set(compact('cartItem'));
+        $this->Flash->error(__('Page not found.'));
+
+        return $this->redirect(['action' => 'customerView']);
+//        $cartItem = $this->CartItems->get($id, contain: ['Users', 'Products']);
+//        $this->set(compact('cartItem'));
     }
 
     /**
