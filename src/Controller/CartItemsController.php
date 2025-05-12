@@ -18,6 +18,7 @@ use Stripe\Stripe;
  * CartItems Controller
  *
  * @property \App\Model\Table\CartItemsTable $CartItems
+ * @property \App\Model\Table\OrdersTable $Orders
  */
 class CartItemsController extends AppController
 {
@@ -650,42 +651,102 @@ class CartItemsController extends AppController
         return $this->redirect($this->referer());
     }
 
-    private function processCheckout($recipient, $cartItems, $total, $clearCartCallback)
+    /**
+     * Generate a random tracking number
+     *
+     * @return string Random tracking number
+     */
+    private function generateTrackingNumber(): string
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        $length = 20; // Length of the tracking code
+        $trackingNumber = 'TRK';
+
+        for ($i = 0; $i < $length; $i++) {
+            $trackingNumber .= $characters[random_int(0, strlen($characters) - 1)];
+        }
+
+        return $trackingNumber;
+    }
+
+    private function processCheckout(
+        string $recipient,
+        array $cartItems,
+        float $total,
+        string $destinationAddress,
+        callable $clearCartCallback
+    )
     {
         try {
-            // Load email override configuration
-            $overrideEmailEnabled = Configure::read('EmailTransport.override_enabled', false);
-            $overrideEmail = Configure::read('EmailTransport.default.username');
+            // Generate a tracking number
+            $trackingNumber = $this->generateTrackingNumber();
 
-            // Determine the final recipient email
-            $finalRecipient = $overrideEmailEnabled && $overrideEmail ? $overrideEmail : $recipient;
-
-            $mailer = new Mailer('default');
-            $mailer
-                ->setEmailFormat('both')
-                ->setTo($finalRecipient) // Use the final recipient email
-                ->setSubject('Your Order Confirmation')
-                ->viewBuilder()
-                ->setTemplate('customer_checkout');
-
-            $mailer->setViewVars([
-                'email' => $finalRecipient,
-                'cartItems' => $cartItems,
+            // Save the order
+            $order = $this->CartItems->Orders->newEmptyEntity();
+            $order = $this->CartItems->Orders->patchEntity($order, [
+                'tracking_number' => $trackingNumber,
+                'user_email' => $recipient,
+                'status' => 'pending',
+                'origin_address' => 'Origin Address', // Placeholder for now
+                'destination_address' => $destinationAddress,
+                'estimated_delivery_date' => date('Y-m-d H:i:s', strtotime('+7 days')), // 7 days from now
                 'total' => $total,
             ]);
 
-            if (!$mailer->deliver()) {
-                $this->Flash->error(__('We encountered an issue sending your order confirmation email. Please try again.'));
+            // Save the order to the database
+            if ($this->CartItems->Orders->save($order)) {
+                // Get cart items and save them as order items
+                foreach ($cartItems as $cartItem) {
+                    $orderItem = $this->CartItems->Orders->OrderItems->newEmptyEntity();
+                    $orderItem = $this->CartItems->Orders->OrderItems->patchEntity($orderItem, [
+                        'order_id' => $order->id,
+                        'product_id' => $cartItem->product_id,
+                        'quantity' => $cartItem->quantity,
+                    ]);
+                    $this->CartItems->Orders->OrderItems->save($orderItem);
+                }
 
+                // Clear the cart
+                $clearCartCallback();
+
+                // Confirmation email -------------------------------------------------
+
+                // Load email override configuration
+                $overrideEmailEnabled = Configure::read('EmailTransport.override_enabled', false);
+                $overrideEmail = Configure::read('EmailTransport.default.username');
+
+                // Determine the final recipient email
+                $finalRecipient = $overrideEmailEnabled && $overrideEmail ? $overrideEmail : $recipient;
+
+                // Configure the email transport and template
+                $mailer = new Mailer('default');
+                $mailer
+                    ->setEmailFormat('both')
+                    ->setTo($finalRecipient) // Use the final recipient email
+                    ->setSubject('Your Order Confirmation')
+                    ->viewBuilder()
+                    ->setTemplate('customer_checkout');
+
+                $mailer->setViewVars([
+                    'trackingNumber' => $trackingNumber,
+                    'email' => $finalRecipient,
+                    'cartItems' => $cartItems,
+                    'total' => $total,
+                ]);
+                
+                // Send the email and check for success
+                if (!$mailer->deliver()) {
+                    $this->Flash->error(__('We encountered an issue sending your order confirmation email. Please try again.'));
+                    return false;
+                }
+
+                // Success message after saving order and sending email
+                $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
+                return true;
+            } else {
+                $this->Flash->error(__('Unable to place your order. Please try again.'));
                 return false;
             }
-
-            $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
-
-            // Clear the cart
-            $clearCartCallback();
-
-            return true;
         } catch (Exception $e) {
             $this->Flash->error(__('Error sending email to ' . $recipient . '. The provided email address may not exist, please check the email address and try again.'));
 
@@ -706,9 +767,9 @@ class CartItemsController extends AppController
 
         if (empty($cartItems)) {
             $this->Flash->error(__('Your cart is empty.'));
-
             return $this->redirect(['action' => 'customerView']);
         }
+
         // Get the destination address from the request
         $destinationAddress = $this->request->getData('destination_address');
         if (empty($destinationAddress)) {
@@ -742,6 +803,7 @@ class CartItemsController extends AppController
             'recipient' => $recipient,
             'cartItems' => $cartItems,
             'total' => $total,
+            'destination_address' => $destinationAddress,
             'is_guest' => false,
         ]);
 
@@ -761,8 +823,14 @@ class CartItemsController extends AppController
                 'cancel_url' => Router::url(['controller' => 'CartItems', 'action' => 'customerView'], true),
             ]);
 
-
             return $this->redirect($session->url);
+
+            // // Simulate a successful payment for testing
+            // return $this->redirect([
+            //     'controller' => 'CartItems',
+            //     'action' => 'success',
+            //     '?' => ['token' => $tempToken],
+            // ]);
         } catch (Exception $e) {
             $this->Flash->error(__('Error: ' . $e->getMessage()));
 
@@ -793,14 +861,12 @@ class CartItemsController extends AppController
 
         if (empty($cart)) {
             $this->Flash->error(__('Your cart is empty.'));
-
             return $this->redirect(['action' => 'customerView']);
         }
-
+        
         $lineItems = [];
         $cartItems = [];
         $total = 0;
-
         foreach ($cart as $productId => $item) {
             // Populate cart items with product details in session
             $linePrice = $item['price'] * $item['quantity'];
@@ -810,6 +876,7 @@ class CartItemsController extends AppController
             $productObj->price = $item['price'];
 
             $cartItem = new stdClass();
+            $cartItem->product_id = $productId;
             $cartItem->product = $productObj;
             $cartItem->quantity = $item['quantity'];
             $cartItem->line_price = $linePrice;
@@ -832,8 +899,6 @@ class CartItemsController extends AppController
             ];
         }
 
-        Stripe::setApiKey(Configure::read('Stripe.secret_key'));
-
         // generate temp token
         $tempToken = Text::uuid();
 
@@ -842,6 +907,7 @@ class CartItemsController extends AppController
             'recipient' => $recipient,
             'cartItems' => $cartItems,
             'total' => $total,
+            'destination_address' => $destinationAddress,
             'is_guest' => true,
         ]);
 
@@ -860,6 +926,13 @@ class CartItemsController extends AppController
             ]);
 
             return $this->redirect($stripeSession->url);
+
+            // // Simulate a successful payment for testing
+            // return $this->redirect([
+            //     'controller' => 'CartItems',
+            //     'action' => 'success',
+            //     '?' => ['token' => $tempToken],
+            // ]);
         } catch (Exception $e) {
             $this->Flash->error(__('Error: ' . $e->getMessage()));
 
@@ -901,17 +974,23 @@ class CartItemsController extends AppController
         $identity = $this->request->getAttribute('identity');
         $isGuest = $orderData['is_guest'];
 
+        $clearCartCallback = function () use ($identity, $session, $isGuest) {
+            if (!$isGuest && $identity) {
+                // Clear the cart for logged-in users
+                $this->CartItems->deleteAll(['user_id' => $identity->get('id')]);
+            } else {
+                // Clear the session cart for unauthenticated users
+                $session->delete('Cart');
+            }
+        };
+        
+        // Process the checkout
         $this->processCheckout(
             $orderData['recipient'],
             $orderData['cartItems'],
             $orderData['total'],
-            function () use ($identity, $session, $isGuest) {
-                if (!$isGuest && $identity) {
-                    $this->CartItems->deleteAll(['user_id' => $identity->get('id')]);
-                } else {
-                    $session->delete('Cart');
-                }
-            },
+            $orderData['destination_address'],
+            $clearCartCallback
         );
 
         $this->request->getSession()->delete("PendingOrders.{$token}");

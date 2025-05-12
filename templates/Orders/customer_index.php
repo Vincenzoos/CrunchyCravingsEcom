@@ -50,13 +50,10 @@ $html = new HtmlHelper(new View());
         <?php if (!empty($orders)) : ?>
             <?php foreach ($orders as $order) : ?>
                 <div id="shop-box" class="mb-4 p-3">
-                    <h4 class="text-center" style="padding: 1rem 0;">Order #<?= h($order->tracking_number) ?> - <?= h($order->status) ?></h4>
-                    <p><strong>Order Date:</strong> <?= h($order->created->format('d M Y, H:i A')) ?></p>
-                    <p><strong>Origin Address:</strong> <?= h($order->origin_address) ?></p>
-                    <p><strong>Destination Address:</strong> <?= h($order->destination_address) ?></p>
-
+                    <h4 class="text-center" style="padding: 1rem 0;"><?= h(ucfirst($order->status ?? 'Unknown')) ?> Order</h4>
+                    <p><strong>Tracking Number:</strong> <?= h($order->tracking_number ?? 'N/A') ?></p>
                     <!-- Shipping Tracking -->
-                    <?php if ($order->shipped_date && $order->estimated_delivery_date) : ?>
+                    <?php if (!empty($order->shipped_date) && !empty($order->estimated_delivery_date)) : ?>
                         <?php
                         $now = new \DateTime();
                         $deliveryDate = $order->estimated_delivery_date;
@@ -74,6 +71,13 @@ $html = new HtmlHelper(new View());
                     <?php else : ?>
                         <p><strong>Shipping Status:</strong> Not shipped yet</p>
                     <?php endif; ?>
+                    <hr style="border: 1px solid #ccc; margin: 20px 0;">
+                    <p><strong>Order Date:</strong> <?= h($order->created ? $order->created->format('d M Y, H:i A') : 'N/A') ?></p>
+                    <p><strong>Estimated Delivery Date:</strong> <?= h($order->estimated_delivery_date ? $order->estimated_delivery_date->format('d M Y') : 'N/A') ?></p>
+                    <hr style="border: 1px solid #ccc; margin: 20px 0;">
+                    <p><strong>Origin Address:</strong> <?= h($order->origin_address ?? 'N/A') ?></p>
+                    <p><strong>Destination Address:</strong> <?= h($order->destination_address ?? 'N/A') ?></p>
+                    <hr style="border: 1px solid #ccc; margin: 20px 0;">
 
                     <!-- Map Section -->
                     <div id="map-<?= h($order->id) ?>" style="width: 100%; height: 400px; margin-top: 20px;"></div>

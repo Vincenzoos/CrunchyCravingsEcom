@@ -56,6 +56,11 @@ class CartItemsTable extends Table
             'foreignKey' => 'product_id',
             'joinType' => 'INNER',
         ]);
+        // It doesnt actually belong to orders, but we can use it to get ORM access to the orders table
+        $this->belongsTo('Orders', [
+            'foreignKey' => 'order_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**

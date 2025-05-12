@@ -42,13 +42,10 @@ $html = new HtmlHelper(new View());
     </div>
     <?php if (isset($order)): ?>
         <div id="shop-box" class="mb-4 p-3">
-            <h4 class="text-center" style="padding: 1rem 0;">Order #<?= h($order->id) ?> - <?= h($order->status) ?></h4>
-            <p><strong>Order Date:</strong> <?= h($order->created->format('d M Y, H:i A')) ?></p>
-            <p><strong>Origin Address:</strong> <?= h($order->origin_address) ?></p>
-            <p><strong>Destination Address:</strong> <?= h($order->destination_address) ?></p>
-
+            <h4 class="text-center" style="padding: 1rem 0;"><?= h(ucfirst($order->status ?? 'Unknown')) ?> Order</h4>
+            <p><strong>Tracking Number:</strong> <?= h($order->tracking_number ?? 'N/A') ?></p>
             <!-- Shipping Tracking -->
-            <?php if ($order->shipped_date && $order->estimated_delivery_date) : ?>
+            <?php if (!empty($order->shipped_date) && !empty($order->estimated_delivery_date)) : ?>
                 <?php
                 $now = new \DateTime();
                 $deliveryDate = $order->estimated_delivery_date;
@@ -66,6 +63,14 @@ $html = new HtmlHelper(new View());
             <?php else : ?>
                 <p><strong>Shipping Status:</strong> Not shipped yet</p>
             <?php endif; ?>
+            <hr style="border: 1px solid #ccc; margin: 20px 0;">
+            <p><strong>Order Date:</strong> <?= h($order->created ? $order->created->format('d M Y, H:i A') : 'N/A') ?></p>
+            <p><strong>Estimated Delivery Date:</strong> <?= h($order->estimated_delivery_date ? $order->estimated_delivery_date->format('d M Y') : 'N/A') ?></p>
+            <hr style="border: 1px solid #ccc; margin: 20px 0;">
+            <p><strong>Origin Address:</strong> <?= h($order->origin_address ?? 'N/A') ?></p>
+            <p><strong>Destination Address:</strong> <?= h($order->destination_address ?? 'N/A') ?></p>
+            <hr style="border: 1px solid #ccc; margin: 20px 0;">
+
 
             <!-- Map Section -->
             <div id="map-<?= h($order->id) ?>" style="width: 100%; height: 400px; margin-top: 20px;"></div>
@@ -113,6 +118,49 @@ $html = new HtmlHelper(new View());
                         });
                 });
             </script>
+
+            <!-- Order Items Table -->
+            <div class="shopping-cart-table">
+                <table class="shop_table">
+                    <thead>
+                    <tr>
+                        <th class="product-name text-center">Product</th>
+                        <th class="product-description text-center">Description</th>
+                        <th class="product-price text-center">Price</th>
+                        <th class="product-quantity text-center">Quantity</th>
+                        <th class="product-subtotal text-center">Subtotal</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($order->order_items as $item) : ?>
+                        <tr>
+                            <td data-title="Product" class="product-thumbnail text-center">
+                                <a style="color: #6E6E6E; display: block;" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'view', $item->product->id]) ?>">
+                                    <?= $this->Html->image($item->product->image_cache_busted_url, [
+                                        'alt' => $item->product->name,
+                                        'class' => 'img-fluid rounded',
+                                        'style' => 'height: 70px; object-fit: cover; width: 70px; display: block; margin: 0 auto;'
+                                    ]) ?>
+                                    <h5 style="font-size: 0.9rem; margin-top: 0.5rem;"><?= h($item->product->name) ?></h5>
+                                </a>
+                            </td>
+                            <td data-title="Description" class="product-description text-center">
+                                <?= h($item->product->description) ?>
+                            </td>
+                            <td data-title="Price" class="product-price text-center">
+                                <span class="price-amount"><?= $this->Number->currency($item->product->price, 'AUD') ?></span>
+                            </td>
+                            <td data-title="Quantity" class="product-quantity text-center">
+                                <?= h($item->quantity) ?>
+                            </td>
+                            <td data-title="Subtotal" class="product-subtotal text-center">
+                                <span class="amount"><?= $this->Number->currency($item->line_price, 'AUD') ?></span>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
 
             <!-- Grand Total Section -->
             <div class="text-end pe-1 mt-4">

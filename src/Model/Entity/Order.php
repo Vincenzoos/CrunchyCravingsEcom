@@ -34,6 +34,7 @@ class Order extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'tracking_number' => true,
         'user_email' => true,
         'total_price' => false,
         'status' => true,
@@ -45,6 +46,7 @@ class Order extends Entity
         'modified' => true,
         'user' => true,
         'order_products' => true,
+        'return_status' => true,
     ];
 
     // Declare total_price as a virtual field.

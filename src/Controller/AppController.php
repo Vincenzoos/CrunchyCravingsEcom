@@ -18,6 +18,8 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
+use Stripe\Stripe;
+use Cake\Core\Configure;
 
 /**
  * Application Controller
@@ -64,6 +66,8 @@ class AppController extends Controller
         $this->loadComponent('FormProtection', [
             'unlockedFields' => [],
         ]);
+
+        Stripe::setApiKey(Configure::read('Stripe.secret_key'));
     }
 
     public function beforeRender(EventInterface $event)

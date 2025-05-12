@@ -53,6 +53,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                     <th><?= $this->Paginator->sort('status', __('Status')) ?></th>
                     <th><?= $this->Paginator->sort('created', __('Created')) ?></th>
                     <th><?= $this->Paginator->sort('Total', __('Total Amount')) ?></th>
+                    <th><?= $this->Paginator->sort('is_returned', __('Returned')) ?></th>
                     <th class="text-center"><?= __('Actions') ?></th>
                 </tr>
                 </thead>
@@ -64,6 +65,14 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <td><?= h($order->status) ?></td>
                         <td><?= h($order->created ? $order->created->format('d/m/Y H:m A') : 'N/A') ?></td>
                         <td> <?= $this->Number->currency(h($order->total_price), 'AUD') ?></td>
+                        <!-- Show if the order is returned -->
+                        <td class="text-center">
+                            <?php if ($order->is_returned): ?>
+                                <i class="fa fa-times text-success"></i>
+                            <?php else: ?>
+                                <i class="fa fa-times text-danger"></i>
+                            <?php endif; ?>
+                        </td>
                         <td class="text-center">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $order->id], ['class' => 'btn btn-info btn-sm']) ?>
                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $order->id], ['class' => 'btn btn-warning btn-sm']) ?>

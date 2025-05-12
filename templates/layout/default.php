@@ -194,9 +194,9 @@ $html = new HtmlHelper(new View());
 
                                 <!-- Dropdown Menu -->
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <!-- <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'profile']) ?>">My Profile</a></li> -->
-                                    <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Orders', 'action' => 'customerIndex']) ?>">Orders</a></li>
+                                    <li><a class="dropdown-item"><?= h($this->Identity->get('email')) ?></a></li>
                                     <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Orders', 'action' => 'customerIndex']) ?>">Orders</a></li>
                                     <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>">Logout</a></li>
                                     <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>">Change Password</a></li>
                                 </ul>

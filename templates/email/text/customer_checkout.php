@@ -5,6 +5,7 @@
  * @var \App\View\AppView $this
  * @var string $first_name Recipient's first name
  * @var string $last_name Recipient's last name
+ * @var string $trackingNumber Order tracking number
  * @var string $email Recipient's email address
  * @var array $cartItems Array of cart items (each item is expected to have a product, quantity, and line_price)
  * @var float $total Total order amount
@@ -21,6 +22,14 @@ Thank you for your order, <?= h($email) ?>!
 Hello <?= h($email) ?>,
 
 Thank you for shopping with CrunchyCravings.
+
+<?php if (!empty($trackingNumber)): ?>
+Tracking Number: <?= h($trackingNumber) ?>
+
+You can use this tracking number to track your order's delivery status on our website or the courier's tracking page.
+--------------------------------------------------
+<?php endif; ?>
+
 Below is a summary of your order:
 
 <?php foreach ($cartItems as $item): ?>
