@@ -21,8 +21,10 @@ use Stripe\Checkout\Session;
  */
 class CartItemsController extends AppController
 {
+    // TODO: Remove, add redirect to unused methods
+
     /**
-     * Index method (not implemented)
+     * Index method (not used)
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
@@ -100,7 +102,7 @@ class CartItemsController extends AppController
     }
 
     /**
-     * View method (not implemented)
+     * View method (not used)
      *
      * @param string|null $id Cart Item id.
      * @return \Cake\Http\Response|null|void Renders view
@@ -116,7 +118,7 @@ class CartItemsController extends AppController
     }
 
     /**
-     * Add method
+     * Add method (not used)
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
@@ -138,7 +140,7 @@ class CartItemsController extends AppController
     }
 
     /**
-     * Edit method
+     * Edit method (not used)
      *
      * @param string|null $id Cart Item id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
@@ -146,23 +148,26 @@ class CartItemsController extends AppController
      */
     public function edit(?string $id = null)
     {
-        $cartItem = $this->CartItems->get($id, contain: []);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $cartItem = $this->CartItems->patchEntity($cartItem, $this->request->getData());
-            if ($this->CartItems->save($cartItem)) {
-                $this->Flash->success(__('The cart item has been saved.'));
+        $this->Flash->error(__('Page not found.'));
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The cart item could not be saved. Please, try again.'));
-        }
-        $users = $this->CartItems->Users->find('list', limit: 200)->all();
-        $products = $this->CartItems->Products->find('list', limit: 200)->all();
-        $this->set(compact('cartItem', 'users', 'products'));
+        return $this->redirect(['action' => 'customerView']);
+//        $cartItem = $this->CartItems->get($id, contain: []);
+//        if ($this->request->is(['patch', 'post', 'put'])) {
+//            $cartItem = $this->CartItems->patchEntity($cartItem, $this->request->getData());
+//            if ($this->CartItems->save($cartItem)) {
+//                $this->Flash->success(__('The cart item has been saved.'));
+//
+//                return $this->redirect(['action' => 'index']);
+//            }
+//            $this->Flash->error(__('The cart item could not be saved. Please, try again.'));
+//        }
+//        $users = $this->CartItems->Users->find('list', limit: 200)->all();
+//        $products = $this->CartItems->Products->find('list', limit: 200)->all();
+//        $this->set(compact('cartItem', 'users', 'products'));
     }
 
     /**
-     * Update method
+     * Update method (not used)
      *
      * @param string|null $id Cart Item id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
@@ -243,7 +248,7 @@ class CartItemsController extends AppController
     }
 
     /**
-     * Update Quantity Method
+     * Update Quantity Method (not used)
      *
      * @param string|null $id Cart Item id.
      * @param int|null $quantity Cart Item new quantity.
