@@ -23,7 +23,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <?= $this->Html->css(['custom', 'reset_password']) ?>
+    <?= $this->Html->css(['utilities', 'form']) ?>
 
     <?= $html->script('/libraries/jquery.min.js') ?>
 </head>
@@ -44,7 +44,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <div class="users-form-content">
+                        <div class="users-form-content" id="form-content">
                             <?= $this->Form->create($user) ?>
                             <!--  Set password to none prevent current hashed_password to get pre-populated into the password field by CakePHP Form helper -->
                             <?= $user->password = ''; ?>
