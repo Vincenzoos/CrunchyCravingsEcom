@@ -34,110 +34,65 @@ $html = new HtmlHelper(new \Cake\View\View());
 <body>
     <!-- Landing Page -->
     <div id="landing-page">
-        <!-- Quote Section -->
-        <section id="quote">
-            <h4 class="text-center"><em>"Premium Lavosh crackers that pair perfectly with wine and other fine foods."</em></h4>
-        </section>
 
-        <!-- About Us Section -->
-        <section id="about" class="d-flex align-items-center">
-            <div class="container-fluid d-flex">
-                <!-- Left Text Section -->
-                <div class="about-text col-md-4">
-                    <h2>About Us</h2>
-                    <p>CrunchyCravings offers premium Lavosh crackers that pair perfectly with wine and other fine foods. Whether for social gatherings or as a gift, our products are designed to impress.</p>
-                    <ul class="features-list">
-                        <li><i class="fas fa-star"></i> Premium Quality</li>
-                        <li><i class="fas fa-gift"></i> Perfect Gift</li>
-                        <li><i class="fas fa-leaf"></i> Eco-Friendly</li>
-                    </ul>
-                </div>
-                <!-- Right Image Section -->
-                <div class="about-image col-md-8">
-                    <?= $this->Html->image('Large.jpg', ['class' => 'img-fluid', 'alt' => 'About Us']) ?>
+
+        <!-- Landing Page -->
+        <div id="landing-page">
+            <!-- Hero Section -->
+            <section id="hero" class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <!-- Left Text Section -->
+                    <div class="col-md-4 text-center text-md-start">
+                        <h1 class="display-3 fw-bold">Discover And Explore Premium Lavosh Crackers</h1>
+                        <p class="lead" style="margin-top: 1rem; margin-bottom: 1rem;">CrunchyCravings offers premium Lavosh crackers that pair perfectly with wine and other fine foods. Whether for social gatherings or as a gift, our products are designed to impress.</p>
+                        <div class="d-flex justify-content-center">
+                        <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-primary btn-lg me-3">Buy Now</a>
+                        <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-outline-primary btn-lg ms-auto">Contact Us</a>
+                        </div>
+                    </div>
+
+                    <!-- Empty column -->
+                    <div class="col-md-1"></div>
+
+                    <!-- Right Image Section -->
+                    <div class="col-md-5 text-center">
+                        <?= $this->Html->image('crackers.png', ['class' => 'img-fluid', 'alt' => 'Lavosh Crackers', 'style' => 'width: 100%;']) ?>
+                    </div>
                 </div>
             </div>
-        </section>
+            </section>
+        </div>
 
         <!-- Our Products Section -->
         <section id="products" class="py-5">
-            <div class="container-fluid">
-                <div class="row">
-                    <!-- Left Carousels Section -->
-                    <div class="products-carousels col-md-8">
-                        <!-- Carousel 1 -->
-                        <div id="carousel1" class="carousel slide mb-5">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <?= $this->Html->image('Classic.jpg', ['class' => 'd-block w-100', 'alt' => 'Classic 1']) ?>
-                                </div>
-                                <div class="carousel-item">
-                                    <?= $this->Html->image('Classic.jpg', ['class' => 'd-block w-100', 'alt' => 'Classic 2']) ?>
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                        <!-- Carousel 2 -->
-                        <div id="carousel2" class="carousel slide mb-5">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <?= $this->Html->image('Seasonal.jpg', ['class' => 'd-block w-100', 'alt' => 'Seasonal 1']) ?>
-                                </div>
-                                <div class="carousel-item">
-                                    <?= $this->Html->image('Seasonal.jpg', ['class' => 'd-block w-100', 'alt' => 'Seasonal 2']) ?>
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel2" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carousel2" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                        <!-- Carousel 3 -->
-                        <div id="carousel3" class="carousel slide">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <?= $this->Html->image('Hamper.webp', ['class' => 'd-block w-100', 'alt' => 'Hamper 1']) ?>
-                                </div>
-                                <div class="carousel-item">
-                                    <?= $this->Html->image('Hamper.webp', ['class' => 'd-block w-100', 'alt' => 'Hamper 2']) ?>
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel3" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carousel3" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
+            <div class="container text-center">
+                <h2 class="mb-4">Our Products</h2>
+                <div class="product-tabs d-flex justify-content-center gap-3">
+                    <div class="tab-item active">Classic Favorites</div>
+                    <div class="tab-item">Seasonal Specials</div>
+                    <div class="tab-item">Signature Hampers</div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 product-description mt-5">
+                        <h3>Classic Favorites</h3>
+                        <p class="lead">Timeless dishes that never go out of style. Perfect for any occasion.</p>
                     </div>
-                    <!-- Right Text Section -->
-                    <div class="products-text col-md-4">
-                        <div class="inner-container">
-                            <h2>Our Products</h2>
-                            <p>Explore our range of premium Lavosh crackers:</p>
-                            <ul class="product-types">
-                                <li><strong>Classic Favorites:</strong> Timeless dishes that never go out of style.</li>
-                                <li><strong>Seasonal Specials:</strong> Unique flavors crafted with seasonal ingredients.</li>
-                                <li><strong>Signature Hampers:</strong> Perfect for gifting and special occasions.</li>
-                            </ul>
+                    <div class="col-md-4 product-description mt-5">
+                        <div id="product-image">
+                            <?= $this->Html->image('Classic.jpg', ['class' => 'img-fluid', 'alt' => 'Classic Favorites', 'style' => 'width: 100%;']) ?>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+            
+        <!-- <h3>We Also Offer A Range Of Packages And Deals</h3>
+        <p class="lead">CrunchyCravings provides a range of different packages and deals for social events and gatherings.</p> -->
+
+        <!-- <li><strong>Classic Favorites:</strong> Timeless dishes that never go out of style.</li>
+        <li><strong>Seasonal Specials:</strong> Unique flavors crafted with seasonal ingredients.</li>
+        <li><strong>Signature Hampers:</strong> Perfect for gifting and special occasions.</li> -->
 
         <!-- Contact Section -->
         <section id="contact" class="py-5">
