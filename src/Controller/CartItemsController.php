@@ -735,9 +735,11 @@ class CartItemsController extends AppController
                     ->viewBuilder()
                     ->setTemplate('customer_checkout');
 
+                // transfer required view variables to email template
+                // Use original email address to display in the email (even if overridden)
                 $mailer->setViewVars([
                     'trackingNumber' => $trackingNumber,
-                    'email' => $finalRecipient,
+                    'email' => $recipient,
                     'cartItems' => $cartItems,
                     'total' => $total,
                 ]);

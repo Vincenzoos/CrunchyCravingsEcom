@@ -103,10 +103,12 @@ class AuthController extends AppController
                 $user->nonce_expiry = new DateTime('7 days');
                 if ($this->Users->save($user)) {
                     $recipient = $user->email;
-                    // Override received email to cpanel email for testing
-//                    Configure::load('app_local');
-//                    $override_email = Configure::read('EmailTransport.default.username');
-//                    $override_email = $override_email ?? $recipient;
+                    // Load email override configuration
+                    $overrideEmailEnabled = Configure::read('EmailTransport.override_enabled', false);
+                    $overrideEmail = Configure::read('EmailTransport.default.username');
+
+                    // Determine the final recipient email
+                    $finalRecipient = $overrideEmailEnabled && $overrideEmail ? $overrideEmail : $recipient;
 
                     // Now let's send the password reset email
                     $mailer = new Mailer('default');
@@ -114,9 +116,7 @@ class AuthController extends AppController
                     // email basic config
                     $mailer
                         ->setEmailFormat('both')
-                        // Override received email to cpanel email for testing
-                        ->setTo($recipient)
-//                        ->setTo($override_email)
+                        ->setTo($finalRecipient)
                         ->setSubject('Reset your account password');
 
                     // select email template
@@ -125,6 +125,7 @@ class AuthController extends AppController
                         ->setTemplate('reset_password');
 
                     // transfer required view variables to email template
+                    // Use original email address to display in the email (even if overridden)
                     $mailer
                         ->setViewVars([
                             'first_name' => $user->first_name,
