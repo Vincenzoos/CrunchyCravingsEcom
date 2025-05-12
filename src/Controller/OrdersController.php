@@ -179,9 +179,10 @@ class OrdersController extends AppController
         if ($this->request->is('post')) {
             $trackingNumber = $this->request->getData('tracking_number');
 
-            // Fetch the order by tracking number
+            // Fetch the order by tracking number, including associated order items and products
             $order = $this->Orders->find('all', [
                 'conditions' => ['Orders.tracking_number' => $trackingNumber],
+                'contain' => ['OrderItems.Products'], // Include related order items and products
             ])->first();
 
             if ($order) {

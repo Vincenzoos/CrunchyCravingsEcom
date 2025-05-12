@@ -246,6 +246,7 @@ CREATE TABLE `orders` (
     `tracking_number` VARCHAR(36) NOT NULL, -- For secure tracking
     `user_email` VARCHAR(255) NOT NULL,     -- Email used at checkout
     `status` ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
+    `return_status` ENUM('not_returned', 'returned') DEFAULT 'not_returned',
     `origin_address` VARCHAR(255) DEFAULT NULL,
     `destination_address` VARCHAR(255) DEFAULT NULL,
     `shipped_date` DATETIME DEFAULT NULL,

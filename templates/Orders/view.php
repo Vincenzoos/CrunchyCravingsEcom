@@ -53,7 +53,7 @@ $html = new HtmlHelper(new View());
             <p><strong>Origin Address:</strong> <?= h($order->origin_address ?? 'N/A') ?></p>
             <p><strong>Destination Address:</strong> <?= h($order->destination_address ?? 'N/A') ?></p>
             <hr style="border: 1px solid #ccc; margin: 20px 0;">
-            
+
             <!-- Map Section -->
             <div id="map-<?= h($order->tracking_number) ?>" style="width: 100%; height: 400px; margin-top: 20px;"></div>
 
@@ -100,7 +100,6 @@ $html = new HtmlHelper(new View());
                         });
                 });
             </script>
-            </script>
 
             <!-- Order Items Table -->
             <div class="shopping-cart-table">
@@ -144,6 +143,7 @@ $html = new HtmlHelper(new View());
                     </tbody>
                 </table>
             </div>
+            
             <!-- Grand Total Section -->
             <div class="text-end pe-1">
                 <h4 class="d-inline">Grand Total: </h4>

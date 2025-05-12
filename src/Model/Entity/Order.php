@@ -46,6 +46,7 @@ class Order extends Entity
         'modified' => true,
         'user' => true,
         'order_products' => true,
+        'return_status' => true,
     ];
 
     // Declare total_price as a virtual field.
