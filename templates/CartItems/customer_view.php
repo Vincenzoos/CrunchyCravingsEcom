@@ -222,8 +222,14 @@ $html = new HtmlHelper(new View());
             });
         });
         // Helper function to format currency in JavaScript
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(amount);
+        function formatCurrency(amount, currency = 'AUD') {
+            const formatted = new Intl.NumberFormat('en-AU', {
+                style: 'currency',
+                currency: currency
+            }).format(amount);
+
+            // Add "AUD" label if needed
+            return currency === 'AUD' ? `A${formatted}` : formatted;
         }
     </script>
     <!-- End AJAX script -->
