@@ -12,7 +12,6 @@ use Cake\Utility\Text;
 use Exception;
 use stdClass;
 use Stripe\Checkout\Session;
-use Stripe\Stripe;
 
 /**
  * CartItems Controller
@@ -669,14 +668,23 @@ class CartItemsController extends AppController
         return $trackingNumber;
     }
 
+    /**
+     * Processes the checkout for an order.
+     *
+     * @param string $recipient The email address of the recipient.
+     * @param array $cartItems The list of cart items to be included in the order.
+     * @param float $total The total price of the order.
+     * @param string $destinationAddress The destination address for the order.
+     * @param callable $clearCartCallback A callback function to clear the cart after processing.
+     * @return bool True if the checkout process is successful, false otherwise.
+     */
     private function processCheckout(
         string $recipient,
         array $cartItems,
         float $total,
         string $destinationAddress,
-        callable $clearCartCallback
-    )
-    {
+        callable $clearCartCallback,
+    ) {
         try {
             // Generate a tracking number
             $trackingNumber = $this->generateTrackingNumber();
@@ -687,7 +695,7 @@ class CartItemsController extends AppController
                 'tracking_number' => $trackingNumber,
                 'user_email' => $recipient,
                 'status' => 'pending',
-                'origin_address' => 'Origin Address', // Placeholder for now
+                'origin_address' => '121 King Street, Melbourne Victoria 3000 Australia', // Set placeholder as CrunchyCravings headquarters
                 'destination_address' => $destinationAddress,
                 'estimated_delivery_date' => date('Y-m-d H:i:s', strtotime('+7 days')), // 7 days from now
                 'total' => $total,
@@ -733,18 +741,22 @@ class CartItemsController extends AppController
                     'cartItems' => $cartItems,
                     'total' => $total,
                 ]);
-                
+
                 // Send the email and check for success
                 if (!$mailer->deliver()) {
                     $this->Flash->error(__('We encountered an issue sending your order confirmation email. Please try again.'));
+
                     return false;
                 }
 
                 // Success message after saving order and sending email
                 $this->Flash->success(__('Your order has been processed and a confirmation email has been sent.'));
+
                 return true;
             } else {
+                // Error when processing checkout, saving order and sending email
                 $this->Flash->error(__('Unable to place your order. Please try again.'));
+
                 return false;
             }
         } catch (Exception $e) {
@@ -754,12 +766,22 @@ class CartItemsController extends AppController
         }
     }
 
+    /**
+     * Handles the checkout process for authenticated users.
+     *
+     * This method retrieves the authenticated user's cart items, validates the input data,
+     * calculates the total price, and creates a Stripe session for payment. It also temporarily
+     * stores the order data in the session for later processing.
+     *
+     * @return \Cake\Http\Response|null Redirects to the Stripe payment page or back to the customer view on error.
+     */
     public function authenticatedCheckout()
     {
         $user = $this->Authentication->getIdentity();
         $userId = $user->get('id');
         $recipient = $user->get('email');
 
+        // Get cart items for the authenticated user
         $cartItems = $this->CartItems->find('all')
             ->contain(['Products'])
             ->where(['CartItems.user_id' => $userId])
@@ -767,6 +789,7 @@ class CartItemsController extends AppController
 
         if (empty($cartItems)) {
             $this->Flash->error(__('Your cart is empty.'));
+
             return $this->redirect(['action' => 'customerView']);
         }
 
@@ -778,6 +801,7 @@ class CartItemsController extends AppController
             return $this->redirect(['action' => 'customerView']);
         }
 
+        // Populate line items for Stripe
         $lineItems = [];
         foreach ($cartItems as $item) {
             $lineItems[] = [
@@ -807,8 +831,7 @@ class CartItemsController extends AppController
             'is_guest' => false,
         ]);
 
-        Stripe::setApiKey(Configure::read('Stripe.secret_key'));
-
+        // Create Stripe session
         try {
             $session = Session::create([
                 'payment_method_types' => ['card'],
@@ -823,14 +846,8 @@ class CartItemsController extends AppController
                 'cancel_url' => Router::url(['controller' => 'CartItems', 'action' => 'customerView'], true),
             ]);
 
+            // Redirect to Stripe payment page
             return $this->redirect($session->url);
-
-            // // Simulate a successful payment for testing
-            // return $this->redirect([
-            //     'controller' => 'CartItems',
-            //     'action' => 'success',
-            //     '?' => ['token' => $tempToken],
-            // ]);
         } catch (Exception $e) {
             $this->Flash->error(__('Error: ' . $e->getMessage()));
 
@@ -838,6 +855,16 @@ class CartItemsController extends AppController
         }
     }
 
+    /**
+     * Handles the checkout process for unauthenticated users.
+     *
+     * This method validates the guest user's email and destination address, retrieves
+     * cart items from the session, calculates the total price, and creates a Stripe
+     * session for payment. It also temporarily stores the order data in the session
+     * for later processing.
+     *
+     * @return \Cake\Http\Response|null Redirects to the Stripe payment page or back to the customer view on error.
+     */
     public function unauthenticatedCheckout()
     {
         $recipient = $this->request->getData('guest_email');
@@ -861,9 +888,10 @@ class CartItemsController extends AppController
 
         if (empty($cart)) {
             $this->Flash->error(__('Your cart is empty.'));
+
             return $this->redirect(['action' => 'customerView']);
         }
-        
+
         $lineItems = [];
         $cartItems = [];
         $total = 0;
@@ -911,6 +939,7 @@ class CartItemsController extends AppController
             'is_guest' => true,
         ]);
 
+        // Create Stripe session
         try {
             $stripeSession = Session::create([
                 'payment_method_types' => ['card'],
@@ -925,14 +954,8 @@ class CartItemsController extends AppController
                 'cancel_url' => Router::url(['controller' => 'CartItems', 'action' => 'customerView'], true),
             ]);
 
+            // Redirect to Stripe payment page
             return $this->redirect($stripeSession->url);
-
-            // // Simulate a successful payment for testing
-            // return $this->redirect([
-            //     'controller' => 'CartItems',
-            //     'action' => 'success',
-            //     '?' => ['token' => $tempToken],
-            // ]);
         } catch (Exception $e) {
             $this->Flash->error(__('Error: ' . $e->getMessage()));
 
@@ -940,6 +963,15 @@ class CartItemsController extends AppController
         }
     }
 
+    /**
+     * Handles the Stripe webhook endpoint.
+     *
+     * This method allows only POST requests and sets the HTTP response status
+     * based on the success or failure of the webhook processing. It is used
+     * to acknowledge receipt of events sent by Stripe.
+     *
+     * @return \Cake\Http\Response The HTTP response with the appropriate status code.
+     */
     public function stripeWebhook()
     {
         $this->request->allowMethod(['post']);
@@ -952,18 +984,34 @@ class CartItemsController extends AppController
         return $this->response;
     }
 
+    /**
+     * Handles the success callback after a successful payment.
+     *
+     * This method processes the order after a successful payment by retrieving the pending order
+     * data from the session, clearing the cart, and finalizing the checkout process. It also ensures
+     * that the session data for the pending order is cleared to prevent reprocessing.
+     *
+     * @return \Cake\Http\Response|null Redirects to the customer view page.
+     */
     public function success()
     {
+        // Skip authorization for this action
         $this->Authorization->skipAuthorization();
+        // Allow unauthenticated access to this action
         $this->Authentication->addUnauthenticatedActions(['success']);
+
+        // Retrieve the session and the token from the query parameters
         $session = $this->request->getSession();
         $token = $this->request->getQuery('token');
 
+        // Validate the token
         if (!$token) {
             $this->Flash->error(__('Invalid access.'));
+
             return $this->redirect(['action' => 'customerView']);
         }
 
+        // Retrieve the pending order data from the session
         $orderData = $this->request->getSession()->read("PendingOrders.{$token}");
         if (!$orderData) {
             $this->Flash->error(__('No pending order found or session expired.'));
@@ -971,9 +1019,11 @@ class CartItemsController extends AppController
             return $this->redirect(['action' => 'customerView']);
         }
 
+        // Get the identity of the current user and check if the order is for a guest
         $identity = $this->request->getAttribute('identity');
         $isGuest = $orderData['is_guest'];
 
+        // Define a callback to clear the cart after processing the order
         $clearCartCallback = function () use ($identity, $session, $isGuest) {
             if (!$isGuest && $identity) {
                 // Clear the cart for logged-in users
@@ -983,21 +1033,32 @@ class CartItemsController extends AppController
                 $session->delete('Cart');
             }
         };
-        
-        // Process the checkout
+
+        // Process the checkout using the retrieved order data
         $this->processCheckout(
             $orderData['recipient'],
             $orderData['cartItems'],
             $orderData['total'],
             $orderData['destination_address'],
-            $clearCartCallback
+            $clearCartCallback,
         );
 
+        // Clear the session data for the pending order, preventing reprocessing the order
         $this->request->getSession()->delete("PendingOrders.{$token}");
 
+        // Redirect to the cart customer view page
         return $this->redirect(['action' => 'customerView']);
     }
 
+    /**
+     * Handles the cancellation of a payment.
+     *
+     * This method clears the pending order data from the session and displays
+     * an error message to the user indicating that the payment was canceled.
+     * It then redirects the user back to the customer view page.
+     *
+     * @return \Cake\Http\Response|null Redirects to the customer view page.
+     */
     public function cancel()
     {
         $session = $this->request->getSession();
