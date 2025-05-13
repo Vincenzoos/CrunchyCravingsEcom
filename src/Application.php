@@ -88,6 +88,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         if (!class_exists(\Authorization\Middleware\AuthorizationMiddleware::class)) {
             throw new \RuntimeException('Authorization plugin is not loaded. Please install and load the Authorization plugin.');
         }
+
+        // Add content blocks plugin
+        $this->addPlugin('ContentBlocks');
     }
 
     /**

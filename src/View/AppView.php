@@ -39,5 +39,8 @@ class AppView extends View
     {
         // Add helper for authentication functionality
         $this->loadHelper('Authentication.Identity');
+
+        // Add helper for content blocks plugin
+        $this->loadHelper('ContentBlocks.ContentBlock');
     }
 }
