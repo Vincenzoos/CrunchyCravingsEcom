@@ -65,7 +65,7 @@ $this->assign('title', 'Weekly Report');
                     <?php foreach ($weeklyProducts as $product) : ?>
                         <tr>
                             <td data-title="Product" class="product-thumbnail text-center">
-                                <a style="color: #6E6E6E; display: block;" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'view', $product->id]) ?>">
+                                <a style="color: #6E6E6E; display: block;" href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'view', $product->id]) ?>">
                                     <?= $this->Html->image($product->image_cache_busted_url, [
                                         'alt' => $product->name,
                                         'class' => 'img-fluid rounded',

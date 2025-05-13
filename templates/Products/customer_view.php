@@ -35,10 +35,10 @@ $html = new HtmlHelper(new View());
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-                <li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
+                <li><a title="Home" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                <li><a title="Products" href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
                 <li class="active">
-                    <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerView', $product->id]) ?>">
+                    <a href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerView', $product->id]) ?>">
                         <?= h($product->name) ?>
                     </a>
                 </li>
@@ -61,8 +61,8 @@ $html = new HtmlHelper(new View());
                         <!-- Admin manage this product buttons -->
                         <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin') : ?>
                             <div class="text-center mb-3">
-                                <a href="<?= $this->Url->build(['action' => 'view', $product->id]) ?>" class="btn btn-info me-2">View</a>
-                                <a href="<?= $this->Url->build(['action' => 'edit', $product->id]) ?>" class="btn btn-warning me-2">Edit</a>
+                                <a href="<?= $this->App->appUrl(['action' => 'view', $product->id]) ?>" class="btn btn-info me-2">View</a>
+                                <a href="<?= $this->App->appUrl(['action' => 'edit', $product->id]) ?>" class="btn btn-warning me-2">Edit</a>
                                 <?= $this->Form->postLink(
                                     'Delete',
                                     ['action' => 'delete', $product->id],
@@ -99,7 +99,7 @@ $html = new HtmlHelper(new View());
                                         <?php endif; ?>
                                         <div class="inner-product" >
                                             <!-- Link the product image to the view page -->
-                                            <a href="<?= $this->Url->build(['action' => 'customerView', $similarProduct->id]) ?>">
+                                            <a href="<?= $this->App->appUrl(['action' => 'customerView', $similarProduct->id]) ?>">
                                                 <?= $this->Html->image($similarProduct->image_cache_busted_url, [
                                                     'alt' => $similarProduct->name,
                                                     'class' => 'img-fluid'
@@ -113,12 +113,12 @@ $html = new HtmlHelper(new View());
                                                         </a>
                                                     </li>
                                                 </ul>
-                                                <a title="Add to Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerAdd', $similarProduct->id]) ?>" class="btn">add to cart</a>
+                                                <a title="Add to Cart" href="<?= $this->App->appUrl(['controller' => 'CartItems', 'action' => 'customerAdd', $similarProduct->id]) ?>" class="btn">add to cart</a>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- Link the product title to the view page -->
-                                    <a title="<?= h($similarProduct->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $similarProduct->id]) ?>" class="product-title">
+                                    <a title="<?= h($similarProduct->name) ?>" href="<?= $this->App->appUrl(['action' => 'customerView', $similarProduct->id]) ?>" class="product-title">
                                         <?= h($similarProduct->name) ?>
                                     </a>
                                     <div class="ratings">

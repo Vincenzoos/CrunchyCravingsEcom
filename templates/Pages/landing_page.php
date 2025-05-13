@@ -47,8 +47,8 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <h1 class="display-3 fw-bold">Discover And Explore Premium Lavosh Crackers</h1>
                         <p class="lead" style="margin-top: 1rem; margin-bottom: 1rem;">CrunchyCravings offers premium Lavosh crackers that pair perfectly with wine and other fine foods. Whether for social gatherings or as a gift, our products are designed to impress.</p>
                         <div class="d-flex justify-content-center">
-                        <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-primary btn-lg me-3">Buy Now</a>
-                        <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-outline-primary btn-lg ms-auto">Contact Us</a>
+                        <a href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-primary btn-lg me-3">Buy Now</a>
+                        <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-outline-primary btn-lg ms-auto">Contact Us</a>
                         </div>
                     </div>
 
@@ -99,7 +99,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             <div class="container text-center">
                 <h2 class="mb-4">Contact Us</h2>
                 <p class="lead">Reserve your table today and experience the magic of fine dining.</p>
-                    <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-primary">Contact Us</a>
+                    <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-primary">Contact Us</a>
             </div>
         </section>
 

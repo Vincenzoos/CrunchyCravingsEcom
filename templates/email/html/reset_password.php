@@ -31,7 +31,7 @@
                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                             <tbody>
                                             <tr>
-                                                <td><a href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'resetPassword', $nonce], ['fullBase' => true]) ?>" target="_blank">Reset account password</a></td>
+                                                <td><a href="<?= $this->App->appUrl(['controller' => 'Auth', 'action' => 'resetPassword', $nonce], ['fullBase' => true]) ?>" target="_blank">Reset account password</a></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -40,7 +40,7 @@
                                 </tbody>
                             </table>
                             <p>or use the following link: <br>
-                                <?= $this->Html->link($this->Url->build(['controller' => 'Auth', 'action' => 'resetPassword', $nonce], ['fullBase' => true])) ?></p>
+                                <?= $this->Html->link($this->App->appUrl(['controller' => 'Auth', 'action' => 'resetPassword', $nonce], ['fullBase' => true])) ?></p>
                         </td>
                     </tr>
                 </table>

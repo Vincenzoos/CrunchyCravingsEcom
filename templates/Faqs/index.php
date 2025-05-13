@@ -49,12 +49,12 @@ $html = new HtmlHelper(new \Cake\View\View());
                         </button>
                         <div id="sort-options" class="dropdown-menu">
                             <ul style="list-style-type: none; padding: 0; margin: 0;">
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'title_asc'])]) ?>">Title (A-Z)</a></li>
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'title_desc'])]) ?>">Title (Z-A)</a></li>
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'created_asc'])]) ?>">Created (Oldest First)</a></li>
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'created_desc'])]) ?>">Created (Newest First)</a></li>
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'clicks_asc'])]) ?>">Clicks (Lowest First)</a></li>
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'clicks_desc'])]) ?>">Clicks (Highest First)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'title_asc'])]) ?>">Title (A-Z)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'title_desc'])]) ?>">Title (Z-A)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'created_asc'])]) ?>">Created (Oldest First)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'created_desc'])]) ?>">Created (Newest First)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'clicks_asc'])]) ?>">Clicks (Lowest First)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'clicks_desc'])]) ?>">Clicks (Highest First)</a></li>
                             </ul>
                         </div>
                     </div>

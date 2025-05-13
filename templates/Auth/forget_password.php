@@ -27,8 +27,8 @@ $html = new HtmlHelper(new \Cake\View\View());
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-                <li><a title="Forgot password" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'forgetPassword']) ?>">Forgot Password</a></li>
+                <li><a title="Home" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                <li><a title="Forgot password" href="<?= $this->App->appUrl(['controller' => 'Auth', 'action' => 'forgetPassword']) ?>">Forgot Password</a></li>
             </ol>
         </div>
     </div><!-- container /- -->

@@ -49,10 +49,10 @@ $html = new HtmlHelper(new \Cake\View\View());
                         </button>
                         <div id="sort-options" class="dropdown-menu">
                             <ul style="list-style-type: none; padding: 0; margin: 0;">
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'email_asc'])]) ?>">Email (A-Z)</a></li>
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'email_desc'])]) ?>">Email (Z-A)</a></li>
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'created_asc'])]) ?>">Created (Oldest First)</a></li>
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'created_desc'])]) ?>">Created (Newest First)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'email_asc'])]) ?>">Email (A-Z)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'email_desc'])]) ?>">Email (Z-A)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'created_asc'])]) ?>">Created (Oldest First)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'created_desc'])]) ?>">Created (Newest First)</a></li>
                             </ul>
                         </div>
                     </div>

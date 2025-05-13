@@ -34,8 +34,8 @@ $html = new HtmlHelper(new \Cake\View\View());
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-                <li><a title="Categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'customerIndex']) ?>">Categories</a></li>
+                <li><a title="Home" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                <li><a title="Categories" href="<?= $this->App->appUrl(['controller' => 'Categories', 'action' => 'customerIndex']) ?>">Categories</a></li>
             </ol>
         </div>
     </div>
@@ -43,7 +43,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Admin Manage Categories button -->
     <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin') : ?>
         <div class="text-center mb-3">
-            <a href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'index']) ?>" class="btn btn-danger">
+            <a href="<?= $this->App->appUrl(['controller' => 'Categories', 'action' => 'index']) ?>" class="btn btn-danger">
                 Manage Categories
             </a>
         </div>
@@ -74,16 +74,16 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <!-- Card Body -->
                         <div class="card-body text-center">
                             <h5 class="card-title">
-                                <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex', '?' => ['category_id' => $category->id]]) ?>" class="text-decoration-none text-dark">
+                                <a href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex', '?' => ['category_id' => $category->id]]) ?>" class="text-decoration-none text-dark">
                                     <?= h($category->name) ?>
                                 </a>
                             </h5>
                             <p class="card-text text-muted">
-                                <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex', '?' => ['category_id' => $category->id]]) ?>" class="text-decoration-none text-muted">
+                                <a href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex', '?' => ['category_id' => $category->id]]) ?>" class="text-decoration-none text-muted">
                                     <?= h($category->description) ?>
                                 </a>
                             </p>
-                            <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex', '?' => ['category_id' => $category->id]]) ?>" class="btn btn-primary">
+                            <a href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex', '?' => ['category_id' => $category->id]]) ?>" class="btn btn-primary">
                                 View Products
                             </a>
                         </div>

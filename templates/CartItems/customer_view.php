@@ -34,8 +34,8 @@ $html = new HtmlHelper(new View());
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-                <li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
+                <li><a title="Home" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                <li><a title="Products" href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
             </ol>
         </div>
     </div>
@@ -61,7 +61,7 @@ $html = new HtmlHelper(new View());
                     <?php foreach ($cartItems as $cartItem) : ?>
                         <tr>
                             <td data-title="Product" class="product-thumbnail text-center">
-                                <a style="color: #6E6E6E; display: block;" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerView', $cartItem->product->id]) ?>">
+                                <a style="color: #6E6E6E; display: block;" href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerView', $cartItem->product->id]) ?>">
                                     <?= $this->Html->image($cartItem->product->image_cache_busted_url, [
                                         'alt' => $cartItem->product->name,
                                         'class' => 'img-fluid rounded',
@@ -101,8 +101,8 @@ $html = new HtmlHelper(new View());
                 </tbody>
             </table>
             <div class="shopping-cart-footer">
-                <a title="Continue Shopping" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-default">&#8592; Continue Shopping</a>
-<!--                <a title="Update Shopping Cart" href="--><?php //= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?><!--" class="btn btn-default">Update Shopping Cart</a>-->
+                <a title="Continue Shopping" href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-default">&#8592; Continue Shopping</a>
+<!--                <a title="Update Shopping Cart" href="--><?php //= $this->App->appUrl(['controller' => 'CartItems', 'action' => 'customerView']) ?><!--" class="btn btn-default">Update Shopping Cart</a>-->
             </div>
         </div> <!-- page /- -->
     </div> <!-- page container /- -->
@@ -193,7 +193,7 @@ $html = new HtmlHelper(new View());
                     quantityElement.textContent = currentQuantity;
 
                     // Send the updated quantity to the server via AJAX
-                    fetch('<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'updateQuantityAjax']) ?>', {
+                    fetch('<?= $this->App->appUrl(['controller' => 'CartItems', 'action' => 'updateQuantityAjax']) ?>', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

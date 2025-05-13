@@ -42,5 +42,8 @@ class AppView extends View
 
         // Add helper for content blocks plugin
         $this->loadHelper('ContentBlocks.ContentBlock');
+
+        // Add helper for URL building
+        $this->loadHelper('App');
     }
 }

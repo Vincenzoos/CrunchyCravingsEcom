@@ -34,8 +34,8 @@ $html = new HtmlHelper(new View());
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-                <li><a title="FAQ" href="<?= $this->Url->build(['controller' => 'Faqs', 'action' => 'customer_index']) ?>">FAQ</a></li>
+                <li><a title="Home" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                <li><a title="FAQ" href="<?= $this->App->appUrl(['controller' => 'Faqs', 'action' => 'customer_index']) ?>">FAQ</a></li>
             </ol>
         </div>
     </div>
@@ -48,7 +48,7 @@ $html = new HtmlHelper(new View());
             <h3 class="display-6">Frequently Asked Questions</h3>
             <p class="lead">
                 Below are some of the most frequently asked questions by our customers.
-                If you have any other questions, feel free to <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'ContactUs']) ?>">Contact Us</a>.
+                If you have any other questions, feel free to <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'ContactUs']) ?>">Contact Us</a>.
             </p>
         </div>
     </section>
@@ -56,7 +56,7 @@ $html = new HtmlHelper(new View());
     <!-- Admin Manage FAQs button -->
     <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin'): ?>
         <div class="text-center my-3">
-            <a href="<?= $this->Url->build(['controller' => 'Faqs', 'action' => 'index']) ?>" class="btn btn-danger">
+            <a href="<?= $this->App->appUrl(['controller' => 'Faqs', 'action' => 'index']) ?>" class="btn btn-danger">
                 Manage FAQs
             </a>
         </div>
@@ -169,7 +169,7 @@ $html = new HtmlHelper(new View());
                     // Check if the user is not an admin before updating the click count
                     const isAdmin = <?= json_encode($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin') ?>;
                     if (!isAdmin && faqId) {
-                        fetch('<?= $this->Url->build(['controller' => 'Faqs', 'action' => 'updateClickCount']) ?>', {
+                        fetch('<?= $this->App->appUrl(['controller' => 'Faqs', 'action' => 'updateClickCount']) ?>', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

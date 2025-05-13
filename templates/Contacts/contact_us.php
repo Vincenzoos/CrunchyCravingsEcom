@@ -34,8 +34,8 @@ $html = new HtmlHelper(new View());
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-                <li><a title="Contact Us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'ContactUs']) ?>">Contact Us</a></li>
+                <li><a title="Home" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                <li><a title="Contact Us" href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'ContactUs']) ?>">Contact Us</a></li>
             </ol>
         </div>
     </div>
@@ -53,7 +53,7 @@ $html = new HtmlHelper(new View());
     <!-- Admin Manage Enquiries button -->
     <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin'): ?>
         <div class="text-center my-3">
-            <a href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'index']) ?>" class="btn btn-danger">
+            <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'index']) ?>" class="btn btn-danger">
                 Manage Enquiries
             </a>
         </div>

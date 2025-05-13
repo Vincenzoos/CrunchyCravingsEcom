@@ -18,8 +18,6 @@
 use Cake\View\Helper\HtmlHelper;
 use Cake\View\View;
 $html = new HtmlHelper(new View());
-$this->Url->setConfig('urlDefault', ['plugin' => false]);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -136,12 +134,12 @@ $this->Url->setConfig('urlDefault', ['plugin' => false]);
             </div>
             <div class="offcanvas-body">
                 <ul class="list-group">
-                    <li><a href="<?= $this->Url->build(['plugin' => null,'controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Manage Enquiries</a></li>
-                    <li><a href="<?= $this->Url->build(['plugin' => null, 'controller' => 'Products', 'action' => 'index']) ?>" class="list-group-item">Manage Products</a></li>
-                    <li><a href="<?= $this->Url->build(['plugin' => null, 'controller' => 'Categories', 'action' => 'index']) ?>" class="list-group-item">Manage Categories</a></li>
-                    <li><a href="<?= $this->Url->build(['plugin' => null, 'controller' => 'Users', 'action' => 'index']) ?>" class="list-group-item">Manage Users</a></li>
-                    <li><a href="<?= $this->Url->build(['plugin' => null, 'controller' => 'Faqs', 'action' => 'index']) ?>" class="list-group-item">Manage FAQs</a></li>
-                    <li><a href="<?= $this->Url->build(['plugin' => null, 'controller' => 'Orders', 'action' => 'index']) ?>" class="list-group-item">Manage Orders</a></li>
+                    <li><a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'index'])?>" class="list-group-item">Manage Enquiries</a></li>
+                    <li><a href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'index']) ?>" class="list-group-item">Manage Products</a></li>
+                    <li><a href="<?= $this->App->appUrl(['controller' => 'Categories', 'action' => 'index']) ?>" class="list-group-item">Manage Categories</a></li>
+                    <li><a href="<?= $this->App->appUrl(['controller' => 'Users', 'action' => 'index']) ?>" class="list-group-item">Manage Users</a></li>
+                    <li><a href="<?= $this->App->appUrl(['controller' => 'Faqs', 'action' => 'index']) ?>" class="list-group-item">Manage FAQs</a></li>
+                    <li><a href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'index']) ?>" class="list-group-item">Manage Orders</a></li>
                     <li><a href="<?= $this->Url->build(['plugin' => 'ContentBlocks','controller' => 'ContentBlocks', 'action' => 'index']) ?>" class="list-group-item">Manage Contents</a></li>
                 </ul>
             </div>
@@ -160,14 +158,14 @@ $this->Url->setConfig('urlDefault', ['plugin' => false]);
 
                     <!-- Logo -->
                     <div class="col-6 col-md-6 col-lg-6 logo-block">
-                        <a title="Logo" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">
+                        <a title="Logo" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">
                             <?= $html->image('cc_logo.png', ['alt' => 'add-banner', 'style' => 'width: 80%; height: auto; margin-top: 15px; margin-bottom: 15px;']) ?>
                         </a>
                     </div>
                     <div class="col-3 col-md-3 col-lg-2 d-flex justify-content-lg-end">
                         <div class="row cart-link" style="display: flex; justify-content: space-between; align-items: center;">
                             <!-- Cart Link with Count -->
-                            <a title="Cart" id="top_link" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerView']) ?>">
+                            <a title="Cart" id="top_link" href="<?= $this->App->appUrl(['controller' => 'CartItems', 'action' => 'customerView']) ?>">
                                 <svg width="26px" height="25px" viewBox="0 0 533.334 533.335" style="width: 26px; height: 25px;">
                                     <g>
                                         <path
@@ -198,9 +196,9 @@ $this->Url->setConfig('urlDefault', ['plugin' => false]);
                                 <ul id="profile-content">
                                     <li><a id="profile-email"><?= h($this->Identity->get('email')) ?></a></li>
                                     <li><hr class="dropdown-divider" style="margin-top: 1.0rem; margin-bottom: 0.5rem;"></li>
-                                    <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Orders', 'action' => 'customerIndex']) ?>">Orders</a></li>
-                                    <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'logout']) ?>">Logout</a></li>
-                                    <li><a class="dropdown-item" href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>">Change Password</a></li>
+                                    <li><a class="dropdown-item" href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'customerIndex']) ?>">Orders</a></li>
+                                    <li><a class="dropdown-item" href="<?= $this->App->appUrl(['controller' => 'Auth', 'action' => 'logout']) ?>">Logout</a></li>
+                                    <li><a class="dropdown-item" href="<?= $this->App->appUrl(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>">Change Password</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -209,14 +207,14 @@ $this->Url->setConfig('urlDefault', ['plugin' => false]);
                             <a title="Login"
                                 id="top_link"
 
-                                href="<?= $this->Url->build(['controller' => 'Auth','action' => 'login','?' => ['redirect' => $this->request->getRequestTarget()]]) ?>" class="list-group-item">
+                                href="<?= $this->App->appUrl(['controller' => 'Auth','action' => 'login','?' => ['redirect' => $this->request->getRequestTarget()]]) ?>" class="list-group-item">
                                 LOGIN
                             </a>
 
                             <a title="Register"
                                 id="top_link"
 
-                                href="<?= $this->Url->build(['controller' => 'Auth', 'action' => 'register']) ?>">
+                                href="<?= $this->App->appUrl(['controller' => 'Auth', 'action' => 'register']) ?>">
                                 REGISTER
                             </a>
                         </div>
@@ -233,7 +231,7 @@ $this->Url->setConfig('urlDefault', ['plugin' => false]);
             <div class="container">
                 <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-static-top">
                     <div class="navbar-header">
-                        <a href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display']) ?>" class="logo"><?= $html->image('logo.png', ['alt' => 'logo']) ?></a>
+                        <a href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'display']) ?>" class="logo"><?= $html->image('logo.png', ['alt' => 'logo']) ?></a>
                         <button class="navbar-toggler" type="button" id="custom-toggler" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon">
                             <span class="navbar-toggler-icon"></span>
@@ -241,12 +239,12 @@ $this->Url->setConfig('urlDefault', ['plugin' => false]);
                     </div>
                     <div class="collapse navbar-collapse" id="navbar">
                         <ul class="nav navbar-nav">
-                            <li class="nav-item"><a class="nav-link active" title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
-                            <li class="nav-item"><a title="categories" href="<?= $this->Url->build(['controller' => 'Categories', 'action' => 'customerIndex']) ?>" class="nav-link">categories</a></li>
-                            <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
-                            <li class="nav-item"><a class="nav-link" title="FAQ" href="<?= $this->Url->Build(['controller' => 'Faqs', 'action' => 'customerIndex']) ?>">FAQ</a></li>
-                            <li class="nav-item"><a class="nav-link" title="Order Lookup" href="<?= $this->Url->Build(['controller' => 'Orders', 'action' => 'orderLookup']) ?>">Order Lookup</a></li>
+                            <li class="nav-item"><a class="nav-link active" title="Home" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" title="Products" href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
+                            <li class="nav-item"><a title="categories" href="<?= $this->App->appUrl(['controller' => 'Categories', 'action' => 'customerIndex']) ?>" class="nav-link">categories</a></li>
+                            <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
+                            <li class="nav-item"><a class="nav-link" title="FAQ" href="<?= $this->App->appUrl(['controller' => 'Faqs', 'action' => 'customerIndex']) ?>">FAQ</a></li>
+                            <li class="nav-item"><a class="nav-link" title="Order Lookup" href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'orderLookup']) ?>">Order Lookup</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -270,7 +268,7 @@ $this->Url->setConfig('urlDefault', ['plugin' => false]);
 
         <!-- <div id="add-banner-section" class="add-banner-section bottom-shadow">
             <div class="container" style="display: flex; justify-content: center; align-items: center; height: 100%; text-align: center;">
-                <a title="Logo" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">
+                <a title="Logo" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">
                     <?= $html->image('cc_logo.png', ['alt' => 'add-banner', 'style' => 'width: 25%; height: auto; margin-top: 15px; margin-bottom: 0px;']) ?>
                 </a>
             </div>

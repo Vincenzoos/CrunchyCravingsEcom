@@ -52,12 +52,12 @@ $html = new HtmlHelper(new \Cake\View\View());
                     </button>
                     <div id="sort-options" class="dropdown-menu">
                         <ul style="list-style-type: none; padding: 0; margin: 0;">
-                            <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'first_name_asc'])]) ?>">Name (A-Z)</a></li>
-                            <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'first_name_desc'])]) ?>">Name (Z-A)</a></li>
-                            <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'email_asc'])]) ?>">Email (A-Z)</a></li>
-                            <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'email_desc'])]) ?>">Email (Z-A)</a></li>
-                            <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'sent_asc'])]) ?>">Sent (Oldest First)</a></li>
-                            <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'sent_desc'])]) ?>">Sent (Newest First)</a></li>
+                            <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'first_name_asc'])]) ?>">Name (A-Z)</a></li>
+                            <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'first_name_desc'])]) ?>">Name (Z-A)</a></li>
+                            <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'email_asc'])]) ?>">Email (A-Z)</a></li>
+                            <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'email_desc'])]) ?>">Email (Z-A)</a></li>
+                            <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'sent_asc'])]) ?>">Sent (Oldest First)</a></li>
+                            <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'sent_desc'])]) ?>">Sent (Newest First)</a></li>
                         </ul>
                     </div>
                 </div>

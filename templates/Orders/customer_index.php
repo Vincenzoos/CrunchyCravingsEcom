@@ -37,8 +37,8 @@ $html = new HtmlHelper(new View());
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-                <li><a title="Orders" href="<?= $this->Url->build(['controller' => 'Orders', 'action' => 'customerIndex']) ?>">Orders</a></li>
+                <li><a title="Home" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                <li><a title="Orders" href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'customerIndex']) ?>">Orders</a></li>
             </ol>
         </div>
     </div>
@@ -142,7 +142,7 @@ $html = new HtmlHelper(new View());
                                 <?php foreach ($order->order_items as $item) : ?>
                                     <tr>
                                         <td data-title="Product" class="product-thumbnail text-center">
-                                            <a style="color: #6E6E6E; display: block;" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerView', $item->product->id]) ?>">
+                                            <a style="color: #6E6E6E; display: block;" href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerView', $item->product->id]) ?>">
                                                 <?= $this->Html->image($item->product->image_cache_busted_url, [
                                                     'alt' => $item->product->name,
                                                     'class' => 'img-fluid rounded',

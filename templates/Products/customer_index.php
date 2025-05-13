@@ -51,8 +51,8 @@ $html = new HtmlHelper(new \Cake\View\View());
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li><a title="Home" href="<?= $this->Url->build(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
-                <li><a title="Products" href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
+                <li><a title="Home" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'display', 'landing_page']) ?>">Home</a></li>
+                <li><a title="Products" href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex']) ?>">Products</a></li>
             </ol>
         </div>
     </div>
@@ -60,7 +60,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Admin Manage products button -->
     <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') === 'admin') : ?>
         <div class="text-center mb-3">
-            <a href="<?= $this->Url->build(['controller' => 'Products', 'action' => 'index']) ?>" class="btn btn-danger">
+            <a href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'index']) ?>" class="btn btn-danger">
                 Manage Products
             </a>
         </div>
@@ -86,9 +86,9 @@ $html = new HtmlHelper(new \Cake\View\View());
                 </button>
                 <div id="sort-options" class="dropdown-menu">
                     <ul style="list-style-type: none; padding: 0; margin: 0;">
-                        <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'newest'])]) ?>">Newest</a></li>
-                        <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'price_desc'])]) ?>">Price: High-Low</a></li>
-                        <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'price_asc'])]) ?>">Price: Low-High</a></li>
+                        <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'newest'])]) ?>">Newest</a></li>
+                        <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'price_desc'])]) ?>">Price: High-Low</a></li>
+                        <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'price_asc'])]) ?>">Price: Low-High</a></li>
                     </ul>
                 </div>
             </div>
@@ -196,7 +196,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <!-- Buttons Section -->
                 <!-- <div class="text-center"> -->
                     <button type="submit" class="btn btn-success me-2">Apply</button>
-                    <a href="<?= $this->Url->build(['action' => 'customerIndex']) ?>" class="btn btn-danger">Clear</a>
+                    <a href="<?= $this->App->appUrl(['action' => 'customerIndex']) ?>" class="btn btn-danger">Clear</a>
                 <!-- </div> -->
 
                 <?= $this->Form->end() ?>
@@ -226,12 +226,12 @@ $html = new HtmlHelper(new \Cake\View\View());
                                                     </a>
                                                 </li>
                                             </ul>
-                                            <a title="Add to Cart" href="<?= $this->Url->build(['controller' => 'CartItems', 'action' => 'customerAdd', $product->id]) ?>" class="btn">add to cart</a>
+                                            <a title="Add to Cart" href="<?= $this->App->appUrl(['controller' => 'CartItems', 'action' => 'customerAdd', $product->id]) ?>" class="btn">add to cart</a>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Link the product title to the view page -->
-                                <a title="<?= h($product->name) ?>" href="<?= $this->Url->build(['action' => 'customerView', $product->id]) ?>" class="product-title">
+                                <a title="<?= h($product->name) ?>" href="<?= $this->App->appUrl(['action' => 'customerView', $product->id]) ?>" class="product-title">
                                     <?= h($product->name) ?>
                                 </a>
                                 <ul class="star">

@@ -50,10 +50,10 @@ $html = new HtmlHelper(new \Cake\View\View());
                         </button>
                         <div id="sort-options" class="dropdown-menu">
                             <ul style="list-style-type: none; padding: 0; margin: 0;">
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'name_asc'])]) ?>">Name (A-Z)</a></li>
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'name_desc'])]) ?>">Name (Z-A)</a></li>
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'price_asc'])]) ?>">Price (Low to High)</a></li>
-                                <li><a href="<?= $this->Url->build(['?' => array_merge($this->request->getQuery(), ['sort' => 'price_desc'])]) ?>">Price (High to Low)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'name_asc'])]) ?>">Name (A-Z)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'name_desc'])]) ?>">Name (Z-A)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'price_asc'])]) ?>">Price (Low to High)</a></li>
+                                <li><a href="<?= $this->App->appUrl(['?' => array_merge($this->request->getQuery(), ['sort' => 'price_desc'])]) ?>">Price (High to Low)</a></li>
                             </ul>
                         </div>
                     </div>
