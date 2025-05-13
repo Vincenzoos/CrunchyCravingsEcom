@@ -33,6 +33,14 @@ class ContentBlocksSeed extends AbstractSeed
                 Victoria 3000 Australia',
             ],
             [
+                'parent' => 'global',
+                'label' => 'Business Phone Number',
+                'description' => 'Business phone number.',
+                'slug' => 'business-phone',
+                'type' => 'text',
+                'value' => '+61 3 8376 6284',
+            ],
+            [
                 'parent' => 'home',
                 'label' => 'Home Page Content',
                 'description' => 'The main content shown in the centre of the home page.',

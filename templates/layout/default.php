@@ -279,25 +279,24 @@ $html = new HtmlHelper(new View());
         <div class="widget-section bottom-shadow">
             <!-- container -->
             <div class="container">
-                <div class="row" style="display: flex; justify-content: center; align-items: center;">
+                <div class="row d-flex justify-content-center align-items-center">
                     <!-- widget about -->
-                    <aside class="col-12 col-md-12 col-lg-4 widget widget_about" style="display: flex; justify-content: center; align-items: center;">
+                    <aside class="col-12 col-md-12 col-lg-4 widget widget_about d-flex justify-content-around">
                         <div class="address">
                             <svg viewBox="0 0 512 512">
                                 <path
                                     d="M192,307.188V160l128-96v227.5c-6.281,0.656-12.938,1.344-20.094,2.062c-27.969,2.813-62.781,6.313-107.281,13.531   L192,307.188z M488.344,145.813L352,64v223.125C406.281,277.188,426.531,253.375,488.344,145.813z M352,319.312V416l160,96V168.719   C445.719,282.938,421,307.906,352,319.312z M21.594,428.938L160,512V344.719C112.031,353.188,66.031,368,21.594,428.938z    M303.094,325.406c-27.531,2.781-61.813,6.219-105.344,13.25l-5.75,0.906V512l128-96v-92.375   C314.531,324.219,309.062,324.812,303.094,325.406z M80,144c-5.469,0-10.813-0.563-16-1.625V256l32-16v-97.625   C90.813,143.438,85.469,144,80,144z M80,0C44.656,0,16,28.625,16,64s28.656,64,64,64c35.375,0,64-28.625,64-64S115.375,0,80,0z    M64,80c-17.688,0-32-14.313-32-32s14.313-32,32-32s32,14.313,32,32S81.688,80,64,80z M128,146.656v113.125l-96,48V146.656   c-12.875-7.531-23.781-18-32-30.344v288.156C52.25,336.25,108.219,321,160,312.25V160l-27.375-16.438   C131.063,144.594,129.625,145.719,128,146.656z" />
                             </svg>
                             <h4>CC Headquarters</h4>
-                            <a style="color: #686868" href="https://www.google.com/maps/search/?api=1&query=121 King Street, Melbourne Victoria 3000 Australia">
-                                121 King Street, Melbourne <br> Victoria 3000 Australia
+                            <a style="color: #686868" href="https://www.google.com/maps/search/?api=1&query=<?= urlencode($this->ContentBlock->text('business-address')); ?>">
+                                <?= $this->ContentBlock->text('business-address'); ?>
                             </a>
                         </div>
                         <div class="helpline">
                             <svg viewBox="0 0 51.413 51.413">
                             </svg>
                             <h4>Help Lines</h4>
-                            <a href="tel:+61 3 8376 6284">+61 3 8376 6284</a><br>
-                            <a href="tel:+61 3 8376 6285">+61 3 8376 6285</a>
+                            <a class="text-nowrap" href="tel:<?= $this->ContentBlock->text('business-phone'); ?>"><?= $this->ContentBlock->text('business-phone'); ?></a><br>
                         </div>
                     </aside><!-- widget about /- -->
                 </div>
