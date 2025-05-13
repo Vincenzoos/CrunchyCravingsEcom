@@ -385,23 +385,51 @@ class OrdersController extends AppController
 
         // Calculate weeks in the month
         $weeks = [];
+        $weekPeriods = [];
         $currentWeekStart = new DateTime($monthStart);
-        while ($currentWeekStart->format('Y-m-d') <= (new DateTime($monthEnd))->format('Y-m-d')) {
-            $weekStart = $currentWeekStart->format('d/m/Y');
-            $weekEnd = (clone $currentWeekStart)->modify('sunday this week')->format('d/m/Y');
+        $monthEndDate = new DateTime($monthEnd);
 
-            // Ensure weekEnd does not exceed the month's end
-            if ($weekEnd < $monthEnd) {
-                $weekEnd = (new DateTime($monthEnd))->format('d/m/Y');
+        while ($currentWeekStart <= $monthEndDate) {
+            $weekStart = clone $currentWeekStart;
+            $weekEnd = clone $currentWeekStart;
+            $weekEnd->modify('sunday this week');
+
+            // Adjust week end if it exceeds the month's end
+            if ($weekEnd > $monthEndDate) {
+                $weekEnd = clone $monthEndDate;
             }
-            $weeks[] = "$weekStart to $weekEnd";
+
+            // Store the week period for revenue calculation
+            $weekPeriods[] = [
+                'start' => $weekStart->format('Y-m-d'),
+                'end' => $weekEnd->format('Y-m-d'),
+            ];
+
+            // Format for display
+            $weekStartStr = $weekStart->format('d/m/Y');
+            $weekEndStr = $weekEnd->format('d/m/Y');
+            $weeks[] = "$weekStartStr to $weekEndStr";
+
+            // Move to the next Monday
             $currentWeekStart->modify('next monday');
+        }
+
+        // Prepare weekly revenues for the chart
+        $weeklyRevenues = [];
+        foreach ($weekPeriods as $week) {
+            $total = 0;
+            foreach ($monthlySales as $sale) {
+                if ($sale->date >= $week['start'] && $sale->date <= $week['end']) {
+                    $total += $sale->revenue;
+                }
+            }
+            $weeklyRevenues[] = $total;
         }
 
         // Prepare data for the chart
         $chartData = [
             'labels' => $weeks,
-            'revenues' => array_map(fn($sale) => $sale->revenue, $monthlySales),
+            'revenues' => $weeklyRevenues,
         ];
 
         // reformat dates for display in view
