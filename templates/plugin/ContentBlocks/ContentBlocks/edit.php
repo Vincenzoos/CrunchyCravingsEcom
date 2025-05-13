@@ -34,8 +34,7 @@ $this->Html->css(['utilities', 'table', 'form', 'ContentBlocks.content-blocks'],
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div id="form-content">
-                        <!-- Allow customized form validation styling -->
-                        <?= $this->Form->create($contentBlock, ['type' => 'file', 'class' => 'form needs-validation', 'novalidate' => true]) ?>
+                        <?= $this->Form->create($contentBlock, ['type' => 'file']) ?>
 
                         <div class="mb-4">
                             <?= $this->Form->control('label', [
@@ -43,7 +42,6 @@ $this->Html->css(['utilities', 'table', 'form', 'ContentBlocks.content-blocks'],
                                 'label' => ['text' => '<h4>Content Block Label</h4>', 'escape' => false],
                                 'placeholder' => 'Enter the content block label...',
                                 'maxlength' => 255,
-                                'required' => true,
                                 'disabled' => true,
                             ]) ?>
                         </div>
@@ -60,72 +58,47 @@ $this->Html->css(['utilities', 'table', 'form', 'ContentBlocks.content-blocks'],
                             ]) ?>
                         </div>
 
-                        <?php
-                        if ($contentBlock->type === 'text') {
-                            echo $this->Form->control('value', [
-                                'type' => 'text',
-                                'value' => html_entity_decode($contentBlock->value),
-                                'label' => ['text' => '<h4>Content value</h4>', 'escape' => false],
-                                'class' => 'form-control',
-                                'required' => true,
-                                'placeholder' => 'Enter the content value...',
-                                'maxlength' => 255,
-                                'title' => 'Content value must not be empty',
-
-                            ]);
-                        } elseif ($contentBlock->type === 'html') {
-                            echo $this->Form->control('value', [
-                                'type' => 'textarea',
-                                'id' => 'content-value-input',
-                                'label' => ['text' => '<h4>HTML Content</h4>', 'escape' => false],
-                                'class' => 'form-control',
-                                'required' => true,
-                                'placeholder' => 'Enter the HTML content...',
-                            ]);
-                            ?>
-                            <script>
-                                document.addEventListener("DOMContentLoaded", (event) => {
-                                    CKSource.Editor.create(
-                                        document.getElementById('content-value-input'),
-                                        {
-                                            toolbar: [
-                                                "heading", "|",
-                                                "bold", "italic", "underline", "|",
-                                                "bulletedList", "numberedList", "|",
-                                                "alignment", "blockQuote", "|",
-                                                "indent", "outdent", "|",
-                                                "link", "|",
-                                                "insertTable", "imageInsert", "mediaEmbed", "horizontalLine", "|",
-                                                "removeFormat", "|",
-                                                "sourceEditing", "|",
-                                                "undo", "redo",
-                                            ],
-                                            simpleUpload: {
-                                                uploadUrl: <?= json_encode($this->Url->build(['action' => 'upload'])) ?>,
-                                                headers: {
-                                                    'X-CSRF-TOKEN': <?= json_encode($this->request->getAttribute('csrfToken')) ?>,
-                                                }
-                                            }
-                                        }
-                                    ).then(editor => {
-                                        console.log(Array.from(editor.ui.componentFactory.names()));
-                                    });
-                                });
-                            </script>
+                        <div class="mb-4">
                             <?php
-                        } elseif ($contentBlock->type === 'image') {
-                            if ($contentBlock->value) {
-                                echo $this->Html->image($contentBlock->value, ['class' => 'content-blocks--image-preview']);
+                            if ($contentBlock->type === 'text') {
+                                echo $this->Form->control('value', [
+                                    'type' => 'text',
+                                    'value' => html_entity_decode($contentBlock->value),
+                                    'label' => ['text' => '<h4><span style="color: red;">*</span>Content value</h4>', 'escape' => false],
+                                    'class' => 'form-control',
+                                    'required' => true,
+                                    'placeholder' => 'Enter the content value...',
+                                    // TODO: Restrict script tags, define max length as constant in config/bootrap
+                                    'maxlength' => 255,
+                                    'title' => 'Content value must not be empty',
+                                ]);
+                            } elseif ($contentBlock->type === 'html') {
+                                echo $this->Form->control('value', [
+                                    'type' => 'textarea',
+                                    'id' => 'content-value-input',
+                                    'label' => ['text' => '<h4><span style="color: red;">*</span>HTML Content</h4>', 'escape' => false],
+                                    'class' => 'form-control',
+                                    'required' => true,
+                                    'placeholder' => 'Enter the HTML content...',
+                                ]);
+                                ?>
+                                <?php
+                            } elseif ($contentBlock->type === 'image') {
+                                if ($contentBlock->value) {
+                                    echo $this->Html->image($contentBlock->value, ['class' => 'content-blocks--image-preview']);
+                                }
+                                echo $this->Form->control('value', [
+                                    'type' => 'file',
+                                    'accept' => 'image/*',
+                                    'label' => ['text' => '<h4><span style="color: red;">*</span>Content Image</h4>', 'escape' => false],
+                                    'class' => 'form-control',
+                                    'required' => true,
+                                    'title' => 'Please select an image file',
+                                ]);
                             }
+                            ?>
+                        </div>
 
-                            echo $this->Form->control('value', [
-                                'type' => 'file',
-                                'accept' => 'image/*',
-                                'label' => ['text' => 'Content Image', 'escape' => false],
-                                'class' => 'form-control',
-                            ]);
-                        }
-                        ?>
 
                         <div class="text-center mt-4">
                             <?= $this->Form->button(__('Save'), ['class' => 'btn btn-primary btn-lg']) ?>
@@ -138,4 +111,40 @@ $this->Html->css(['utilities', 'table', 'form', 'ContentBlocks.content-blocks'],
         </div>
     </section>
 </div>
+
+<!-- Load CKEditor. -->
+<script>
+    /*
+   Create our CKEditor instance in a DOMContentLoaded event callback, to ensure
+   the library is available when we call `create()`.
+   Fixes https://github.com/ugie-cake/cakephp-content-blocks/issues/4.
+   */
+    document.addEventListener("DOMContentLoaded", (event) => {
+        CKSource.Editor.create(
+            document.getElementById('content-value-input'),
+            {
+                toolbar: [
+                    "heading", "|",
+                    "bold", "italic", "underline", "|",
+                    "bulletedList", "numberedList", "|",
+                    "alignment", "blockQuote", "|",
+                    "indent", "outdent", "|",
+                    "link", "|",
+                    "insertTable", "imageInsert", "mediaEmbed", "horizontalLine", "|",
+                    "removeFormat", "|",
+                    "sourceEditing", "|",
+                    "undo", "redo",
+                ],
+                simpleUpload: {
+                    uploadUrl: <?= json_encode($this->Url->build(['action' => 'upload'])) ?>,
+                    headers: {
+                        'X-CSRF-TOKEN': <?= json_encode($this->request->getAttribute('csrfToken')) ?>,
+                    }
+                }
+            }
+        ).then(editor => {
+            console.log(Array.from(editor.ui.componentFactory.names()));
+        });
+    });
+</script>
 </body>
