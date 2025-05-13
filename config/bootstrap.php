@@ -128,6 +128,17 @@ const CONTACT_EMAIL_MAX_LENGTH = 255;
 const CONTACT_PHONE_MAX_LENGTH = 12;
 const CONTACT_MESSAGE_MAX_LENGTH = 500;
 
+// Orders table
+const ORDER_ADDRESS_MAX_LENGTH = 255;
+
+// Sales Reports
+const MEDIUM_POPULARITY_WEEKLY = 3;
+const HIGH_POPULARITY_WEEKLY = 6;
+const MEDIUM_POPULARITY_MONTHLY = 10;
+const HIGH_POPULARITY_MONTHLY = 20;
+const MEDIUM_POPULARITY_YEARLY = 25;
+const HIGH_POPULARITY_YEARLY = 50;
+
 /*
  * Configure the mbstring extension to use the correct encoding.
  */

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -13,7 +12,6 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\OrderProductsTable&\Cake\ORM\Association\HasMany $OrderProducts
- *
  * @method \App\Model\Entity\Order newEmptyEntity()
  * @method \App\Model\Entity\Order newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Order> newEntities(array $data, array $options = [])
@@ -27,7 +25,6 @@ use Cake\Validation\Validator;
  * @method iterable<\App\Model\Entity\Order>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Order> saveManyOrFail(iterable $entities, array $options = [])
  * @method iterable<\App\Model\Entity\Order>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Order>|false deleteMany(iterable $entities, array $options = [])
  * @method iterable<\App\Model\Entity\Order>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Order> deleteManyOrFail(iterable $entities, array $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class OrdersTable extends Table
@@ -47,7 +44,7 @@ class OrdersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-    
+
         $this->hasMany('OrderItems', [
             'foreignKey' => 'order_id',
             'dependent' => true, // Deletes related OrderItems when an Order is deleted
@@ -77,18 +74,27 @@ class OrdersTable extends Table
 
         $validator
             ->scalar('origin_address')
-            ->maxLength('origin_address', 255)
-            ->allowEmptyString('origin_address');
-    
+            ->maxLength('origin_address', ORDER_ADDRESS_MAX_LENGTH)
+            ->allowEmptyString('origin_address')
+            ->add('origin_address', 'validChars', [
+            'rule' => ['custom', '/^[\p{L}0-9\s,.\'\/#\-\(\)]+$/u'],
+            'message' => 'Only letters, numbers, and basic punctuation are allowed in the address.',
+        ]);
+
         $validator
             ->scalar('destination_address')
-            ->maxLength('destination_address', 255)
-            ->notEmptyString('destination_address', 'Destination address is required.');
-    
+            ->maxLength('destination_address', ORDER_ADDRESS_MAX_LENGTH)
+            ->notEmptyString('destination_address', 'Destination address is required.')
+            ->add('origin_address', 'validChars', [
+            'rule' => ['custom', '/^[\p{L}0-9\s,.\'\/#\-\(\)]+$/u'],
+            'message' => 'Only letters, numbers, and basic punctuation are allowed in the address.',
+        ]);
+
+
         $validator
             ->dateTime('shipped_date')
             ->allowEmptyDateTime('shipped_date');
-    
+
         $validator
             ->dateTime('estimated_delivery_date')
             ->allowEmptyDateTime('estimated_delivery_date');

@@ -52,6 +52,22 @@ $this->assign('title', 'Monthly Report');
         <!-- Product Performance Section -->
         <section id="product-performance">
             <h2 class="mb-3">Product Performance</h2>
+
+            <!-- Popularity Legend -->
+            <div class="mb-3 text-end">
+                <ul class="list-inline small">
+                    <li class="list-inline-item">
+                        <span class="badge bg-success">High</span> — More than <?= HIGH_POPULARITY_MONTHLY ?> sales
+                    </li>
+                    <li class="list-inline-item">
+                        <span class="badge bg-warning">Medium</span> — More than <?= MEDIUM_POPULARITY_MONTHLY ?> sales
+                    </li>
+                    <li class="list-inline-item">
+                        <span class="badge bg-danger">Low</span> — <?= MEDIUM_POPULARITY_MONTHLY ?> sales or fewer
+                    </li>
+                </ul>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead class="thead-dark">
@@ -75,9 +91,16 @@ $this->assign('title', 'Monthly Report');
                                 </a>
                             </td>
                             <td><?= h($product->total_sales) ?></td>
-                            <!-- TODO: Should use declare total_sales benchmark as constant to avoid mismatch                            -->
                             <td>
-                                <?= $product->total_sales > 20 ? 'High' : ($product->total_sales > 10 ? 'Medium' : 'Low') ?>
+                                <?php
+                                if ($product->total_sales > HIGH_POPULARITY_MONTHLY) {
+                                    echo '<span class="badge bg-success">High</span>';
+                                } elseif ($product->total_sales > MEDIUM_POPULARITY_MONTHLY) {
+                                    echo '<span class="badge bg-warning text-dark">Medium</span>';
+                                } else {
+                                    echo '<span class="badge bg-danger">Low</span>';
+                                }
+                                ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
