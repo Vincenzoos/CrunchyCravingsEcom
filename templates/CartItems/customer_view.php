@@ -141,7 +141,12 @@ $html = new HtmlHelper(new View());
                         'class' => 'form-control',
                         'label' => ['text' => '<h4 class="text-center" style="margin-top: 1rem;">Destination Address</h4>', 'escape' => false],
                         'placeholder' => 'e.g., 123 Main St, Sydney, NSW 2000',
+                        'maxlength' => ORDER_ADDRESS_MAX_LENGTH,
                         'required' => true,
+                        'oninput' => 'removeScriptTags(this)',
+                        'pattern' => "^[\\p{L}0-9\s,.'#/\-()]+$",
+                        'title' => 'Only letters, numbers, and basic punctuation are allowed in the address.',
+                        'escape' => false,
                     ]) ?>
                 </div>
 
@@ -234,6 +239,10 @@ $html = new HtmlHelper(new View());
         }
     </script>
     <!-- End AJAX script -->
+
+    <!-- Custom JS -->
+    <?= $this->Html->script('form-utils') ?>
+    <?= $this->Html->script('form-validation') ?>
 
 </body>
 
