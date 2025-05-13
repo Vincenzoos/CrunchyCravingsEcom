@@ -209,7 +209,9 @@ class OrdersController extends AppController
             $this->Flash->error(__('Only pending orders can be cancelled.'));
         }
 
-        return $this->redirect(['action' => 'customerIndex']);
+        // TODO: Only admin can cancel order, redirect to index page of orders (admin accessible only)
+//        return $this->redirect(['action' => 'customerIndex']);
+        return $this->redirect(['action' => 'index']);
     }
 
     /**

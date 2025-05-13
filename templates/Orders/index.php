@@ -3,11 +3,14 @@
  * @var \App\View\AppView $this
  * @var iterable<\App\Model\Entity\Order> $orders
  */
+
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\View;
+
 ?>
 
 <?php
-use Cake\View\Helper\HtmlHelper;
-$html = new HtmlHelper(new \Cake\View\View());
+$html = new HtmlHelper(new View());
 ?>
 
 <head>
@@ -58,7 +61,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($orders as $order): ?>
+                <?php foreach ($orders as $order) : ?>
                     <tr>
                         <td><?= h($order->tracking_number)?></td>
                         <td><?= h($order->user_email) ?></td>
@@ -67,22 +70,77 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <td> <?= $this->Number->currency(h($order->total_price), 'AUD') ?></td>
                         <!-- Show if the order is returned -->
                         <td class="text-center">
-                            <?php if ($order->is_returned): ?>
+                            <?php if ($order->is_returned) : ?>
                                 <i class="fa fa-times text-success"></i>
-                            <?php else: ?>
+                            <?php else : ?>
                                 <i class="fa fa-times text-danger"></i>
                             <?php endif; ?>
                         </td>
                         <td class="text-center">
+                        <!-- TODO: Idea 1: Display only relevant action to for each order-->
+<!--                            --><?php //= $this->Html->link(__('View'), ['action' => 'view', $order->id], ['class' => 'btn btn-info btn-sm']) ?>
+<!--                            --><?php //if ($order->status == 'pending') : ?>
+<!--                                --><?php //= $this->Html->link(__('Edit'), ['action' => 'edit', $order->id], ['class' => 'btn btn-warning btn-sm']) ?>
+<!--                                --><?php //= $this->Form->postLink(
+//                                    __('Cancel'),
+//                                    ['action' => 'cancel', $order->id],
+//                                    [
+//                                        'class' => 'btn btn-danger btn-sm',
+//                                        'confirm' => __('Are you sure you want to cancel this order: #{0}?', $order->tracking_number),
+//                                    ],
+//                                ) ?>
+<!--                            --><?php //elseif ($order->status == 'cancelled') : ?>
+<!--                                --><?php //= $this->Form->postLink(
+//                                    __('Delete'),
+//                                    ['action' => 'delete', $order->id],
+//                                    [
+//                                        'class' => 'btn btn-danger btn-sm',
+//                                        'confirm' => __('Are you sure you want to delete this order: #{0}?', $order->tracking_number),
+//                                    ],
+//                                ) ?>
+<!--                            --><?php //endif; ?>
+
+                            <!-- TODO: Idea 2: Only switch between cancel and delete based on order status-->
+<!--                            --><?php //= $this->Html->link(__('View'), ['action' => 'view', $order->id], ['class' => 'btn btn-info btn-sm']) ?>
+<!--                            --><?php //= $this->Html->link(__('Edit'), ['action' => 'edit', $order->id], ['class' => 'btn btn-warning btn-sm']) ?>
+<!--                            --><?php //if ($order->status === 'pending') : ?>
+<!--                                --><?php //= $this->Form->postLink(
+//                                    __('Cancel'),
+//                                    ['action' => 'cancel', $order->id],
+//                                    [
+//                                        'class' => 'btn btn-danger btn-sm',
+//                                        'confirm' => __('Are you sure you want to cancel this order: #{0}?', $order->tracking_number),
+//                                    ],
+//                                ) ?>
+<!--                            --><?php //elseif ($order->status === 'cancelled') : ?>
+<!--                                --><?php //= $this->Form->postLink(
+//                                    __('Delete'),
+//                                    ['action' => 'delete', $order->id],
+//                                    [
+//                                        'class' => 'btn btn-danger btn-sm',
+//                                        'confirm' => __('Are you sure you want to delete this order: #{0}?', $order->tracking_number),
+//                                    ],
+//                                ) ?>
+<!--                            --><?php //endif; ?>
+
+                            <!-- TODO: Idea 3: Showing all actions, regardless of whether user can perform it or not-->
                             <?= $this->Html->link(__('View'), ['action' => 'view', $order->id], ['class' => 'btn btn-info btn-sm']) ?>
                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $order->id], ['class' => 'btn btn-warning btn-sm']) ?>
+                            <?= $this->Form->postLink(
+                                __('Cancel'),
+                                ['action' => 'cancel', $order->id],
+                                [
+                                    'class' => 'btn btn-secondary btn-sm',
+                                    'confirm' => __('Are you sure you want to cancel this order: #{0}?', $order->tracking_number),
+                                ],
+                            ) ?>
                             <?= $this->Form->postLink(
                                 __('Delete'),
                                 ['action' => 'delete', $order->id],
                                 [
                                     'class' => 'btn btn-danger btn-sm',
                                     'confirm' => __('Are you sure you want to delete this order: #{0}?', $order->tracking_number),
-                                ]
+                                ],
                             ) ?>
                         </td>
                     </tr>
@@ -92,7 +150,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         </div>
 
         <!-- Paginator -->
-        <?php if ($this->Paginator->hasPrev() || $this->Paginator->hasNext()): ?>
+        <?php if ($this->Paginator->hasPrev() || $this->Paginator->hasNext()) : ?>
             <div class="d-flex justify-content-center align-items-center mt-4">
                 <ul class="pagination">
                     <?= $this->Paginator->first(__('<< First')) ?>
