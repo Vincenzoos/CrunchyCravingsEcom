@@ -128,6 +128,9 @@ const CONTACT_EMAIL_MAX_LENGTH = 255;
 const CONTACT_PHONE_MAX_LENGTH = 12;
 const CONTACT_MESSAGE_MAX_LENGTH = 500;
 
+// Orders table
+const ORDER_ADDRESS_MAX_LENGTH = 255;
+
 /*
  * Configure the mbstring extension to use the correct encoding.
  */

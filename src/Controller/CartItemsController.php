@@ -706,7 +706,7 @@ class CartItemsController extends AppController
                 'tracking_number' => $trackingNumber,
                 'user_email' => $recipient,
                 'status' => 'pending',
-                'origin_address' => '121 King Street, Melbourne Victoria 3000 Australia', // Set placeholder as CrunchyCravings headquarters
+                'origin_address' => $this->ContentBlock->text('business-address'), // Set the origin address to matches business address (editable in CMS)
                 'destination_address' => $destinationAddress,
                 'estimated_delivery_date' => date('Y-m-d H:i:s', strtotime('+7 days')), // 7 days from now
                 'total' => $total,

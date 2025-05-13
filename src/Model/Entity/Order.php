@@ -42,7 +42,7 @@ class Order extends Entity
         'destination_address' => true,
         'shipped_date' => true,
         'estimated_delivery_date' => true,
-        'created' => true,
+        'created' => false,
         'modified' => true,
         'user' => true,
         'order_products' => true,

@@ -114,8 +114,52 @@ class OrdersController extends AppController
         }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
+            // Present date
+            $now = new DateTime();
+
+            // Order creation date (must be before patch entity)
+            $createdDate = $order->created;
+
+            // Get order data from edit form
             $order = $this->Orders->patchEntity($order, $this->request->getData());
-            if ($this->Orders->save($order)) {
+
+            // Edited shipped and estimate delivery date
+            $shippedDate = $order->shipped_date;
+            $estimatedDelivery = $order->estimated_delivery_date;
+
+            // Collect custom errors
+            $customErrors = [];
+
+            if ($shippedDate) {
+                // Ship date must be present
+                if ($shippedDate < $now) {
+                    $customErrors[] = __('Shipped date cannot be in the past.');
+                }
+                // Ship date must be after creation date
+                if ($createdDate && $shippedDate <= $createdDate) {
+                    $customErrors[] = __('Shipped date must be after order creation date.');
+                }
+            }
+
+            if ($estimatedDelivery) {
+                // estimate delivery date must be present
+                if ($estimatedDelivery < $now) {
+                    $customErrors[] = __('Estimated delivery date cannot be in the past.');
+                }
+                // estimate delivery date must be after creation date
+                if ($createdDate && $estimatedDelivery <= $createdDate) {
+                    $customErrors[] = __('Estimated delivery date must be after order creation date.');
+                }
+            }
+
+            // If found error in edit form, stop saving, user stays on the edit page
+            if (!empty($customErrors)) {
+                foreach ($customErrors as $error) {
+                    $this->Flash->error($error);
+                }
+
+            // If no error found, proceed with saving the edited order
+            } elseif ($this->Orders->save($order)) {
                 $this->Flash->success(__('The order has been saved.'));
 
                 return $this->redirect(['action' => 'index']);

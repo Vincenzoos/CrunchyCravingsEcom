@@ -33,13 +33,21 @@
                     <?= $this->Form->create($order, ['class' => 'form needs-validation', 'novalidate' => true]) ?>
 
                     <!-- Tracking Number -->
-                    <div class="mb-4 has-validation">
+                    <div class="mb-4">
                         <?= $this->Form->control('tracking_number', [
                             'class' => 'form-control mx-auto',
-                            'label' => ['text' => '<h4><span style="color: red;">*</span>Tracking Number</h4>', 'escape' => false],
+                            'label' => ['text' => '<h4>Tracking Number</h4>', 'escape' => false],
                             'placeholder' => 'Enter the tracking number...',
-                            'maxlength' => 255,
-                            'required' => true,
+                            'disabled' => true,
+                        ]) ?>
+                    </div>
+
+                    <!-- Tracking Number -->
+                    <div class="mb-4">
+                        <?= $this->Form->control('created', [
+                            'class' => 'form-control mx-auto',
+                            'label' => ['text' => '<h4>Creation Date</h4>', 'escape' => false],
+                            'disabled' => true,
                         ]) ?>
                     </div>
 
@@ -51,8 +59,10 @@
                             'class' => 'form-control mx-auto',
                             'label' => ['text' => '<h4><span style="color: red;">*</span>Origin Address</h4>', 'escape' => false],
                             'placeholder' => 'Enter the origin address...',
-                            'maxlength' => 255,
+                            'maxlength' => ORDER_ADDRESS_MAX_LENGTH,
                             'required' => true,
+                            'oninput' => 'removeScriptTags(this)',
+                            'pattern' => '^[a-zA-Z0-9\s,.-]+$',
                         ]) ?>
                     </div>
 
@@ -62,8 +72,10 @@
                             'class' => 'form-control mx-auto',
                             'label' => ['text' => '<h4><span style="color: red;">*</span>Destination Address</h4>', 'escape' => false],
                             'placeholder' => 'Enter the destination address...',
-                            'maxlength' => 255,
+                            'maxlength' => ORDER_ADDRESS_MAX_LENGTH,
                             'required' => true,
+                            'oninput' => 'removeScriptTags(this)',
+                            'pattern' => '^[a-zA-Z0-9\s,.-]+$',
                         ]) ?>
                     </div>
                 </div>
@@ -73,6 +85,8 @@
                     <div class="mb-4 has-validation">
                         <?= $this->Form->control('shipped_date', [
                             'class' => 'form-control mx-auto',
+                            'type' => 'datetime-local',
+                            'min' => (new DateTime())->format('Y-m-d\T00:00'),
                             'label' => ['text' => '<h4>Shipped Date</h4>', 'escape' => false],
                             'empty' => true,
                             'value' => $order->shipped_date ? $order->shipped_date->format('d M Y, H:i A') : date('Y-m-d'),
@@ -82,6 +96,8 @@
                     <div class="mb-4 has-validation">
                         <?= $this->Form->control('estimated_delivery_date', [
                             'class' => 'form-control mx-auto',
+                            'type' => 'datetime-local',
+                            'min' => (new DateTime())->format('Y-m-d\T00:00'),
                             'label' => ['text' => '<h4>Estimated Delivery Date</h4>', 'escape' => false],
                             'empty' => true,
                             'value' => $order->estimated_delivery_date ? $order->estimated_delivery_date->format('d M Y, H:i A') : date('Y-m-d'),
@@ -101,4 +117,7 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS -->
+<?= $this->Html->script('form-utils') ?>
+<?= $this->Html->script('form-validation') ?>
 </body>
