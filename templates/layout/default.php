@@ -296,7 +296,7 @@ $html = new HtmlHelper(new View());
                             <svg viewBox="0 0 51.413 51.413">
                             </svg>
                             <h4>Help Lines</h4>
-                            <a class="text-nowrap" href="tel:<?= $this->ContentBlock->text('business-phone'); ?>"><?= $this->ContentBlock->text('business-phone'); ?></a><br>
+                            <a class="text-nowrap" href="tel:<?= $this->ContentBlock->text('business-phone'); ?>"><?= $this->ContentBlock->text('business-phone'); ?></a>
                         </div>
                     </aside><!-- widget about /- -->
                 </div>
