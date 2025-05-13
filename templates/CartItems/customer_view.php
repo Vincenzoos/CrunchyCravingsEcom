@@ -133,6 +133,7 @@ $html = new HtmlHelper(new View());
                     </div>
                 <?php endif; ?>
 
+<!--            TODO: Add field validation for address, remove script tag, define max length as constant-->
                 <!-- Destination Address Input -->
                 <div class="col-12 mb-3">
                     <?= $this->Form->control('destination_address', [
