@@ -31,6 +31,7 @@ $html = new HtmlHelper(new View());
                     'label' => ['text' => '<h4 class="text-center" style="margin-top: 1rem;">Tracking Number</h4>', 'escape' => false],
                     'required' => true,
                     'class' => 'form-control',
+                    'maxlength' => TRACKING_NUMBER_MAX_LENGTH,
                     'placeholder' => 'Enter your tracking number',
                 ]) ?>
             </fieldset>
@@ -45,7 +46,7 @@ $html = new HtmlHelper(new View());
             <h4 class="text-center" style="padding: 1rem 0;"><?= h(ucfirst($order->status ?? 'Unknown')) ?> Order</h4>
             <p><strong>Tracking Number:</strong> <?= h($order->tracking_number ?? 'N/A') ?></p>
             <!-- Shipping Tracking -->
-            <?php if (!empty($order->shipped_date) && !empty($order->estimated_delivery_date)) : ?>
+            <?php if (!empty($order->estimated_delivery_date)) : ?>
                 <?php
                 $now = new \DateTime();
                 $deliveryDate = $order->estimated_delivery_date;

@@ -14,7 +14,6 @@ use Cake\ORM\Entity;
  * @property string|null $status
  * @property string|null $origin_address
  * @property string|null $destination_address
- * @property \Cake\I18n\DateTime|null $shipped_date
  * @property \Cake\I18n\DateTime|null $estimated_delivery_date
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
@@ -40,7 +39,6 @@ class Order extends Entity
         'status' => true,
         'origin_address' => true,
         'destination_address' => true,
-        'shipped_date' => true,
         'estimated_delivery_date' => true,
         'created' => false,
         'modified' => true,

@@ -718,7 +718,7 @@ class CartItemsController extends AppController
                 'status' => 'pending',
                 'origin_address' => '121 King Street, Melbourne Victoria 3000 Australia', // cannot use content block here since its only for view, not controller
                 'destination_address' => $destinationAddress,
-                'estimated_delivery_date' => date('Y-m-d H:i:s', strtotime('+7 days')), // 7 days from now
+                'estimated_delivery_date' => date('Y-m-d H:i:s', strtotime('+2 days')), // 2 days from now, Crunchy Cravings default policy
                 'total' => $total,
             ]);
 

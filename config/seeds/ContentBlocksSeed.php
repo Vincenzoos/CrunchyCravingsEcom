@@ -22,6 +22,7 @@ class ContentBlocksSeed extends AbstractSeed
                 'description' => 'Shown in the top entre of the every pages.',
                 'slug' => 'logo',
                 'type' => 'image',
+                'value' => 'cc_logo.png',
             ],
             [
                 'parent' => 'global',
@@ -45,7 +46,7 @@ class ContentBlocksSeed extends AbstractSeed
                 'description' => 'The business email address.',
                 'slug' => 'email-link',
                 'type' => 'html',
-                'value' => '<a href="mailto:crunchycravings@gmail.com">Crunchy Cravings</a>.',
+                'value' => '<a href="mailto:crunchycravings@gmail.com">crunchycravings@gmail.com</a>',
             ],
             [
                 'parent' => 'global',
@@ -126,7 +127,7 @@ class ContentBlocksSeed extends AbstractSeed
                 'value' => 'Mission.png',
             ],
         ];
-        
+
         $table = $this->table('content_blocks');
         $table->insert($data)->save();
     }

@@ -99,20 +99,6 @@
                         ]) ?>
                     </div>
 
-                    <!-- Shipped Date -->
-                    <div class="col-md-6 has-validation">
-                        <?= $this->Form->control('shipped_date', [
-                            'class' => 'form-control mx-auto',
-                            'min' => (new DateTime())->format('Y-m-d\TH:i'),
-                            'label' => ['text' => '<h4>Shipped Date</h4>', 'escape' => false],
-                            'empty' => true,
-                            'value' => $order->shipped_date ? $order->shipped_date->format('Y-m-d\TH:i') : '',
-                        ]) ?>
-                    </div>
-                </div>
-
-
-
                 <div class="text-center mt-4">
                     <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary btn-lg']) ?>
                     <?= $this->Html->link('Cancel', ['action' => 'index'], ['class' => 'btn btn-link']) ?>

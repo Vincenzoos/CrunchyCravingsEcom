@@ -142,6 +142,9 @@ const HIGH_POPULARITY_MONTHLY = 20;
 const MEDIUM_POPULARITY_YEARLY = 25;
 const HIGH_POPULARITY_YEARLY = 50;
 
+// Order Lookup
+const TRACKING_NUMBER_MAX_LENGTH = 23;
+
 /*
  * Configure the mbstring extension to use the correct encoding.
  */

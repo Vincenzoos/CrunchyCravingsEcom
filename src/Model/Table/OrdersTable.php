@@ -62,6 +62,7 @@ class OrdersTable extends Table
     {
         $validator
             ->scalar('tracking_number')
+            ->maxLength('tracking_number', TRACKING_NUMBER_MAX_LENGTH)
             ->notEmptyString('tracking_number', 'Tracking number is required.');
 
         $validator
@@ -89,11 +90,6 @@ class OrdersTable extends Table
             'rule' => ['custom', '/^[\p{L}0-9\s,.\'\/#\-\(\)]+$/u'],
             'message' => 'Only letters, numbers, and basic punctuation are allowed in the address.',
         ]);
-
-
-        $validator
-            ->dateTime('shipped_date')
-            ->allowEmptyDateTime('shipped_date');
 
         $validator
             ->dateTime('estimated_delivery_date')

@@ -28,7 +28,7 @@ $html = new HtmlHelper(new View());
             <h4 class="text-center" style="padding: 1rem 0;"><?= h(ucfirst($order->status ?? 'Unknown')) ?> Order</h4>
             <p><strong>Tracking Number:</strong> <?= h($order->tracking_number ?? 'N/A') ?></p>
             <!-- Shipping Tracking -->
-            <?php if (!empty($order->shipped_date) && !empty($order->estimated_delivery_date)) : ?>
+            <?php if (!empty($order->estimated_delivery_date)) : ?>
                 <?php
                 $now = new \DateTime();
                 $deliveryDate = $order->estimated_delivery_date;
@@ -143,7 +143,7 @@ $html = new HtmlHelper(new View());
                     </tbody>
                 </table>
             </div>
-            
+
             <!-- Grand Total Section -->
             <div class="text-end pe-1">
                 <h4 class="d-inline">Grand Total: </h4>
