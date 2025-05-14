@@ -235,9 +235,10 @@ class OrdersController extends AppController
             ])->first();
 
             if ($order) {
+                $this->Flash->success(__('Order found.'));
                 $this->set(compact('order'));
             } else {
-                $this->set('error', __('Order not found. Please check your tracking number.'));
+                $this->Flash->error(__('Order not found. Please check your tracking number.'));
             }
         }
     }

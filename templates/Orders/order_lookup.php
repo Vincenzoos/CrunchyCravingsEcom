@@ -168,10 +168,6 @@ $html = new HtmlHelper(new View());
                 <span class="total-amount"><?= $this->Number->currency($order->total_price, 'AUD') ?></span>
             </div>
         </div>
-    <?php elseif (isset($error)): ?>
-        <div class="alert alert-danger text-center mt-4">
-            <?= h($error) ?>
-        </div>
     <?php endif; ?>
 </div>
 </body>
