@@ -234,7 +234,7 @@ INSERT INTO `faqs` (`id`, `title`, `answer`, `created`, `modified`) VALUES
     (6, 'Can I track my order?', 'Yes, once your order is shipped, you will receive a tracking number along with your order confirmation email. Use this number in \"Order lookup\" to track your package our website.', NOW(), NOW()),
     (7, 'What is your return policy?', 'If you are not satisfied with your purchase, you can return unopened items within 14 days for a full refund. Please contact our support team for assistance.', NOW(), NOW()),
     (8, 'Do you offer gift hampers?', 'Yes, we offer a variety of gift hampers that include our finest lavosh crackers, flatbreads, and gourmet accompaniments. Perfect for any occasion!', NOW(), NOW()),
-    (9, 'How can I contact customer support?', 'You can reach our customer support team via the "Contact Us" page on our website or email us at support@crunchycravings.com. We aim to respond within 24 hours.', NOW(), NOW()),
+    (9, 'How can I contact customer support?', 'You can reach our customer support team via the "Contact Us" page on our website or email us at support@crunchycravings.com. We aim to respond within 24 hours.', NOW(), NOW());
 
 --
 -- Table structure for table `orders`
