@@ -743,8 +743,9 @@ class CartItemsController extends AppController
                 // Confirmation email -------------------------------------------------
 
                 // Load email override configuration
-                $overrideEmailEnabled = Configure::read('EmailTransport.override_enabled', false);
-                $overrideEmail = Configure::read('EmailTransport.default.username');
+                Configure::load('app_local');
+                $overrideEmailEnabled = Configure::read('Email.override_enabled', false);
+                $overrideEmail = Configure::read('Email.override');
 
                 // Determine the final recipient email
                 $finalRecipient = $overrideEmailEnabled && $overrideEmail ? $overrideEmail : $recipient;
