@@ -59,39 +59,50 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <?= $user->password = ''; ?>
                             <fieldset>
                                 <?= $this->Flash->render() ?>
-                                <!-- Password Requirements-->
+                                <!-- Regular Password Field -->
                                 <div class="mb-4">
                                     <h3>Password</h3>
                                     <div id="requirements-content">
-                                        <ul >
+                                        <ul>
                                             <li><i class="fa fa-times text-danger" id="length-icon"></i> Must be at least 8 characters long</li>
                                             <li><i class="fa fa-times text-danger" id="uppercase-icon"></i> Must contain at least one uppercase letter</li>
                                             <li><i class="fa fa-times text-danger" id="number-icon"></i> Must contain at least one number</li>
                                             <li><i class="fa fa-times text-danger" id="special-icon"></i> Must contain at least one special character (e.g., @$!%*?&)</li>
                                         </ul>
                                     </div>
-                                    <?= $this->Form->control('password', [
-                                        'class' => 'form-control mx-auto',
-                                        'label' => false,
-                                        'placeholder' => 'Enter your password...',
-                                        'type' => 'password',
-                                        'minlength' => 8,
-                                        'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
-                                        'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
-                                        'required' => true,
-                                    ]); ?>
+                                    <div class="position-relative">
+                                        <?= $this->Form->control('password', [
+                                            'class' => 'form-control mx-auto',
+                                            'label' => false,
+                                            'placeholder' => 'Enter your password...',
+                                            'type' => 'password',
+                                            'id' => 'password-field',
+                                            'minlength' => 8,
+                                            'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
+                                            'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
+                                            'required' => true,
+                                        ]); ?>
+                                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                    </div>
                                 </div>
+
+                                <!-- Confirm Password Field -->
                                 <div class="mb-4">
-                                    <?= $this->Form->control('password_confirm', [
-                                        'class' => 'form-control mx-auto',
-                                        'label' => ['text' => '<h3 class="text-center">Confirm Password</h3>', 'escape' => false],
-                                        'placeholder' => 'Retype your new password...',
-                                        'type' => 'password',
-                                        'minlength' => 8,
-                                        'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
-                                        'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
-                                        'required' => true,
-                                    ]); ?>
+                                    <h3 class="text-center">Confirm Password</h3>
+                                    <div class="position-relative">
+                                        <?= $this->Form->control('password_confirm', [
+                                            'class' => 'form-control mx-auto',
+                                            'label' => false,
+                                            'placeholder' => 'Retype your new password...',
+                                            'type' => 'password',
+                                            'id' => 'confirm-password-field',
+                                            'minlength' => 8,
+                                            'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
+                                            'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
+                                            'required' => true,
+                                        ]); ?>
+                                        <span toggle="#confirm-password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                    </div>
                                 </div>
                             </fieldset>
                             <div class="text-center">
@@ -114,7 +125,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <!-- Passsword requirements script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const passwordInput = document.querySelector('input[type="password"]');
+            const passwordInput = document.getElementById('password-field');
             const lengthIcon = document.getElementById('length-icon');
             const uppercaseIcon = document.getElementById('uppercase-icon');
             const numberIcon = document.getElementById('number-icon');
@@ -157,6 +168,22 @@ $html = new HtmlHelper(new \Cake\View\View());
                 } else {
                     specialIcon.classList.remove('fa-check', 'text-success');
                     specialIcon.classList.add('fa-times', 'text-danger');
+                }
+            });
+        });
+    </script>
+
+    <!-- Show/hide password script -->
+    <script>
+        $(document).ready(function() {
+            // Toggle password visibility
+            $(".toggle-password").click(function() {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
                 }
             });
         });

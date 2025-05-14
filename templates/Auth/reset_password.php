@@ -51,7 +51,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <fieldset>
                                 <legend class="mb-4">Reset Your Password</legend>
                                 <?= $this->Flash->render() ?>
-                                <!-- Password Requirements-->
+                                <!-- First Password Field -->
                                 <div class="mb-4">
                                     <h3>Password</h3>
                                     <div id="requirements-content">
@@ -62,28 +62,39 @@ $html = new HtmlHelper(new \Cake\View\View());
                                             <li><i class="fa fa-times text-danger" id="special-icon"></i> Must contain at least one special character (e.g., @$!%*?&)</li>
                                         </ul>
                                     </div>
-                                    <?= $this->Form->control('password', [
-                                        'class' => 'form-control mx-auto',
-                                        'label' => false,
-                                        'placeholder' => 'Enter your password...',
-                                        'type' => 'password',
-                                        'minlength' => 8,
-                                        'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
-                                        'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
-                                        'required' => true,
-                                    ]); ?>
+                                    <div class="position-relative">
+                                        <?= $this->Form->control('password', [
+                                            'class' => 'form-control mx-auto',
+                                            'label' => false,
+                                            'placeholder' => 'Enter your password...',
+                                            'type' => 'password',
+                                            'id' => 'password-field',
+                                            'minlength' => 8,
+                                            'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
+                                            'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
+                                            'required' => true,
+                                        ]); ?>
+                                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                    </div>
                                 </div>
+
+                                <!-- Confirm Password Field -->
                                 <div class="mb-4">
-                                    <?= $this->Form->control('password_confirm', [
-                                        'class' => 'form-control mx-auto',
-                                        'label' => ['text' => '<h3 class="text-center">Confirm Password</h3>', 'escape' => false],
-                                        'placeholder' => 'Re-enter your new password...',
-                                        'type' => 'password',
-                                        'required' => true,
-                                        'minlength' => 8,
-                                        'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
-                                        'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
-                                    ]); ?>
+                                    <h3 class="text-center">Confirm Password</h3>
+                                    <div class="position-relative">
+                                        <?= $this->Form->control('password_confirm', [
+                                            'class' => 'form-control mx-auto',
+                                            'label' => false,
+                                            'placeholder' => 'Re-enter your new password...',
+                                            'type' => 'password',
+                                            'id' => 'confirm-password-field',
+                                            'required' => true,
+                                            'minlength' => 8,
+                                            'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
+                                            'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
+                                        ]); ?>
+                                        <span toggle="#confirm-password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                    </div>
                                 </div>
                             </fieldset>
                             <div class="text-center">
@@ -105,50 +116,64 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     <!-- Passsword requirements script -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const passwordInput = document.querySelector('input[type="password"]');
-            const lengthIcon = document.getElementById('length-icon');
-            const uppercaseIcon = document.getElementById('uppercase-icon');
-            const numberIcon = document.getElementById('number-icon');
-            const specialIcon = document.getElementById('special-icon');
+        const passwordInput = document.getElementById('password-field');
+        const lengthIcon = document.getElementById('length-icon');
+        const uppercaseIcon = document.getElementById('uppercase-icon');
+        const numberIcon = document.getElementById('number-icon');
+        const specialIcon = document.getElementById('special-icon');
 
-            passwordInput.addEventListener('input', () => {
-                const password = passwordInput.value;
+        passwordInput.addEventListener('input', () => {
+            const password = passwordInput.value;
 
-                // Check if the password is at least 8 characters long
-                if (password.length >= 8) {
-                    lengthIcon.classList.remove('fa-times', 'text-danger');
-                    lengthIcon.classList.add('fa-check', 'text-success');
+            // Check if the password is at least 8 characters long
+            if (password.length >= 8) {
+                lengthIcon.classList.remove('fa-times', 'text-danger');
+                lengthIcon.classList.add('fa-check', 'text-success');
+            } else {
+                lengthIcon.classList.remove('fa-check', 'text-success');
+                lengthIcon.classList.add('fa-times', 'text-danger');
+            }
+
+            // Check if the password contains at least one uppercase letter
+            if (/[A-Z]/.test(password)) {
+                uppercaseIcon.classList.remove('fa-times', 'text-danger');
+                uppercaseIcon.classList.add('fa-check', 'text-success');
+            } else {
+                uppercaseIcon.classList.remove('fa-check', 'text-success');
+                uppercaseIcon.classList.add('fa-times', 'text-danger');
+            }
+
+            // Check if the password contains at least one number
+            if (/\d/.test(password)) {
+                numberIcon.classList.remove('fa-times', 'text-danger');
+                numberIcon.classList.add('fa-check', 'text-success');
+            } else {
+                numberIcon.classList.remove('fa-check', 'text-success');
+                numberIcon.classList.add('fa-times', 'text-danger');
+            }
+
+            // Check if the password contains at least one special character
+            if (/[@$!%*?&]/.test(password)) {
+                specialIcon.classList.remove('fa-times', 'text-danger');
+                specialIcon.classList.add('fa-check', 'text-success');
+            } else {
+                specialIcon.classList.remove('fa-check', 'text-success');
+                specialIcon.classList.add('fa-times', 'text-danger');
+            }
+        });
+    </script>
+
+    <!-- Show/hide password script -->
+    <script>
+        $(document).ready(function() {
+            // Toggle password visibility
+            $(".toggle-password").click(function() {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
                 } else {
-                    lengthIcon.classList.remove('fa-check', 'text-success');
-                    lengthIcon.classList.add('fa-times', 'text-danger');
-                }
-
-                // Check if the password contains at least one uppercase letter
-                if (/[A-Z]/.test(password)) {
-                    uppercaseIcon.classList.remove('fa-times', 'text-danger');
-                    uppercaseIcon.classList.add('fa-check', 'text-success');
-                } else {
-                    uppercaseIcon.classList.remove('fa-check', 'text-success');
-                    uppercaseIcon.classList.add('fa-times', 'text-danger');
-                }
-
-                // Check if the password contains at least one number
-                if (/\d/.test(password)) {
-                    numberIcon.classList.remove('fa-times', 'text-danger');
-                    numberIcon.classList.add('fa-check', 'text-success');
-                } else {
-                    numberIcon.classList.remove('fa-check', 'text-success');
-                    numberIcon.classList.add('fa-times', 'text-danger');
-                }
-
-                // Check if the password contains at least one special character
-                if (/[@$!%*?&]/.test(password)) {
-                    specialIcon.classList.remove('fa-times', 'text-danger');
-                    specialIcon.classList.add('fa-check', 'text-success');
-                } else {
-                    specialIcon.classList.remove('fa-check', 'text-success');
-                    specialIcon.classList.add('fa-times', 'text-danger');
+                    input.attr("type", "password");
                 }
             });
         });

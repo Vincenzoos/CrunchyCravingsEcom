@@ -62,3 +62,26 @@
 #clear-search:hover {
     color: #000;
 }
+
+
+/* Show password option */
+.field-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    cursor: pointer;
+    color: #6c757d;
+    transition: color 0.3s;
+}
+
+.field-icon:hover {
+    color: #495057;
+}
+
+/* Ensure the password control doesn't have built-in reveal button in some browsers */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
