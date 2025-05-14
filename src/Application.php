@@ -30,7 +30,6 @@ use Authorization\AuthorizationServiceProviderInterface;
 use Authorization\Exception\ForbiddenException;
 use Authorization\Middleware\AuthorizationMiddleware;
 use Authorization\Middleware\RequestAuthorizationMiddleware;
-use Authorization\Middleware\UnauthorizedHandler\ExceptionHandler;
 use Authorization\Policy\MapResolver;
 use Authorization\Policy\OrmResolver;
 use Authorization\Policy\ResolverCollection;
@@ -41,6 +40,7 @@ use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
+use Cake\Http\Middleware\HttpsEnforcerMiddleware;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\ServerRequest;
 use Cake\ORM\Locator\TableLocator;
@@ -51,6 +51,7 @@ use CakeDC\Auth\Policy\CollectionPolicy;
 use CakeDC\Auth\Policy\RbacPolicy;
 use CakeDC\Auth\Policy\SuperuserPolicy;
 use Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
 
 /**
  * Application setup class.
@@ -85,8 +86,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         }
 
         // Ensure Authorization plugin is loaded
-        if (!class_exists(\Authorization\Middleware\AuthorizationMiddleware::class)) {
-            throw new \RuntimeException('Authorization plugin is not loaded. Please install and load the Authorization plugin.');
+        if (!class_exists(AuthorizationMiddleware::class)) {
+            throw new RuntimeException('Authorization plugin is not loaded. Please install and load the Authorization plugin.');
         }
 
         // Add content blocks plugin
@@ -155,6 +156,14 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 return ($controller === 'CartItems' && $action === 'updateQuantityAjax') || ($controller === 'faqs' && $action === 'updateClickCount');
             },
             ]))
+
+            // Add the HttpsEnforcerMiddleware to the middleware queue
+            ->add(new HttpsEnforcerMiddleware(
+                [
+                    'redirect' => true,
+                    'statusCode' => 302,
+                ],
+            ))
 
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()

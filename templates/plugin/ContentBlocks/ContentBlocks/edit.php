@@ -29,6 +29,8 @@ $this->Html->css(['utilities', 'table', 'form', 'ContentBlocks.content-blocks'],
     </section>
 
     <!-- Edit Form Section -->
+    <!-- Max length of below fields shouldn't be changed since they are restricted in the plugin    -->
+<!--    TODO: Cannot overwrite file with new js script, therefore cannot use removeScriptTags-->
     <section id="form-section" class="py-5">
         <div class="container">
             <div class="row justify-content-center">
@@ -68,9 +70,9 @@ $this->Html->css(['utilities', 'table', 'form', 'ContentBlocks.content-blocks'],
                                     'class' => 'form-control',
                                     'required' => true,
                                     'placeholder' => 'Enter the content value...',
-                                    // TODO: Restrict script tags, define max length as constant in config/bootrap
                                     'maxlength' => 255,
                                     'title' => 'Content value must not be empty',
+                                    'oninput' => 'removeScriptTags(this)',
                                 ]);
                             } elseif ($contentBlock->type === 'html') {
                                 echo $this->Form->control('value', [
