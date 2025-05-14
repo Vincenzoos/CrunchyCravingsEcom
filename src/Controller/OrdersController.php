@@ -28,58 +28,58 @@ class OrdersController extends AppController
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
-     */public function index()
+     */
+    public function index()
     {
-        $query = $this->Orders->find();
-        
+        $query = $this->Orders->find()
+            ->contain(['OrderItems.Products']);
+
         // Apply filters
         if ($this->request->getQuery('tracking_number')) {
             $query->where(['Orders.tracking_number LIKE' => '%' . $this->request->getQuery('tracking_number') . '%']);
         }
-        
+
         if ($this->request->getQuery('user_email')) {
             $query->where(['Orders.user_email LIKE' => '%' . $this->request->getQuery('user_email') . '%']);
         }
-        
+
         if ($this->request->getQuery('status')) {
             $query->where(['Orders.status' => $this->request->getQuery('status')]);
         }
-        
+
         if ($this->request->getQuery('is_returned') !== null && $this->request->getQuery('is_returned') !== '') {
             $returnStatus = $this->request->getQuery('is_returned') === '1' ? 'returned' : 'not_returned';
             $query->where(['Orders.return_status' => $returnStatus]);
         }
-        
+
         if ($this->request->getQuery('date_from')) {
-            $dateFrom = new \DateTime($this->request->getQuery('date_from'));
+            $dateFrom = new DateTime($this->request->getQuery('date_from'));
             $query->where(['Orders.created >=' => $dateFrom->format('Y-m-d 00:00:00')]);
         }
-        
+
         if ($this->request->getQuery('date_to')) {
-            $dateTo = new \DateTime($this->request->getQuery('date_to'));
+            $dateTo = new DateTime($this->request->getQuery('date_to'));
             $query->where(['Orders.created <=' => $dateTo->format('Y-m-d 23:59:59')]);
         }
-        
-        // Apply sorting
+
+        // Apply sorting if requested
         $sortField = 'Orders.created';
         $sortDirection = 'DESC';
-        
+
         if ($this->request->getQuery('sort') && $this->request->getQuery('direction')) {
             $sortField = 'Orders.' . $this->request->getQuery('sort');
             $sortDirection = strtoupper($this->request->getQuery('direction'));
         }
-        
-        // Apply containments to the query before pagination
-        $query = $query->contain(['OrderItems']);
-        
-        // Set pagination settings (without contain)
+
+        // Set order in pagination settings only
         $this->paginate = [
             'order' => [$sortField => $sortDirection],
-            'limit' => 10
+            'limit' => 10,
         ];
-        
+
+        // Pass query with `contain` directly to paginate()
         $orders = $this->paginate($query);
-        
+
         $this->set(compact('orders'));
     }
 
