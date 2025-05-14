@@ -43,13 +43,14 @@
 :root {
 	--default-fade-text-col: #858076; /* OG: #b3aa9b */
 	--default-fade2-text-col: #686868; /* OG: #999 */
-	--default-heading-text-col: #212529; /* OG: #212529 */
+	--default-heading-text-col: #333; /* OG: #212529 */
 	--default-text-col: #000;
 	--default-col1: #beb2a6;
 	--default-col2: #b1a599;
 	--default-col3: #887C71;
 	/* --default-main-font: 'Playfair Display', serif; */
 	--default-main-font: 'Helvetica Now Text Medium', serif;
+	/* --default-main-font: 'Poppins', sans-serif; */
 
 	--accessible-fade-text-col: #0000ff;
 	--accessible-fade2-text-col: #0000ff;

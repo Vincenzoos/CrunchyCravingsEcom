@@ -29,26 +29,24 @@ $html = new HtmlHelper(new \Cake\View\View());
     <?= $this->Html->css(['utilities', 'landing_page']) ?>
 
     <?= $html->script('/libraries/jquery.min.js') ?>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <!-- Landing Page -->
     <div id="landing-page">
-
-
-        <!-- Landing Page -->
-        <div id="landing-page">
-            <!-- Hero Section -->
-            <section id="hero" class="py-5">
-            <div class="container">
+        <!-- Hero Section -->
+        <section id="hero-container" class="py-5">
+            <div id="hero" class="container">
                 <div class="row justify-content-center">
                     <!-- Left Text Section -->
                     <div class="col-md-4 text-center text-md-start">
                         <h1 class="display-3 fw-bold">Discover And Explore Premium Lavosh Crackers</h1>
                         <p class="lead" style="margin-top: 1rem; margin-bottom: 1rem;">CrunchyCravings offers premium Lavosh crackers that pair perfectly with wine and other fine foods. Whether for social gatherings or as a gift, our products are designed to impress.</p>
                         <div class="d-flex justify-content-center">
-                        <a href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-primary btn-lg me-3">Buy Now</a>
-                        <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-outline-primary btn-lg ms-auto">Contact Us</a>
+                            <a href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-outline-primary btn-lg me-3">Buy Now</a>
+                            <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-outline-primary btn-lg ms-auto">Contact Us</a>
                         </div>
                     </div>
 
@@ -61,24 +59,30 @@ $html = new HtmlHelper(new \Cake\View\View());
                     </div>
                 </div>
             </div>
-            </section>
-        </div>
+        </section>
 
         <!-- Our Products Section -->
         <section id="products" class="py-5">
             <div class="container text-center">
                 <h2 class="mb-4">Our Products</h2>
                 <div class="product-tabs d-flex justify-content-center gap-3">
-                    <div class="tab-item active">Classic Favorites</div>
-                    <div class="tab-item">Seasonal Specials</div>
-                    <div class="tab-item">Signature Hampers</div>
+                    <div class="tab-item active" data-product="classic">Classic Favorites</div>
+                    <div class="tab-item" data-product="modern">Modern Twists</div>
+                    <div class="tab-item" data-product="signature">Signature Hampers</div>
                 </div>
-                <div class="row justify-content-center">
-                    <div class="col-md-4 product-description mt-5">
-                        <h3>Classic Favorites</h3>
-                        <p class="lead">Timeless dishes that never go out of style. Perfect for any occasion.</p>
+                <div class="row justify-content-center mt-5">
+                    <div class="col-md-4 product-description">
+                        <h3 id="product-title">Classic Favorites</h3>
+                        <p id="product-description" class="lead">
+                            Timeless dishes that never go out of style. Perfect for any occasion.
+                            <ul>
+                                <li>Perfectly baked Lavosh crackers</li>
+                                <li>Pairs well with wine and cheese</li>
+                                <li>Great for gifting or gatherings</li>
+                            </ul>
+                        </p>
                     </div>
-                    <div class="col-md-4 product-description mt-5">
+                    <div class="col-md-4 product-description">
                         <div id="product-image">
                             <?= $this->Html->image('Classic.jpg', ['class' => 'img-fluid', 'alt' => 'Classic Favorites', 'style' => 'width: 100%;']) ?>
                         </div>
@@ -99,32 +103,76 @@ $html = new HtmlHelper(new \Cake\View\View());
             <div class="container text-center">
                 <h2 class="mb-4">Contact Us</h2>
                 <p class="lead">Reserve your table today and experience the magic of fine dining.</p>
-                    <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-primary">Contact Us</a>
+                <!-- <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-primary">Contact Us</a> -->
+                <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-outline-primary btn-lg ms-auto">Contact Us</a>
             </div>
         </section>
 
     </div>
 
-    <!-- Custom JavaScript for staggered carousels -->
+    <!-- Custom script for switchable product type descriptions -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize all carousels but pause them immediately
-            const carousel1 = new bootstrap.Carousel('#carousel1', { interval: false, ride: false });
-            const carousel2 = new bootstrap.Carousel('#carousel2', { interval: false, ride: false });
-            const carousel3 = new bootstrap.Carousel('#carousel3', { interval: false, ride: false });
+            const productData = {
+                classic: {
+                    title: "Classic Favorites",
+                    description: `
+                        Timeless dishes that never go out of style. Perfect for any occasion.
+                        <ul>
+                            <li>Perfectly baked Lavosh crackers</li>
+                            <li>Pairs well with wine and cheese</li>
+                            <li>Great for gifting or gatherings</li>
+                        </ul>
+                    `,
+                    image: "Classic.jpg"
+                },
+                modern: {
+                    title: "Modern Twists",
+                    description: `
+                        Innovative flavors for the adventurous palate.
+                        <ul>
+                            <li>Unique seasoning blends</li>
+                            <li>Perfect for modern dining experiences</li>
+                            <li>Pairs well with craft beverages</li>
+                        </ul>
+                    `,
+                    image: "Modern.jpg"
+                },
+                signature: {
+                    title: "Signature Hampers",
+                    description: `
+                        Perfect for gifting and special occasions.
+                        <ul>
+                            <li>Beautifully packaged hampers</li>
+                            <li>Includes a variety of premium crackers</li>
+                            <li>Ideal for celebrations and events</li>
+                        </ul>
+                    `,
+                    image: "Large.jpg"
+                }
+            };
 
-            // Add event listeners to buttons for manual control
-            document.querySelectorAll('.carousel-control-prev, .carousel-control-next').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const targetCarousel = button.closest('.carousel'); // Find the closest carousel
-                    if (!targetCarousel) return; // Ensure the button is inside a carousel
+            const tabs = document.querySelectorAll('.tab-item');
+            const productTitle = document.getElementById('product-title');
+            const productDescription = document.getElementById('product-description');
+            const productImage = document.getElementById('product-image');
 
-                    const carouselInstance = bootstrap.Carousel.getInstance(`#${targetCarousel.id}`);
-                    if (button.classList.contains('carousel-control-prev')) {
-                        carouselInstance.prev(); // Go to the previous slide
-                    } else if (button.classList.contains('carousel-control-next')) {
-                        carouselInstance.next(); // Go to the next slide
-                    }
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to the clicked tab
+                    tab.classList.add('active');
+
+                    // Get product data
+                    const productKey = tab.getAttribute('data-product');
+                    const product = productData[productKey];
+
+                    // Update content
+                    productTitle.textContent = product.title;
+                    productDescription.innerHTML = product.description;
+                    // productImage.innerHTML = `<?= $this->Html->image('${product.image}', ['class' => 'img-fluid', 'alt' => '${product.title}', 'style' => 'width: 100%;']) ?>`;
+                    productImage.innerHTML = `<img src="/team068-app_fit3047/img/${product.image}" class="img-fluid" alt="${product.title}" style="width: 100%;">`;
                 });
             });
         });
