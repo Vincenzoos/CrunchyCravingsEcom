@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Http\Response;
 
 /**
@@ -106,8 +107,20 @@ class ContactsController extends AppController
      */
     public function view(?string $id = null)
     {
-        $contact = $this->Contacts->get($id, contain: []);
-        $this->set(compact('contact'));
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Invalid contact ID.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
+        try {
+            $contact = $this->Contacts->get($id, contain: []);
+            $this->set(compact('contact'));
+        } catch (RecordNotFoundException $e) {
+            $this->Flash->error(__('Contact not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
     /**
@@ -140,7 +153,20 @@ class ContactsController extends AppController
      */
     public function edit(?string $id = null)
     {
-        $contact = $this->Contacts->get($id, contain: []);
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Invalid contact ID.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
+        try {
+            $contact = $this->Contacts->get($id, contain: []);
+        } catch (RecordNotFoundException $e) {
+            $this->Flash->error(__('Contact not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $contact = $this->Contacts->patchEntity($contact, $this->request->getData());
             if ($this->Contacts->save($contact)) {
@@ -162,6 +188,14 @@ class ContactsController extends AppController
      */
     public function delete(?string $id = null): ?Response
     {
+        // Block access to action using GET method
+        // Block user to manually access the action (e.g. contacts/delete/1 in URL)
+        if ($this->request->is('get')) {
+            $this->Flash->error(__('Invalid access to delete action'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
         $this->request->allowMethod(['post', 'delete']);
         $contact = $this->Contacts->get($id);
         if ($this->Contacts->delete($contact)) {
@@ -180,11 +214,20 @@ class ContactsController extends AppController
      */
     public function updateReplyStatus(?string $id = null)
     {
-        // Find project record with specific id
-        $contact = $this->Contacts->get($id);
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Invalid contact ID.'));
 
-        // Flip the status
-        $contact->replied = !$contact->replied;
+            return $this->redirect(['action' => 'index']);
+        }
+
+        // Find project record with specific id
+        try {
+            $contact = $this->Contacts->get($id, contain: []);
+        } catch (RecordNotFoundException $e) {
+            $this->Flash->error(__('Contact not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
 
         // Save changes
         if ($this->Contacts->save($contact)) {
