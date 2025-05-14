@@ -16,6 +16,7 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use Stripe\Stripe;
@@ -67,12 +68,25 @@ class AppController extends Controller
             'unlockedFields' => [],
         ]);
 
+        // Enable order status auto update
+        $this->loadComponent('OrderStatus');
+
+        // Stripe API key
         Stripe::setApiKey(Configure::read('Stripe.secret_key'));
     }
 
     public function beforeRender(EventInterface $event)
     {
         parent::beforeRender($event);
+
+        // Periodically update order status (Update once daily)
+        $lastRunDate = Cache::read('order_status_last_run');
+
+        // If not set or older than today, run it
+        if ($lastRunDate !== date('Y-m-d')) {
+            $this->OrderStatus->updateStatuses();
+            Cache::write('order_status_last_run', date('Y-m-d'));
+        }
 
         $cartCount = 0;
 
