@@ -169,18 +169,14 @@ return [
      *   should be ignored in. Use this to ignore deprecations for plugins or parts of
      *   your application that still emit deprecations.
      */
-    // TODO: depreciation suppression should be in app local instead
-//     'Error' => [
-//         'errorLevel' => E_ALL & ~E_USER_DEPRECATED,  // This suppresses all deprecation warnings
-//         // Or use the more specific approach:
-//         'ignoredDeprecationPaths' => [
-//            'vendor/cakephp/cakephp/src/ORM/Table.php',  // Mute only this file's deprecation warnings
-//         ],
-//        'skipLog' => [],
-//        'log' => true,
-//        'trace' => true,
-//        'ignoredDeprecationPaths' => [],
-//     ],
+    // TODO: depreciation suppression should be in app local instead, This should not be changed
+     'Error' => [
+        'errorLevel' => E_ALL,
+        'skipLog' => [],
+        'log' => true,
+        'trace' => true,
+        'ignoredDeprecationPaths' => [],
+     ],
 
     /*
      * Debugger configuration
