@@ -128,6 +128,9 @@ const CONTACT_EMAIL_MAX_LENGTH = 255;
 const CONTACT_PHONE_MAX_LENGTH = 12;
 const CONTACT_MESSAGE_MAX_LENGTH = 500;
 
+// TinyMCE field character limit
+const TINYMCE_MAX_LENGTH = 500;
+
 /*
  * Configure the mbstring extension to use the correct encoding.
  */

@@ -84,6 +84,9 @@ $html = new HtmlHelper(new View());
 
     <!-- TinyMCE Initialization -->
     <script>
+        // Get the maximum length from PHP constant
+        const TINYMCE_MAX_LENGTH = <?= TINYMCE_MAX_LENGTH ?>;
+
         tinymce.init({
             selector: 'textarea',
             plugins: [
@@ -96,6 +99,17 @@ $html = new HtmlHelper(new View());
                 { value: 'First.Name', title: 'First Name' },
                 { value: 'Email', title: 'Email' },
             ],
+            setup: function (editor) {
+            const maxChars = TINYMCE_MAX_LENGTH;
+
+            editor.on('input', function () {
+                const content = editor.getContent({ format: 'text' }); // Get plain text content
+                if (content.length > maxChars) {
+                    editor.setContent(content.substring(0, maxChars)); // Trim content to maxChars
+                    alert(`Character limit of ${maxChars} exceeded!`);
+                }
+            });
+        }
         });
     </script>
 

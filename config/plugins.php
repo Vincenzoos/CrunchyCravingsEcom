@@ -13,4 +13,5 @@ return [
     ],
     'Recaptcha' => [],
     'Josegonzalez/Upload' => [],
+    'ContentBlocks' => [],
 ];
