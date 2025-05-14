@@ -12,6 +12,7 @@ use Cake\Utility\Text;
 use Exception;
 use stdClass;
 use Stripe\Checkout\Session;
+use function Cake\Error\debug;
 
 /**
  * CartItems Controller
@@ -330,6 +331,15 @@ class CartItemsController extends AppController
 
     public function updateQuantityAjax()
     {
+        // Block access ajax action using GET method
+        // Block user to manually access the action (e.g. cart-items/update-quantity-ajax in URL)
+        if ($this->request->is('get')) {
+            $this->viewBuilder()->setTemplatePath('Error');
+            $this->viewBuilder()->setTemplate('missing_template');
+
+            return;
+        }
+
         $this->request->allowMethod(['post', 'ajax']); // Allow only POST and AJAX requests
 
 
