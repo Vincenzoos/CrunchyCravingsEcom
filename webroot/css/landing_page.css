@@ -13,11 +13,16 @@ p {
     font-weight: 400; /* Regular weight */
 }
 
+#landing-page {
+    background: radial-gradient(circle at 130% 30%, rgba(255, 234, 166, 0.5), transparent 50%); 
+                /* linear-gradient(to right, #ffffff, #fffbe6); */
+    font-family: 'Poppins', sans-serif;
+}
 
 /* Hero Section */
-#hero-container {
+/* #hero-container {
     background: linear-gradient(to bottom, #f8f9fa, #ffffff);
-}
+} */
 
 #hero {
     margin-top: 3rem;
@@ -35,7 +40,6 @@ p {
 }
 
 /* Buttons */
-
 #hero .btn-outline-primary,
 #contact .btn-outline-primary {
     border: 2px solid #f8e7d1;
@@ -68,7 +72,7 @@ p {
 
 /* Our Products Section */
 #products {
-    background-color: #fff;
+    /* background-color: #fff; */
     margin-top: 3rem;
     margin-bottom: 3rem;;
 }
