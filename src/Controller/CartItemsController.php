@@ -342,7 +342,6 @@ class CartItemsController extends AppController
 
         $this->request->allowMethod(['post', 'ajax']); // Allow only POST and AJAX requests
 
-
         $cartItemId = $this->request->getData('cart_item_id');
         $newQuantity = $this->request->getData('quantity');
 
@@ -354,14 +353,49 @@ class CartItemsController extends AppController
 
             return;
         }
-        // TODO: Add restriction, not allow user to add more than number of stock available
-//        elseif ($newQuantity > $productEntity->quantity) {
-//            $response = ['success' => false, 'message' => 'Product is out of stock.'];
-//            $this->set('response', $response); // Add this line so the response is set for serialization
-//            $this->viewBuilder()->setOption('serialize', ['response']);
-//
-//            return;
-//        }
+        
+        // First get the product entity to check stock availability
+        $productEntity = null;
+        
+        // Check if the user is logged in
+        $identity = $this->Authentication->getIdentity();
+        $userId = $identity ? $identity->get('id') : null;
+        
+        if ($userId) {
+            // For logged-in users, get product from cart item
+            $cartItem = $this->CartItems->get($cartItemId, ['contain' => ['Products']]);
+            if ($cartItem) {
+                $productEntity = $this->CartItems->Products->get($cartItem->product_id);
+            }
+        } else {
+            // For guests, get product directly
+            $session = $this->request->getSession();
+            $cart = $session->read('Cart') ?? [];
+            
+            if (isset($cart[$cartItemId])) {
+                $productEntity = $this->CartItems->Products->get($cartItemId);
+            }
+        }
+        
+        // Now check if requested quantity exceeds available stock
+        // Get current cart quantity to calculate the actual change
+        $currentQuantity = 0;
+        if ($userId && isset($cartItem)) {
+            $currentQuantity = $cartItem->quantity;
+        } elseif (isset($cart[$cartItemId])) {
+            $currentQuantity = $cart[$cartItemId]['quantity'];
+        }
+        
+        // Calculate change in quantity
+        $quantityChange = $newQuantity - $currentQuantity;
+        
+        // Check if there's enough stock for the requested increase
+        if ($quantityChange > 0 && $productEntity && $quantityChange > $productEntity->quantity) {
+            $response = ['success' => false, 'message' => 'Not enough stock available for ' . $productEntity->name];
+            $this->set('response', $response);
+            $this->viewBuilder()->setOption('serialize', ['response']);
+            return;
+        }
 
         // Check if the user is logged in
         $identity = $this->Authentication->getIdentity();
