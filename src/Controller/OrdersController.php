@@ -76,23 +76,26 @@ class OrdersController extends AppController
     }
 
     /**
-     * Add method
+     * Add method (not used)
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
-        $order = $this->Orders->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $order = $this->Orders->patchEntity($order, $this->request->getData());
-            if ($this->Orders->save($order)) {
-                $this->Flash->success(__('The order has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The order could not be saved. Please, try again.'));
-        }
-        $this->set(compact('order'));
+//        $this->Flash->error(__('Page not found'));
+//
+//        return $this->redirect(['action' => 'index']);
+//        $order = $this->Orders->newEmptyEntity();
+//        if ($this->request->is('post')) {
+//            $order = $this->Orders->patchEntity($order, $this->request->getData());
+//            if ($this->Orders->save($order)) {
+//                $this->Flash->success(__('The order has been saved.'));
+//
+//                return $this->redirect(['action' => 'index']);
+//            }
+//            $this->Flash->error(__('The order could not be saved. Please, try again.'));
+//        }
+//        $this->set(compact('order'));
     }
 
     /**

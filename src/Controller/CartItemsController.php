@@ -30,9 +30,9 @@ class CartItemsController extends AppController
      */
     public function index()
     {
-        $this->Flash->error(__('Page not found.'));
-
-        return $this->redirect(['action' => 'customerView']);
+//        $this->Flash->error(__('Page not found.'));
+//
+//        return $this->redirect(['action' => 'customerView']);
 //        $query = $this->CartItems->find()->contain(['Users', 'Products']);
 //        $cartItems = $this->paginate($query);
 //
@@ -110,9 +110,9 @@ class CartItemsController extends AppController
      */
     public function view(?string $id = null)
     {
-        $this->Flash->error(__('Page not found.'));
-
-        return $this->redirect(['action' => 'customerView']);
+//        $this->Flash->error(__('Page not found.'));
+//
+//        return $this->redirect(['action' => 'customerView']);
 //        $cartItem = $this->CartItems->get($id, contain: ['Users', 'Products']);
 //        $this->set(compact('cartItem'));
     }
@@ -124,19 +124,19 @@ class CartItemsController extends AppController
      */
     public function add()
     {
-        $cartItem = $this->CartItems->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $cartItem = $this->CartItems->patchEntity($cartItem, $this->request->getData());
-            if ($this->CartItems->save($cartItem)) {
-                $this->Flash->success(__('The cart item has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The cart item could not be saved. Please, try again.'));
-        }
-        $users = $this->CartItems->Users->find('list', limit: 200)->all();
-        $products = $this->CartItems->Products->find('list', limit: 200)->all();
-        $this->set(compact('cartItem', 'users', 'products'));
+//        $cartItem = $this->CartItems->newEmptyEntity();
+//        if ($this->request->is('post')) {
+//            $cartItem = $this->CartItems->patchEntity($cartItem, $this->request->getData());
+//            if ($this->CartItems->save($cartItem)) {
+//                $this->Flash->success(__('The cart item has been saved.'));
+//
+//                return $this->redirect(['action' => 'index']);
+//            }
+//            $this->Flash->error(__('The cart item could not be saved. Please, try again.'));
+//        }
+//        $users = $this->CartItems->Users->find('list', limit: 200)->all();
+//        $products = $this->CartItems->Products->find('list', limit: 200)->all();
+//        $this->set(compact('cartItem', 'users', 'products'));
     }
 
     /**
@@ -148,9 +148,9 @@ class CartItemsController extends AppController
      */
     public function edit(?string $id = null)
     {
-        $this->Flash->error(__('Page not found.'));
-
-        return $this->redirect(['action' => 'customerView']);
+//        $this->Flash->error(__('Page not found.'));
+//
+//        return $this->redirect(['action' => 'customerView']);
 //        $cartItem = $this->CartItems->get($id, contain: []);
 //        if ($this->request->is(['patch', 'post', 'put'])) {
 //            $cartItem = $this->CartItems->patchEntity($cartItem, $this->request->getData());
@@ -175,76 +175,76 @@ class CartItemsController extends AppController
      */
     public function update(?string $id = null)
     {
-        if ($this->request->is('post')) {
-            // Get the current user identity
-            $identity = $this->Authentication->getIdentity();
-            $userId = $identity ? $identity->get('id') : null;
-
-            // Get the new quantity from the request
-            $quantity = $this->request->getData('quantity');
-
-            // Ensure the quantity is valid
-            if ($quantity < 1) {
-                $this->Flash->error(__('Quantity must be at least 1.'));
-
-                return $this->redirect($this->referer());
-            }
-
-            if ($userId) {
-                // Handle logged-in users (database-based cart)
-                $cartItem = $this->CartItems->get($id);
-
-                if (!$cartItem) {
-                    $this->Flash->error(__('Cart item not found.'));
-
-                    return $this->redirect($this->referer());
-                }
-
-                // Update the quantity and save
-                $cartItem->quantity = $quantity;
-//                $cartItem->line_price = $cartItem->product->price * $quantity;
-
-                if ($this->CartItems->save($cartItem)) {
-                    $this->Flash->success(__('Cart item quantity updated successfully.'));
-                } else {
-                    $this->Flash->error(__('Unable to update cart item quantity. Please try again.'));
-                }
-            } else {
-                // Handle unauthenticated users (session-based cart)
-                $session = $this->request->getSession();
-                $cart = $session->read('Cart') ?? [];
-
-                if (!isset($cart[$id])) {
-                    $this->Flash->error(__('Cart item not found.'));
-
-                    return $this->redirect($this->referer());
-                }
-
-                // Fetch the product details dynamically
-                $product = $this->CartItems->Products->find()
-                    ->where(['CartItems.id' => $id])
-                    ->first();
-
-                if (!$product) {
-                    $this->Flash->error(__('Product not found.'));
-
-                    return $this->redirect($this->referer());
-                }
-
-                // Update the quantity and line price in the session cart
-                $cart[$id]['quantity'] = $quantity;
-                $cart[$id]['price'] = $product->price; // Ensure price is set
-                $cart[$id]['line_price'] = $product->price * $quantity; // Calculate line price
-
-                // Save the updated cart back to the session
-                $session->write('Cart', $cart);
-
-                $this->Flash->success(__('Cart item quantity updated successfully.'));
-            }
-        }
-
-        // Redirect back to the referring page
-        return $this->redirect($this->referer());
+//        if ($this->request->is('post')) {
+//            // Get the current user identity
+//            $identity = $this->Authentication->getIdentity();
+//            $userId = $identity ? $identity->get('id') : null;
+//
+//            // Get the new quantity from the request
+//            $quantity = $this->request->getData('quantity');
+//
+//            // Ensure the quantity is valid
+//            if ($quantity < 1) {
+//                $this->Flash->error(__('Quantity must be at least 1.'));
+//
+//                return $this->redirect($this->referer());
+//            }
+//
+//            if ($userId) {
+//                // Handle logged-in users (database-based cart)
+//                $cartItem = $this->CartItems->get($id);
+//
+//                if (!$cartItem) {
+//                    $this->Flash->error(__('Cart item not found.'));
+//
+//                    return $this->redirect($this->referer());
+//                }
+//
+//                // Update the quantity and save
+//                $cartItem->quantity = $quantity;
+////                $cartItem->line_price = $cartItem->product->price * $quantity;
+//
+//                if ($this->CartItems->save($cartItem)) {
+//                    $this->Flash->success(__('Cart item quantity updated successfully.'));
+//                } else {
+//                    $this->Flash->error(__('Unable to update cart item quantity. Please try again.'));
+//                }
+//            } else {
+//                // Handle unauthenticated users (session-based cart)
+//                $session = $this->request->getSession();
+//                $cart = $session->read('Cart') ?? [];
+//
+//                if (!isset($cart[$id])) {
+//                    $this->Flash->error(__('Cart item not found.'));
+//
+//                    return $this->redirect($this->referer());
+//                }
+//
+//                // Fetch the product details dynamically
+//                $product = $this->CartItems->Products->find()
+//                    ->where(['CartItems.id' => $id])
+//                    ->first();
+//
+//                if (!$product) {
+//                    $this->Flash->error(__('Product not found.'));
+//
+//                    return $this->redirect($this->referer());
+//                }
+//
+//                // Update the quantity and line price in the session cart
+//                $cart[$id]['quantity'] = $quantity;
+//                $cart[$id]['price'] = $product->price; // Ensure price is set
+//                $cart[$id]['line_price'] = $product->price * $quantity; // Calculate line price
+//
+//                // Save the updated cart back to the session
+//                $session->write('Cart', $cart);
+//
+//                $this->Flash->success(__('Cart item quantity updated successfully.'));
+//            }
+//        }
+//
+//        // Redirect back to the referring page
+//        return $this->redirect($this->referer());
     }
 
     /**
