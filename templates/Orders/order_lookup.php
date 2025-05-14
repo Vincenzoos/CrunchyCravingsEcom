@@ -31,6 +31,7 @@ $html = new HtmlHelper(new View());
                     'label' => ['text' => '<h4 class="text-center" style="margin-top: 1rem;">Tracking Number</h4>', 'escape' => false],
                     'required' => true,
                     'class' => 'form-control',
+                    'maxlength' => TRACKING_NUMBER_MAX_LENGTH,
                     'placeholder' => 'Enter your tracking number',
                 ]) ?>
             </fieldset>
