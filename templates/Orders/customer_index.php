@@ -169,24 +169,9 @@ $html = new HtmlHelper(new View());
                         </table>
                     </div>
                     <!-- Grand Total Section -->
-                    <div class="grand-total-section d-flex justify-content-between align-items-center pe-1 py-3 border-top">
-                    <!--TODO: Only admin can cancel orders. If customer want to cancel, contact admin via contact form-->
-<!--                        <div>-->
-<!--                            --><?php //if ($order->status === 'pending') : ?>
-<!--                                    --><?php //= $this->Form->postLink(
-//                                        __('Cancel Order'),
-//                                        ['controller' => 'Orders', 'action' => 'cancel', $order->id],
-//                                        [
-//                                            'confirm' => __('Are you sure you want to cancel this order? #{0}', $order->tracking_number),
-//                                            'class' => 'btn btn-danger btn-sm px-4'
-//                                        ]
-//                                    ) ?>
-<!--                            --><?php //endif; ?>
-<!--                        </div>-->
-                        <div>
-                            <h4 class="d-inline me-2">Grand Total:</h4>
-                            <span class="total-amount fw-bold fs-5"><?= $this->Number->currency($order->total_price, 'AUD') ?></span>
-                        </div>
+                    <div class="text-end pe-1">
+                        <h4 class="d-inline">Grand Total: </h4>
+                        <span class="total-amount"><?= $this->Number->currency($order->total_price, 'AUD') ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>
