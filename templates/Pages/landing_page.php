@@ -41,7 +41,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             <div id="hero" class="container">
                 <div class="row justify-content-center">
                     <!-- Left Text Section -->
-                    <div class="col-md-4 text-center text-md-start">
+                    <div class="col-md-5 text-center text-md-start" style="max-width: 400px;">
                         <h1 class="display-3 fw-bold">Discover And Explore Premium Lavosh Crackers</h1>
                         <p class="lead" style="margin-top: 1rem; margin-bottom: 1rem;">CrunchyCravings offers premium Lavosh crackers that pair perfectly with wine and other fine foods. Whether for social gatherings or as a gift, our products are designed to impress.</p>
                         <div class="d-flex justify-content-center">
@@ -49,21 +49,28 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-outline-primary btn-lg ms-auto">Contact Us</a>
                         </div>
                     </div>
-
+                    
                     <!-- Empty column -->
-                    <div class="col-md-1"></div>
+                    <?php if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/\b(?:Windows|Macintosh|Linux|X11)\b/i', $_SERVER['HTTP_USER_AGENT'])): ?>
+                        <script>
+                            if (window.innerWidth > 1000) {
+                                document.write('<div class="col-md-1"></div>');
+                            }
+                        </script>
+                    <?php endif; ?>
+
 
                     <!-- Right Image Section -->
-                    <div class="col-md-5 text-center">
+                    <div id="hero-image" class="col-md-5 text-center">
                         <?= $this->Html->image('crackers.png', ['class' => 'img-fluid', 'alt' => 'Lavosh Crackers', 'style' => 'width: 100%;']) ?>
                     </div>
                 </div>
             </div>
         </section>
-
+        
         <!-- Our Products Section -->
         <section id="products" class="py-5">
-            <div class="container text-center">
+            <div id="products-container" class="container text-center">
                 <h2 class="mb-4">Our Products</h2>
                 <div class="product-tabs d-flex justify-content-center gap-3">
                     <div class="tab-item active" data-product="classic">Classic Favorites</div>
@@ -71,21 +78,39 @@ $html = new HtmlHelper(new \Cake\View\View());
                     <div class="tab-item" data-product="signature">Signature Hampers</div>
                 </div>
                 <div class="row justify-content-center mt-5">
-                    <div class="col-md-4 product-description">
+                    <div class="col-md-6 product-description">
                         <h3 id="product-title">Classic Favorites</h3>
-                        <p id="product-description" class="lead">
-                            Timeless dishes that never go out of style. Perfect for any occasion.
-                            <ul>
-                                <li>Perfectly baked Lavosh crackers</li>
-                                <li>Pairs well with wine and cheese</li>
-                                <li>Great for gifting or gatherings</li>
-                            </ul>
-                        </p>
+                        <p id="product-description" class="lead"></p>
                     </div>
-                    <div class="col-md-4 product-description">
+                    <div class="col-md-6 product-description">
                         <div id="product-image">
                             <?= $this->Html->image('Classic.jpg', ['class' => 'img-fluid', 'alt' => 'Classic Favorites', 'style' => 'width: 100%;']) ?>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Our Mission Section -->
+        <section id="our-mission" class="py-5">
+            <div id="mission-container" class="container text-center">
+                <h2 class="mb-4">Our Mission</h2>
+                <div class="row justify-content-center">
+
+                    <!-- Left Text Section -->
+                    <div id="mission-text" class="col-md-6">
+                        <p class="lead">
+                            "At CrunchyCravings, our mission is to bring people together through the joy of premium Lavosh crackers. 
+                            We believe in crafting high-quality, delicious products that elevate every occasion, from casual gatherings to grand celebration"
+                        </p>
+                        <p class="lead">
+                            - CrunchyCravings Team
+                        </p>
+                    </div>
+
+                    <!-- Right Image Section -->
+                    <div id="mission-image" class="col-md-6">
+                        <?= $this->Html->image('Mission.png', ['class' => 'img-fluid rounded', 'alt' => 'Our Mission', 'style' => 'width: 100%;']) ?>
                     </div>
                 </div>
             </div>
@@ -157,6 +182,19 @@ $html = new HtmlHelper(new \Cake\View\View());
             const productDescription = document.getElementById('product-description');
             const productImage = document.getElementById('product-image');
 
+            // Function to update the content
+            const updateContent = (productKey) => {
+                const product = productData[productKey];
+                productTitle.textContent = product.title;
+                productDescription.innerHTML = product.description;
+                productImage.innerHTML = `<img src="/team068-app_fit3047/img/${product.image}" class="img-fluid" alt="${product.title}" style="width: 100%;">`;
+            };
+
+            // Initialize content with the default active tab
+            const defaultProduct = document.querySelector('.tab-item.active').getAttribute('data-product');
+            updateContent(defaultProduct);
+
+            // Add event listeners to tabs
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     // Remove active class from all tabs
@@ -164,15 +202,9 @@ $html = new HtmlHelper(new \Cake\View\View());
                     // Add active class to the clicked tab
                     tab.classList.add('active');
 
-                    // Get product data
+                    // Update content based on the clicked tab
                     const productKey = tab.getAttribute('data-product');
-                    const product = productData[productKey];
-
-                    // Update content
-                    productTitle.textContent = product.title;
-                    productDescription.innerHTML = product.description;
-                    // productImage.innerHTML = `<?= $this->Html->image('${product.image}', ['class' => 'img-fluid', 'alt' => '${product.title}', 'style' => 'width: 100%;']) ?>`;
-                    productImage.innerHTML = `<img src="/team068-app_fit3047/img/${product.image}" class="img-fluid" alt="${product.title}" style="width: 100%;">`;
+                    updateContent(productKey);
                 });
             });
         });

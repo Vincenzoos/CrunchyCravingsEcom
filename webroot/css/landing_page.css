@@ -14,8 +14,9 @@ p {
 }
 
 #landing-page {
-    background: radial-gradient(circle at 130% 30%, rgba(255, 234, 166, 0.5), transparent 50%); 
-                /* linear-gradient(to right, #ffffff, #fffbe6); */
+    @media (min-width: 768px) {
+        background: radial-gradient(circle at 130% 30%, rgba(255, 234, 166, 0.5), transparent 50%);
+    }
     font-family: 'Poppins', sans-serif;
 }
 
@@ -70,21 +71,14 @@ p {
     border-radius: 1rem;
 }
 
-/* Our Products Section */
-#products {
-    /* background-color: #fff; */
-    margin-top: 3rem;
-    margin-bottom: 3rem;;
-}
-
 #products h2 {
     font-size: 2rem;
     font-weight: bold;
-    color: #333;
+    color: var(--heading-text-col);
     margin-bottom: 2rem;
 }
 
-.product-tabs {
+/* .product-tabs {
     display: flex;
     justify-content: center;
     gap: 1.5rem;
@@ -92,7 +86,7 @@ p {
     padding: 1rem 2rem;
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .tab-item {
     font-size: 1rem;
@@ -132,6 +126,11 @@ p {
     color: var(--text-col);
 }
 
+.product-description li {
+    list-style-type: none;
+    color: var(--fade-col);
+}
+
 /* CSS for Rounded Image */
 #product-image img {
     width: 200px;
@@ -148,14 +147,50 @@ p {
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Our mission section */
+#products-container,
+#mission-container {
+    background-color: #fdecec; /* Light pink background */
+    border-radius: 50px; /* Rounded corners */
+    padding: 3rem; /* Add padding inside the container */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-width: 800px;
+    margin: 0 auto; /* Center the container horizontally */
+}
+
+#our-mission h2 {
+    font-size: 2rem; /* Match the font size of product-description h3 */
+    color: var(--heading-text-col); /* Use the same heading text color */
+    margin-bottom: 1rem;
+}
+
+#mission-text {
+    margin-top: 2rem;
+}
+
+#our-mission p {
+    font-size: 1rem;
+    color: var(--text-col);
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+#mission-image {
+    margin-top: 2rem;
+}
+
+#mission-image img {
+    max-width: 100%;
+    height: 200px; /* Set a fixed height */
+    object-fit: cover; /* Ensures the image is cropped, not scaled */
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
 /* Contact Us Section */
 #contact {
     color: var(--text-col);
-    /* border-top: var(--border-width) solid var(--border-color);
-    border-bottom: var(--border-width) solid var(--border-color); */ */
-}
-
-/* Disable scrolling when the sidebar is active */
-.no-scroll {
-    overflow: hidden; /* Disable scrolling */
 }
