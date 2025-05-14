@@ -182,13 +182,13 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <?php if ($this->Paginator->hasPrev() || $this->Paginator->hasNext()): ?>
                     <div class="d-flex justify-content-center align-items-center mt-4">
                         <ul class="pagination">
-                            <?= $this->Paginator->first(__('<< First')) ?>
-                            <?= $this->Paginator->prev(__('< Previous')) ?>
+                            <?= $this->Paginator->first(__('<< First'), ['url' => $this->request->getQuery()]) ?>
+                            <?= $this->Paginator->prev(__('< Previous'), ['url' => $this->request->getQuery()]) ?>
                             <p class="text-muted mx-3 mb-0">
                                 <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} records out of {{count}} total')) ?>
                             </p>
-                            <?= $this->Paginator->next(__('Next >')) ?>
-                            <?= $this->Paginator->last(__('Last >>')) ?>
+                            <?= $this->Paginator->next(__('Next >'), ['url' => $this->request->getQuery()]) ?>
+                            <?= $this->Paginator->last(__('Last >>'), ['url' => $this->request->getQuery()]) ?>
                         </ul>
                     </div>
                 <?php endif; ?>
