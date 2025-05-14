@@ -12,7 +12,6 @@ use Cake\Utility\Text;
 use Exception;
 use stdClass;
 use Stripe\Checkout\Session;
-use function Cake\Error\debug;
 
 /**
  * CartItems Controller
@@ -353,14 +352,14 @@ class CartItemsController extends AppController
 
             return;
         }
-        
+
         // First get the product entity to check stock availability
         $productEntity = null;
-        
+
         // Check if the user is logged in
         $identity = $this->Authentication->getIdentity();
         $userId = $identity ? $identity->get('id') : null;
-        
+
         if ($userId) {
             // For logged-in users, get product from cart item
             $cartItem = $this->CartItems->get($cartItemId, ['contain' => ['Products']]);
@@ -371,12 +370,12 @@ class CartItemsController extends AppController
             // For guests, get product directly
             $session = $this->request->getSession();
             $cart = $session->read('Cart') ?? [];
-            
+
             if (isset($cart[$cartItemId])) {
                 $productEntity = $this->CartItems->Products->get($cartItemId);
             }
         }
-        
+
         // Now check if requested quantity exceeds available stock
         // Get current cart quantity to calculate the actual change
         $currentQuantity = 0;
@@ -385,15 +384,16 @@ class CartItemsController extends AppController
         } elseif (isset($cart[$cartItemId])) {
             $currentQuantity = $cart[$cartItemId]['quantity'];
         }
-        
+
         // Calculate change in quantity
         $quantityChange = $newQuantity - $currentQuantity;
-        
+
         // Check if there's enough stock for the requested increase
         if ($quantityChange > 0 && $productEntity && $quantityChange > $productEntity->quantity) {
             $response = ['success' => false, 'message' => 'Not enough stock available for ' . $productEntity->name];
             $this->set('response', $response);
             $this->viewBuilder()->setOption('serialize', ['response']);
+
             return;
         }
 
@@ -536,6 +536,14 @@ class CartItemsController extends AppController
      */
     public function delete(?string $id = null)
     {
+        // Block access to action using GET method
+        // Block user to manually access the action (e.g. cart-items/delete/1 in URL)
+        if ($this->request->is('get')) {
+            $this->Flash->error(__('Invalid access to delete action'));
+
+            return $this->redirect(['controller' => 'Products','action' => 'customerIndex']);
+        }
+
         $identity = $this->Authentication->getIdentity();
         $userId = $identity ? $identity->get('id') : null;
 
@@ -565,18 +573,20 @@ class CartItemsController extends AppController
             $cart = $session->read('Cart') ?? [];
 
             if (isset($cart[$id])) {
-                $product =  $this->CartItems->Products->get($cart[$id]['product_id']);
+                $product = $this->CartItems->Products->get($cart[$id]['product_id']);
                 $existingQuantity = $cart[$id]['quantity'];
                 // Update the net stock amount of product when user successfully delete cart item
                 $product->quantity += $existingQuantity;
                 if ($this->CartItems->Products->save($product)) {
-                    // $this->Flash->success(__('Cart updated and stock increased.'));
+//                     $this->Flash->success(__('Cart updated and stock increased.'));
+                    $this->Flash->success(__('The cart item has been deleted.'));
                 } else {
-                    // $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
+//                     $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
+                    $this->Flash->success(__('The cart deletion failed.'));
                 }
                 unset($cart[$id]);
                 $session->write('Cart', $cart);
-                $this->Flash->success(__('The cart item has been deleted.'));
+//                $this->Flash->success(__('The cart item has been deleted.'));
             } else {
                 $this->Flash->error(__('Cart item not found.'));
             }
@@ -644,9 +654,11 @@ class CartItemsController extends AppController
                     // Update the net stock amount of product when user successfully add to cart
                     $product->quantity -= $selected_quantity;
                     if ($this->CartItems->Products->save($product)) {
-                        $this->Flash->success(__('Cart updated and stock decreased.'));
+                        $this->Flash->success(__($selected_quantity . ' unit(s) of "' . $product->name . '" has been added to your cart.'));
+//                        $this->Flash->success(__('Cart updated and stock decreased.'));
                     } else {
-                        $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
+                        $this->Flash->error(__('"' . $product->name . '" could not be updated. Please, try again.'));
+//                        $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
                     }
 
                     // $this->Flash->success(__('Cart updated with ' . $selected_quantity . 'more unit(s) of "' . $product->name . '".'));
@@ -664,9 +676,11 @@ class CartItemsController extends AppController
                     // Update the net stock amount of product when user successfully add to cart
                     $product->quantity -= $selected_quantity;
                     if ($this->CartItems->Products->save($product)) {
-                        $this->Flash->success(__('Cart updated and stock decreased.'));
+                     $this->Flash->success(__($selected_quantity . ' unit(s) of "' . $product->name . '" has been added to your cart.'));
+//                        $this->Flash->success(__('Cart updated and stock decreased.'));
                     } else {
-                        $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
+//                        $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
+                        $this->Flash->error(__('"' . $product->name . '" could not be updated. Please, try again.'));
                     }
 
                     // $this->Flash->success(__($selected_quantity . ' unit(s) of "' . $product->name . '" has been added to your cart.'));
@@ -695,9 +709,11 @@ class CartItemsController extends AppController
             // Update the net stock amount of product when user successfully add to cart
             $product->quantity -= $selected_quantity;
             if ($this->CartItems->Products->save($product)) {
-                $this->Flash->success(__('Cart updated and stock decreased.'));
+                $this->Flash->success(__($selected_quantity . ' unit(s) of "' . $product->name . '" has been added to your cart.'));
+//                $this->Flash->success(__('Cart updated and stock decreased.'));
             } else {
-                $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
+                $this->Flash->error(__('"' . $product->name . '" could not be added. Please, try again.'));
+//                $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
             }
 
             // $this->Flash->success(__($selected_quantity . ' unit(s) of "' . $product->name . '" has been added to your cart.'));

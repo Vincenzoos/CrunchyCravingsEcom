@@ -103,7 +103,7 @@ class ContactsController extends AppController
      *
      * @param string|null $id Contact id.
      * @return \Cake\Http\Response|null|void Renders view
-     * @throws \App\Controller\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function view(?string $id = null)
     {
@@ -149,7 +149,7 @@ class ContactsController extends AppController
      *
      * @param string|null $id Contact id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \App\Controller\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function edit(?string $id = null)
     {
@@ -184,7 +184,7 @@ class ContactsController extends AppController
      *
      * @param string|null $id Contact id.
      * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \App\Controller\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function delete(?string $id = null): ?Response
     {
@@ -211,6 +211,7 @@ class ContactsController extends AppController
      * A method to update a contact's reply status
      *
      * @param string|null $id Contact id.
+     * @throws RecordNotFoundException When record not found.
      */
     public function updateReplyStatus(?string $id = null)
     {
