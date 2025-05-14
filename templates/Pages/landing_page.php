@@ -42,8 +42,10 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <div class="row justify-content-center">
                     <!-- Left Text Section -->
                     <div class="col-md-5 text-center text-md-start" style="max-width: 400px;">
-                        <h1 class="display-3 fw-bold">Discover And Explore Premium Lavosh Crackers</h1>
-                        <p class="lead" style="margin-top: 1rem; margin-bottom: 1rem;">CrunchyCravings offers premium Lavosh crackers that pair perfectly with wine and other fine foods. Whether for social gatherings or as a gift, our products are designed to impress.</p>
+                        <h1 class="display-3 fw-bold"><?= $this->ContentBlock->text('hero-heading') ?></h1>
+                        <p class="lead" style="margin-top: 1rem; margin-bottom: 1rem;">
+                            <?= $this->ContentBlock->text('hero-text') ?>
+                        </p>
                         <div class="d-flex justify-content-center">
                             <a href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-outline-primary btn-lg me-3">Buy Now</a>
                             <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-outline-primary btn-lg ms-auto">Contact Us</a>
@@ -62,7 +64,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 
                     <!-- Right Image Section -->
                     <div id="hero-image" class="col-md-5 text-center">
-                        <?= $this->Html->image('crackers.png', ['class' => 'img-fluid', 'alt' => 'Lavosh Crackers', 'style' => 'width: 100%;']) ?>
+                        <?= $this->ContentBlock->image('hero-image') ?>
                     </div>
                 </div>
             </div>
@@ -83,8 +85,14 @@ $html = new HtmlHelper(new \Cake\View\View());
                         <p id="product-description" class="lead"></p>
                     </div>
                     <div class="col-md-6 product-description">
-                        <div id="product-image">
-                            <?= $this->Html->image('Classic.jpg', ['class' => 'img-fluid', 'alt' => 'Classic Favorites', 'style' => 'width: 100%;']) ?>
+                        <div id="classic-image">
+                            <?= $this->ContentBlock->image('classic-image', ['style' => 'width: 100%;']) ?>
+                        </div>
+                        <div id="modern-image"  style="display: none;">
+                            <?= $this->ContentBlock->image('modern-image', ['style' => 'width: 100%;']) ?>
+                        </div>
+                        <div id="signature-image" style="display: none;">
+                            <?= $this->ContentBlock->image('signature-image', ['style' => 'width: 100%;']) ?>
                         </div>
                     </div>
                 </div>
@@ -100,8 +108,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                     <!-- Left Text Section -->
                     <div id="mission-text" class="col-md-6">
                         <p class="lead">
-                            "At CrunchyCravings, our mission is to bring people together through the joy of premium Lavosh crackers. 
-                            We believe in crafting high-quality, delicious products that elevate every occasion, from casual gatherings to grand celebration"
+                            <?= $this->ContentBlock->text('mission-text') ?>
                         </p>
                         <p class="lead">
                             - CrunchyCravings Team
@@ -110,7 +117,7 @@ $html = new HtmlHelper(new \Cake\View\View());
 
                     <!-- Right Image Section -->
                     <div id="mission-image" class="col-md-6">
-                        <?= $this->Html->image('Mission.png', ['class' => 'img-fluid rounded', 'alt' => 'Our Mission', 'style' => 'width: 100%;']) ?>
+                        <?= $this->ContentBlock->image('mission-image', ['class' => 'img-fluid rounded', 'alt' => 'Our Mission', 'style' => 'width: 100%;']) ?>
                     </div>
                 </div>
             </div>
@@ -135,59 +142,81 @@ $html = new HtmlHelper(new \Cake\View\View());
 
     </div>
 
-    <!-- Custom script for switchable product type descriptions -->
+    <!-- Script for switchable product type descriptions -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const productData = {
-                classic: {
-                    title: "Classic Favorites",
-                    description: `
-                        Timeless dishes that never go out of style. Perfect for any occasion.
-                        <ul>
-                            <li>Perfectly baked Lavosh crackers</li>
-                            <li>Pairs well with wine and cheese</li>
-                            <li>Great for gifting or gatherings</li>
-                        </ul>
-                    `,
-                    image: "Classic.jpg"
-                },
-                modern: {
-                    title: "Modern Twists",
-                    description: `
-                        Innovative flavors for the adventurous palate.
-                        <ul>
-                            <li>Unique seasoning blends</li>
-                            <li>Perfect for modern dining experiences</li>
-                            <li>Pairs well with craft beverages</li>
-                        </ul>
-                    `,
-                    image: "Modern.jpg"
-                },
-                signature: {
-                    title: "Signature Hampers",
-                    description: `
-                        Perfect for gifting and special occasions.
-                        <ul>
-                            <li>Beautifully packaged hampers</li>
-                            <li>Includes a variety of premium crackers</li>
-                            <li>Ideal for celebrations and events</li>
-                        </ul>
-                    `,
-                    image: "Large.jpg"
-                }
-            };
-
             const tabs = document.querySelectorAll('.tab-item');
             const productTitle = document.getElementById('product-title');
             const productDescription = document.getElementById('product-description');
-            const productImage = document.getElementById('product-image');
+            
+            // Get references to all image containers
+            const classicImage = document.getElementById('classic-image');
+            const modernImage = document.getElementById('modern-image');
+            const signatureImage = document.getElementById('signature-image');
 
-            // Function to update the content
+            // Function to update the content dynamically
             const updateContent = (productKey) => {
-                const product = productData[productKey];
-                productTitle.textContent = product.title;
-                productDescription.innerHTML = product.description;
-                productImage.innerHTML = `<img src="/team068-app_fit3047/img/${product.image}" class="img-fluid" alt="${product.title}" style="width: 100%;">`;
+                let title = '';
+                let description = '';
+
+                // Hide all images first
+                classicImage.style.display = 'none';
+                modernImage.style.display = 'none';
+                signatureImage.style.display = 'none';
+
+                switch (productKey) {
+                    case 'classic':
+                        title = "Classic Favorites";
+                        description = `
+                            Timeless dishes that never go out of style. Perfect for any occasion.
+                            <ul>
+                                <li>Perfectly baked Lavosh crackers</li>
+                                <li>Pairs well with wine and cheese</li>
+                                <li>Great for gifting or gatherings</li>
+                            </ul>
+                        `;
+                        // Show classic image
+                        classicImage.style.display = 'block';
+                        modernImage.style.display = 'none';
+                        signatureImage.style.display = 'none';
+                        break;
+
+                    case 'modern':
+                        title = "Modern Twists";
+                        description = `
+                            Innovative flavors for the adventurous palate.
+                            <ul>
+                                <li>Unique seasoning blends</li>
+                                <li>Perfect for modern dining experiences</li>
+                                <li>Pairs well with craft beverages</li>
+                            </ul>
+                        `;
+                        // Show modern image
+                        classicImage.style.display = 'none';
+                        modernImage.style.display = 'block';
+                        signatureImage.style.display = 'none';
+                        break;
+
+                    case 'signature':
+                        title = "Signature Hampers";
+                        description = `
+                            Perfect for gifting and special occasions.
+                            <ul>
+                                <li>Beautifully packaged hampers</li>
+                                <li>Includes a variety of premium crackers</li>
+                                <li>Ideal for celebrations and events</li>
+                            </ul>
+                        `;
+                        // Show signature image
+                        classicImage.style.display = 'none';
+                        modernImage.style.display = 'none';
+                        signatureImage.style.display = 'block';
+                        break;
+                }
+
+                // Update the DOM elements
+                productTitle.textContent = title;
+                productDescription.innerHTML = description;
             };
 
             // Initialize content with the default active tab

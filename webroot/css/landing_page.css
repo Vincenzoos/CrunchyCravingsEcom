@@ -132,7 +132,9 @@ p {
 }
 
 /* CSS for Rounded Image */
-#product-image img {
+#classic-image img,
+#modern-image img,
+#signature-image img {
     width: 200px;
     height: 200px;
     object-fit: cover;
@@ -142,7 +144,9 @@ p {
 }
 
 /* Hover Effect */
-#product-image img:hover {
+#classic-image img:hover,
+#modern-image img:hover,
+#signature-image img:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
