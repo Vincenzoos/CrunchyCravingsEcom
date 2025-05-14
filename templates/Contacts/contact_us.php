@@ -61,18 +61,19 @@ $html = new HtmlHelper(new View());
 
     <!-- Page Container -->
     <div class="page-container">
-
         <!-- Contact Form Section -->
         <section id="form-section" class="py-5">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <div id="form-content">
-                            <!-- Allow customized form validation styling -->
-                            <?php $this->Form->setTemplates([
-                                'inputContainer' => '{{content}}']); ?>
-                            <?= $this->Form->create($contact, ['url' => ['controller' => 'Contacts', 'action' => 'contactUs'], 'class'=>'form needs-validation', 'novalidate'=>true]) ?>
+                <!-- Form header stays the same -->
+                <div id="form-content">
+                    <!-- Allow customized form validation styling -->
+                    <?php $this->Form->setTemplates([
+                        'inputContainer' => '{{content}}']); ?>
+                    <?= $this->Form->create($contact, ['url' => ['controller' => 'Contacts', 'action' => 'contactUs'], 'class'=>'form needs-validation', 'novalidate'=>true]) ?>
 
+                    <div class="row">
+                        <!-- Left Column -->
+                        <div class="col-lg-6 pe-lg-4">
                             <div class="mb-4 has-validation">
                                 <?= $this->Form->control('first_name', [
                                     'class' => 'form-control mx-auto',
@@ -108,6 +109,10 @@ $html = new HtmlHelper(new View());
                                 ]); ?>
                                 <div class="invalid-feedback">Please enter a valid email in the correct format (e.g., abc@example.com).</div>
                             </div>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="col-lg-6 ps-lg-4">
                             <div class="mb-4 has-validation">
                                 <?= $this->Form->control('phone_number', [
                                     'class' => 'form-control mx-auto',
@@ -129,7 +134,7 @@ $html = new HtmlHelper(new View());
                                     'type' => 'textarea',
                                     'rows' => 5,
                                     'onkeyup' => 'limitInputLength(this, "character-count", ' . CONTACT_MESSAGE_MAX_LENGTH . '); removeScriptTags(this);',
-                                    'maxlength' => CONTACT_MESSAGE_MAX_LENGTH, // Override maxlength
+                                    'maxlength' => CONTACT_MESSAGE_MAX_LENGTH,
                                     'required' => true,
                                 ]); ?>
                                 <div class="invalid-feedback">Please enter your message.</div>
@@ -137,12 +142,15 @@ $html = new HtmlHelper(new View());
                             <div class="mb-4">
                                 <?= $this->Recaptcha->display() ?>
                             </div>
-                            <div class="text-center">
-                                <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary btn-lg']) ?>
-                            </div>
-                            <?= $this->Form->end() ?>
                         </div>
                     </div>
+
+                    <!-- Submit Button (Centered Below Both Columns) -->
+                    <div class="text-center mt-3">
+                        <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary btn-lg']) ?>
+                    </div>
+                    
+                    <?= $this->Form->end() ?>
                 </div>
             </div>
             <div class="text-center mt-4">
