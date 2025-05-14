@@ -77,60 +77,24 @@ $html = new HtmlHelper(new View());
                             <?php endif; ?>
                         </td>
                         <td class="text-center">
-                        <!-- TODO: Idea 1: Display only relevant action to for each order-->
-<!--                            --><?php //= $this->Html->link(__('View'), ['action' => 'view', $order->id], ['class' => 'btn btn-info btn-sm']) ?>
-<!--                            --><?php //if ($order->status == 'pending') : ?>
-<!--                                --><?php //= $this->Html->link(__('Edit'), ['action' => 'edit', $order->id], ['class' => 'btn btn-warning btn-sm']) ?>
-<!--                                --><?php //= $this->Form->postLink(
-//                                    __('Cancel'),
-//                                    ['action' => 'cancel', $order->id],
-//                                    [
-//                                        'class' => 'btn btn-danger btn-sm',
-//                                        'confirm' => __('Are you sure you want to cancel this order: #{0}?', $order->tracking_number),
-//                                    ],
-//                                ) ?>
-<!--                            --><?php //elseif ($order->status == 'cancelled') : ?>
-<!--                                --><?php //= $this->Form->postLink(
-//                                    __('Delete'),
-//                                    ['action' => 'delete', $order->id],
-//                                    [
-//                                        'class' => 'btn btn-danger btn-sm',
-//                                        'confirm' => __('Are you sure you want to delete this order: #{0}?', $order->tracking_number),
-//                                    ],
-//                                ) ?>
-<!--                            --><?php //endif; ?>
+                            <?php
+                            // Determine if each button should be enabled, adjust its visibility accordingly
+                            $editEnabled = $order->status === 'pending';
+                            $cancelEnabled = $order->status === 'pending';
+                            $deleteEnabled = $order->status === 'cancelled';
+                            ?>
 
-                            <!-- TODO: Idea 2: Only switch between cancel and delete based on order status-->
-<!--                            --><?php //= $this->Html->link(__('View'), ['action' => 'view', $order->id], ['class' => 'btn btn-info btn-sm']) ?>
-<!--                            --><?php //= $this->Html->link(__('Edit'), ['action' => 'edit', $order->id], ['class' => 'btn btn-warning btn-sm']) ?>
-<!--                            --><?php //if ($order->status === 'pending') : ?>
-<!--                                --><?php //= $this->Form->postLink(
-//                                    __('Cancel'),
-//                                    ['action' => 'cancel', $order->id],
-//                                    [
-//                                        'class' => 'btn btn-danger btn-sm',
-//                                        'confirm' => __('Are you sure you want to cancel this order: #{0}?', $order->tracking_number),
-//                                    ],
-//                                ) ?>
-<!--                            --><?php //elseif ($order->status === 'cancelled') : ?>
-<!--                                --><?php //= $this->Form->postLink(
-//                                    __('Delete'),
-//                                    ['action' => 'delete', $order->id],
-//                                    [
-//                                        'class' => 'btn btn-danger btn-sm',
-//                                        'confirm' => __('Are you sure you want to delete this order: #{0}?', $order->tracking_number),
-//                                    ],
-//                                ) ?>
-<!--                            --><?php //endif; ?>
-
-                            <!-- TODO: Idea 3: Showing all actions, regardless of whether user can perform it or not-->
                             <?= $this->Html->link(__('View'), ['action' => 'view', $order->id], ['class' => 'btn btn-info btn-sm']) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $order->id], ['class' => 'btn btn-warning btn-sm']) ?>
+                            <?= $this->Html->link(
+                                __('Edit'),
+                                ['action' => 'edit', $order->id],
+                                ['class' => 'btn btn-warning btn-sm' . ($editEnabled ? '' : ' disabled')],
+                            ) ?>
                             <?= $this->Form->postLink(
                                 __('Cancel'),
                                 ['action' => 'cancel', $order->id],
                                 [
-                                    'class' => 'btn btn-secondary btn-sm',
+                                    'class' => 'btn btn-secondary btn-sm' . ($cancelEnabled ? '' : ' disabled'),
                                     'confirm' => __('Are you sure you want to cancel this order: #{0}?', $order->tracking_number),
                                 ],
                             ) ?>
@@ -138,7 +102,7 @@ $html = new HtmlHelper(new View());
                                 __('Delete'),
                                 ['action' => 'delete', $order->id],
                                 [
-                                    'class' => 'btn btn-danger btn-sm',
+                                    'class' => 'btn btn-danger btn-sm' . ($deleteEnabled ? '' : ' disabled'),
                                     'confirm' => __('Are you sure you want to delete this order: #{0}?', $order->tracking_number),
                                 ],
                             ) ?>
