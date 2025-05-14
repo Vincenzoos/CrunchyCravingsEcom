@@ -27,7 +27,7 @@ class OrderStatusComponent extends Component
             WHERE status = 'pending' AND estimated_delivery_date IS NULL AND created <= DATE_SUB(NOW(), INTERVAL 2 DAY)
         ");
 
-        // 3. Ship orders scheduled by admin (Shipping delayed, not follow policy)
+        // 3. Ship orders scheduled by admin (Shipping date not following policy, either sooner or later than +2days from created)
         $connection->execute("
             UPDATE orders
             SET status = 'shipped'
