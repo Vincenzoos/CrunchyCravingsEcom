@@ -126,23 +126,11 @@ class OrdersController extends AppController
             // Get order data from edit form
             $order = $this->Orders->patchEntity($order, $this->request->getData());
 
-            // Edited shipped and estimate delivery date
-            $shippedDate = $order->shipped_date;
+            // Edited estimate delivery date
             $estimatedDelivery = $order->estimated_delivery_date;
 
             // Collect custom errors
             $customErrors = [];
-
-            if ($shippedDate) {
-                // Ship date must be present
-                if ($shippedDate < $now) {
-                    $customErrors[] = __('Shipped date cannot be in the past.');
-                }
-                // Ship date must be after creation date
-                if ($createdDate && $shippedDate <= $createdDate) {
-                    $customErrors[] = __('Shipped date must be after order creation date.');
-                }
-            }
 
             if ($estimatedDelivery) {
                 // estimate delivery date must be present

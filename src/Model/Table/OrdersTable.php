@@ -91,11 +91,6 @@ class OrdersTable extends Table
             'message' => 'Only letters, numbers, and basic punctuation are allowed in the address.',
         ]);
 
-
-        $validator
-            ->dateTime('shipped_date')
-            ->allowEmptyDateTime('shipped_date');
-
         $validator
             ->dateTime('estimated_delivery_date')
             ->allowEmptyDateTime('estimated_delivery_date');
