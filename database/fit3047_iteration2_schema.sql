@@ -245,7 +245,7 @@ CREATE TABLE `orders` (
     `id` INT(11) NOT NULL,                  -- Primary key
     `tracking_number` VARCHAR(36) NOT NULL, -- For secure tracking
     `user_email` VARCHAR(255) NOT NULL,     -- Email used at checkout
-    `status` ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
+    `status` ENUM('pending', 'shipped', 'completed', 'cancelled') DEFAULT 'pending',
     `return_status` ENUM('not_returned', 'returned') DEFAULT 'not_returned',
     `origin_address` VARCHAR(255) DEFAULT NULL,
     `destination_address` VARCHAR(255) DEFAULT NULL,
@@ -258,6 +258,7 @@ CREATE TABLE `orders` (
 --
 -- Dumping data for table `orders`
 --
+
 INSERT INTO `orders` (`id`, `tracking_number`, `user_email`, `status`, `origin_address`, `destination_address`, `shipped_date`, `estimated_delivery_date`, `created`, `modified`) VALUES
     (1,  'TRK1234567901oiasjdfpos', 'vtod0001@student.monash.edu', 'completed', '380 Collins St, Melbourne VIC 3000', 'Wellington Rd, Clayton VIC 3800', '2025-04-02 10:00:00', '2025-04-06 18:00:00', '2025-04-01 09:00:00', '2025-04-01 09:30:00'),
     (2,  'TRK1234567902aythregrte', 'customer@gmail.com', 'pending', '380 Collins St, Melbourne VIC 3000', '900 Dandenong Rd, Caulfield East VIC 3145', NULL, '2025-04-11 18:00:00', '2025-04-10 08:00:00', '2025-04-10 08:15:00'),
@@ -282,7 +283,7 @@ INSERT INTO `orders` (`id`, `tracking_number`, `user_email`, `status`, `origin_a
     (21, 'TRK1234567921oeijxofijf', 'test@example.com', 'completed', '380 Collins St, Melbourne VIC 3000', '123 Queen St, Melbourne VIC 3000', '2025-04-07 10:00:00', '2025-04-11 18:00:00', '2025-04-06 09:00:00', '2025-04-06 09:30:00'),
     (22, 'TRK1234567922progspdofk', 'asd@gmail.com', 'pending', '380 Collins St, Melbourne VIC 3000', '789 Swanston St, Carlton VIC 3053', NULL, '2025-04-12 18:00:00', '2025-04-07 08:00:00', '2025-04-07 08:15:00'),
     (23, 'TRK1234567923ccgdsfeijs', 'customer@gmail.com', 'completed', '380 Collins St, Melbourne VIC 3000', '555 Spencer St, West Melbourne VIC 3003', '2025-04-08 09:00:00', '2025-04-13 17:00:00', '2025-04-08 08:00:00', '2025-04-08 08:30:00'),
-    (24, 'TRK1234567924gpsodfpoes', 'admin@gmail.com', 'cancelled', '380 Collins St, Melbourne VIC 3000', '777 Exhibition St, Melbourne VIC 3000', NULL, NULL, '2025-04-09 10:00:00', '2025-04-09 10:30:00'),
+    (24, 'TRK1234567924gpsodfpoes', 'admin@gmail.com', 'shipped', '380 Collins St, Melbourne VIC 3000', '777 Exhibition St, Melbourne VIC 3000', NULL, NULL, '2025-04-09 10:00:00', '2025-04-09 10:30:00'),
     (25, 'TRK1234567925dfsdkpoask', 'vtod0001@student.monash.edu', 'pending', '380 Collins St, Melbourne VIC 3000', '999 St Kilda Rd, Melbourne VIC 3004', NULL, '2025-04-14 18:00:00', '2025-04-10 09:00:00', '2025-04-10 09:15:00'),
     (26, 'TRK1234567926ggksdpokex', 'test@example.com', 'completed', '380 Collins St, Melbourne VIC 3000', '888 Collins St, Docklands VIC 3008', '2025-04-11 10:00:00', '2025-04-15 18:00:00', '2025-04-11 08:00:00', '2025-04-11 08:30:00'),
     (27, 'TRK1234567927fgpdfkolke', 'asd@gmail.com', 'completed', '380 Collins St, Melbourne VIC 3000', '222 Bourke St, Melbourne VIC 3000', '2025-04-12 12:00:00', '2025-04-16 18:00:00', '2025-04-12 09:00:00', '2025-04-12 09:15:00'),
@@ -307,8 +308,8 @@ INSERT INTO `orders` (`id`, `tracking_number`, `user_email`, `status`, `origin_a
     (46, 'TRK1234567946opsdkpoksd', 'test@example.com', 'completed', '380 Collins St, Melbourne VIC 3000', '888 Collins St, Docklands VIC 3008', '2025-05-01 10:00:00', '2025-05-05 18:00:00', '2025-05-01 08:00:00', '2025-05-01 08:30:00'),
     (47, 'TRK1234567947osidjfoijk', 'asd@gmail.com', 'completed', '380 Collins St, Melbourne VIC 3000', '222 Bourke St, Melbourne VIC 3000', '2025-05-02 12:00:00', '2025-05-06 18:00:00', '2025-05-02 09:00:00', '2025-05-02 09:15:00'),
     (48, 'TRK1234567948posdkpokdp', 'customer@gmail.com', 'completed', '380 Collins St, Melbourne VIC 3000', '333 Elizabeth St, Melbourne VIC 3000', '2025-05-03 14:00:00', '2025-05-07 18:00:00', '2025-05-03 10:00:00', '2025-05-03 10:30:00'),
-    (49, 'TRK1234567949posdkjfpok', 'admin@gmail.com', 'completed', '380 Collins St, Melbourne VIC 3000', '444 Swanston St, Melbourne VIC 3000', '2025-05-04 16:00:00', '2025-05-08 18:00:00', '2025-05-04 11:00:00', '2025-05-04 11:15:00'),
-    (50, 'TRK1234567950pedaskdpok', 'vtod0001@student.monash.edu', 'completed', '380 Collins St, Melbourne VIC 3000', '555 Flinders St, Melbourne VIC 3000', '2025-05-05 18:00:00', '2025-05-09 18:00:00', '2025-05-05 12:00:00', '2025-05-05 12:30:00');
+    (49, 'TRK1234567949posdkjfpok', 'admin@gmail.com', 'shipped', '380 Collins St, Melbourne VIC 3000', '444 Swanston St, Melbourne VIC 3000', '2025-05-04 16:00:00', '2025-05-08 18:00:00', '2025-05-04 11:00:00', '2025-05-04 11:15:00'),
+    (50, 'TRK1234567950pedaskdpok', 'vtod0001@student.monash.edu', 'shipped', '380 Collins St, Melbourne VIC 3000', '555 Flinders St, Melbourne VIC 3000', '2025-05-05 18:00:00', '2025-05-09 18:00:00', '2025-05-05 12:00:00', '2025-05-05 12:30:00');
 
 --
 -- Table structure for table `order_items`
