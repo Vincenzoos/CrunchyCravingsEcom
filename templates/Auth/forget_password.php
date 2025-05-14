@@ -23,7 +23,6 @@ $html = new HtmlHelper(new \Cake\View\View());
 </head>
 <body>
     <!-- Page Breadcrumb -->
-    <!-- container -->
     <div class="container">
         <div class="page-breadcrumb">
             <ol class="breadcrumb">
@@ -31,8 +30,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 <li><a title="Forgot password" href="<?= $this->App->appUrl(['controller' => 'Auth', 'action' => 'forgetPassword']) ?>">Forgot Password</a></li>
             </ol>
         </div>
-    </div><!-- container /- -->
-    <!-- Page Breadcrumb /- -->
+    </div>
     
     <!-- Forgot Password Section -->
     <section id="heading" class="text-center py-5">
@@ -79,8 +77,6 @@ $html = new HtmlHelper(new \Cake\View\View());
             </div>
         </section>
     </div>
-
-    <!-- Bootstrap JS -->
     
 </body>
 

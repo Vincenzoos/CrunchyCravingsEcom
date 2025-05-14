@@ -58,16 +58,20 @@ $html = new HtmlHelper(new View());
                                 </div>
                                 <div class="mb-4">
                                     <h3>Password</h3>
-                                    <?= $this->Form->control('password', [
-                                        'class' => 'form-control mx-auto',
-                                        'label' => false,
-                                        'placeholder' => 'Enter your password...',
-                                        'type' => 'password',
-                                        'minlength' => 8,
-                                        'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
-                                        'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
-                                        'required' => true,
-                                    ]); ?>
+                                    <div class="position-relative">
+                                        <?= $this->Form->control('password', [
+                                            'class' => 'form-control mx-auto',
+                                            'label' => false,
+                                            'placeholder' => 'Enter your password...',
+                                            'type' => 'password',
+                                            'id' => 'password-field',
+                                            'minlength' => 8,
+                                            'pattern' => "(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}",
+                                            'title' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one number, and one special character.',
+                                            'required' => true,
+                                        ]); ?>
+                                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                    </div>
                                 </div>
                             </fieldset>
                             <div class="text-center">
@@ -88,6 +92,22 @@ $html = new HtmlHelper(new View());
             </div>
         </section>
     </div>
+
+    <!-- Show/hide password script -->
+    <script>
+        $(document).ready(function() {
+            // Toggle password visibility
+            $(".toggle-password").click(function() {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
+                }
+            });
+        });
+    </script>
 <body>
 
 </html>
