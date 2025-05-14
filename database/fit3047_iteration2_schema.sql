@@ -230,12 +230,11 @@ INSERT INTO `faqs` (`id`, `title`, `answer`, `created`, `modified`) VALUES
     (2, 'How can I place an order?', 'To place an order, browse our product catalog, add items to your cart, and proceed to checkout. You can create an account or check out as a guest.', NOW(), NOW()),
     (3, 'What payment methods do you accept?', 'We accept major credit cards (Visa, MasterCard, American Express), PayPal, and other secure payment options.', NOW(), NOW()),
     (4, 'Do you offer gluten-free products?', 'Yes, we offer a selection of gluten-free products, including our popular Lavosh Gluten-Free Flatbread. Check the product descriptions for more details.', NOW(), NOW()),
-    (5, 'How long does shipping take?', 'Shipping typically takes 3-5 business days within Australia. For international orders, delivery times may vary depending on the destination.', NOW(), NOW()),
-    (6, 'Can I track my order?', 'Yes, once your order is shipped, you will receive a tracking number via email. Use this number to track your package our website.', NOW(), NOW()),
+    (5, 'How long does shipping take?', 'Shipping typically takes up to 14 business days within Australia. For international orders, delivery times may vary depending on the destination.', NOW(), NOW()),
+    (6, 'Can I track my order?', 'Yes, once your order is shipped, you will receive a tracking number along with your order confirmation email. Use this number in \"Order lookup\" to track your package our website.', NOW(), NOW()),
     (7, 'What is your return policy?', 'If you are not satisfied with your purchase, you can return unopened items within 14 days for a full refund. Please contact our support team for assistance.', NOW(), NOW()),
     (8, 'Do you offer gift hampers?', 'Yes, we offer a variety of gift hampers that include our finest lavosh crackers, flatbreads, and gourmet accompaniments. Perfect for any occasion!', NOW(), NOW()),
     (9, 'How can I contact customer support?', 'You can reach our customer support team via the "Contact Us" page on our website or email us at support@crunchycravings.com. We aim to respond within 24 hours.', NOW(), NOW()),
-    (10, 'Do you have a loyalty program?', 'Yes, we offer a loyalty program where you can earn points for every purchase. Points can be redeemed for discounts on future orders. Sign up for an account to start earning points today!', NOW(), NOW());
 
 --
 -- Table structure for table `orders`
