@@ -66,6 +66,14 @@ $html = new HtmlHelper(new \Cake\View\View());
                     <h5>Filters</h5>
                     <?= $this->Form->create(null, ['type' => 'get', 'class' => 'row g-3']) ?>
 
+                    <!-- Hidden fields to preserve sort parameters -->
+                    <?php if ($this->request->getQuery('sort')): ?>
+                        <?= $this->Form->hidden('sort', ['value' => $this->request->getQuery('sort')]) ?>
+                    <?php endif; ?>
+                    <?php if ($this->request->getQuery('direction')): ?>
+                        <?= $this->Form->hidden('direction', ['value' => $this->request->getQuery('direction')]) ?>
+                    <?php endif; ?>
+
                     <div class="mb-4">
                         <!-- Product Name Field -->
                         <div class="mb-3">
@@ -157,7 +165,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                                 ['action' => 'delete', $product->id],
                                                 [
                                                     'class' => 'btn btn-danger btn-sm',
-                                                    'confirm' => __('Are you sure you want to delete {0}?', $product->name),
+                                                    'confirm' => __('Are you sure you want to delete {0}?', $product->name)
                                                 ]
                                             ) ?>
                                         </td>
@@ -205,7 +213,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         initializeSortDropdown('sort-button', 'sort-options');
 
         // Initialize the filter fields
-        const filterFields = ['product_name', 'categories', 'min_price', 'max_price'];
+        const filterFields = ['product_name', 'categories', 'min_price', 'max_price', 'sort', 'direction'];
 
         // Initialize the filter sidebar
         initializeFilterSidebar('filters-button', 'filter-sidebar', 'form', filterFields);

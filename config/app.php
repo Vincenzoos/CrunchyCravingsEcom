@@ -170,7 +170,11 @@ return [
      *   your application that still emit deprecations.
      */
      'Error' => [
-        'errorLevel' => E_ALL,
+         'errorLevel' => E_ALL & ~E_USER_DEPRECATED,  // This suppresses all deprecation warnings
+         // Or use the more specific approach:
+         'ignoredDeprecationPaths' => [
+            'vendor/cakephp/cakephp/src/ORM/Table.php',  // Mute only this file's deprecation warnings
+         ],
         'skipLog' => [],
         'log' => true,
         'trace' => true,
