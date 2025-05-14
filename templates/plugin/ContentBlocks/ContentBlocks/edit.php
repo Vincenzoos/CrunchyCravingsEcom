@@ -71,8 +71,9 @@ $this->Html->css(['utilities', 'table', 'form', 'ContentBlocks.content-blocks'],
                                     'required' => true,
                                     'placeholder' => 'Enter the content value...',
                                     'maxlength' => 255,
-                                    'title' => 'Content value must not be empty',
-                                    'oninput' => 'removeScriptTags(this)',
+                                    'title' => 'Invalid input: tags or angle brackets (<, >) are not allowed here.',
+                                    'pattern' => '^[^<>]+$',
+
                                 ]);
                             } elseif ($contentBlock->type === 'html') {
                                 echo $this->Form->control('value', [
