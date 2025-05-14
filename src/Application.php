@@ -91,7 +91,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         }
 
         // Add content blocks plugin
-        // $this->addPlugin('ContentBlocks');
+        // TODO: commented this out if got error: Plugin named `ContentBlocks` is already loaded
+//        $this->addPlugin('ContentBlocks');
     }
 
     /**
