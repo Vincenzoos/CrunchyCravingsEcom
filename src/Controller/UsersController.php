@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Exception;
+
 /**
  * Users Controller
  *
@@ -64,7 +66,17 @@ class UsersController extends AppController
      */
     public function view(?string $id = null)
     {
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('User not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
         $user = $this->Users->find()->where(['id' => $id])->first();
+        if (!$user) {
+            $this->Flash->error(__('User not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
         $this->set(compact('user'));
     }
 
@@ -97,32 +109,43 @@ class UsersController extends AppController
      */
     public function edit(?string $id = null)
     {
-        // Fetch the user by ID
-        $user = $this->Users->get($id);
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('User not found.'));
 
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            // Patch the user entity with the submitted data
-            $data = $this->request->getData();
-
-            // If the password field is empty, remove it from the data to avoid overwriting
-            if (empty($data['password'])) {
-                unset($data['password']);
-            }
-
-            $user = $this->Users->patchEntity($user, $data);
-
-            // Save the updated user
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been updated successfully.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-
-            $this->Flash->error(__('The user could not be updated. Please, try again.'));
+            return $this->redirect(['action' => 'index']);
         }
+        try {
+            // Fetch the user by ID
+            $user = $this->Users->get($id);
 
-        // Pass the user entity to the view
-        $this->set(compact('user'));
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                // Patch the user entity with the submitted data
+                $data = $this->request->getData();
+
+                // If the password field is empty, remove it from the data to avoid overwriting
+                if (empty($data['password'])) {
+                    unset($data['password']);
+                }
+
+                $user = $this->Users->patchEntity($user, $data);
+
+                // Save the updated user
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('The user has been updated successfully.'));
+
+                    return $this->redirect(['action' => 'index']);
+                }
+
+                $this->Flash->error(__('The user could not be updated. Please, try again.'));
+            }
+
+            // Pass the user entity to the view
+            $this->set(compact('user'));
+        } catch (Exception $exception) {
+            $this->Flash->error(__('User not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
     /**
@@ -134,6 +157,13 @@ class UsersController extends AppController
      */
     public function delete(?string $id = null)
     {
+        // Block access to action using GET method
+        // Block user to manually access the action (e.g. users/delete/1 in URL)
+        if ($this->request->is('get')) {
+            $this->Flash->error(__('Invalid access to delete action'));
+
+            return $this->redirect(['action' => 'index']);
+        }
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
         try {
@@ -142,7 +172,7 @@ class UsersController extends AppController
             } else {
                 $this->Flash->error(__('The user could not be deleted. Please, try again.'));
             }
-        } catch (\Exception $e){
+        } catch (Exception $e) {
             // This exception is thrown when a foreign key constraint fails.
             $this->Flash->error(__('The user is currently active and cannot be deleted.'));
         }
