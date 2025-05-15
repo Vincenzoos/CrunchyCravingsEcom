@@ -141,22 +141,21 @@ $html = new HtmlHelper(new \Cake\View\View());
                     <div class="text-center mt-4">
                         <?= $this->Html->link('Add New FAQ', ['action' => 'add'], ['class' => 'btn btn-success']) ?>
                     </div>
-
+                    <!-- Paginator -->
+                    <?php if ($this->Paginator->hasPrev() || $this->Paginator->hasNext()): ?>
+                        <div class="d-flex justify-content-center align-items-center mt-4">
+                            <ul class="pagination">
+                                <?= $this->Paginator->first(__('<< First'), ['url' => $this->request->getQuery()]) ?>
+                                <?= $this->Paginator->prev(__('< Previous'), ['url' => $this->request->getQuery()]) ?>
+                                <p class="text-muted mx-3 mb-0">
+                                    <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} records out of {{count}} total')) ?>
+                                </p>
+                                <?= $this->Paginator->next(__('Next >'), ['url' => $this->request->getQuery()]) ?>
+                                <?= $this->Paginator->last(__('Last >>'), ['url' => $this->request->getQuery()]) ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
                 </div>
-                <!-- Paginator -->
-                <?php if ($this->Paginator->hasPrev() || $this->Paginator->hasNext()): ?>
-                    <div class="d-flex justify-content-center align-items-center mt-4">
-                        <ul class="pagination">
-                            <?= $this->Paginator->first(__('<< First'), ['url' => $this->request->getQuery()]) ?>
-                            <?= $this->Paginator->prev(__('< Previous'), ['url' => $this->request->getQuery()]) ?>
-                            <p class="text-muted mx-3 mb-0">
-                                <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} records out of {{count}} total')) ?>
-                            </p>
-                            <?= $this->Paginator->next(__('Next >'), ['url' => $this->request->getQuery()]) ?>
-                            <?= $this->Paginator->last(__('Last >>'), ['url' => $this->request->getQuery()]) ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
             </div>
         </div>
     </div>
