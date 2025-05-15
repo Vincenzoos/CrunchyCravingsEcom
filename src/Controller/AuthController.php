@@ -9,6 +9,7 @@ use Cake\Core\Configure;
 use Cake\I18n\DateTime;
 use Cake\Mailer\Mailer;
 use Cake\Utility\Security;
+use Exception;
 
 /**
  * Auth Controller
@@ -217,18 +218,37 @@ class AuthController extends AppController
      */
     public function changePassword(?string $id = null)
     {
-        $user = $this->Users->get($id, ['contain' => []]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            // Used a different validation set in Model/Table file to ensure both fields are filled
-            $user = $this->Users->patchEntity($user, $this->request->getData(), ['validate' => 'resetPassword']);
-            if ($this->Users->save($user)) {
-                $this->Flash->success('The user has been saved.');
+        $authUserId = $this->Authentication->getIdentity()->getIdentifier(); // Get current user ID
 
-                return $this->redirect(['controller' => 'Contacts', 'action' => 'index']);
-            }
-            $this->Flash->error('The user could not be saved. Please, try again.');
+        // If the ID is not numeric or doesn't match the logged-in user's ID, block access
+        if (!ctype_digit($id) || (int)$id !== (int)$authUserId) {
+            $this->Flash->error(__('You are not authorized to change this password.'));
+
+            return $this->redirect(['controller' => 'Pages', 'action' => 'display']);
         }
-        $this->set(compact('user'));
+
+        try {
+            $user = $this->Users->get($id, ['contain' => []]);
+
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                // Use a custom validation set for password
+                $user = $this->Users->patchEntity($user, $this->request->getData(), ['validate' => 'resetPassword']);
+
+                if ($this->Users->save($user)) {
+                    $this->Flash->success('Your password has been updated.');
+
+                    return $this->redirect(['controller' => 'Pages', 'action' => 'display']);
+                }
+
+                $this->Flash->error('Your password could not be updated. Please, try again.');
+            }
+
+            $this->set(compact('user'));
+        } catch (Exception $exception) {
+            $this->Flash->error(__('User not found.'));
+
+            return $this->redirect(['controller' => 'Pages', 'action' => 'display']);
+        }
     }
 
     /**
