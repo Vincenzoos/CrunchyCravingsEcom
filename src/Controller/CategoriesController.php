@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Event\EventInterface;
+use Exception;
+
 /**
  * Categories Controller
  *
@@ -33,7 +36,7 @@ class CategoriesController extends AppController
         $categories = $this->Categories->find()
             ->contain(['Products'])
             ->all();
-    
+
         $this->set(compact('categories'));
     }
 
@@ -44,13 +47,24 @@ class CategoriesController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
-        $category = $this->Categories->get($id, [
-            'contain' => ['Products'], // Include related products
-        ]);
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Category not found.'));
 
-        $this->set(compact('category'));
+            return $this->redirect(['action' => 'index']);
+        }
+        try {
+            $category = $this->Categories->get($id, [
+                'contain' => ['Products'], // Include related products
+            ]);
+
+            $this->set(compact('category'));
+        } catch (Exception $exception) {
+            $this->Flash->error(__('Category not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
     /**
@@ -89,31 +103,42 @@ class CategoriesController extends AppController
      */
     public function edit(?string $id = null)
     {
-        $category = $this->Categories->get($id, ['contain' => ['Products']]);
-    
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $category = $this->Categories->patchEntity($category, $this->request->getData());
-            if ($this->Categories->save($category)) {
-                $this->Flash->success(__('The category has been saved.'));
-    
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The category could not be saved. Please, try again.'));
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Category not found.'));
+
+            return $this->redirect(['action' => 'index']);
         }
-    
-        // Fetch all products for the checkboxes
-        $allProducts = $this->Categories->Products->find('list', [
-            'keyField' => 'id',
-            'valueField' => 'name',
-        ])->toArray();
-    
-        // Get associated product IDs
-        $associatedProductIds = array_map(function ($product) {
-            return $product->id;
-        }, $category->products);
-    
-        // Pass variables to the view
-        $this->set(compact('category', 'allProducts', 'associatedProductIds'));
+        try {
+            $category = $this->Categories->get($id, ['contain' => ['Products']]);
+
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $category = $this->Categories->patchEntity($category, $this->request->getData());
+                if ($this->Categories->save($category)) {
+                    $this->Flash->success(__('The category has been saved.'));
+
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The category could not be saved. Please, try again.'));
+            }
+
+            // Fetch all products for the checkboxes
+            $allProducts = $this->Categories->Products->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name',
+            ])->toArray();
+
+            // Get associated product IDs
+            $associatedProductIds = array_map(function ($product) {
+                return $product->id;
+            }, $category->products);
+
+            // Pass variables to the view
+            $this->set(compact('category', 'allProducts', 'associatedProductIds'));
+        } catch (Exception $exception) {
+            $this->Flash->error(__('Category not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
     /**
@@ -123,8 +148,16 @@ class CategoriesController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
+        // Block access to action using GET method
+        // Block user to manually access the action (e.g. categories/delete/1 in URL)
+        if ($this->request->is('get')) {
+            $this->Flash->error(__('Invalid access to delete action'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
         $this->request->allowMethod(['post', 'delete']);
         $category = $this->Categories->get($id);
         if ($this->Categories->delete($category)) {
@@ -137,7 +170,7 @@ class CategoriesController extends AppController
     }
 
     // Override the beforeFilter method to allow unauthenticated access to these pages
-    public function beforeFilter(\Cake\Event\EventInterface $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
 
