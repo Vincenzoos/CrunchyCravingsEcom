@@ -329,7 +329,7 @@ class OrdersController extends AppController
         $selectedWeek = $this->request->getQuery('week');
 
         // Parse week correctly, if not follow format, fallback to current week
-        if (preg_match('/^(\d{4})-W(\d{2})$/', $selectedWeek, $matches)) {
+        if ($selectedWeek && preg_match('/^(\d{4})-W(\d{2})$/', $selectedWeek, $matches)) {
             // Extract ISO year and week
             $year = $matches[1];
             $week = $matches[2];
@@ -338,7 +338,7 @@ class OrdersController extends AppController
             $selectedDateTime = new DateTime();
             $selectedDateTime->setISODate((int)$year, (int)$week); // Monday of the ISO week
         } else {
-            $this->Flash->error(__('Invalid week format.'));
+//            $this->Flash->error(__('Invalid week format.'));
             $selectedDateTime = new DateTime(); // fallback to today
         }
 
@@ -448,7 +448,7 @@ class OrdersController extends AppController
             $selectedDateTime = new DateTime($monthInput . '-01');
         } else {
             // Fallback to the first day of the current month
-            $this->Flash->error(__('Invalid month format.'));
+//            $this->Flash->error(__('Invalid month format.'));
             $selectedDateTime = new DateTime('first day of this month');
         }
 
@@ -601,7 +601,7 @@ class OrdersController extends AppController
             $selectedDateTime = new DateTime($yearInput . '-01-01');
         } else {
             // Fallback to the first day of the current year
-            $this->Flash->error(__('Incorrect year format.'));
+//            $this->Flash->error(__('Incorrect year format.'));
             $selectedDateTime = new DateTime('first day of January');
         }
 
