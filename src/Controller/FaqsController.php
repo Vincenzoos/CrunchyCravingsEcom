@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Event\EventInterface;
+use Exception;
 
 /**
  * Faqs Controller
@@ -91,8 +92,19 @@ class FaqsController extends AppController
      */
     public function view(?string $id = null)
     {
-        $faq = $this->Faqs->get($id);
-        $this->set(compact('faq'));
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('FAQ not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+        try {
+            $faq = $this->Faqs->get($id);
+            $this->set(compact('faq'));
+        } catch (Exception $exception) {
+            $this->Flash->error(__('FAQ not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
     /**
@@ -125,18 +137,29 @@ class FaqsController extends AppController
      */
     public function edit(?string $id = null)
     {
-        $faq = $this->Faqs->get($id, contain: []);
-        // $this->Authorization->authorize($faq);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $faq = $this->Faqs->patchEntity($faq, $this->request->getData());
-            if ($this->Faqs->save($faq)) {
-                $this->Flash->success(__('The faq has been saved.'));
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('FAQ not found.'));
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The faq could not be saved. Please, try again.'));
+            return $this->redirect(['action' => 'index']);
         }
-        $this->set(compact('faq'));
+        try {
+            $faq = $this->Faqs->get($id, contain: []);
+            // $this->Authorization->authorize($faq);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $faq = $this->Faqs->patchEntity($faq, $this->request->getData());
+                if ($this->Faqs->save($faq)) {
+                    $this->Flash->success(__('The faq has been saved.'));
+
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The faq could not be saved. Please, try again.'));
+            }
+            $this->set(compact('faq'));
+        } catch (Exception $exception) {
+            $this->Flash->error(__('FAQ not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
     /**
@@ -148,6 +171,13 @@ class FaqsController extends AppController
      */
     public function delete(?string $id = null)
     {
+        // Block access to action using GET method
+        // Block user to manually access the action (e.g. faqs/delete/1 in URL)
+        if ($this->request->is('get')) {
+            $this->Flash->error(__('Invalid access to delete action'));
+
+            return $this->redirect(['action' => 'index']);
+        }
         $this->request->allowMethod(['post', 'delete']);
         $faq = $this->Faqs->get($id);
         // $this->Authorization->authorize($faq);
@@ -170,6 +200,13 @@ class FaqsController extends AppController
     public function updateClickCount()
     {
         // $this->request->allowMethod(['post']); // Only allow POST requests
+        // Block access to action using GET method
+        // Block user to manually access the action (e.g. products/delete/1 in URL)
+        if ($this->request->is('get')) {
+            $this->Flash->error(__('Invalid action'));
+
+            return $this->redirect(['action' => 'index']);
+        }
         $this->request->allowMethod(['post', 'ajax']); // Allow only POST and AJAX requests
 
         $data = $this->request->getData();
