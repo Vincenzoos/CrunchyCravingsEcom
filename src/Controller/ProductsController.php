@@ -268,7 +268,7 @@ class ProductsController extends AppController
         if (!ctype_digit($id)) {
             $this->Flash->error(__('Product not found.'));
 
-            return $this->redirect(['action' => 'index']);
+            return $this->redirect(['action' => 'customerIndex']);
         }
         try {
             // Fetch the current product with associated categories
