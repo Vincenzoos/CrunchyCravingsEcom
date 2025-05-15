@@ -53,8 +53,8 @@ class ContentBlocksSeed extends AbstractSeed
                 'label' => 'Copyright Message',
                 'description' => 'Copyright information shown at the bottom of the all page.',
                 'slug' => 'copyright-message',
-                'type' => 'text',
-                'value' => '(c) Copyright 2025, Crunchy Cravings.',
+                'type' => 'html',
+                'value' => '<span>Copyright &copy; CrunchyCravings 2025</span>',
             ],
 
             // Home page - Hero section

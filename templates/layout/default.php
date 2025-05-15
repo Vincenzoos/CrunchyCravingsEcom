@@ -302,9 +302,6 @@ $html = new HtmlHelper(new View());
                             <?= $this->ContentBlock->html('email-link'); ?>
                         </div>
                     </aside><!-- widget about /- -->
-                    <div class="footer text-center">
-                        <p style="color: #686868"><?= $this->ContentBlock->text('copyright-message'); ?></p>
-                    </div>
                 </div>
             </div>
             <!-- container /- -->
@@ -364,7 +361,7 @@ $html = new HtmlHelper(new View());
         <!-- Copyright -->
         <footer class="footer" id="footer">
             <div class="copyright">
-                <span>Copyright &copy; CrunchyCravings <?= date('Y') ?></span>
+                <?= $this->ContentBlock->html('copyright-message'); ?>
             </div>
         </footer>
     </div><!-- Footer Section /- -->
