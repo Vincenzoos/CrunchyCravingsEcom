@@ -6,6 +6,7 @@ namespace App\Controller;
 use Cake\Collection\Collection;
 use Cake\Event\EventInterface;
 use DateTime;
+use Exception;
 
 /**
  * Orders Controller
@@ -116,8 +117,19 @@ class OrdersController extends AppController
      */
     public function view(?string $id = null)
     {
-        $order = $this->Orders->get($id, contain: ['OrderItems.Products']);
-        $this->set(compact('order'));
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Order not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+        try {
+            $order = $this->Orders->get($id, contain: ['OrderItems.Products']);
+            $this->set(compact('order'));
+        } catch (Exception $exception) {
+            $this->Flash->error(__('Order not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
     /**
@@ -152,57 +164,68 @@ class OrdersController extends AppController
      */
     public function edit(?string $id = null)
     {
-        $order = $this->Orders->get($id, contain: []);
-
-        // Restrict editing to orders with "pending" status
-        if ($order->status !== 'pending') {
-            $this->Flash->error(__('Only orders with pending status can be edited.'));
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Order not found.'));
 
             return $this->redirect(['action' => 'index']);
         }
+        try {
+            $order = $this->Orders->get($id, contain: []);
 
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            // Present date
-            $now = new DateTime();
-
-            // Order creation date (must be before patch entity)
-            $createdDate = $order->created;
-
-            // Get order data from edit form
-            $order = $this->Orders->patchEntity($order, $this->request->getData());
-
-            // Edited estimate delivery date
-            $estimatedDelivery = $order->estimated_delivery_date;
-
-            // Collect custom errors
-            $customErrors = [];
-
-            if ($estimatedDelivery) {
-                // estimate delivery date must be present
-                if ($estimatedDelivery < $now) {
-                    $customErrors[] = __('Estimated delivery date cannot be in the past.');
-                }
-                // estimate delivery date must be after creation date
-                if ($createdDate && $estimatedDelivery <= $createdDate) {
-                    $customErrors[] = __('Estimated delivery date must be after order creation date.');
-                }
-            }
-
-            // If found error in edit form, stop saving, user stays on the edit page
-            if (!empty($customErrors)) {
-                foreach ($customErrors as $error) {
-                    $this->Flash->error($error);
-                }
-
-            // If no error found, proceed with saving the edited order
-            } elseif ($this->Orders->save($order)) {
-                $this->Flash->success(__('The order has been saved.'));
+            // Restrict editing to orders with "pending" status
+            if ($order->status !== 'pending') {
+                $this->Flash->error(__('Only orders with pending status can be edited.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The order could not be saved. Please, try again.'));
+
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                // Present date
+                $now = new DateTime();
+
+                // Order creation date (must be before patch entity)
+                $createdDate = $order->created;
+
+                // Get order data from edit form
+                $order = $this->Orders->patchEntity($order, $this->request->getData());
+
+                // Edited estimate delivery date
+                $estimatedDelivery = $order->estimated_delivery_date;
+
+                // Collect custom errors
+                $customErrors = [];
+
+                if ($estimatedDelivery) {
+                    // estimate delivery date must be present
+                    if ($estimatedDelivery < $now) {
+                        $customErrors[] = __('Estimated delivery date cannot be in the past.');
+                    }
+                    // estimate delivery date must be after creation date
+                    if ($createdDate && $estimatedDelivery <= $createdDate) {
+                        $customErrors[] = __('Estimated delivery date must be after order creation date.');
+                    }
+                }
+
+                // If found error in edit form, stop saving, user stays on the edit page
+                if (!empty($customErrors)) {
+                    foreach ($customErrors as $error) {
+                        $this->Flash->error($error);
+                    }
+
+                    // If no error found, proceed with saving the edited order
+                } elseif ($this->Orders->save($order)) {
+                    $this->Flash->success(__('The order has been saved.'));
+
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The order could not be saved. Please, try again.'));
+            }
+            $this->set(compact('order'));
+        } catch (Exception $exception) {
+            $this->Flash->error(__('Order not found.'));
+
+            return $this->redirect(['action' => 'index']);
         }
-        $this->set(compact('order'));
     }
 
     /**
@@ -214,6 +237,14 @@ class OrdersController extends AppController
      */
     public function delete(?string $id = null)
     {
+        // Block access to action using GET method
+        // Block user to manually access the action (e.g. orders/delete/1 in URL)
+        if ($this->request->is('get')) {
+            $this->Flash->error(__('Invalid access to delete action'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
         $this->request->allowMethod(['post', 'delete']);
         $order = $this->Orders->get($id);
         if ($order->status === 'cancelled') {
@@ -231,6 +262,14 @@ class OrdersController extends AppController
 
     public function cancel(?string $id = null)
     {
+        // Block access to action using GET method
+        // Block user to manually access the action (e.g. orders/cancel/1 in URL)
+        if ($this->request->is('get')) {
+            $this->Flash->error(__('Invalid access to cancel action'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
         $this->request->allowMethod(['post']);
         $order = $this->Orders->get($id);
 
@@ -286,9 +325,22 @@ class OrdersController extends AppController
      */
     public function weeklyReport()
     {
-        // Get the selected date from the query or default to today
-        $selectedWeek = $this->request->getQuery('week') ?? (new DateTime())->format('Y-m-d');
-        $selectedDateTime = new DateTime($selectedWeek);
+        // Get the selected week or fallback to today
+        $selectedWeek = $this->request->getQuery('week');
+
+        // Parse week correctly, if not follow format, fallback to current week
+        if (preg_match('/^(\d{4})-W(\d{2})$/', $selectedWeek, $matches)) {
+            // Extract ISO year and week
+            $year = $matches[1];
+            $week = $matches[2];
+
+            // Create DateTime object from year and week
+            $selectedDateTime = new DateTime();
+            $selectedDateTime->setISODate((int)$year, (int)$week); // Monday of the ISO week
+        } else {
+            $this->Flash->error(__('Invalid week format.'));
+            $selectedDateTime = new DateTime(); // fallback to today
+        }
 
         // Calculate the start and end of the selected week
         $weekStart = (clone $selectedDateTime)->modify('this week')->format('Y-m-d 00:00:00');
@@ -388,9 +440,17 @@ class OrdersController extends AppController
      */
     public function monthlyReport()
     {
-        // Get the selected date from the query or default to today
-        $selectedMonth = $this->request->getQuery('month') ?? (new DateTime('first day of this month'))->format('Y-m-d');
-        $selectedDateTime = new DateTime($selectedMonth);
+        // Get the 'month' query (e.g., "2025-02") and default to current month if missing or invalid
+        $monthInput = $this->request->getQuery('month');
+
+        if ($monthInput && preg_match('/^\d{4}-\d{2}$/', $monthInput)) {
+            // Append "-01" to create a valid date string like "2025-02-01"
+            $selectedDateTime = new DateTime($monthInput . '-01');
+        } else {
+            // Fallback to the first day of the current month
+            $this->Flash->error(__('Invalid month format.'));
+            $selectedDateTime = new DateTime('first day of this month');
+        }
 
         // Calculate the start and end of the selected month
         $monthStart = (clone $selectedDateTime)->modify('first day of this month')->format('Y-m-d 00:00:00');
@@ -533,10 +593,17 @@ class OrdersController extends AppController
      */
     public function yearlyReport()
     {
-        // Get the selected date from the query or default to today
-        $selectedYear = $this->request->getQuery('year') ?? (new DateTime('first day of this year'))->format('Y');
-        $selectedYear = $selectedYear . '-01-01';
-        $selectedDateTime = new DateTime($selectedYear);
+        // Get the 'year' query (e.g., "2025") and default to current year if missing or invalid
+        $yearInput = $this->request->getQuery('year');
+
+        if ($yearInput && preg_match('/^\d{4}$/', $yearInput)) {
+            // Valid year input
+            $selectedDateTime = new DateTime($yearInput . '-01-01');
+        } else {
+            // Fallback to the first day of the current year
+            $this->Flash->error(__('Incorrect year format.'));
+            $selectedDateTime = new DateTime('first day of January');
+        }
 
         // Calculate the start and end of the selected year
         $yearStart = (clone $selectedDateTime)->modify('first day of January')->format('Y-m-d 00:00:00');
