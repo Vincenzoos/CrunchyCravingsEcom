@@ -141,6 +141,7 @@ $html = new HtmlHelper(new View());
                     <li><a href="<?= $this->App->appUrl(['controller' => 'Faqs', 'action' => 'index']) ?>" class="list-group-item">Manage FAQs</a></li>
                     <li><a href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'index']) ?>" class="list-group-item">Manage Orders</a></li>
                     <li><a href="<?= $this->Url->build(['plugin' => 'ContentBlocks','controller' => 'ContentBlocks', 'action' => 'index']) ?>" class="list-group-item">Manage Contents</a></li>
+                    <li><a href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'admin_dashboard']) ?>" class="list-group-item">Admin Dashboard</a></li>
                 </ul>
             </div>
         </div>
@@ -247,6 +248,14 @@ $html = new HtmlHelper(new View());
                             <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
                             <li class="nav-item"><a class="nav-link" title="FAQ" href="<?= $this->App->appUrl(['controller' => 'Faqs', 'action' => 'customerIndex']) ?>">FAQ</a></li>
                             <li class="nav-item"><a class="nav-link" title="Order Lookup" href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'orderLookup']) ?>">Order Lookup</a></li>
+                            <!-- Admin dashboard -->
+                            <?php if ($this->Identity->get('role') == 'admin') : ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" title="Admin Dashboard" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'admin_dashboard']) ?>">
+                                        Admin Dashboard
+                                    </a>
+                                </li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 </nav>
