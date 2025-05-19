@@ -85,27 +85,48 @@ class OrdersController extends AppController
     }
 
     /**
-     * Customer Index method
+     * Orders method
+     * This method allows users to both view their order history and find orders using a tracking number.
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function customerIndex()
+    public function orders()
     {
-        $userEmail = $this->request->getAttribute('identity')->email;
-
-        if (empty($userEmail)) {
-            $this->Flash->error(__('You must be logged in to view your orders.'));
-
-            return $this->redirect(['controller' => 'Auth', 'action' => 'login']);
+        // Check if user is authenticated
+        $identity = $this->request->getAttribute('identity');
+        $isAuthenticated = $identity !== null;
+        
+        // For authenticated users, get their orders
+        $userOrders = [];
+        if ($isAuthenticated) {
+            $userEmail = $identity->email;
+            $userOrders = $this->Orders->find('all', [
+                'conditions' => ['Orders.user_email' => $userEmail],
+                'contain' => ['OrderItems.Products'],
+                'order' => ['Orders.created' => 'DESC'],
+            ])->toArray();
         }
-
-        $orders = $this->Orders->find('all', [
-            'conditions' => ['Orders.user_email' => $userEmail],
-            'contain' => ['OrderItems.Products'], // Include related order items and products
-            'order' => ['Orders.created' => 'DESC'],
-        ])->toArray();
-
-        $this->set(compact('orders'));
+        
+        // Handle tracking number lookup for both authenticated and guest users
+        $foundOrder = null;
+        if ($this->request->is('post')) {
+            $trackingNumber = $this->request->getData('tracking_number');
+            
+            if (!empty($trackingNumber)) {
+                $foundOrder = $this->Orders->find('all', [
+                    'conditions' => ['Orders.tracking_number' => $trackingNumber],
+                    'contain' => ['OrderItems.Products'],
+                ])->first();
+                
+                if ($foundOrder) {
+                    $this->Flash->success(__('Order found.'));
+                } else {
+                    $this->Flash->error(__('Order not found. Please check your tracking number.'));
+                }
+            }
+        }
+        
+        $this->set(compact('userOrders', 'foundOrder', 'isAuthenticated'));
     }
 
     /**
@@ -287,32 +308,6 @@ class OrdersController extends AppController
         // TODO: Only admin can cancel order, redirect to index page of orders (admin accessible only)
 //        return $this->redirect(['action' => 'customerIndex']);
         return $this->redirect(['action' => 'index']);
-    }
-
-    /**
-     * Order Lookup method
-     * This method allows users to look up their orders using a tracking number.
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function orderLookup()
-    {
-        if ($this->request->is('post')) {
-            $trackingNumber = $this->request->getData('tracking_number');
-
-            // Fetch the order by tracking number, including associated order items and products
-            $order = $this->Orders->find('all', [
-                'conditions' => ['Orders.tracking_number' => $trackingNumber],
-                'contain' => ['OrderItems.Products'], // Include related order items and products
-            ])->first();
-
-            if ($order) {
-                $this->Flash->success(__('Order found.'));
-                $this->set(compact('order'));
-            } else {
-                $this->Flash->error(__('Order not found. Please check your tracking number.'));
-            }
-        }
     }
 
     /**
@@ -698,6 +693,6 @@ class OrdersController extends AppController
     {
         parent::beforeFilter($event);
 
-        $this->Authentication->allowUnauthenticated(['orderLookup']);
+        $this->Authentication->allowUnauthenticated(['orders']);
     }
 }

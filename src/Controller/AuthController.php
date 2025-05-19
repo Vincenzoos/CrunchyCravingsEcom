@@ -39,7 +39,7 @@ class AuthController extends AppController
             'customerIndex', 'customerView',
             'updateQuantityAjax',
             'updateClickCount',
-            'orderLookup',
+            'orders',
         ]);
 
         // CakePHP loads the model with the same name as the controller by default.

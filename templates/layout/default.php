@@ -199,7 +199,7 @@ $html = new HtmlHelper(new View());
                                 <ul id="profile-content">
                                     <li><a id="profile-email"><?= h($this->Identity->get('email')) ?></a></li>
                                     <li><hr class="dropdown-divider" style="margin-top: 1.0rem; margin-bottom: 0.5rem;"></li>
-                                    <li><a class="dropdown-item" href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'customerIndex']) ?>">Orders</a></li>
+                                    <!-- <li><a class="dropdown-item" href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'orders']) ?>">Orders</a></li> -->
                                     <li><a class="dropdown-item" href="<?= $this->App->appUrl(['controller' => 'Auth', 'action' => 'logout']) ?>">Logout</a></li>
                                     <li><a class="dropdown-item" href="<?= $this->App->appUrl(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>">Change Password</a></li>
                                 </ul>
@@ -247,7 +247,7 @@ $html = new HtmlHelper(new View());
                             <li class="nav-item"><a title="categories" href="<?= $this->App->appUrl(['controller' => 'Categories', 'action' => 'customerIndex']) ?>" class="nav-link">categories</a></li>
                             <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
                             <li class="nav-item"><a class="nav-link" title="FAQ" href="<?= $this->App->appUrl(['controller' => 'Faqs', 'action' => 'customerIndex']) ?>">FAQ</a></li>
-                            <li class="nav-item"><a class="nav-link" title="Order Lookup" href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'orderLookup']) ?>">Order Lookup</a></li>
+                            <li class="nav-item"><a class="nav-link" title="Order Lookup" href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'orders']) ?>">Orders</a></li>
                             <!-- Admin dashboard -->
                             <?php if ($this->Identity->get('role') == 'admin') : ?>
                                 <li class="nav-item">
