@@ -2,9 +2,102 @@
 
 # E-Commerce Platform
 
+---
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Cloning the Repository](#cloning-the-repository)
+- [Repository Structure](#repository-structure)
+- [Features](#features)
+- [Credentials](#testing-credentials)
+- [System Requirements](#system-requirements)
+- [APIs and External Plugins](#apis-and-external-plugins)
+- [Setup & Installation](#setup--installation)
+- [Maintenance and Updates](#maintenance-and-updates)
+
+---
+
 ## Project Overview
 
 Crunchy Cravings is a full-featured e-commerce platform developed using CakePHP 5.x framework. The application allows customers to browse products, place orders, track deliveries, contact administrators and more. The admin panel provides comprehensive management tools for products, categories, orders, FAQs, and site content.
+
+## Cloning the Repository
+
+To obtain the full codebase with all commit history, run:
+```bash
+git clone https://git.infotech.monash.edu/UGIE/ugie-2025/team068/team068-app_fit3047.git
+```
+### Alternative: Clone All Branches and Tags
+
+If you need a full backup including all branches, tags, and refs (for migration or archival purposes), use:
+```bash
+git clone --mirror https://git.infotech.monash.edu/UGIE/ugie-2025/team068/team068-app_fit3047.git
+```
+This will create a bare mirror of the repository with all history, branches, and tags.
+
+---
+
+## Repository Structure
+```
+/config        # Configuration files
+/database      # System database schema with all tables, relationships, and sample data
+/docs          # System design and architecture (Domail Model, ERD)
+/src           # Application source code
+/templates     # View templates
+/tests         # Automated tests
+/webroot       # Public web assets (images, CSS, JS)
+/README.md     # Project documentation
+/composer.json # PHP dependencies
+```
+
+## Commit Message Guidelines
+
+- Write concise and meaningful commit messages that clearly describe the change.
+- Use the following format:
+
+  ```
+  [type]: [short description]
+
+  [optional detailed body]
+  ```
+
+- **Allowed types:**
+  - `feat`: New feature
+  - `fix`: Bug fix
+  - `docs`: Documentation changes
+  - `refactor`: Code refactoring
+  - `test`: Adding or updating tests
+  - `chore`: Maintenance or non-functional changes
+
+**Example:**
+```
+feat: Implement user registration
+
+- Generate user models, controllers, and templates
+- Add validation rules for user registration
+```
+
+## Branch Naming Convention
+
+- Use clear and descriptive branch names to indicate the purpose of the branch.
+- Prefix branch names with one of the following:
+  - `feature/` for new features
+  - `bugfix/` for bug fixes
+  - `docs/` for documentation updates
+  - `refactor/` for code refactoring
+  - `test/` for test-related changes
+  - `chore/` for maintenance or non-functional changes
+
+**Examples:**
+- `feature/user-authentication`
+- `bugfix/cart-total-error`
+- `docs/update-readme`
+- `refactor/order-service`
+- `test/add-order-tests`
+- `chore/update-dependencies`
+
+---
 
 ## Features
 
@@ -49,7 +142,7 @@ Crunchy Cravings is a full-featured e-commerce platform developed using CakePHP 
   - Product Inventory management
   - Enquiry/contact management
 
-## Credentials
+## Testing Credentials
 
 ### Customer Test Accounts
 - Email: test@example.com | Password: Fit3047@
