@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS categories_products;
-DROP TABLE IF EXISTS inventories;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS contacts;
