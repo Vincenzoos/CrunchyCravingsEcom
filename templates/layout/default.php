@@ -308,7 +308,7 @@ $html = new HtmlHelper(new View());
                             </svg>
                             <h4>Help Lines</h4>
                             <a class="text-nowrap" href="tel:<?= $this->ContentBlock->text('business-phone'); ?>"><?= $this->ContentBlock->text('business-phone'); ?></a>
-                            <?= $this->ContentBlock->html('email-link'); ?>
+                            <a class="text-nowrap" href="mailto:<?= $this->ContentBlock->text('business-email'); ?>"><?= $this->ContentBlock->text('business-email'); ?></a>
                         </div>
                     </aside><!-- widget about /- -->
                 </div>

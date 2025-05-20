@@ -43,18 +43,10 @@ class ContentBlocksSeed extends AbstractSeed
             [
                 'parent' => 'global',
                 'label' => 'Business Email',
-                'description' => 'The business email address, used as destination to send copy of emails from the system such as contact enquiry email.',
+                'description' => 'The business email address. This is shown at the footer of all pages. It is also used as destination for sending copy of customer enquiry.',
                 'slug' => 'business-email',
                 'type' => 'text',
                 'value' => 'crunchycravings@gmail.com',
-            ],
-            [
-                'parent' => 'global',
-                'label' => 'Email Link',
-                'description' => 'The link to business email address.',
-                'slug' => 'email-link',
-                'type' => 'html',
-                'value' => '<a href="mailto:crunchycravings@gmail.com">crunchycravings@gmail.com</a>',
             ],
             [
                 'parent' => 'global',
