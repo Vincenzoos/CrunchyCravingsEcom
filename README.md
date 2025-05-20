@@ -95,8 +95,10 @@ git pull origin main
 # Update dependencies
 composer install
 
-# Run migrations
-bin/cake migrations migrate
+# Install and seed content blocks plugin
+composer require ugie-cake/cakephp-content-blocks
+bin/cake migrations migrate --plugin=ContentBlocks
+bin/cake migrations seed --seed ContentBlocksSeed
 ```
 
 This application was developed by Team068 using the CakePHP framework.
