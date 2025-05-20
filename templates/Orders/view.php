@@ -130,7 +130,7 @@ $html = new HtmlHelper(new View());
                                 <?= h($item->product->description) ?>
                             </td>
                             <td data-title="Price" class="product-price text-center">
-                                <span class="price-amount"><?= $this->Number->currency($item->product->price, 'AUD') ?></span>
+                                <span class="price-amount"><?= $this->Number->currency($item->unit_price, 'AUD') ?></span>
                             </td>
                             <td data-title="Quantity" class="product-quantity text-center">
                                 <?= h($item->quantity) ?>

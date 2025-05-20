@@ -771,6 +771,8 @@ class CartItemsController extends AppController
                     $orderItem = $this->CartItems->Orders->OrderItems->patchEntity($orderItem, [
                         'order_id' => $order->id,
                         'product_id' => $cartItem->product_id,
+                        // Use the price at the time of order (prevent price of item in order changes when product price changes)
+                        'unit_price' => isset($cartItem->product) ? $cartItem->product->price : $cartItem->price,
                         'quantity' => $cartItem->quantity,
                     ]);
                     $this->CartItems->Orders->OrderItems->save($orderItem);

@@ -95,7 +95,7 @@ class OrdersController extends AppController
         // Check if user is authenticated
         $identity = $this->request->getAttribute('identity');
         $isAuthenticated = $identity !== null;
-        
+
         // For authenticated users, get their orders
         $userOrders = [];
         if ($isAuthenticated) {
@@ -106,18 +106,18 @@ class OrdersController extends AppController
                 'order' => ['Orders.created' => 'DESC'],
             ])->toArray();
         }
-        
+
         // Handle tracking number lookup for both authenticated and guest users
         $foundOrder = null;
         if ($this->request->is('post')) {
             $trackingNumber = $this->request->getData('tracking_number');
-            
+
             if (!empty($trackingNumber)) {
                 $foundOrder = $this->Orders->find('all', [
                     'conditions' => ['Orders.tracking_number' => $trackingNumber],
                     'contain' => ['OrderItems.Products'],
                 ])->first();
-                
+
                 if ($foundOrder) {
                     $this->Flash->success(__('Order found.'));
                 } else {
@@ -125,7 +125,7 @@ class OrdersController extends AppController
                 }
             }
         }
-        
+
         $this->set(compact('userOrders', 'foundOrder', 'isAuthenticated'));
     }
 
@@ -351,7 +351,7 @@ class OrdersController extends AppController
             ])
             ->select([
                 'date' => 'DATE(Orders.created)',
-                'revenue' => $this->Orders->find()->func()->sum('OrderItems.quantity * Products.price'),
+                'revenue' => $this->Orders->find()->func()->sum('OrderItems.quantity * OrderItems.unit_price'),
             ])
             ->groupBy('DATE(Orders.created)')
             ->orderBy(['date' => 'ASC'])
@@ -461,7 +461,7 @@ class OrdersController extends AppController
             ])
             ->select([
                 'date' => 'DATE(Orders.created)',
-                'revenue' => $this->Orders->find()->func()->sum('OrderItems.quantity * Products.price'),
+                'revenue' => $this->Orders->find()->func()->sum('OrderItems.quantity * OrderItems.unit_price'),
             ])
             ->groupBy('DATE(Orders.created)')
             ->orderBy(['date' => 'ASC'])
@@ -614,7 +614,7 @@ class OrdersController extends AppController
             ])
             ->select([
                 'month' => 'MONTH(Orders.created)',
-                'revenue' => $this->Orders->find()->func()->sum('OrderItems.quantity * Products.price'),
+                'revenue' => $this->Orders->find()->func()->sum('OrderItems.quantity * OrderItems.unit_price'),
             ])
             ->groupBy('MONTH(Orders.created)')
             ->orderBy(['month' => 'ASC'])

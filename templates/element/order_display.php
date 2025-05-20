@@ -1,10 +1,10 @@
 <?php
 /**
  * Order Display Element
- * 
+ *
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Order $order The order to display
- * @var string $viewMode Optional: 'customer' or 'admin' for different product view links 
+ * @var string $viewMode Optional: 'customer' or 'admin' for different product view links
  */
 
 // Set default view mode if not provided
@@ -21,7 +21,7 @@ $viewMode = isset($viewMode) ? $viewMode : 'customer';
 <div id="shop-box" class="mb-4 p-3">
     <h4 class="text-center" style="padding: 1rem 0;"><?= h(ucfirst($order->status ?? 'Unknown')) ?> Order</h4>
     <p><strong>Tracking Number:</strong> <?= h($order->tracking_number ?? 'N/A') ?></p>
-    
+
     <!-- Shipping Tracking -->
     <?php if (!empty($order->estimated_delivery_date)) : ?>
         <?php
@@ -112,7 +112,7 @@ $viewMode = isset($viewMode) ? $viewMode : 'customer';
             <?php foreach ($order->order_items as $item) : ?>
                 <tr>
                     <td data-title="Product" class="product-thumbnail text-center">
-                        <?php 
+                        <?php
                             // Choose the appropriate view action based on context
                             $viewAction = $viewMode === 'customer' ? 'customerView' : 'view';
                         ?>
@@ -129,7 +129,7 @@ $viewMode = isset($viewMode) ? $viewMode : 'customer';
                         <?= h($item->product->description) ?>
                     </td>
                     <td data-title="Price" class="product-price">
-                        <span class="price-amount"><?= $this->Number->currency($item->product->price, 'AUD') ?></span>
+                        <span class="price-amount"><?= $this->Number->currency($item->unit_price, 'AUD') ?></span>
                     </td>
                     <td data-title="Quantity" class="product-quantity">
                         <?= h($item->quantity) ?>
