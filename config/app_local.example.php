@@ -5,6 +5,12 @@
  * Note: It is not recommended to commit files with credentials such as app_local.php
  * into source code version control.
  */
+
+// For local testing
+use Cake\Mailer\Transport\DebugTransport;
+
+// For cpanel testing
+//use Cake\Mailer\Transport\SmtpTransport;
 return [
     /*
      * Debug Level:
@@ -25,7 +31,7 @@ return [
      *   You should treat it as extremely sensitive data.
      */
     'Security' => [
-        'salt' => env('SECURITY_SALT', '__SALT__'),
+        'salt' => env('SECURITY_SALT', 'a382223da106ba164f8991d4edfc94c9cb0bba79d9cb95acb4fb66e96f00a3c1'),
     ],
 
     /*
@@ -44,10 +50,10 @@ return [
              */
             //'port' => 'non_standard_port_number',
 
-            'username' => 'my_app',
-            'password' => 'secret',
+            'username' => 'cake_landing_page',
+            'password' => 'YES',
 
-            'database' => 'my_app',
+            'database' => 'cake_landing_page',
             /*
              * If not using the default 'public' schema with the PostgreSQL driver
              * set it here.
@@ -81,14 +87,38 @@ return [
      *
      * See app.php for more configuration options.
      */
+    // Testing on cpanel
+//    'EmailTransport' => [
+//        'default' => [
+//            'className' => SmtpTransport::class,
+//            'host' => 'localhost',
+//            'port' => 25,
+//            'username' => 'crunchy_cravings@u25s1068.iedev.org',
+//            'password' => 'fit3047_',
+//            'tls' => false,
+//            'client' => null,
+//            'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
+//        ],
+//    ],
+
+    // Testing on local machine
     'EmailTransport' => [
         'default' => [
-            'host' => 'localhost',
-            'port' => 25,
-            'username' => null,
-            'password' => null,
-            'client' => null,
-            'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
+            'className' => DebugTransport::class,
         ],
+    ],
+
+    // Disable warning for web hosting only (not in local)
+//    'Error' => [
+//        'errorLevel' => E_ALL & ~E_USER_DEPRECATED,
+//        'exceptionRenderer' => '\Cake\Error\Renderer\HtmlExceptionRenderer::class',
+//        'log' => true,
+//        'skipLog' => [],
+//        'trace' => true,
+//    ],
+
+    'Stripe' => [
+        'public_key' => 'pk_test_51RNkiwGh0CrOTyG9cCo0D8EvBhNgIq3R5fxTOHU3QnA6b8DHu76sKY8bUoE3G9o3UiMkkNihPEF5Nt5pfcrI8Zu600M61FXE8Z',
+        'secret_key' => 'sk_test_51RNkiwGh0CrOTyG9BeyhFwr4Ox8ga6lr8QKP5XUhJkAs7XvdbZ4Fzp5maJh1ZsBOjSXwr7w8tjz9ER7m821vE5DP00drqgKAre',
     ],
 ];
