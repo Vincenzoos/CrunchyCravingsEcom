@@ -175,7 +175,7 @@ $html = new HtmlHelper(new View());
                             <th><?= $this->Paginator->sort('user_email', __('Customer Email')) ?></th>
                             <th><?= $this->Paginator->sort('status', __('Status')) ?></th>
                             <th><?= $this->Paginator->sort('created', __('Created')) ?></th>
-                            <th><?= $this->Paginator->sort('Total', __('Total Amount')) ?></th>
+                            <th><?= $this->Paginator->sort('total_price', __('Total Amount')) ?></th>
                             <th><?= $this->Paginator->sort('is_returned', __('Returned')) ?></th>
                             <th class="text-center"><?= __('Actions') ?></th>
                         </tr>
