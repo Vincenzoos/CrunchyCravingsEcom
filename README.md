@@ -43,11 +43,11 @@ This will create a bare mirror of the repository with all history, branches, and
 /config        # Configuration files
 /database      # System database schema with all tables, relationships, and sample data
 /docs          # System design and architecture (Domail Model, ERD)
-/src           # Application source code
-/templates     # View templates
-/tests         # Automated tests
+/src           # Application source code (backend logic models, views, controllers, etc. for pages)
+/templates     # View templates (frontend logic for pages)
+/tests         # Unit tests for both backend and frontend
 /webroot       # Public web assets (images, CSS, JS)
-/README.md     # Project documentation
+/README.md     # Project technical documentation
 /composer.json # PHP dependencies
 ```
 
@@ -142,6 +142,8 @@ feat: Implement user registration
   - Product Inventory management
   - Enquiry/contact management
 
+---
+
 ## Testing Credentials
 
 ### Customer Test Accounts
@@ -152,6 +154,7 @@ feat: Implement user registration
 - Email: asd@gmail.com | Password: Fit3047@
 - Email: admin@gmail.com | Password: Fit3047@
 
+---
 
 ## System Requirements
 
@@ -173,6 +176,8 @@ The application uses environment-specific configuration files:
 - `config/app.php` - Default application settings
 - `config/app_local.php` - Environment-specific settings (database credentials, email, etc.)
 - `.env` - Environment variables for sensitive data (e.g., API keys)
+
+---
 
 ## APIs and External Plugins Integrations
 The application integrates with the following external services and plugins to enhance functionality:
@@ -209,6 +214,8 @@ The application integrates with the following external services and plugins to e
 - **Stripe**:
   - [Stripe API Documentation](https://stripe.com/docs/api)
   - [CakePHP Integration GitHub Repository](https://github.com/stripe/stripe-php)
+
+---
 
 ## Maintenance and Updates
 
