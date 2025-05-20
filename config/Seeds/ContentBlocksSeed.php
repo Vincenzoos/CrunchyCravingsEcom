@@ -27,7 +27,7 @@ class ContentBlocksSeed extends AbstractSeed
             [
                 'parent' => 'global',
                 'label' => 'Business Address',
-                'description' => 'Business headquarters address shown at footer of all pages.',
+                'description' => 'Business headquarters address shown at footer of all pages. This is also used as origin address in orders.',
                 'slug' => 'business-address',
                 'type' => 'text',
                 'value' => '121 King Street, Melbourne Victoria 3000 Australia',
