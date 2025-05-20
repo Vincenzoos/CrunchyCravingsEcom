@@ -1,62 +1,102 @@
-# CakePHP Application Skeleton
+<img src="webroot/img/cc_logo.png" alt="Crunchy Cravings Logo" width="600" />
 
-![Build Status](https://github.com/cakephp/app/actions/workflows/ci.yml/badge.svg?branch=5.x)
-[![Total Downloads](https://img.shields.io/packagist/dt/cakephp/app.svg?style=flat-square)](https://packagist.org/packages/cakephp/app)
-[![PHPStan](https://img.shields.io/badge/PHPStan-level%208-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
+# E-Commerce Platform
 
-A skeleton for creating applications with [CakePHP](https://cakephp.org) 5.x.
+## Project Overview
 
-The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
+Crunchy Cravings is a full-featured e-commerce platform developed using CakePHP 5.x framework. The application allows customers to browse products, place orders, track deliveries, contact administrators and more. The admin panel provides comprehensive management tools for products, categories, orders, FAQs, and site content.
 
-## App Credentials
-- Customer Accounts
-  - email: test@example.com | password: Fit3047@
-  - email: customer@gmail.com | password: Fit3047@
+## Features
 
-- Admin Accounts
-    - email: asd@gmail.com | password: Fit3047@
-    - email: admin@gmail.com | password: Fit3047@
+### Customer-Facing Features
 
-## Installation
+**User Management**
+  - User registration and authentication
+  - Secure login and logout
+  - Order history
 
-1. Download [Composer](https://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
-2. Run `php composer.phar create-project --prefer-dist cakephp/app [app_name]`.
+**Shopping Experience**
+  - Product browsing with filters and sorting
+  - Detailed product pages with specifications and images
 
-If Composer is installed globally, run
+**Purchase Processing**
+  - Shopping cart functionality
+  - Order placement and payment processing
+  - Multiple payment method support
 
+**Customer Support**
+  - Order tracking with map visualization and lookup via tracking number
+  - Contact form for inquiries
+  - FAQ section
+
+### Administrative Features
+
+**Dashboard**
+  - Sales analytics
+  - User activity monitoring
+  - System status overview
+
+**Content Management**
+  - Enquiry/content management including the abiltiy to reply
+  - Product and category management
+  - FAQ management
+  - Users management
+  - Content block management for dynamic website content
+
+**Business Operations**
+  - Order processing and tracking
+  - User account management
+  - Product Inventory management
+  - Enquiry/contact management
+
+## Credentials
+
+### Customer Test Accounts
+- Email: test@example.com | Password: Fit3047@
+- Email: customer@gmail.com | Password: Fit3047@
+
+### Administrator Accounts
+- Email: asd@gmail.com | Password: Fit3047@
+- Email: admin@gmail.com | Password: Fit3047@
+
+
+## System Requirements
+
+### Server Requirements
+- PHP 8.1 or higher
+- MySQL 5.7+ or MariaDB 10.3+
+- Web server: Apache
+
+### PHP Extensions Required
+- mbstring (Multibyte string support)
+- PDO (Database connectivity)
+- pdo_mysql (MySQL database driver)
+
+### Environment Configuration
+The application uses environment-specific configuration files:
+
+- `config/app.php` - Default application settings
+- `config/app_local.php` - Environment-specific settings (database, email, etc.)
+
+## APIs and External Integrations
+The application integrates with the following external services:
+
+- Leaflet.js for map visualization in order tracking
+- Payment processing via Stripe
+- Boostrap 5 for enhanced visual elements
+
+## Maintenance and Updates
+
+### Updating the Application
 ```bash
-composer create-project --prefer-dist cakephp/app
+# Pull latest changes
+git pull origin main
+
+# Update dependencies
+composer install
+
+# Run migrations
+bin/cake migrations migrate
 ```
 
-In case you want to use a custom app dir name (e.g. `/myapp/`):
-
-```bash
-composer create-project --prefer-dist cakephp/app myapp
-```
-
-You can now either use your machine's webserver to view the default home page, or start
-up the built-in webserver with:
-
-```bash
-bin/cake server -p 8765
-```
-
-Then visit `http://localhost:8765` to see the welcome page.
-
-## Update
-
-Since this skeleton is a starting point for your application and various files
-would have been modified as per your needs, there isn't a way to provide
-automated upgrades, so you have to do any updates manually.
-
-## Configuration
-
-Read and edit the environment specific `config/app_local.php` and set up the
-`'Datasources'` and any other configuration relevant for your application.
-Other environment agnostic settings can be changed in `config/app.php`.
-
-## Layout
-
-The app skeleton uses [Milligram](https://milligram.io/) (v1.3) minimalist CSS
-framework by default. You can, however, replace it with any other library or
-custom styles.
+This application was developed by Team068 using the CakePHP framework.
