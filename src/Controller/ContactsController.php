@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\FactoryLocator;
 use Cake\Http\Response;
+use Cake\Mailer\Mailer;
 
 /**
  * Contacts Controller
@@ -256,12 +259,39 @@ class ContactsController extends AppController
                 // Patch sanitized data into the entity
                 $contact = $this->Contacts->patchEntity($contact, $data);
 
+                // Load email override configuration
+                Configure::load('app_local');
+                $overrideEmailEnabled = Configure::read('Email.override_enabled', false);
+                $overrideEmail = Configure::read('Email.override');
+
+                // Get the business email from the ContentBlocks table
+                $contentBlocks = FactoryLocator::get('Table')->get('ContentBlocks.ContentBlocks');
+                $businessEmailBlock = $contentBlocks->find()->where(['slug' => 'business-email'])->first();
+                $businessEmail = $businessEmailBlock ? $businessEmailBlock->value : 'crunchycravings@gmail.com';
+
+                // Determine the final recipient email
+                $finalBusinessEmail = $overrideEmailEnabled && $overrideEmail ? $overrideEmail : $businessEmail;
+
                 // Check for validation errors
                 if ($contact->getErrors()) {
                     $this->Flash->error(__('Please correct the errors in the form.'));
                 } else {
                     if ($this->Contacts->save($contact)) {
                         $this->Flash->success(__('Your contact details has been saved.'));
+
+                        // Send enquiry to CrunchyCravings email
+                        $mailer = new Mailer('default');
+                        $mailer
+                            ->setEmailFormat('both')
+                            ->setTo($finalBusinessEmail)
+                            ->setSubject('New Contact Enquiry Received')
+                            ->setViewVars([
+                                'contact' => $contact,
+                                'email' => $businessEmail,
+                            ])
+                            ->viewBuilder()->setTemplate('contact_enquiry');
+
+                        $mailer->deliver();
 
                         return $this->redirect(['controller' => 'Contacts', 'action' => 'contact_us']);
                     } else {
