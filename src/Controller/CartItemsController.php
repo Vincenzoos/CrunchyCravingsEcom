@@ -913,6 +913,7 @@ class CartItemsController extends AppController
                 'payment_method_types' => ['card'],
                 'line_items' => $lineItems,
                 'mode' => 'payment',
+                'customer_email' => $recipient,
                 'client_reference_id' => $tempToken, // save token for webhook too
                 'success_url' => Router::url([
                     'controller' => 'CartItems',
@@ -1021,6 +1022,7 @@ class CartItemsController extends AppController
                 'payment_method_types' => ['card'],
                 'line_items' => $lineItems,
                 'mode' => 'payment',
+                'customer_email' => $recipient,
                 'client_reference_id' => $tempToken, // save token for webhook too
                 'success_url' => Router::url([
                     'controller' => 'CartItems',
