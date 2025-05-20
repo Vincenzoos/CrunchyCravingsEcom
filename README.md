@@ -37,7 +37,7 @@ Crunchy Cravings is a full-featured e-commerce platform developed using CakePHP 
   - System status overview
 
 **Content Management**
-  - Enquiry/content management including the abiltiy to reply
+  - Enquiry/content management including the ability to reply
   - Product and category management
   - FAQ management
   - Users management
@@ -63,27 +63,59 @@ Crunchy Cravings is a full-featured e-commerce platform developed using CakePHP 
 ## System Requirements
 
 ### Server Requirements
-- PHP 8.1 or higher
-- MySQL 5.7+ or MariaDB 10.3+
-- Web server: Apache
+- **PHP**: Version 8.1 or higher
+- **Database**: MySQL 5.7+ or MariaDB 10.3+
+- **Web Server**: Apache (recommended)
+- **Development Environment**: XAMPP (for Windows users)
+- **Dependency Manager**: Composer 2.8+
 
-### PHP Extensions Required
-- mbstring (Multibyte string support)
-- PDO (Database connectivity)
-- pdo_mysql (MySQL database driver)
+### Required PHP Extensions
+- **mbstring**: Provides multibyte string support
+- **PDO**: Enables database connectivity
+- **pdo_mysql**: MySQL database driver for PDO
 
 ### Environment Configuration
 The application uses environment-specific configuration files:
 
 - `config/app.php` - Default application settings
-- `config/app_local.php` - Environment-specific settings (database, email, etc.)
+- `config/app_local.php` - Environment-specific settings (database credentials, email, etc.)
+- `.env` - Environment variables for sensitive data (e.g., API keys)
 
-## APIs and External Integrations
-The application integrates with the following external services:
+## APIs and External Plugins Integrations
+The application integrates with the following external services and plugins to enhance functionality:
 
-- Leaflet.js for map visualization in order tracking
-- Payment processing via Stripe
-- Boostrap 5 for enhanced visual elements
+- **Leaflet.js**: Enables map visualization for order tracking.
+- **Stripe**: Manages secure payment processing with support for multiple payment methods.
+- **Bootstrap 5**: Provides responsive and modern UI components for a better user experience.
+- **jQuery**: Simplifies DOM manipulation and supports AJAX requests for dynamic content updates.
+- **CakeDC/Auth (10.1+)**: Implements advanced authentication features for CakePHP.
+- **CakePHP/Authentication (3.2+)**: Ensures secure user authentication.
+- **Crabstudio/Recaptcha (4.1+)**: Integrates Google Recaptcha for spam protection in forms.
+- **Josegonzalez/CakePHP-Upload (8.0+)**: Simplifies file uploads with customizable configurations.
+- **Ugie-Cake/Content-Blocks (1.3+)**: Enables dynamic content management for flexible website updates.
+
+### External Resources and Documentation
+
+- **Recaptcha**:
+  - [Google Recaptcha API](https://cloud.google.com/security/products/recaptcha)
+  - [CakePHP Integration GitHub Repository](https://github.com/cakephp-fr/recaptcha)
+
+- **ContentBlocks**:
+  - [Plugin Documentation](https://github.com/ugie-cake/cakephp-content-blocks#readme)
+
+- **CakePHP Authentication**:
+  - [Official Documentation](https://book.cakephp.org/authentication/2/en/index.html)
+  - [UGIE Customized Authentication GitHub Repository](https://git.infotech.monash.edu/UGIE/ugie-demo/cake_cms-auth/-/blob/main/docs/README.Authentication.md)
+
+- **CakePHP Authorization**:
+  - [Official Documentation](https://book.cakephp.org/authorization/2/en/index.html)
+
+- **Josegonzalez/Upload**:
+  - [File Upload Plugin GitHub Repository](https://github.com/FriendsOfCake/cakephp-upload?tab=readme-ov-file)
+
+- **Stripe**:
+  - [Stripe API Documentation](https://stripe.com/docs/api)
+  - [CakePHP Integration GitHub Repository](https://github.com/stripe/stripe-php)
 
 ## Maintenance and Updates
 
