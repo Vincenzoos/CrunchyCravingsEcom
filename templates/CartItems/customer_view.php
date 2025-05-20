@@ -80,7 +80,11 @@ $html = new HtmlHelper(new View());
                                 <div class="d-flex flex-column align-items-center">
                                     <h class="quantity"><?= h($cartItem->quantity) ?></h>
                                     <div class="d-flex justify-content-center mt-1">
-                                        <button class="qtyplus btn btn-outline-secondary btn-sm me-1" data-cart-item-id="<?= $cartItem->id ?>" data-action="increase">
+                                        <button class="qtyplus btn btn-outline-secondary btn-sm me-1"
+                                                data-cart-item-id="<?= $cartItem->id ?>"
+                                                data-product-name="<?= $cartItem->product->name ?>"
+                                                data-action="increase"
+                                                data-available-quantity="<?= $cartItem->product->quantity + $cartItem->quantity ?>">
                                             <i class="fa fa-plus"></i>
                                         </button>
                                         <button class="qtyminus btn btn-outline-secondary btn-sm" data-cart-item-id="<?= $cartItem->id ?>" data-action="decrease">
@@ -188,9 +192,20 @@ $html = new HtmlHelper(new View());
                     const quantityElement = button.closest('tr').querySelector('.quantity'); // Get the quantity element
                     let currentQuantity = parseInt(quantityElement.textContent, 10); // Get the current quantity
 
+
+                    // Get available quantity from data attribute
+                    const availableQuantity = parseInt(button.getAttribute('data-available-quantity'), 10);
+                    const productName = button.getAttribute('data-product-name');
+
                     // Update the quantity based on the action
                     if (action === 'increase') {
-                        currentQuantity++;
+                        // Display alert if the updated quantity exceeds available quantity
+                        if (currentQuantity < availableQuantity) {
+                            currentQuantity++;
+                        } else {
+                            alert(`"${productName}" is out of stock`);
+                            return;
+                        }
                     } else if (action === 'decrease' && currentQuantity > 1) {
                         currentQuantity--;
                     }
