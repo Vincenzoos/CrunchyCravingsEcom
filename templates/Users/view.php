@@ -49,7 +49,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                                 </tr>
                                 <tr>
                                     <th><?= __('Created') ?></th>
-                                    <td><?= h($user->created->format('d/m/Y H:i a')) ?></td>
+                                    <td><?= $user->created ? h($user->created->format('d/m/Y h:i a')) : 'N/A' ?></td>
                                 </tr>
                             </table>
                         </div>
@@ -76,5 +76,5 @@ $html = new HtmlHelper(new \Cake\View\View());
     </div>
 
     <!-- Bootstrap JS -->
-    
+
 </body>

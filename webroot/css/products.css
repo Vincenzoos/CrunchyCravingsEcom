@@ -39,3 +39,29 @@
     overflow-x: hidden !important;
     -webkit-overflow-scrolling: auto !important;
 }
+
+/* Product image link override ----------------------------------- */
+/* This is to ensure the product image link is clickable and not blocked by the overlay */
+
+/* Make sure overlay hover effects still work */
+.product-box-inner {
+    position: relative;
+    pointer-events: none;
+}
+
+.product-box-inner a,
+.product-box-inner > .btn {
+    pointer-events: auto;
+}
+
+.inner-product:hover .product-box-inner {
+    opacity: 1;
+    visibility: visible;
+}
+
+.product-box-inner {
+    position: absolute;
+    z-index: 2;
+    opacity: 0;
+    visibility: hidden;
+}

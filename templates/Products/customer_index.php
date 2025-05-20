@@ -214,14 +214,16 @@ $html = new HtmlHelper(new \Cake\View\View());
                                         <span class="sale">sales</span>
                                     <?php endif; ?>
                                     <div class="inner-product">
-                                        <?= $this->Html->image($product->image_cache_busted_url, [
-                                            'alt' => $product->name,
-                                            'class' => 'img-fluid',
+                                        <a href="<?= $this->App->appUrl(['action' => 'customerView', $product->id]) ?>" class="product-image-link">
+                                            <?= $this->Html->image($product->image_cache_busted_url, [
+                                                'alt' => $product->name,
+                                                'class' => 'img-fluid',
                                             ]) ?>
+                                        </a>
                                         <div class="product-box-inner">
                                             <ul>
                                                 <li>
-                                                    <a title="View Image" href="<?= $this->Url->build($product->image_cache_busted_url) ?>">
+                                                    <a title="View Image" href="<?= $this->Url->build($product->image_cache_busted_url) ?>" class="view-image-btn">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
                                                 </li>

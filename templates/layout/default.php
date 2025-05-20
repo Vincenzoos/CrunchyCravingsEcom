@@ -141,6 +141,7 @@ $html = new HtmlHelper(new View());
                     <li><a href="<?= $this->App->appUrl(['controller' => 'Faqs', 'action' => 'index']) ?>" class="list-group-item">Manage FAQs</a></li>
                     <li><a href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'index']) ?>" class="list-group-item">Manage Orders</a></li>
                     <li><a href="<?= $this->Url->build(['plugin' => 'ContentBlocks','controller' => 'ContentBlocks', 'action' => 'index']) ?>" class="list-group-item">Manage Contents</a></li>
+                    <li><a href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'admin_dashboard']) ?>" class="list-group-item">Admin Dashboard</a></li>
                 </ul>
             </div>
         </div>
@@ -198,7 +199,7 @@ $html = new HtmlHelper(new View());
                                 <ul id="profile-content">
                                     <li><a id="profile-email"><?= h($this->Identity->get('email')) ?></a></li>
                                     <li><hr class="dropdown-divider" style="margin-top: 1.0rem; margin-bottom: 0.5rem;"></li>
-                                    <li><a class="dropdown-item" href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'customerIndex']) ?>">Orders</a></li>
+                                    <!-- <li><a class="dropdown-item" href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'orders']) ?>">Orders</a></li> -->
                                     <li><a class="dropdown-item" href="<?= $this->App->appUrl(['controller' => 'Auth', 'action' => 'logout']) ?>">Logout</a></li>
                                     <li><a class="dropdown-item" href="<?= $this->App->appUrl(['controller' => 'Auth', 'action' => 'changePassword', $this->Identity->get('id')]) ?>">Change Password</a></li>
                                 </ul>
@@ -246,7 +247,15 @@ $html = new HtmlHelper(new View());
                             <li class="nav-item"><a title="categories" href="<?= $this->App->appUrl(['controller' => 'Categories', 'action' => 'customerIndex']) ?>" class="nav-link">categories</a></li>
                             <li class="nav-item"><a class="nav-link" title="Contact us" href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>">Contact us</a></li>
                             <li class="nav-item"><a class="nav-link" title="FAQ" href="<?= $this->App->appUrl(['controller' => 'Faqs', 'action' => 'customerIndex']) ?>">FAQ</a></li>
-                            <li class="nav-item"><a class="nav-link" title="Order Lookup" href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'orderLookup']) ?>">Order Lookup</a></li>
+                            <li class="nav-item"><a class="nav-link" title="Order Lookup" href="<?= $this->App->appUrl(['controller' => 'Orders', 'action' => 'orders']) ?>">Orders</a></li>
+                            <!-- Admin dashboard -->
+                            <?php if ($this->Identity->get('role') == 'admin') : ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" title="Admin Dashboard" href="<?= $this->App->appUrl(['controller' => 'Pages', 'action' => 'admin_dashboard']) ?>">
+                                        Admin Dashboard
+                                    </a>
+                                </li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 </nav>
@@ -302,9 +311,6 @@ $html = new HtmlHelper(new View());
                             <?= $this->ContentBlock->html('email-link'); ?>
                         </div>
                     </aside><!-- widget about /- -->
-                    <div class="footer text-center">
-                        <p style="color: #686868"><?= $this->ContentBlock->text('copyright-message'); ?></p>
-                    </div>
                 </div>
             </div>
             <!-- container /- -->
@@ -364,7 +370,7 @@ $html = new HtmlHelper(new View());
         <!-- Copyright -->
         <footer class="footer" id="footer">
             <div class="copyright">
-                <span>Copyright &copy; CrunchyCravings <?= date('Y') ?></span>
+                <?= $this->ContentBlock->html('copyright-message'); ?>
             </div>
         </footer>
     </div><!-- Footer Section /- -->

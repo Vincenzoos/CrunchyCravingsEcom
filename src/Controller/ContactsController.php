@@ -3,7 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Core\Configure;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\FactoryLocator;
 use Cake\Http\Response;
+use Cake\Mailer\Mailer;
 
 /**
  * Contacts Controller
@@ -102,12 +106,24 @@ class ContactsController extends AppController
      *
      * @param string|null $id Contact id.
      * @return \Cake\Http\Response|null|void Renders view
-     * @throws \App\Controller\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function view(?string $id = null)
     {
-        $contact = $this->Contacts->get($id, contain: []);
-        $this->set(compact('contact'));
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Invalid contact ID.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
+        try {
+            $contact = $this->Contacts->get($id, contain: []);
+            $this->set(compact('contact'));
+        } catch (RecordNotFoundException $e) {
+            $this->Flash->error(__('Contact not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
     /**
@@ -136,11 +152,24 @@ class ContactsController extends AppController
      *
      * @param string|null $id Contact id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \App\Controller\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function edit(?string $id = null)
     {
-        $contact = $this->Contacts->get($id, contain: []);
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Invalid contact ID.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
+        try {
+            $contact = $this->Contacts->get($id, contain: []);
+        } catch (RecordNotFoundException $e) {
+            $this->Flash->error(__('Contact not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $contact = $this->Contacts->patchEntity($contact, $this->request->getData());
             if ($this->Contacts->save($contact)) {
@@ -158,10 +187,18 @@ class ContactsController extends AppController
      *
      * @param string|null $id Contact id.
      * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \App\Controller\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function delete(?string $id = null): ?Response
     {
+        // Block access to action using GET method
+        // Block user to manually access the action (e.g. contacts/delete/1 in URL)
+        if ($this->request->is('get')) {
+            $this->Flash->error(__('Invalid access to delete action'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
         $this->request->allowMethod(['post', 'delete']);
         $contact = $this->Contacts->get($id);
         if ($this->Contacts->delete($contact)) {
@@ -177,14 +214,24 @@ class ContactsController extends AppController
      * A method to update a contact's reply status
      *
      * @param string|null $id Contact id.
+     * @throws RecordNotFoundException When record not found.
      */
     public function updateReplyStatus(?string $id = null)
     {
-        // Find project record with specific id
-        $contact = $this->Contacts->get($id);
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Invalid contact ID.'));
 
-        // Flip the status
-        $contact->replied = !$contact->replied;
+            return $this->redirect(['action' => 'index']);
+        }
+
+        // Find project record with specific id
+        try {
+            $contact = $this->Contacts->get($id, contain: []);
+        } catch (RecordNotFoundException $e) {
+            $this->Flash->error(__('Contact not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
 
         // Save changes
         if ($this->Contacts->save($contact)) {
@@ -212,12 +259,39 @@ class ContactsController extends AppController
                 // Patch sanitized data into the entity
                 $contact = $this->Contacts->patchEntity($contact, $data);
 
+                // Load email override configuration
+                Configure::load('app_local');
+                $overrideEmailEnabled = Configure::read('Email.override_enabled', false);
+                $overrideEmail = Configure::read('Email.override');
+
+                // Get the business email from the ContentBlocks table
+                $contentBlocks = FactoryLocator::get('Table')->get('ContentBlocks.ContentBlocks');
+                $businessEmailBlock = $contentBlocks->find()->where(['slug' => 'business-email'])->first();
+                $businessEmail = $businessEmailBlock ? $businessEmailBlock->value : 'crunchycravings@gmail.com';
+
+                // Determine the final recipient email
+                $finalBusinessEmail = $overrideEmailEnabled && $overrideEmail ? $overrideEmail : $businessEmail;
+
                 // Check for validation errors
                 if ($contact->getErrors()) {
                     $this->Flash->error(__('Please correct the errors in the form.'));
                 } else {
                     if ($this->Contacts->save($contact)) {
                         $this->Flash->success(__('Your contact details has been saved.'));
+
+                        // Send enquiry to CrunchyCravings email
+                        $mailer = new Mailer('default');
+                        $mailer
+                            ->setEmailFormat('both')
+                            ->setTo($finalBusinessEmail)
+                            ->setSubject('New Contact Enquiry Received')
+                            ->setViewVars([
+                                'contact' => $contact,
+                                'email' => $businessEmail,
+                            ])
+                            ->viewBuilder()->setTemplate('contact_enquiry');
+
+                        $mailer->deliver();
 
                         return $this->redirect(['controller' => 'Contacts', 'action' => 'contact_us']);
                     } else {

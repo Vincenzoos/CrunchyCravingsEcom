@@ -42,8 +42,16 @@ class ContentBlocksSeed extends AbstractSeed
             ],
             [
                 'parent' => 'global',
+                'label' => 'Business Email',
+                'description' => 'The business email address, used as destination to send copy of emails from the system such as contact enquiry email.',
+                'slug' => 'business-email',
+                'type' => 'text',
+                'value' => 'crunchycravings@gmail.com',
+            ],
+            [
+                'parent' => 'global',
                 'label' => 'Email Link',
-                'description' => 'The business email address.',
+                'description' => 'The link to business email address.',
                 'slug' => 'email-link',
                 'type' => 'html',
                 'value' => '<a href="mailto:crunchycravings@gmail.com">crunchycravings@gmail.com</a>',
@@ -53,8 +61,8 @@ class ContentBlocksSeed extends AbstractSeed
                 'label' => 'Copyright Message',
                 'description' => 'Copyright information shown at the bottom of the all page.',
                 'slug' => 'copyright-message',
-                'type' => 'text',
-                'value' => '(c) Copyright 2025, Crunchy Cravings.',
+                'type' => 'html',
+                'value' => '<span>Copyright &copy; CrunchyCravings 2025</span>',
             ],
 
             // Home page - Hero section

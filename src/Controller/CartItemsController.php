@@ -5,6 +5,7 @@ namespace App\Controller;
 
 // Used for cpanel testing
 use Cake\Core\Configure;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\EventInterface;
 use Cake\Mailer\Mailer;
 use Cake\Routing\Router;
@@ -12,7 +13,6 @@ use Cake\Utility\Text;
 use Exception;
 use stdClass;
 use Stripe\Checkout\Session;
-use function Cake\Error\debug;
 
 /**
  * CartItems Controller
@@ -329,168 +329,185 @@ class CartItemsController extends AppController
     //     return $this->redirect($this->referer());
     // }
 
+    /**
+     * Updates the quantity of a cart item via AJAX.
+     *
+     * This method handles both authenticated and unauthenticated users. It validates the request,
+     * checks stock availability, and updates the cart item quantity in the database or session.
+     *
+     * @return void
+     */
     public function updateQuantityAjax()
     {
-        // Block access ajax action using GET method
-        // Block user to manually access the action (e.g. cart-items/update-quantity-ajax in URL)
-        if ($this->request->is('get')) {
-            $this->viewBuilder()->setTemplatePath('Error');
-            $this->viewBuilder()->setTemplate('missing_template');
-
-            return;
-        }
-
-        $this->request->allowMethod(['post', 'ajax']); // Allow only POST and AJAX requests
-
-
-        $cartItemId = $this->request->getData('cart_item_id');
-        $newQuantity = $this->request->getData('quantity');
-
-        // Ensure the quantity is valid
-        if ($newQuantity < 1) {
-            $response = ['success' => false, 'message' => 'Quantity must be at least 1.'];
-            $this->set('response', $response);
-            $this->viewBuilder()->setOption('serialize', ['response']);
-
-            return;
-        }
-        // TODO: Add restriction, not allow user to add more than number of stock available
-//        elseif ($newQuantity > $productEntity->quantity) {
-//            $response = ['success' => false, 'message' => 'Product is out of stock.'];
-//            $this->set('response', $response); // Add this line so the response is set for serialization
-//            $this->viewBuilder()->setOption('serialize', ['response']);
-//
-//            return;
-//        }
-
-        // Check if the user is logged in
-        $identity = $this->Authentication->getIdentity();
-        $userId = $identity ? $identity->get('id') : null;
-
-        if ($userId) {
-            // Handle logged-in users (database-based cart)
-            $cartItem = $this->CartItems->get($cartItemId, ['contain' => ['Products']]);
-            if ($cartItem) {
-                $productEntity = $this->CartItems->Products->get($cartItem->product_id);
-                // Update product stock dynamically
-                $oldQuantity = $cartItem->quantity;
-                // Number of new item added/deleted
-                $delta = $newQuantity - $oldQuantity;
-                // If it is adding, decrease the stock quality accordingly
-                if ($delta > 0) {
-                    // If the additional quantity more than actual number of stock available, raise error
-                    if ($delta > $productEntity->quantity) {
-                        $response = [
-                            'success' => false,
-                            'message' => 'Not enough stock available for ' . $productEntity->name,
-                        ];
-                        $this->set(compact('response'));
-                        $this->viewBuilder()->setOption('serialize', ['response']);
-
-                        return;
-                    }
-                    // If the additional quantity is less than or equal the current number of stock
-                    $productEntity->quantity -= $delta;
-                    // If it is deleting, increase stock quantity accordingly
-                } elseif ($delta < 0) {
-                    $productEntity->quantity += abs($delta);
-                }
-                // Update cart item based on new quantity
-                $cartItem->quantity = $newQuantity;
-                $cartItem->line_price = $cartItem->quantity * $cartItem->product->price;
-
-                // Save the cartItem
-                if ($this->CartItems->save($cartItem)) {
-                    $response = [
-                        'success' => true,
-                        'line_price' => $cartItem->line_price,
-                        'total_price' => $this->CartItems->calculateTotalPrice($userId),
-                    ];
-                } else {
-                    $response = ['success' => false, 'message' => 'Failed to update cart item.'];
-                }
-
-                // Use a transaction here to ensure atomicity
-                $connection = $this->CartItems->getConnection();
-                $connection->begin();
-                $cartSaved = $this->CartItems->save($cartItem);
-                $productSaved = $this->CartItems->Products->save($productEntity);
-
-                if ($cartSaved && $productSaved) {
-                    $connection->commit();
-                    $response = [
-                        'success' => true,
-                        'line_price' => $cartItem->line_price,
-                        'total_price' => $this->CartItems->calculateTotalPrice($userId),
-                    ];
-                } else {
-                    $connection->rollback();
-                    $response = ['success' => false, 'message' => 'Failed to update cart or product stock.'];
-                }
-            } else {
-                $response = ['success' => false, 'message' => 'Cart item not found.'];
+        try {
+            // Block access to action using GET method
+            if ($this->request->is('get')) {
+                $this->viewBuilder()->setTemplatePath('Error');
+                $this->viewBuilder()->setTemplate('missing_template');
+                return;
             }
-        } else {
-            // Handle unauthenticated users (session-based cart)
-            $session = $this->request->getSession();
-            $cart = $session->read('Cart') ?? [];
 
-            if (!isset($cart[$cartItemId])) {
-                $response = ['success' => false, 'message' => 'Cart item not found.'];
+            $this->request->allowMethod(['post', 'ajax']);
+
+            $cartItemId = $this->request->getData('cart_item_id');
+            $newQuantity = $this->request->getData('quantity');
+
+            if ($newQuantity < 1) {
+                $this->setResponseData([
+                    'success' => false,
+                    'message' => 'Quantity must be at least 1.'
+                ]);
+                return;
+            }
+
+            $identity = $this->Authentication->getIdentity();
+            $userId = $identity ? $identity->get('id') : null;
+
+            if ($userId) {
+                $cartItem = $this->CartItems->get($cartItemId, ['contain' => ['Products']]);
+                $productEntity = $cartItem->product;
+                $currentQuantity = $cartItem->quantity;
             } else {
-                // It is recommended to fetch the actual product entity to update stock even for session-managed carts.
+                $session = $this->request->getSession();
+                $cart = $session->read('Cart') ?? [];
+
+                if (!isset($cart[$cartItemId])) {
+                    $this->setResponseData([
+                        'success' => false,
+                        'message' => 'Cart item not found.'
+                    ]);
+                    return;
+                }
+
                 $productEntity = $this->CartItems->Products->get($cartItemId);
-                if (!$productEntity) {
-                    $response = ['success' => false, 'message' => 'Product not found.'];
-                } else {
-                    // Update product stock dynamically
-                    $oldQuantity = $cart[$cartItemId]['quantity'];
-                    // Number of new item added/deleted
-                    $delta = $newQuantity - $oldQuantity;
-                    // If it is adding, decrease the stock quality accordingly
-                    if ($delta > 0) {
-                        // If the additional quantity more than actual number of stock available, raise error
-                        if ($delta > $productEntity->quantity) {
-                            $response = [
-                                'success' => false,
-                                'message' => 'Not enough stock available for ' . $productEntity->name,
-                            ];
-                            $this->set(compact('response'));
-                            $this->viewBuilder()->setOption('serialize', ['response']);
-
-                            return;
-                        }
-                        // If the additional quantity is less than or equal the current number of stock
-                        $productEntity->quantity -= $delta;
-                        // If it is deleting, increase stock quantity accordingly
-                    } elseif ($delta < 0) {
-                        $productEntity->quantity += abs($delta);
-                    }
-                }
-
-                // Update session cart item
-                $cart[$cartItemId]['quantity'] = $newQuantity;
-                $cart[$cartItemId]['line_price'] = $cart[$cartItemId]['price'] * $newQuantity;
-
-                $session->write('Cart', $cart);
-
-                if ($this->CartItems->Products->save($productEntity)) {
-                    $response = [
-                        'success' => true,
-                        'line_price' => $cart[$cartItemId]['line_price'],
-                        'total_price' => array_sum(array_column($cart, 'line_price')),
-                    ];
-                } else {
-                    $response = ['success' => false, 'message' => 'Failed to update product stock.'];
-                }
+                $currentQuantity = $cart[$cartItemId]['quantity'];
             }
+
+            // Check if the product is in stock
+            $quantityChange = $newQuantity - $currentQuantity;
+
+            if ($newQuantity > ($productEntity->quantity + $currentQuantity)) {
+                $this->setResponseData([
+                    'success' => false,
+                    'message' => 'Not enough stock available for ' . $productEntity->name
+                ]);
+                return;
+            }
+
+            if ($userId) {
+                $this->updateAuthenticatedCart($cartItem, $productEntity, $newQuantity, $quantityChange, $userId);
+            } else {
+                $this->updateUnauthenticatedCart($cartItemId, $productEntity, $newQuantity, $quantityChange);
+            }
+
+            return;
+
+        } catch (RecordNotFoundException $e) {
+            $this->setResponseData([
+                'success' => false,
+                'message' => 'Requested item not found.'
+            ]);
+            return;
+        } catch (Exception $exception) {
+            $this->setResponseData([
+                'success' => false,
+                'message' => 'Unexpected server error: ' . $exception->getMessage()
+            ]);
+            return;
+        }
+    }
+
+    /**
+     * Updates the cart for authenticated users.
+     *
+     * This method updates the quantity of a cart item and adjusts the product stock in the database.
+     * It uses a database transaction to ensure data consistency.
+     *
+     * @param \App\Model\Entity\CartItem $cartItem The cart item entity to update.
+     * @param \App\Model\Entity\Product $productEntity The product entity associated with the cart item.
+     * @param int $newQuantity The new quantity for the cart item.
+     * @param int $quantityChange The change in quantity (positive or negative).
+     * @param int $userId The ID of the authenticated user.
+     * @return void
+     */
+    private function updateAuthenticatedCart($cartItem, $productEntity, $newQuantity, $quantityChange, $userId)
+    {
+        $connection = $this->CartItems->getConnection();
+        $connection->begin();
+
+        try {
+            $productEntity->quantity -= $quantityChange;
+            $cartItem->quantity = $newQuantity;
+            $cartItem->line_price = $newQuantity * $cartItem->product->price;
+
+            if ($this->CartItems->save($cartItem) && $this->CartItems->Products->save($productEntity)) {
+                $connection->commit();
+                $response = [
+                    'success' => true,
+                    'line_price' => $cartItem->line_price,
+                    'total_price' => $this->CartItems->calculateTotalPrice($userId),
+                ];
+            } else {
+                throw new Exception('Failed to update cart or product stock.');
+            }
+        } catch (Exception $e) {
+            $connection->rollback();
+            $response = ['success' => false, 'message' => $e->getMessage()];
         }
 
-        // Set the response data and serialize it to JSON
+        $this->setResponseData($response);
+    }
+
+
+    /**
+     * Updates the cart for unauthenticated users.
+     *
+     * This method updates the quantity of a cart item in the session and adjusts the product stock in the database.
+     *
+     * @param string $cartItemId The ID of the cart item to update.
+     * @param \App\Model\Entity\Product $productEntity The product entity associated with the cart item.
+     * @param int $newQuantity The new quantity for the cart item.
+     * @param int $quantityChange The change in quantity (positive or negative).
+     * @return void
+     */
+    private function updateUnauthenticatedCart($cartItemId, $productEntity, $newQuantity, $quantityChange)
+    {
+        $session = $this->request->getSession();
+        $cart = $session->read('Cart') ?? [];
+
+        $productEntity->quantity -= $quantityChange;
+        $cart[$cartItemId]['quantity'] = $newQuantity;
+        $cart[$cartItemId]['line_price'] = $cart[$cartItemId]['price'] * $newQuantity;
+
+        if ($this->CartItems->Products->save($productEntity)) {
+            $session->write('Cart', $cart);
+            $response = [
+                'success' => true,
+                'line_price' => $cart[$cartItemId]['line_price'],
+                'total_price' => array_sum(array_column($cart, 'line_price')),
+            ];
+        } else {
+            $response = ['success' => false, 'message' => 'Failed to update product stock.'];
+        }
+
+        $this->setResponseData($response);
+    }
+
+
+    /**
+     * Sets the response data for an AJAX request.
+     *
+     * This method prepares the response data to be serialized and disables the default layout.
+     *
+     * @param array $response The response data to set.
+     * @return void
+     */
+    private function setResponseData($response)
+    {
         $this->set(compact('response'));
         $this->viewBuilder()->setOption('serialize', ['response']);
-        $this->viewBuilder()->disableAutoLayout(); // Disable the layout rendering
-        $this->render(null, null); // Render the response without a view
+        $this->viewBuilder()->disableAutoLayout();
+        $this->render(null, null);
     }
 
     /**
@@ -502,6 +519,14 @@ class CartItemsController extends AppController
      */
     public function delete(?string $id = null)
     {
+        // Block access to action using GET method
+        // Block user to manually access the action (e.g. cart-items/delete/1 in URL)
+        if ($this->request->is('get')) {
+            $this->Flash->error(__('Invalid access to delete action'));
+
+            return $this->redirect(['controller' => 'Products','action' => 'customerIndex']);
+        }
+
         $identity = $this->Authentication->getIdentity();
         $userId = $identity ? $identity->get('id') : null;
 
@@ -531,18 +556,20 @@ class CartItemsController extends AppController
             $cart = $session->read('Cart') ?? [];
 
             if (isset($cart[$id])) {
-                $product =  $this->CartItems->Products->get($cart[$id]['product_id']);
+                $product = $this->CartItems->Products->get($cart[$id]['product_id']);
                 $existingQuantity = $cart[$id]['quantity'];
                 // Update the net stock amount of product when user successfully delete cart item
                 $product->quantity += $existingQuantity;
                 if ($this->CartItems->Products->save($product)) {
-                    // $this->Flash->success(__('Cart updated and stock increased.'));
+//                     $this->Flash->success(__('Cart updated and stock increased.'));
+                    $this->Flash->success(__('The cart item has been deleted.'));
                 } else {
-                    // $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
+//                     $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
+                    $this->Flash->success(__('The cart deletion failed.'));
                 }
                 unset($cart[$id]);
                 $session->write('Cart', $cart);
-                $this->Flash->success(__('The cart item has been deleted.'));
+//                $this->Flash->success(__('The cart item has been deleted.'));
             } else {
                 $this->Flash->error(__('Cart item not found.'));
             }
@@ -610,9 +637,11 @@ class CartItemsController extends AppController
                     // Update the net stock amount of product when user successfully add to cart
                     $product->quantity -= $selected_quantity;
                     if ($this->CartItems->Products->save($product)) {
-                        $this->Flash->success(__('Cart updated and stock decreased.'));
+                        $this->Flash->success(__($selected_quantity . ' unit(s) of "' . $product->name . '" has been added to your cart.'));
+//                        $this->Flash->success(__('Cart updated and stock decreased.'));
                     } else {
-                        $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
+                        $this->Flash->error(__('"' . $product->name . '" could not be updated. Please, try again.'));
+//                        $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
                     }
 
                     // $this->Flash->success(__('Cart updated with ' . $selected_quantity . 'more unit(s) of "' . $product->name . '".'));
@@ -630,9 +659,11 @@ class CartItemsController extends AppController
                     // Update the net stock amount of product when user successfully add to cart
                     $product->quantity -= $selected_quantity;
                     if ($this->CartItems->Products->save($product)) {
-                        $this->Flash->success(__('Cart updated and stock decreased.'));
+                     $this->Flash->success(__($selected_quantity . ' unit(s) of "' . $product->name . '" has been added to your cart.'));
+//                        $this->Flash->success(__('Cart updated and stock decreased.'));
                     } else {
-                        $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
+//                        $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
+                        $this->Flash->error(__('"' . $product->name . '" could not be updated. Please, try again.'));
                     }
 
                     // $this->Flash->success(__($selected_quantity . ' unit(s) of "' . $product->name . '" has been added to your cart.'));
@@ -661,9 +692,11 @@ class CartItemsController extends AppController
             // Update the net stock amount of product when user successfully add to cart
             $product->quantity -= $selected_quantity;
             if ($this->CartItems->Products->save($product)) {
-                $this->Flash->success(__('Cart updated and stock decreased.'));
+                $this->Flash->success(__($selected_quantity . ' unit(s) of "' . $product->name . '" has been added to your cart.'));
+//                $this->Flash->success(__('Cart updated and stock decreased.'));
             } else {
-                $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
+                $this->Flash->error(__('"' . $product->name . '" could not be added. Please, try again.'));
+//                $this->Flash->error(__('Cart updated, but unable to update the product stock.'));
             }
 
             // $this->Flash->success(__($selected_quantity . ' unit(s) of "' . $product->name . '" has been added to your cart.'));
@@ -743,8 +776,9 @@ class CartItemsController extends AppController
                 // Confirmation email -------------------------------------------------
 
                 // Load email override configuration
-                $overrideEmailEnabled = Configure::read('EmailTransport.override_enabled', false);
-                $overrideEmail = Configure::read('EmailTransport.default.username');
+                Configure::load('app_local');
+                $overrideEmailEnabled = Configure::read('Email.override_enabled', false);
+                $overrideEmail = Configure::read('Email.override');
 
                 // Determine the final recipient email
                 $finalRecipient = $overrideEmailEnabled && $overrideEmail ? $overrideEmail : $recipient;
@@ -862,6 +896,7 @@ class CartItemsController extends AppController
                 'payment_method_types' => ['card'],
                 'line_items' => $lineItems,
                 'mode' => 'payment',
+                'customer_email' => $recipient,
                 'client_reference_id' => $tempToken, // save token for webhook too
                 'success_url' => Router::url([
                     'controller' => 'CartItems',
@@ -970,6 +1005,7 @@ class CartItemsController extends AppController
                 'payment_method_types' => ['card'],
                 'line_items' => $lineItems,
                 'mode' => 'payment',
+                'customer_email' => $recipient,
                 'client_reference_id' => $tempToken, // save token for webhook too
                 'success_url' => Router::url([
                     'controller' => 'CartItems',

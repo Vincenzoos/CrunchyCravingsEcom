@@ -96,6 +96,11 @@ $html = new HtmlHelper(new \Cake\View\View());
                         </div>
                     </div>
                 </div>
+                <div class="text-center mt-4">
+                    <a href="<?= $this->App->appUrl(['controller' => 'Products', 'action' => 'customerIndex']) ?>" class="btn btn-outline-primary btn-lg">
+                        View products
+                    </a>
+                </div>
             </div>
         </section>
         

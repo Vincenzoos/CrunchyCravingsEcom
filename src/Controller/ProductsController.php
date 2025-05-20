@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Exception;
-use SebastianBergmann\Environment\Console;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Event\EventInterface;
 use Cake\Log\Log;
+use Exception;
 
 /**
  * Products Controller
@@ -49,7 +50,6 @@ class ProductsController extends AppController
 
         // Apply the order to the query
         $query->orderBy($order);
-
 
         // get input from filter forms for filter functionalities
         $product_name = $this->request->getQuery('product_name');
@@ -199,7 +199,7 @@ class ProductsController extends AppController
         }
 
         // Apply sorting to the query
-        $query->order($order);
+        $query->orderBy($order);
 
         // Fetch products with the specified order
         $products = $this->Products->find('all', [
@@ -225,24 +225,35 @@ class ProductsController extends AppController
      */
     public function view(?string $id = null)
     {
-        // Fetch the current product with associated categories
-        $product = $this->Products->get($id, [
-            'contain' => ['Categories'], // Include associated categories
-        ]);
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Product not found.'));
 
-        // Fetch all categories
-        $allCategories = $this->Products->Categories->find('list', [
-            'keyField' => 'id',
-            'valueField' => 'name',
-        ])->toArray();
+            return $this->redirect(['action' => 'index']);
+        }
+        try {
+            // Fetch the current product with associated categories
+            $product = $this->Products->get($id, [
+                'contain' => ['Categories'], // Include associated categories
+            ]);
 
-        // Get associated category IDs
-        $associatedCategoryIds = array_map(function ($category) {
-            return $category->id;
-        }, $product->categories);
+            // Fetch all categories
+            $allCategories = $this->Products->Categories->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name',
+            ])->toArray();
 
-        // Pass variables to the view
-        $this->set(compact('product','allCategories', 'associatedCategoryIds'));
+            // Get associated category IDs
+            $associatedCategoryIds = array_map(function ($category) {
+                return $category->id;
+            }, $product->categories);
+
+            // Pass variables to the view
+            $this->set(compact('product', 'allCategories', 'associatedCategoryIds'));
+        } catch (RecordNotFoundException $e) {
+            $this->Flash->error(__('Product not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
     /**
@@ -254,47 +265,57 @@ class ProductsController extends AppController
      */
     public function customerView(?string $id = null)
     {
-        // Fetch the current product with associated categories
-        $product = $this->Products->get($id, [
-            'contain' => ['Categories'], // Include associated categories
-        ]);
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Product not found.'));
 
-        // Get associated category IDs
-        $associatedCategoryIds = array_map(function ($category) {
-            return $category->id;
-        }, $product->categories);
-
-        // Fetch similar products (excluding the current product)
-        $similarProducts = $this->Products->find()
-            ->matching('Categories', function ($q) use ($associatedCategoryIds) {
-            return $q->where(['Categories.id IN' => $associatedCategoryIds]);
-            })
-            ->where(['Products.id !=' => $id]) // Exclude the current product
-            ->limit(2) // Limit to 2 products
-            ->all();
-
-        // Fetch all categories
-        $allCategories = $this->Products->Categories->find('list', [
-            'keyField' => 'id',
-            'valueField' => 'name',
-        ])->toArray();
-
-        // Fetch the quantity of the product in the cart
-        $cartQuantity = 0; // Default to 0 if no cart items exist
-        if ($this->Authentication->getIdentity()) {
-            $userId = $this->Authentication->getIdentity()->get('id');
-            $cartItem = $this->Products->CartItems->find()
-                ->where(['product_id' => $id, 'user_id' => $userId])
-                ->first();
-            if ($cartItem) {
-                $cartQuantity = $cartItem->quantity;
-            }
+            return $this->redirect(['action' => 'customerIndex']);
         }
+        try {
+            // Fetch the current product with associated categories
+            $product = $this->Products->get($id, [
+                'contain' => ['Categories'], // Include associated categories
+            ]);
 
-        // Pass variables to the view
-        $this->set(compact('product', 'similarProducts','allCategories', 'associatedCategoryIds', 'cartQuantity'));
+            // Get associated category IDs
+            $associatedCategoryIds = array_map(function ($category) {
+                return $category->id;
+            }, $product->categories);
+
+            // Fetch similar products (excluding the current product)
+            $similarProducts = $this->Products->find()
+                ->matching('Categories', function ($q) use ($associatedCategoryIds) {
+                    return $q->where(['Categories.id IN' => $associatedCategoryIds]);
+                })
+                ->where(['Products.id !=' => $id]) // Exclude the current product
+                ->limit(2) // Limit to 2 products
+                ->all();
+
+            // Fetch all categories
+            $allCategories = $this->Products->Categories->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name',
+            ])->toArray();
+
+            // Fetch the quantity of the product in the cart
+            $cartQuantity = 0; // Default to 0 if no cart items exist
+            if ($this->Authentication->getIdentity()) {
+                $userId = $this->Authentication->getIdentity()->get('id');
+                $cartItem = $this->Products->CartItems->find()
+                    ->where(['product_id' => $id, 'user_id' => $userId])
+                    ->first();
+                if ($cartItem) {
+                    $cartQuantity = $cartItem->quantity;
+                }
+            }
+
+            // Pass variables to the view
+            $this->set(compact('product', 'similarProducts', 'allCategories', 'associatedCategoryIds', 'cartQuantity'));
+        } catch (Exception $e) {
+            $this->Flash->error(__('Product not found.'));
+
+            return $this->redirect(['action' => 'customerIndex']);
+        }
     }
-
 
     /**
      * Add method
@@ -332,29 +353,40 @@ class ProductsController extends AppController
      */
     public function edit(?string $id = null)
     {
-        $product = $this->Products->get($id, ['contain' => ['Categories']]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $product = $this->Products->patchEntity($product, $this->request->getData());
-            if ($this->Products->save($product)) {
-                $this->Flash->success(__('The product has been saved.'));
+        if (!ctype_digit($id)) {
+            $this->Flash->error(__('Product not found.'));
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The product could not be saved. Please try again.'));
+            return $this->redirect(['action' => 'index']);
         }
+        try {
+            $product = $this->Products->get($id, ['contain' => ['Categories']]);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $product = $this->Products->patchEntity($product, $this->request->getData());
+                if ($this->Products->save($product)) {
+                    $this->Flash->success(__('The product has been saved.'));
 
-        // Fetch all categories
-        $allCategories = $this->Products->Categories->find('list', [
-            'keyField' => 'id',
-            'valueField' => 'name',
-        ])->toArray();
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The product could not be saved. Please try again.'));
+            }
 
-        // Get associated category IDs
-        $associatedCategoryIds = array_map(function ($category) {
-            return $category->id;
-        }, $product->categories);
+            // Fetch all categories
+            $allCategories = $this->Products->Categories->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'name',
+            ])->toArray();
 
-        $this->set(compact('product', 'allCategories', 'associatedCategoryIds'));
+            // Get associated category IDs
+            $associatedCategoryIds = array_map(function ($category) {
+                return $category->id;
+            }, $product->categories);
+
+            $this->set(compact('product', 'allCategories', 'associatedCategoryIds'));
+        } catch (Exception $e) {
+            $this->Flash->error(__('Product not found.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
     /**
@@ -366,6 +398,14 @@ class ProductsController extends AppController
      */
     public function delete(?string $id = null)
     {
+        // Block access to action using GET method
+        // Block user to manually access the action (e.g. products/delete/1 in URL)
+        if ($this->request->is('get')) {
+            $this->Flash->error(__('Invalid access to delete action'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
         $this->request->allowMethod(['post', 'delete']);
         $product = $this->Products->get($id);
         // Handle null products image
@@ -382,11 +422,12 @@ class ProductsController extends AppController
             // This exception is thrown when a foreign key constraint fails.
             $this->Flash->error(__('The product is in use and cannot be deleted.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 
     // Override the beforeFilter method to allow unauthenticated access to these pages
-    public function beforeFilter(\Cake\Event\EventInterface $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
 
