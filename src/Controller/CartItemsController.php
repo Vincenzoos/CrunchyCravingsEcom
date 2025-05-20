@@ -6,6 +6,7 @@ namespace App\Controller;
 // Used for cpanel testing
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\FactoryLocator;
 use Cake\Event\EventInterface;
 use Cake\Mailer\Mailer;
 use Cake\Routing\Router;
@@ -745,13 +746,18 @@ class CartItemsController extends AppController
             // Generate a tracking number
             $trackingNumber = $this->generateTrackingNumber();
 
+            // Get the business address from the ContentBlocks table
+            $contentBlocks = FactoryLocator::get('Table')->get('ContentBlocks.ContentBlocks');
+            $businessAddressBlock = $contentBlocks->find()->where(['slug' => 'business-address'])->first();
+            $businessAddress = $businessAddressBlock ? $businessAddressBlock->value : '121 King Street, Melbourne Victoria 3000 Australia';
+
             // Save the order
             $order = $this->CartItems->Orders->newEmptyEntity();
             $order = $this->CartItems->Orders->patchEntity($order, [
                 'tracking_number' => $trackingNumber,
                 'user_email' => $recipient,
                 'status' => 'pending',
-                'origin_address' => '121 King Street, Melbourne Victoria 3000 Australia', // cannot use content block here since its only for view, not controller
+                'origin_address' => $businessAddress,
                 'destination_address' => $destinationAddress,
                 'estimated_delivery_date' => date('Y-m-d H:i:s', strtotime('+2 days')), // 2 days from now, Crunchy Cravings default policy
                 'total' => $total,
@@ -765,6 +771,8 @@ class CartItemsController extends AppController
                     $orderItem = $this->CartItems->Orders->OrderItems->patchEntity($orderItem, [
                         'order_id' => $order->id,
                         'product_id' => $cartItem->product_id,
+                        // Use the price at the time of order (prevent price of item in order changes when product price changes)
+                        'unit_price' => isset($cartItem->product) ? $cartItem->product->price : $cartItem->price,
                         'quantity' => $cartItem->quantity,
                     ]);
                     $this->CartItems->Orders->OrderItems->save($orderItem);

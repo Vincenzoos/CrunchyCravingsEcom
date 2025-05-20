@@ -31,6 +31,7 @@ class OrderItem extends Entity
         'order_id' => true,
         'product_id' => true,
         'quantity' => true,
+        'unit_price' => true,
         'order' => true,
         'product' => true,
     ];
@@ -38,9 +39,12 @@ class OrderItem extends Entity
     // Declare line_price as a virtual field.
     protected array $_virtual = ['line_price'];
 
-    // CartItem entity has 'quantity' and is associated with a Product that has 'price'
     protected function _getLinePrice()
     {
+        if (isset($this->unit_price)) {
+            return $this->quantity * $this->unit_price;
+        }
+        // Fallback if unit_price is not set (should never happen if order created correctly)
         if (!empty($this->product) && isset($this->product->price)) {
             return $this->quantity * $this->product->price;
         }
