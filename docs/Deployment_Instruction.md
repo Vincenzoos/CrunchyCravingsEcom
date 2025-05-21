@@ -75,7 +75,7 @@ see this for more details [Cakephp project prerequisite](https://book.cakephp.or
       If you do not have Stripe keys, follow the [Stripe documentation](https://docs.stripe.com/keys) to generate them.
 
 
-4. **Add API keys to your `.env` file** (if not already present):
+4. **Add API keys to your `.env` file inside the [`config`](../config) folder** (if not already present):
     ```env
     RECAPTCHA_SITE_KEY=your_recaptcha_site_key
     RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
