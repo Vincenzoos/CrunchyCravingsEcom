@@ -126,8 +126,8 @@ this document provides a high-level overview of the system architecture and desi
     - **Leaflet.js:** For map visualization.
     - **bootstrap:** For responsive design and UI components.
     - **jQuery:** For DOM manipulation and AJAX requests.
-    - **TinyMCE:** For rich text editing in the admin panel.
-    - **Chart.js:** For data visualization in the admin panel.
+    - **TinyMCE:** For rich text editing in FAQs section.
+    - **Chart.js:** For data visualization  in sales reports.
     - **select2:** For enhanced select boxes in forms.
 
 - **External Services:**
