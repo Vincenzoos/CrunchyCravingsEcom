@@ -13,7 +13,7 @@
 - [Credentials](#testing-credentials)
 - [System Requirements](#system-requirements)
 - [APIs and External Plugins](#apis-and-external-plugins)
-- [Setup & Installation](#setup--installation)
+- [Deployment Instruction](#deployment-instruction)
 - [Maintenance and Updates](#maintenance-and-updates)
 
 ---
@@ -116,7 +116,7 @@ The application uses environment-specific configuration files:
 
 ---
 
-## APIs and External Plugins Integrations
+## APIs and External Plugins
 The application integrates with the following external services and plugins to enhance functionality:
 
 - **Leaflet.js**: Enables map visualization for order tracking.
@@ -154,6 +154,11 @@ The application integrates with the following external services and plugins to e
 
 ---
 
+## Deployment Instruction
+For detailed instructions on deploying the application, see the [Deployment Instructions](docs/Deployment_Instruction.md).
+
+---
+
 ## Maintenance and Updates
 
 ### Updating the Application
@@ -170,4 +175,4 @@ bin/cake migrations migrate --plugin=ContentBlocks
 bin/cake migrations seed --seed ContentBlocksSeed
 ```
 
-This application was developed by Team068 using the CakePHP framework.
+This application was developed by UGIE Team068 using the CakePHP framework.
