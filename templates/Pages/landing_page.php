@@ -24,7 +24,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrunchyCravings</title>
-    
+
     <!-- Custom CSS -->
     <?= $this->Html->css(['utilities', 'landing_page']) ?>
 
@@ -51,7 +51,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                             <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-outline-primary btn-lg ms-auto">Contact Us</a>
                         </div>
                     </div>
-                    
+
                     <!-- Empty column -->
                     <?php if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/\b(?:Windows|Macintosh|Linux|X11)\b/i', $_SERVER['HTTP_USER_AGENT'])): ?>
                         <script>
@@ -69,7 +69,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 </div>
             </div>
         </section>
-        
+
         <!-- Our Products Section -->
         <section id="products" class="py-5">
             <div id="products-container" class="container text-center">
@@ -103,7 +103,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 </div>
             </div>
         </section>
-        
+
         <!-- Our Mission Section -->
         <section id="our-mission" class="py-5">
             <div id="mission-container" class="container text-center">
@@ -127,7 +127,7 @@ $html = new HtmlHelper(new \Cake\View\View());
                 </div>
             </div>
         </section>
-            
+
         <!-- <h3>We Also Offer A Range Of Packages And Deals</h3>
         <p class="lead">CrunchyCravings provides a range of different packages and deals for social events and gatherings.</p> -->
 
@@ -139,7 +139,7 @@ $html = new HtmlHelper(new \Cake\View\View());
         <section id="contact" class="py-5">
             <div class="container text-center">
                 <h2 class="mb-4">Contact Us</h2>
-                <p class="lead">Reserve your table today and experience the magic of fine dining.</p>
+                <p class="lead">Enquire about gourmet lavosh products today.</p>
                 <!-- <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-primary">Contact Us</a> -->
                 <a href="<?= $this->App->appUrl(['controller' => 'Contacts', 'action' => 'contactUs']) ?>" class="btn btn-outline-primary btn-lg ms-auto">Contact Us</a>
             </div>
@@ -153,7 +153,7 @@ $html = new HtmlHelper(new \Cake\View\View());
             const tabs = document.querySelectorAll('.tab-item');
             const productTitle = document.getElementById('product-title');
             const productDescription = document.getElementById('product-description');
-            
+
             // Get references to all image containers
             const classicImage = document.getElementById('classic-image');
             const modernImage = document.getElementById('modern-image');
@@ -245,7 +245,7 @@ $html = new HtmlHelper(new \Cake\View\View());
     </script>
 
     <!-- Bootstrap JS -->
-    
+
 </body>
 
 </html>
