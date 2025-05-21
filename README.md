@@ -8,6 +8,7 @@
 
 - [Project Overview](#project-overview)
 - [Code Repository](#code-repository)
+- [High-level System Architecture](#system-architecture)
 - [Features](#features)
 - [Credentials](#testing-credentials)
 - [System Requirements](#system-requirements)
@@ -26,6 +27,12 @@ Crunchy Cravings is a full-featured e-commerce platform developed using CakePHP 
 ## Code Repository
 
 For detailed instructions on cloning the repository, commit message conventions, and branch naming, see the [Code Repository Guidelines](docs/Code_Repository_Guidelines.md).
+
+---
+
+## System Architecture
+
+For detailed design and justification of ERD and system diagram, see the [High-level System Architecture](docs/High-level_System_Architecture.md).
 
 ---
 
