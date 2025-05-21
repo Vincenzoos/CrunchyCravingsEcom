@@ -32,15 +32,15 @@ see this for more details [Cakephp project prerequisite](https://book.cakephp.or
 ### 2. Clone the Repository
 
 - Open the **Terminal** in Cpanel.
-- Navigate to the desired deployment directory:
+- Navigate to the parent of your desired deployment directory:
   ```bash
-  cd /your_directory_name
+  cd /your_parent_directory_name
   ```
 - Clone the repository:
   ```bash
   git clone https://git.infotech.monash.edu/UGIE/ugie-2025/team068/team068-app_fit3047.git your_directory_name
   ```
-- Replace `your_directory_name` as needed.
+- Replace `your_directory_name` as needed, make sure it is empty before cloning.
 - Authenticate with your GitLab credentials or personal access token ([GitLab Access Token Guide](https://docs.gitlab.com/user/profile/personal_access_tokens/)).
 
 ### 3. Install Dependencies
@@ -193,11 +193,10 @@ Assuming you have MySQL installed on your server. Replace `/path/to/backup.sql` 
 
 - Go to the **Import** tab in phpMyAdmin.
 - Select your backup SQL file and click **Import**.
-- Ensure you have disabled foreign key checks before importing.
 
 > **Tip:** Disabling foreign key checks helps avoid constraint errors during import.
 
----
+
 ### 10. Content Management Migration
 
 In the terminal, navigate to your project root folder and run the following commands in order:
