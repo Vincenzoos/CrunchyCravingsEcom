@@ -214,7 +214,7 @@ bin/cake migrations seed --seed ContentBlocksSeed
 ```
 
 If you encounter a permission issue during migration (see example below):
-![Permission Issue](cpanel_permission_issue.png)
+![Permission Issue](img/cpanel_permission_issue.png)
 
 Run the following command in the terminal to fix permissions:
 

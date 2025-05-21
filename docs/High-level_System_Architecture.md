@@ -112,7 +112,7 @@ this document provides a high-level overview of the system architecture and desi
 ---
 
 ## System Architecture Diagram
-<img src="CrunchyCravings-System_Diagram.png" alt="Crunchy Cravings System Diagram"/>
+<img src="img/CrunchyCravings-System_Diagram.png" alt="Crunchy Cravings System Diagram"/>
 
 ---
 
