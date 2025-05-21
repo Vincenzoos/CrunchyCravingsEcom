@@ -11,7 +11,9 @@ This document provides step-by-step instructions for deploying the application t
 - Composer installed on the server
 - PHP and required extensions installed
 - MySQL/MariaDB database installed
-see this for more details [Cakephp project setup](https://book.cakephp.org/5/en/installation.html)
+
+see this for more details [Cakephp project prerequisite](https://book.cakephp.org/5/en/installation.html)
+
 ---
 
 ## Environments
@@ -71,6 +73,7 @@ see this for more details [Cakephp project setup](https://book.cakephp.org/5/en/
       ![recaptcha](/docs/img/recaptcha_setup.png)
     - **Stripe:**
       If you do not have Stripe keys, follow the [Stripe documentation](https://docs.stripe.com/keys) to generate them.
+
 
 4. **Add API keys to your `.env` file** (if not already present):
     ```env
@@ -235,7 +238,6 @@ Then, re-run the migration command.
 
 ## Troubleshooting
 
-- **Permission Issues**: Ensure correct file/folder permissions (`755` for directories, `644` for files).
 - **Missing Extensions**: Check PHP extensions required by the application. You can run `composer install` command again in terminal in project root directory to make sure everything installed.
 - **Logs**: Review `logs/` directory for error details.
 
