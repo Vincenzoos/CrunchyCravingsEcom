@@ -1,6 +1,6 @@
 
 # High-level System Architecture
-this document provides a high-level overview of the system architecture and design for the Crunchy Cravings e-commerce platform. It includes an ER diagram, a system architecture diagram, and a description of the how components interact with each other.
+this document provides a high-level overview of the system architecture and design for the Crunchy Cravings e-commerce platform. It includes an ER diagram, a system architecture diagram, and a description of how the components interact with each other.
 
 ---
 
@@ -74,7 +74,7 @@ this document provides a high-level overview of the system architecture and desi
 
 ### Relationships
 - **users** to **products**:
-  - **Type**: Many-to-Many (A user can have zero or more items in their cart, and a product can be in the cart of zero or more users),
+  - **Type**: Many-to-Many (A user can have zero or more items in their cart, and a product can be in the cart of zero or more users).
   represented by bridging table `cart_items`.
 
   - **cart_items**: Represents items in a user's cart.
@@ -104,10 +104,10 @@ this document provides a high-level overview of the system architecture and desi
       - `unit_price`: Price per unit at time of order (for historical accuracy).
 
 
-- **faqs** Have no direct relationship. FAQs can be used to address common inquiries, but they are separate entities.
+- **faqs** have no direct relationship. FAQs can be used to address common inquiries, but they are separate entities.
 
 
-- **contacts** Have no direct relationship. Contacts are used for customer inquiries and are not directly linked to other entities.
+- **contacts** have no direct relationship. Contacts are used for customer inquiries and are not directly linked to other entities.
 
 ---
 
