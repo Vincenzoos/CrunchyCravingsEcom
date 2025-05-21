@@ -1,5 +1,5 @@
 
-# High-level System Diagram
+# High-level System Architecture
 this document provides a high-level overview of the system architecture and design for the Crunchy Cravings e-commerce platform. It includes an ER diagram, a system architecture diagram, and a description of the how components interact with each other.
 
 ---
