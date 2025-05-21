@@ -159,18 +159,18 @@ Assuming you have already created the database and user in phpMyAdmin:
 
 #### Quick Setup
 - Import the full schema in one step:
-    - Select and import [`fit3047_iteration2_schema.sql`](../database/fit3047_iteration2_schema.sql).
+    - From root directory, go to the [database](../database), then select and import [`fit3047_iteration2_schema.sql`](../database/fit3047_iteration2_schema.sql).
     - ![quick setup](/docs/img/quick_database_setup.png)
 
 #### Clean Setup (Recommended for Fresh Installs)
 1. **Clear all tables:**
-    - Import [`fit3047_clear_tables.sql`](../database/fit3047_clear_tables.sql).
+    - From root directory, go to the [database](../database), import [`fit3047_clear_tables.sql`](../database/fit3047_clear_tables.sql).
     - ![clear tables](/docs/img/clear_tables.png)
 2. **Define tables:**
-    - Import [`fit3047_define_tables.sql`](../database/fit3047_define_tables.sql).
+    - From root directory, go to the [database](../database), import [`fit3047_define_tables.sql`](../database/fit3047_define_tables.sql).
     - ![define tables](/docs/img/define_tables.png)
 3. **Populate with dummy data:**
-    - Import [`fit3047_populate_tables.sql`](../database/fit3047_populate_tables.sql).
+    - From root directory, go to the [database](../database), import [`fit3047_populate_tables.sql`](../database/fit3047_populate_tables.sql).
     - ![populate tables](/docs/img/populate_tables.png)
 
 > **Note:** Always disable foreign key checks before importing SQL files to avoid constraint errors.
@@ -230,9 +230,10 @@ Then, re-run the migration command.
 
 - [ ] Verify environment variables are correct in `config/.env` and `config/app_local.php`
 - [ ] Confirm database connection and migrations
-- [ ] Login to cpanel or test email environment with email you have set up earlier
+- [ ] Test each feature of the application, ensure they are working as expected
+- [ ] Login to cpanel email or other email testing environment with the email you have set up earlier
 - [ ] Test email sending (forgot password, checkout, etc.)
-- [ ] Review application logs for errors
+- [ ] Review application logs for errors, report to the development team if major issues arise
 
 ---
 
